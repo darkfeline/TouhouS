@@ -32,24 +32,12 @@ player_lives = 3
 
 @window.event
 def on_key_press(symbol, modifiers):
-    if symbol == key.LEFT:
-        player.move_state[0] = -1
-    elif symbol == key.RIGHT:
-        player.move_state[0] = 1
-    elif symbol == key.UP:
-        player.move_state[1] = 1
-    elif symbol == key.DOWN:
-        player.move_state[1] = -1
-    elif symbol == key.LSHIFT:
+    if symbol == key.LSHIFT:
         player.focus = 1
 
 @window.event
 def on_key_release(symbol, modifiers):
-    if symbol == key.LEFT or symbol == key.RIGHT:
-        player.move_state[0] = 0
-    elif symbol == key.UP or symbol == key.DOWN:
-        player.move_state[1] = 0
-    elif symbol == key.LSHIFT:
+    if symbol == key.LSHIFT:
         player.focus = 0
 
 @window.event
@@ -59,9 +47,18 @@ def on_draw():
     fps_display.draw()
 
 def update(dt):
-    v = player.vector()
-    player.x += player.speed() * v.x
-    player.y += player.speed() * v.y
+    x = 0
+    if keys[key.LEFT]:
+        x = -1
+    if keys[key.RIGHT]:
+        x += 1
+    y = 0
+    if keys[key.DOWN]:
+        y = -1
+    if keys[key.UP]:
+        y += 1
+    player.x += player.speed() * x
+    player.y += player.speed() * y
 
 pyglet.clock.schedule_interval(update, FPS)
 

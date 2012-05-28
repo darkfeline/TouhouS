@@ -30,17 +30,31 @@ class Vector(tuple):
     def length(self):
         return sqrt(self.x ** 2 + self.y ** 2)
 
+UNIT_VECTORS = {
+    -1:{
+         -1:Vector(-1/sqrt(2), -1/sqrt(2)),
+         0:Vector(-1, 0),
+         1:Vector(-1/sqrt(2), 1/sqrt(2))
+     },
+     0:{
+         -1:Vector(0, -1/sqrt(2)),
+         0:Vector(0, 0),
+         1:Vector(0, 1/sqrt(2))
+     }, 
+     1:{
+         -1:Vector(1/sqrt(2), -1/sqrt(2)),
+         0:Vector(1, 0),
+         1:Vector(1/sqrt(2), 1/sqrt(2))
+     } 
+}
+
+
 class Player(Sprite):
 
     """
     Player(Sprite)
 
     Attributes:
-
-    move_state = [0, 0]
-
-    First int is x movement, second is y.  x = +1 is right, -1 is left, y = +1
-    is up, -1 is down.
 
     focus = 0
 
@@ -49,34 +63,12 @@ class Player(Sprite):
     speed_multiplier
     focus_multiplier
 
-    Speed is speed_multiplier * (focus_multiplier if focus else 1).  Velocity
-    is along self.move_state vector.
+    Speed is speed_multiplier * (focus_multiplier if focus else 1).
 
     """
 
-    _x = 1/sqrt(2)
-    _UNIT_VECTORS = {
-        -1:{
-             -1:Vector(-_x, -_x),
-             0:Vector(-1, 0),
-             1:Vector(-_x, _x)
-         },
-         0:{
-             -1:Vector(0, -_x),
-             0:Vector(0, 0),
-             1:Vector(0, _x)
-         }, 
-         1:{
-             -1:Vector(_x, -_x),
-             0:Vector(1, 0),
-             1:Vector(_x, _x)
-         } 
-    }
-    del _x
-
     def __init__(self, *args, **kwargs):
         Sprite.__init__(self, *args, **kwargs)
-        self.move_state = [0, 0]
         self.focus = 0
         self.speed_multiplier = 10
         self.focus_multiplier = .5
@@ -86,7 +78,3 @@ class Player(Sprite):
             return self.speed_multiplier * self.focus_multiplier
         else:
             return self.speed_multiplier
-
-    def vector(self):
-        x = self.move_state
-        return Player._UNIT_VECTORS[x[0]][x[1]]

@@ -81,6 +81,18 @@ class Player(Sprite):
 
     Speed is speed_multiplier * (focus_multiplier if focus else 1).
 
+    shooting
+
+    0 is not shooting, 1 is shooting
+
+    shot_rate
+
+    Shots per second
+
+    shot_state
+
+    Current shot state (FPS and stuff)
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -88,6 +100,9 @@ class Player(Sprite):
         self.focus = 0
         self.speed_multiplier = 10
         self.focus_multiplier = .5
+        self.shooting = 0
+        self.shot_rate = 30
+        self.shot_state = 0
 
     def speed(self):
         if self.focus:

@@ -47,6 +47,8 @@ def on_draw():
     fps_display.draw()
 
 def update(dt):
+    global player
+    global keys
     x = 0
     if keys[key.LEFT]:
         x = -1

@@ -36,6 +36,8 @@ player = game.Player(img=resources.player_image, x=50, y=50)
 
 player_lives = 3
 
+window.push_handlers()
+
 @window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.LSHIFT:

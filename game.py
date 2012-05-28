@@ -72,7 +72,7 @@ class Player(Sprite):
 
     Attributes:
 
-    focus = 0
+    focus
 
     0 is not focused, 1 is focused
 

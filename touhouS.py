@@ -61,8 +61,12 @@ def update(dt):
         y = -1
     if keys[key.UP]:
         y += 1
-    player.x += player.speed() * x
-    player.y += player.speed() * y
+    if not x == y == 0:
+        v = game.Vector(x, y).get_unit_vector()
+        print(game.Vector(x, y))
+        print(v)
+        player.x += player.speed() * v.x
+        player.y += player.speed() * v.y
 
 pyglet.clock.schedule_interval(update, FPS)
 

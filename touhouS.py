@@ -10,8 +10,10 @@ import resources
 import game
 
 FPS = 1/60.
+HEIGHT = 600
+WIDTH = 800
 
-window = pyglet.window.Window(800, 600)
+window = pyglet.window.Window(WIDTH, HEIGHT)
 window.set_caption('TouhouS')
 window.set_icon(resources.icon1, resources.icon2)
 

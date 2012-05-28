@@ -17,3 +17,5 @@ icon2 = pyglet.resource.image('icon32.png')
 
 player_image = pyglet.resource.image("player.png")
 center_image(player_image)
+shot_image = pyglet.resource.image('shot.png')
+center_image(shot_image)

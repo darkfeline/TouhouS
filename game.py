@@ -2,7 +2,7 @@
 
 from __future__ import division
 
-from math import sqrt
+import math
 
 import pyglet
 import pygame
@@ -28,26 +28,42 @@ class Vector(tuple):
 
     @property
     def length(self):
-        return sqrt(self.x ** 2 + self.y ** 2)
+        return math.sqrt(self.x ** 2 + self.y ** 2)
 
-UNIT_VECTORS = {
-    -1:{
-         -1:Vector(-1/sqrt(2), -1/sqrt(2)),
-         0:Vector(-1, 0),
-         1:Vector(-1/sqrt(2), 1/sqrt(2))
-     },
-     0:{
-         -1:Vector(0, -1/sqrt(2)),
-         0:Vector(0, 0),
-         1:Vector(0, 1/sqrt(2))
-     }, 
-     1:{
-         -1:Vector(1/sqrt(2), -1/sqrt(2)),
-         0:Vector(1, 0),
-         1:Vector(1/sqrt(2), 1/sqrt(2))
-     } 
-}
+    @property
+    def angle(self):
+        if self.x == 0:
+            if self.y > 0:
+                return math.pi / 2
+            elif self.y < 0:
+                return math.pi * 3 / 2
+            else:
+                raise NoAngleException()
+        else:
+            return math.fmod(math.atan2(self.y, self.x) + 2 * math.pi,
+                    2 * math.pi)
 
+    def get_unit_vector(self):
+        t = self.angle
+        return Vector(math.cos(t), math.sin(t))
+
+    def __add__(self, other):
+        if not isinstance(other, Vector):
+            raise NotImplemented
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        if not isinstance(other, Vector):
+            raise NotImplemented
+        return Vector(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, other):
+        if not (isinstance(other, int) or isinstance(other, float)):
+            raise NotImplemented
+        return Vector(self.x * other, self.y * other)
+
+class NoAngleException(Exception):
+    pass
 
 class Player(Sprite):
 

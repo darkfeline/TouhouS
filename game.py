@@ -109,3 +109,23 @@ class Player(Sprite):
             return self.speed_multiplier * self.focus_multiplier
         else:
             return self.speed_multiplier
+
+
+class Bullet(Sprite):
+
+    """
+    Bullet(Sprite)
+
+    Attributes:
+
+    speed
+    direction
+
+    Velocity = speed * direction (unit vector)
+
+    """
+
+    def __init__(self, *args, **kwargs):
+        Sprite.__init__(self, *args, **kwargs)
+        self.speed = 30
+        self.direction = Vector(0, 1)

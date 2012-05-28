@@ -73,8 +73,6 @@ def update(dt):
         y += 1
     if not x == y == 0:
         v = game.Vector(x, y).get_unit_vector()
-        print(game.Vector(x, y))
-        print(v)
         player.x += player.speed() * v.x
         player.y += player.speed() * v.y
 

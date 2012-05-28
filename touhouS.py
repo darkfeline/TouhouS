@@ -25,7 +25,7 @@ gl.glEnable(gl.GL_BLEND)
 gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
 # Log events
-window.push_handlers(pyglet.window.event.WindowEventLogger())
+#window.push_handlers(pyglet.window.event.WindowEventLogger())
 
 # Batches/Groups
 shots = []

@@ -79,6 +79,17 @@ class AbstractPlayer(Sprite):
     def update(self, dt): pass
 
 
+class AbstractEnemy(Sprite):
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, *args, **kwargs):
+        Sprite.__init__(self, *args, **kwargs)
+
+    @abstractmethod
+    def update(self, dt): pass
+
+
 class AbstractBullet(Sprite):
 
     __metaclass__ = ABCMeta

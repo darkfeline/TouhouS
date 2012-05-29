@@ -47,7 +47,11 @@ class Player(game.AbstractPlayer):
         self.shot_rate = 30
         self.shot_state = 0
         self.shots = game.BulletGroup()
-        self.keys = key.KeyStateHandler()
+        self._keys = key.KeyStateHandler()
+
+    @property
+    def keys(self):
+        return self._keys
 
     def speed(self):
         if self.focus:

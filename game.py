@@ -3,7 +3,7 @@
 from __future__ import division
 
 import math
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, abstractproperty
 
 import pyglet
 
@@ -70,10 +70,12 @@ class NoAngleException(Exception): pass
 class AbstractPlayer(Sprite):
 
     __metaclass__ = ABCMeta
-    keys = None
 
     def __init__(self, *args, **kwargs):
         Sprite.__init__(self, *args, **kwargs)
+
+    @abstractproperty
+    def keys(self): pass
 
     @abstractmethod
     def update(self, dt): pass

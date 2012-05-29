@@ -109,10 +109,10 @@ class Player(game.AbstractPlayer):
         self.shots.update(dt)
 
 
-class Enemy(game.Sprite):
+class Enemy(game.AbstractEnemy):
 
-    def __init__(self, *args, **kwargs):
-        game.Sprite.__init__(self, *args, **kwargs)
+    def __init__(self, x, y):
+        game.AbstractEnemy.__init__(self, img=resources.enemy_image, x=x, y=y)
 
 
 class PlayerBullet(game.AbstractBullet):

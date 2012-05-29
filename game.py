@@ -5,7 +5,6 @@ from __future__ import division
 import math
 
 import pyglet
-import pygame
 
 class Sprite(pyglet.sprite.Sprite):
     pass

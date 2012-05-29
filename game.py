@@ -105,6 +105,7 @@ class Player(Sprite):
         self.shot_rate = 30
         self.shot_state = 0
         self.shots = BulletGroup()
+        self.keys = key.KeyStateHandler()
 
     def speed(self):
         if self.focus:
@@ -128,17 +129,17 @@ class Player(Sprite):
         self.shots.draw()
         self.draw()
 
-    def update(self, dt, keys):
+    def update(self, dt):
         # movement
         x = 0
-        if keys[key.LEFT]:
+        if self.keys[key.LEFT]:
             x = -1
-        if keys[key.RIGHT]:
+        if self.keys[key.RIGHT]:
             x += 1
         y = 0
-        if keys[key.DOWN]:
+        if self.keys[key.DOWN]:
             y = -1
-        if keys[key.UP]:
+        if self.keys[key.UP]:
             y += 1
         if not x == y == 0:
             v = Vector(x, y).get_unit_vector()
@@ -160,6 +161,13 @@ class Player(Sprite):
                 i += period
         # bullet movement
         self.shots.update(dt)
+
+
+class Enemy(Sprite):
+
+    def __init__(self, *args, **kwargs):
+        Sprite.__init__(self, *args, **kwargs)
+
 
 class Bullet(Sprite):
 

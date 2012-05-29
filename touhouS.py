@@ -14,28 +14,40 @@ window = pyglet.window.Window(WIDTH, HEIGHT)
 window.set_caption('TouhouS')
 window.set_icon(resources.icon1, resources.icon2)
 
-keys = key.KeyStateHandler()
-window.push_handlers(keys)
-
 # Transparency
 gl.glEnable(gl.GL_BLEND)
 gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-# Log events
-#window.push_handlers(pyglet.window.event.WindowEventLogger())
+to_update = []
 
+# Logger
+#window.push_handlers(pyglet.window.event.WindowEventLogger())
+# FPS
 fps_display = pyglet.clock.ClockDisplay()
+# keys
+keys = key.KeyStateHandler()
+window.push_handlers(keys)
+# player
 player = game.Player(img=resources.player_image, x=WIDTH/2, y=50)
+window.push_handlers(player)
+window.push_handlers(player.keys)
+to_update.append(player)
 
 player_lives = 3
 
-window.push_handlers(player)
-pyglet.clock.schedule_interval(player.update, FPS, keys)
+# Global event handlers
+window.push_handlers()
 
+@window.event
 def on_draw():
     window.clear()
     fps_display.draw()
-window.push_handlers(on_draw)
+
+# Global update
+def update(dt):
+    for x in to_update:
+        x.update(dt)
+pyglet.clock.schedule_interval(update, FPS)
 
 if __name__ == "__main__":
     pyglet.app.run()

@@ -93,7 +93,7 @@ class Player(game.AbstractPlayer):
             period = 1 / self.shot_rate  # period of shot
             i = 0
             while self.shot_state > period:
-                shot = Bullet(img=resources.shot_image, x=self.x, y=self.y)
+                shot = PlayerBullet(x=self.x, y=self.y)
                 v = shot.direction * shot.speed
                 v = v * i
                 shot.x += v.x
@@ -111,18 +111,9 @@ class Enemy(game.Sprite):
         game.Sprite.__init__(self, *args, **kwargs)
 
 
-class Bullet(game.AbstractBullet):
+class PlayerBullet(game.AbstractBullet):
 
-    """
-    Bullet(Sprite)
-
-    speed
-    direction
-    Velocity = speed * direction (unit vector)
-
-    """
-
-    def __init__(self, *args, **kwargs):
-        game.AbstractBullet.__init__(self, *args, **kwargs)
+    def __init__(self, x, y):
+        game.AbstractBullet.__init__(self, img=resources.shot_image, x=x, y=y)
         self.speed = 30
         self.direction = game.Vector(0, 1)

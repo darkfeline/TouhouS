@@ -28,7 +28,7 @@ gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 #window.push_handlers(pyglet.window.event.WindowEventLogger())
 
 fps_display = pyglet.clock.ClockDisplay()
-player = game.Player(img=resources.player_image, x=50, y=50)
+player = game.Player(img=resources.player_image, x=WIDTH/2, y=50)
 
 player_lives = 3
 

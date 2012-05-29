@@ -119,3 +119,29 @@ class Bullet(Sprite):
         Sprite.__init__(self, *args, **kwargs)
         self.speed = 30
         self.direction = Vector(0, 1)
+
+
+class BulletGroup:
+
+    def __init__(self):
+        self.bullets = []
+        self.batch = pyglet.graphics.Batch()
+
+    def add(self, bullet):
+        self.bullets.append(bullet)
+        bullet.batch = self.batch
+
+    def draw(self):
+        self.batch.draw()
+
+    def update(self, dt, width, height):
+        temp = []
+        for b in self.bullets:
+            v = b.direction * b.speed
+            b.x += v.x
+            b.y += v.y
+            if b.x < 0 or b.x > width or b.y < 0 or b.y > height:
+                b.delete()
+            else:
+                temp.append(b)
+        self.bullets = temp

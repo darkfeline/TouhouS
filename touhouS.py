@@ -7,7 +7,7 @@ from pyglet.window import key
 from pyglet import gl
 
 import resources
-import game
+import basic
 from constants import *
 
 window = pyglet.window.Window(WIDTH, HEIGHT)
@@ -28,7 +28,7 @@ fps_display = pyglet.clock.ClockDisplay()
 keys = key.KeyStateHandler()
 window.push_handlers(keys)
 # player
-player = game.Player(img=resources.player_image, x=WIDTH/2, y=50)
+player = basic.Player()
 window.push_handlers(player)
 window.push_handlers(player.keys)
 to_update.append(player)

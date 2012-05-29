@@ -70,27 +70,20 @@ class Player(Sprite):
     """
     Player(Sprite)
 
-    Attributes:
-
     focus
-
     0 is not focused, 1 is focused
 
     speed_multiplier
     focus_multiplier
-
     Speed is speed_multiplier * (focus_multiplier if focus else 1).
 
     shooting
-
     0 is not shooting, 1 is shooting
 
     shot_rate
-
     Shots per second
 
     shot_state
-
     Current shot state (FPS and stuff)
 
     """
@@ -116,11 +109,8 @@ class Bullet(Sprite):
     """
     Bullet(Sprite)
 
-    Attributes:
-
     speed
     direction
-
     Velocity = speed * direction (unit vector)
 
     """

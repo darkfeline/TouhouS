@@ -64,8 +64,10 @@ class Vector(tuple):
             raise NotImplemented
         return Vector(self.x * other, self.y * other)
 
+
 class NoAngleException(Exception):
     pass
+
 
 class Player(Sprite):
 

@@ -8,10 +8,7 @@ from pyglet import gl
 
 import resources
 import game
-
-FPS = 1/60.
-HEIGHT = 600
-WIDTH = 800
+from constants import *
 
 window = pyglet.window.Window(WIDTH, HEIGHT)
 window.set_caption('TouhouS')
@@ -33,7 +30,7 @@ player = game.Player(img=resources.player_image, x=WIDTH/2, y=50)
 player_lives = 3
 
 window.push_handlers(player)
-pyglet.clock.schedule_interval(player.update, FPS, keys, WIDTH, HEIGHT)
+pyglet.clock.schedule_interval(player.update, FPS, keys)
 
 def on_draw():
     window.clear()

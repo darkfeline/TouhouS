@@ -8,6 +8,7 @@ import pyglet
 from pyglet.window import key
 
 import resources
+from constants import *
 
 class Sprite(pyglet.sprite.Sprite):
     pass
@@ -127,7 +128,7 @@ class Player(Sprite):
         self.shots.draw()
         self.draw()
 
-    def update(self, dt, keys, width, height):
+    def update(self, dt, keys):
         # movement
         x = 0
         if keys[key.LEFT]:
@@ -158,7 +159,7 @@ class Player(Sprite):
                 self.shot_state -= period
                 i += period
         # bullet movement
-        self.shots.update(dt, width, height)
+        self.shots.update(dt)
 
 class Bullet(Sprite):
 
@@ -190,13 +191,13 @@ class BulletGroup:
     def draw(self):
         self.batch.draw()
 
-    def update(self, dt, width, height):
+    def update(self, dt):
         temp = []
         for b in self.bullets:
             v = b.direction * b.speed
             b.x += v.x
             b.y += v.y
-            if b.x < 0 or b.x > width or b.y < 0 or b.y > height:
+            if b.x < 0 or b.x > WIDTH or b.y < 0 or b.y > HEIGHT:
                 b.delete()
             else:
                 temp.append(b)

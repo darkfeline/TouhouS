@@ -94,6 +94,9 @@ class Player(Sprite):
     shots
     BulletGroup containing player shots
 
+    keys
+    instance KeyStateHandler
+
     """
 
     def __init__(self, *args, **kwargs):

@@ -2,13 +2,31 @@
 
 from __future__ import division
 
+from abc import ABCMeta, abstractproperty, abstractmethod
+
 from pyglet.window import key
 
-import resources
-import game
-from constants import *
+from game import resources
+from game import bullet
+from game.sprite import Sprite
+from game.constants import WIDTH
+from game.vector import Vector
 
-class Player(game.AbstractPlayer):
+class AbstractPlayer(Sprite):
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, *args, **kwargs):
+        Sprite.__init__(self, *args, **kwargs)
+
+    @abstractproperty
+    def keys(self): pass
+
+    @abstractmethod
+    def update(self, dt): pass
+
+
+class Player(AbstractPlayer):
 
     """
     Player(Sprite)
@@ -38,7 +56,7 @@ class Player(game.AbstractPlayer):
     """
 
     def __init__(self):
-        game.AbstractPlayer.__init__(self, img=resources.player_image,
+        AbstractPlayer.__init__(self, img=resources.player_image,
                 x=WIDTH/2, y=50)
         self.focus = 0
         self.speed_multiplier = 10
@@ -46,7 +64,7 @@ class Player(game.AbstractPlayer):
         self.shooting = 0
         self.shot_rate = 30
         self.shot_state = 0
-        self.shots = game.BulletGroup()
+        self.shots = bullet.BulletGroup()
         self._keys = key.KeyStateHandler()
 
     @property
@@ -88,7 +106,7 @@ class Player(game.AbstractPlayer):
         if self.keys[key.UP]:
             y += 1
         if not x == y == 0:
-            v = game.Vector(x, y).get_unit_vector()
+            v = Vector(x, y).get_unit_vector()
             self.x += self.speed() * v.x
             self.y += self.speed() * v.y
         # bullet generation
@@ -97,7 +115,7 @@ class Player(game.AbstractPlayer):
             period = 1 / self.shot_rate  # period of shot
             i = 0
             while self.shot_state > period:
-                shot = PlayerBullet(x=self.x, y=self.y)
+                shot = bullet.PlayerBullet(x=self.x, y=self.y)
                 v = shot.direction * shot.speed
                 v = v * i
                 shot.x += v.x
@@ -107,17 +125,3 @@ class Player(game.AbstractPlayer):
                 i += period
         # bullet movement
         self.shots.update(dt)
-
-
-class Enemy(game.AbstractEnemy):
-
-    def __init__(self, x, y):
-        game.AbstractEnemy.__init__(self, img=resources.enemy_image, x=x, y=y)
-
-
-class PlayerBullet(game.AbstractBullet):
-
-    def __init__(self, x, y):
-        game.AbstractBullet.__init__(self, img=resources.shot_image, x=x, y=y)
-        self.speed = 30
-        self.direction = game.Vector(0, 1)

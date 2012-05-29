@@ -3,14 +3,8 @@
 from __future__ import division
 
 import math
-from abc import ABCMeta, abstractmethod, abstractproperty
 
-import pyglet
-
-from constants import *
-
-class Sprite(pyglet.sprite.Sprite): pass
-
+from game.exceptions import NoAngleException
 
 class Vector(tuple):
 
@@ -62,65 +56,3 @@ class Vector(tuple):
         if not (isinstance(other, int) or isinstance(other, float)):
             raise NotImplemented
         return Vector(self.x * other, self.y * other)
-
-
-class NoAngleException(Exception): pass
-
-
-class AbstractPlayer(Sprite):
-
-    __metaclass__ = ABCMeta
-
-    def __init__(self, *args, **kwargs):
-        Sprite.__init__(self, *args, **kwargs)
-
-    @abstractproperty
-    def keys(self): pass
-
-    @abstractmethod
-    def update(self, dt): pass
-
-
-class AbstractEnemy(Sprite):
-
-    __metaclass__ = ABCMeta
-
-    def __init__(self, *args, **kwargs):
-        Sprite.__init__(self, *args, **kwargs)
-
-    @abstractmethod
-    def update(self, dt): pass
-
-
-class AbstractBullet(Sprite):
-
-    __metaclass__ = ABCMeta
-
-    def __init__(self, *args, **kwargs):
-        Sprite.__init__(self, *args, **kwargs)
-
-
-class BulletGroup:
-
-    def __init__(self):
-        self.bullets = []
-        self.batch = pyglet.graphics.Batch()
-
-    def add(self, bullet):
-        self.bullets.append(bullet)
-        bullet.batch = self.batch
-
-    def draw(self):
-        self.batch.draw()
-
-    def update(self, dt):
-        temp = []
-        for b in self.bullets:
-            v = b.direction * b.speed
-            b.x += v.x
-            b.y += v.y
-            if b.x < 0 or b.x > WIDTH or b.y < 0 or b.y > HEIGHT:
-                b.delete()
-            else:
-                temp.append(b)
-        self.bullets = temp

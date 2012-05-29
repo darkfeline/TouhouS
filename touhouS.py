@@ -6,9 +6,9 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-import resources
-import basic
-from constants import *
+from game.player import Player
+from game import resources
+from game.constants import *
 
 window = pyglet.window.Window(WIDTH, HEIGHT)
 window.set_caption('TouhouS')
@@ -28,7 +28,7 @@ fps_display = pyglet.clock.ClockDisplay()
 keys = key.KeyStateHandler()
 window.push_handlers(keys)
 # player
-player = basic.Player()
+player = Player()
 window.push_handlers(player)
 window.push_handlers(player.keys)
 to_update.append(player)

@@ -23,9 +23,7 @@ class BulletGroup:
     def update(self, dt):
         temp = []
         for b in self.bullets:
-            v = b.direction * b.speed
-            b.x += v.x
-            b.y += v.y
+            b.update(dt)
             if b.x < 0 or b.x > WIDTH or b.y < 0 or b.y > HEIGHT:
                 b.delete()
             else:
@@ -39,3 +37,7 @@ class Bullet(Sprite):
         super().__init__(img=resources.shot_image, x=x, y=y)
         self.speed = 30
         self.direction = Vector(0, 1)
+
+    def update(self, dt):
+        self.x += self.speed * self.vector.x * dt
+        self.y += self.speed * self.vector.y * dt

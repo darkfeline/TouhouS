@@ -4,7 +4,7 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-from game.player import Player
+from presets import generic
 from game import resources
 from game.constants import *
 
@@ -26,7 +26,7 @@ fps_display = pyglet.clock.ClockDisplay()
 keys = key.KeyStateHandler()
 window.push_handlers(keys)
 # player
-player = Player()
+player = generic.Player()
 window.push_handlers(player)
 window.push_handlers(player.keys)
 to_update.append(player)
@@ -46,6 +46,10 @@ def update(dt):
     for x in to_update:
         x.update(dt)
 pyglet.clock.schedule_interval(update, FPS)
+# Debug
+#def debug(dt):
+#    print(player.rect.center)
+#pyglet.clock.schedule_interval(debug, FPS)
 
 if __name__ == "__main__":
     pyglet.app.run()

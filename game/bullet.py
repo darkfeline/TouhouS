@@ -1,7 +1,5 @@
 #!/usr/bin/env python2
 
-from abc import ABCMeta, abstractmethod
-
 import pyglet
 
 from game.sprite import Sprite
@@ -9,29 +7,22 @@ from game.constants import WIDTH, HEIGHT
 from game import resources
 from game.vector import Vector
 
-class AbstractBullet(Sprite):
-
-    __metaclass__ = ABCMeta
+class BaseBullet(Sprite):
 
     def __init__(self, *args, **kwargs):
         Sprite.__init__(self, *args, **kwargs)
 
 
-class AbstractBulletGroup:
+class BaseBulletGroup:
 
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
     def add(self, bullet): pass
 
-    @abstractmethod
     def draw(self): pass
 
-    @abstractmethod
     def update(self, dt): pass
 
 
-class BulletGroup(AbstractBulletGroup):
+class BulletGroup(BaseBulletGroup):
 
     def __init__(self):
         self.bullets = []
@@ -57,9 +48,9 @@ class BulletGroup(AbstractBulletGroup):
         self.bullets = temp
 
 
-class PlayerBullet(AbstractBullet):
+class PlayerBullet(BaseBullet):
 
     def __init__(self, x, y):
-        AbstractBullet.__init__(self, img=resources.shot_image, x=x, y=y)
+        BaseBullet.__init__(self, img=resources.shot_image, x=x, y=y)
         self.speed = 30
         self.direction = Vector(0, 1)

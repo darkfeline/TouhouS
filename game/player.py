@@ -2,8 +2,6 @@
 
 from __future__ import division
 
-from abc import ABCMeta, abstractproperty, abstractmethod
-
 from pyglet.window import key
 
 from game import resources
@@ -12,21 +10,16 @@ from game.sprite import Sprite
 from game.constants import WIDTH
 from game.vector import Vector
 
-class AbstractPlayer(Sprite):
-
-    __metaclass__ = ABCMeta
+class BasePlayer(Sprite):
 
     def __init__(self, *args, **kwargs):
         Sprite.__init__(self, *args, **kwargs)
+        self.keys = None
 
-    @abstractproperty
-    def keys(self): pass
-
-    @abstractmethod
     def update(self, dt): pass
 
 
-class Player(AbstractPlayer):
+class Player(BasePlayer):
 
     """
     Player(Sprite)
@@ -56,7 +49,7 @@ class Player(AbstractPlayer):
     """
 
     def __init__(self):
-        AbstractPlayer.__init__(self, img=resources.player_image,
+        BasePlayer.__init__(self, img=resources.player_image,
                 x=WIDTH/2, y=50)
         self.focus = 0
         self.speed_multiplier = 10
@@ -65,11 +58,7 @@ class Player(AbstractPlayer):
         self.shot_rate = 30
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
-        self._keys = key.KeyStateHandler()
-
-    @property
-    def keys(self):
-        return self._keys
+        self.keys = key.KeyStateHandler()
 
     def speed(self):
         if self.focus:

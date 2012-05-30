@@ -6,8 +6,8 @@ import pyglet
 
 def center_image(image):
     """Sets an image's anchor point to center"""
-    image.anchor_x = image.width//2
-    image.anchor_y = image.height//2
+    image.anchor_x = image.width // 2
+    image.anchor_y = image.height // 2
 
 pyglet.resource.path = ['resources']
 pyglet.resource.reindex()

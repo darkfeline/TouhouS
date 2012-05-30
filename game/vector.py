@@ -50,6 +50,14 @@ class Vector(tuple):
             raise NotImplemented
         return Vector(self.x - other.x, self.y - other.y)
 
+    def __eq__(self, other):
+        if not isinstance(other, Vector):
+            raise NotImplemented
+        if (self.x, self.y) == (other.x, other.y):
+            return True
+        else:
+            return False
+
     def __mul__(self, other):
         if not (isinstance(other, int) or isinstance(other, float)):
             raise NotImplemented

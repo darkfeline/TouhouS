@@ -1,6 +1,4 @@
-#!/usr/bin/env python2
-
-from __future__ import division
+#!/usr/bin/env python3
 
 from pyglet.window import key
 
@@ -13,7 +11,7 @@ from game.vector import Vector
 class BasePlayer(Sprite):
 
     def __init__(self, *args, **kwargs):
-        Sprite.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.keys = None
 
     def update(self, dt): pass
@@ -49,8 +47,7 @@ class Player(BasePlayer):
     """
 
     def __init__(self):
-        BasePlayer.__init__(self, img=resources.player_image,
-                x=WIDTH/2, y=50)
+        super().__init__(img=resources.player_image, x=WIDTH/2, y=50)
         self.focus = 0
         self.speed_multiplier = 10
         self.focus_multiplier = .5

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 import pyglet
 
@@ -10,7 +10,7 @@ from game.vector import Vector
 class BaseBullet(Sprite):
 
     def __init__(self, *args, **kwargs):
-        Sprite.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class BaseBulletGroup:
@@ -51,6 +51,6 @@ class BulletGroup(BaseBulletGroup):
 class PlayerBullet(BaseBullet):
 
     def __init__(self, x, y):
-        BaseBullet.__init__(self, img=resources.shot_image, x=x, y=y)
+        super().__init__(img=resources.shot_image, x=x, y=y)
         self.speed = 30
         self.direction = Vector(0, 1)

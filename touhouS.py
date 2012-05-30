@@ -1,6 +1,4 @@
-#!/usr/bin/env python2
-
-from __future__ import division
+#!/usr/bin/env python3
 
 import pyglet
 from pyglet.window import key

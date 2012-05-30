@@ -1,6 +1,4 @@
-#!/usr/bin/env python2
-
-from __future__ import division
+#!/usr/bin/env python3
 
 import math
 
@@ -11,15 +9,15 @@ class Vector(tuple):
     __slots__ = ()
 
     def __new__(cls, x=0, y=0):
-        return tuple.__new__(cls, (x, y))
+        return super().__new__(cls, (x, y))
 
     @property
     def x(self):
-        return tuple.__getitem__(self, 0)
+        return super().__getitem__(0)
 
     @property
     def y(self):
-        return tuple.__getitem__(self, 1)
+        return super().__getitem__(1)
 
     @property
     def length(self):

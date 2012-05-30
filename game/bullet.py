@@ -7,22 +7,7 @@ from game.constants import WIDTH, HEIGHT
 from game import resources
 from game.vector import Vector
 
-class BaseBullet(Sprite):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class BaseBulletGroup:
-
-    def add(self, bullet): pass
-
-    def draw(self): pass
-
-    def update(self, dt): pass
-
-
-class BulletGroup(BaseBulletGroup):
+class BulletGroup:
 
     def __init__(self):
         self.bullets = []
@@ -48,7 +33,7 @@ class BulletGroup(BaseBulletGroup):
         self.bullets = temp
 
 
-class PlayerBullet(BaseBullet):
+class Bullet(Sprite):
 
     def __init__(self, x, y):
         super().__init__(img=resources.shot_image, x=x, y=y)

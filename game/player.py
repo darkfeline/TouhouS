@@ -8,16 +8,7 @@ from game.sprite import Sprite
 from game.constants import WIDTH
 from game.vector import Vector
 
-class BasePlayer(Sprite):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.keys = None
-
-    def update(self, dt): pass
-
-
-class Player(BasePlayer):
+class Player(Sprite):
 
     """
     Player(Sprite)
@@ -101,7 +92,7 @@ class Player(BasePlayer):
             period = 1 / self.shot_rate  # period of shot
             i = 0
             while self.shot_state > period:
-                shot = bullet.PlayerBullet(x=self.x, y=self.y)
+                shot = bullet.Bullet(x=self.x, y=self.y)
                 v = shot.direction * shot.speed
                 v = v * i
                 shot.x += v.x

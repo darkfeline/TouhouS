@@ -3,6 +3,7 @@
 from pyglet.window import key
 
 from game import bullet
+from game import resources
 from game.sprite import Sprite
 from game.constants import WIDTH
 from game.vector import Vector
@@ -71,6 +72,22 @@ class Player(Sprite):
         i = 0
         while self.shot_state > period:
             shot = bullet.Bullet(x=self.x, y=self.y)
+            shot.update(i)
+            self.shots.add(shot)
+            self.shot_state -= period
+            i += period
+
+
+class PlayerA(Player):
+
+    def __init__(self):
+        super().__init__(img=resources.player_image)
+
+    def update_fire(self, dt):
+        period = 1 / self.shot_rate  # period of shot
+        i = 0
+        while self.shot_state > period:
+            shot = bullet.PlayerBullet(x=self.x, y=self.y)
             shot.update(i)
             self.shots.add(shot)
             self.shot_state -= period

@@ -5,6 +5,7 @@ import pyglet
 from game.sprite import Sprite
 from game.constants import WIDTH, HEIGHT
 from game.vector import Vector
+from game import resources
 
 class BulletGroup:
 
@@ -41,3 +42,16 @@ class Bullet(Sprite):
     def update(self, dt):
         self.x += self.speed * self.vector.x * dt
         self.y += self.speed * self.vector.y * dt
+
+
+class PlayerBullet(Bullet):
+
+    def __init__(self, x, y):
+        super().__init__(x, y, img=resources.shot_image)
+
+
+class EnemyBullet(Bullet):
+
+    def __init__(self, x, y, vector):
+        super().__init__(x, y, img=resources.bullet_image, speed=300,
+                vector=vector)

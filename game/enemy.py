@@ -6,7 +6,7 @@ from game import resources
 class BaseEnemy(Sprite):
 
     def __init__(self, *args, **kwargs):
-        Sprite.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def update(self, dt): pass
 
@@ -14,4 +14,4 @@ class BaseEnemy(Sprite):
 class Enemy(BaseEnemy):
 
     def __init__(self, x, y):
-        BaseEnemy.__init__(self, img=resources.enemy_image, x=x, y=y)
+        super().__init__(img=resources.enemy_image, x=x, y=y)

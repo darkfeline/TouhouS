@@ -2,7 +2,6 @@
 
 from pyglet.window import key
 
-from game import resources
 from game import bullet
 from game.sprite import Sprite
 from game.constants import WIDTH
@@ -10,44 +9,18 @@ from game.vector import Vector
 
 class Player(Sprite):
 
-    """
-    Player(Sprite)
-
-    focus
-    0 is not focused, 1 is focused
-
-    speed_multiplier
-    focus_multiplier
-    Speed is speed_multiplier * (focus_multiplier if focus else 1).
-
-    shooting
-    0 is not shooting, 1 is shooting
-
-    shot_rate
-    Shots per second
-
-    shot_state
-    Current shot state (FPS and stuff)
-
-    shots
-    BulletGroup containing player shots
-
-    keys
-    instance KeyStateHandler
-
-    """
-
-    def __init__(self):
-        super().__init__(img=resources.player_image, x=WIDTH/2, y=50)
+    def __init__(self, x=WIDTH/2, y=300, img=None, *args, **kwargs):
+        super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0
-        self.speed_multiplier = 10
+        self.speed_multiplier = 500
         self.focus_multiplier = .5
         self.shooting = 0
-        self.shot_rate = 30
+        self.shot_rate = 70
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
         self.keys = key.KeyStateHandler()
 
+    @property
     def speed(self):
         if self.focus:
             return self.speed_multiplier * self.focus_multiplier
@@ -84,21 +57,21 @@ class Player(Sprite):
             y += 1
         if not x == y == 0:
             v = Vector(x, y).get_unit_vector()
-            self.x += self.speed() * v.x
-            self.y += self.speed() * v.y
+            self.x += self.speed * v.x * dt
+            self.y += self.speed * v.y * dt
         # bullet generation
         if self.shooting:
             self.shot_state += dt
-            period = 1 / self.shot_rate  # period of shot
-            i = 0
-            while self.shot_state > period:
-                shot = bullet.Bullet(x=self.x, y=self.y)
-                v = shot.direction * shot.speed
-                v = v * i
-                shot.x += v.x
-                shot.y += v.y
-                self.shots.add(shot)
-                self.shot_state -= period
-                i += period
+            self.update_fire(dt)
         # bullet movement
         self.shots.update(dt)
+
+    def update_fire(self, dt):
+        period = 1 / self.shot_rate  # period of shot
+        i = 0
+        while self.shot_state > period:
+            shot = bullet.Bullet(x=self.x, y=self.y)
+            shot.update(i)
+            self.shots.add(shot)
+            self.shot_state -= period
+            i += period

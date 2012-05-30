@@ -4,7 +4,6 @@ import pyglet
 
 from game.sprite import Sprite
 from game.constants import WIDTH, HEIGHT
-from game import resources
 from game.vector import Vector
 
 class BulletGroup:
@@ -33,10 +32,11 @@ class BulletGroup:
 
 class Bullet(Sprite):
 
-    def __init__(self, x, y):
-        super().__init__(img=resources.shot_image, x=x, y=y)
-        self.speed = 30
-        self.direction = Vector(0, 1)
+    def __init__(self, x, y, speed=3000, vector=Vector(0, 1), img=None, *args,
+            **kwargs):
+        super().__init__(*args, x=x, y=y, img=img, **kwargs)
+        self.speed = speed
+        self.vector = vector.get_unit_vector()
 
     def update(self, dt):
         self.x += self.speed * self.vector.x * dt

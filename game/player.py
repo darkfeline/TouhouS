@@ -10,13 +10,13 @@ from game.vector import Vector
 
 class Player(Sprite):
 
-    def __init__(self, x=WIDTH/2, y=300, img=None, *args, **kwargs):
+    def __init__(self, x=WIDTH/2, y=50, img=None, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500
         self.focus_multiplier = .5
         self.shooting = 0
-        self.shot_rate = 70
+        self.shot_rate = 50
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
         self.keys = key.KeyStateHandler()

@@ -33,7 +33,7 @@ class BulletGroup:
 
 class Bullet(Sprite):
 
-    def __init__(self, x, y, speed=3000, vector=Vector(0, 1), img=None, *args,
+    def __init__(self, x, y, speed=2000, vector=Vector(0, 1), img=None, *args,
             **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.speed = speed

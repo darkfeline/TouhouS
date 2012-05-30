@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from __future__ import division
-
 from pyglet.window import key
 
 from game import resources

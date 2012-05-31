@@ -42,6 +42,14 @@ class Player(Sprite):
         self.hitbox.y = value
 
     @property
+    def center(self):
+        return (self.x, self.y)
+
+    @center.setter
+    def center(self, value):
+        self.x, self.y = value
+
+    @property
     def speed(self):
         if self.focus:
             return self.speed_multiplier * self.focus_multiplier

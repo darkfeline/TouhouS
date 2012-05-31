@@ -37,7 +37,10 @@ class Vector(tuple):
                     2 * math.pi)
 
     def get_unit_vector(self):
-        t = self.angle
+        try:
+            t = self.angle
+        except NoAngleException:
+            return Vector(0, 0)
         return Vector(math.cos(t), math.sin(t))
 
     def __add__(self, other):

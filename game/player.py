@@ -11,7 +11,7 @@ from game.vector import Vector
 class Player(Sprite):
 
     def __init__(self, x=GAME_AREA.width/2+GAME_AREA.left, y=GAME_AREA.top+40,
-            img=None, *args, **kwargs):
+            img=None, hbimg=resources.hitbox_image, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500
@@ -21,6 +21,25 @@ class Player(Sprite):
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
         self.keys = key.KeyStateHandler()
+        self.hitbox = Sprite(img=hbimg)
+
+    @property
+    def x(self):
+        return super().x
+
+    @x.setter
+    def x(self, value):
+        super(Player, self.__class__).x.fset(self, value)
+        self.hitbox.x = value
+
+    @property
+    def y(self):
+        return super().y
+
+    @y.setter
+    def y(self, value):
+        super(Player, self.__class__).y.fset(self, value)
+        self.hitbox.y = value
 
     @property
     def speed(self):
@@ -44,6 +63,8 @@ class Player(Sprite):
     def on_draw(self):
         self.shots.draw()
         self.draw()
+        if self.focus:
+            self.hitbox.draw()
 
     def update(self, dt):
         # movement

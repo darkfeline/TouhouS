@@ -4,10 +4,10 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-from stages import generic
 from game import resources
 from game.constants import WIDTH, HEIGHT, FPS
 from game.player import PlayerA as Player
+from game.stages.generic import Stage
 
 window = pyglet.window.Window(WIDTH, HEIGHT)
 window.set_caption('TouhouS')
@@ -31,6 +31,10 @@ player = Player()
 window.push_handlers(player)
 window.push_handlers(player.keys)
 to_update.append(player)
+# stage
+stage = Stage(player)
+window.push_handlers(stage)
+to_update.append(stage)
 
 player_lives = 3
 

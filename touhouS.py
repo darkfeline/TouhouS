@@ -6,7 +6,7 @@ from pyglet import gl
 
 from stages import generic
 from game import resources
-from game.constants import *
+from game.constants import WIDTH, HEIGHT, FPS
 from game.player import PlayerA as Player
 
 window = pyglet.window.Window(WIDTH, HEIGHT)

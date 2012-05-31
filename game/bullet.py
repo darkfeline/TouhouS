@@ -3,7 +3,7 @@
 import pyglet
 
 from game.sprite import Sprite
-from game.constants import WIDTH, HEIGHT
+from game.constants import GAME_AREA
 from game.vector import Vector
 from game import resources
 
@@ -24,7 +24,8 @@ class BulletGroup:
         temp = []
         for b in self.bullets:
             b.update(dt)
-            if b.x < 0 or b.x > WIDTH or b.y < 0 or b.y > HEIGHT:
+            if (b.bottom < GAME_AREA.top or b.top > GAME_AREA.bottom or b.left
+                    > GAME_AREA.right or b.right < GAME_AREA.left):
                 b.delete()
             else:
                 temp.append(b)

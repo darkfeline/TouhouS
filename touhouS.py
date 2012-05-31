@@ -47,10 +47,6 @@ def update(dt):
     for x in to_update:
         x.update(dt)
 pyglet.clock.schedule_interval(update, FPS)
-# Debug
-#def debug(dt):
-#    print(player.rect.center)
-#pyglet.clock.schedule_interval(debug, FPS)
 
 if __name__ == "__main__":
     pyglet.app.run()

@@ -5,12 +5,13 @@ from pyglet.window import key
 from game import bullet
 from game import resources
 from game.sprite import Sprite
-from game.constants import WIDTH
+from game.constants import GAME_AREA
 from game.vector import Vector
 
 class Player(Sprite):
 
-    def __init__(self, x=WIDTH/2, y=50, img=None, *args, **kwargs):
+    def __init__(self, x=GAME_AREA.width/2+GAME_AREA.left, y=GAME_AREA.top+40,
+            img=None, hbimg=resources.hitbox_image, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500
@@ -20,6 +21,25 @@ class Player(Sprite):
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
         self.keys = key.KeyStateHandler()
+        self.hitbox = Sprite(img=hbimg)
+
+    @property
+    def x(self):
+        return super().x
+
+    @x.setter
+    def x(self, value):
+        super(Player, self.__class__).x.fset(self, value)
+        self.hitbox.x = value
+
+    @property
+    def y(self):
+        return super().y
+
+    @y.setter
+    def y(self, value):
+        super(Player, self.__class__).y.fset(self, value)
+        self.hitbox.y = value
 
     @property
     def speed(self):
@@ -43,6 +63,8 @@ class Player(Sprite):
     def on_draw(self):
         self.shots.draw()
         self.draw()
+        if self.focus:
+            self.hitbox.draw()
 
     def update(self, dt):
         # movement
@@ -60,6 +82,15 @@ class Player(Sprite):
             v = Vector(x, y).get_unit_vector()
             self.x += self.speed * v.x * dt
             self.y += self.speed * v.y * dt
+            # bound movement
+            if self.right > GAME_AREA.right:
+                self.right = GAME_AREA.right
+            elif self.left < GAME_AREA.left:
+                self.left = GAME_AREA.left
+            if self.bottom > GAME_AREA.bottom:
+                self.bottom = GAME_AREA.bottom
+            elif self.top < GAME_AREA.top:
+                self.top = GAME_AREA.top
         # bullet generation
         if self.shooting:
             self.shot_state += dt

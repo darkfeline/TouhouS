@@ -31,13 +31,13 @@ class EnemyGroup:
 
 class Enemy(Sprite):
 
-    def __init__(self, x, y, bullet_group, img=None, *args, **kwargs):
+    def __init__(self, x, y, img=None, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.dest = Vector(x, y)
         self.speed = 0
         self.max_speed = 250
         self.accel = 500
-        self.bullets = bullet_group
+        self.bullets = None
 
     @property
     def accel_dist(self):
@@ -83,8 +83,8 @@ class Enemy(Sprite):
 
 class EnemyA(Enemy):
 
-    def __init__(self, x, y, bullet_group):
-        super().__init__(x, y, bullet_group, img=resources.enemy_image)
+    def __init__(self, x, y):
+        super().__init__(x, y, img=resources.enemy_image)
 
     def fire_at(self, dest):
         dest = Vector(dest[0], dest[1])

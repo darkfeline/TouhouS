@@ -64,7 +64,7 @@ class Enemy(Sprite):
     def fire_at(self, dest):
         dest = Vector(dest[0], dest[1])
         v = dest - Vector(self.x, self.y)
-        b = Bullet(self.x, self.y, vector=v)
+        b = bullet.Bullet(self.x, self.y, vector=v)
         self.bullets.add(b)
 
     def update(self, dt):

@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 
-import pyglet
+from pyglet import resource
 
 def center_image(image):
     """Sets an image's anchor point to center"""
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
-pyglet.resource.path = ['resources']
-pyglet.resource.reindex()
+resource.path = ['resources']
+resource.reindex()
 
-icon1 = pyglet.resource.image('icon16.png')
-icon2 = pyglet.resource.image('icon32.png')
+icon1 = resource.image('icon16.png')
+icon2 = resource.image('icon32.png')
 
-player_image = pyglet.resource.image("player.png")
+player_image = resource.image("player.png")
 center_image(player_image)
-shot_image = pyglet.resource.image('shot.png')
+shot_image = resource.image('shot.png')
 center_image(shot_image)
-enemy_image = pyglet.resource.image('enemy.png')
+enemy_image = resource.image('enemy.png')
 center_image(enemy_image)
-bullet_image = pyglet.resource.image('bullet.png')
+bullet_image = resource.image('bullet.png')
 center_image(bullet_image)

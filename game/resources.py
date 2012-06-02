@@ -18,6 +18,7 @@ resource.reindex()
 icon1 = resource.image('icon16.png')
 icon2 = resource.image('icon32.png')
 
+ui_image = resource.image('ui.png')
 
 player_image = load_image("player.png")
 shot_image = load_image('shot.png')

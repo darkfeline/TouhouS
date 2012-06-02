@@ -2,7 +2,7 @@
 
 from game import enemy
 from game.constants import GAME_AREA
-from game.vector import Vector
+from game.primitives import Vector
 
 class Enemy(enemy.EnemyA):
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from pygame import Rect
+from game.primitives import Rect
 
 FPS = 1/60.
 HEIGHT = 600

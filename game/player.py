@@ -6,7 +6,7 @@ from game import bullet
 from game import resources
 from game.sprite import Sprite
 from game.constants import GAME_AREA
-from game.vector import Vector
+from game.primitives import Vector
 
 class Player(Sprite):
 

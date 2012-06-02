@@ -3,7 +3,7 @@
 import pyglet
 
 from game.sprite import Sprite
-from game.vector import Vector
+from game.primitives import Vector
 from game import bullet
 from game import resources
 

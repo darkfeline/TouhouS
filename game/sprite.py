@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 import pyglet
-import pygame
+
+from game import primitives
 
 class Sprite(pyglet.sprite.Sprite):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
+        self.rect = primitives.Rect(0, 0, self.width, self.height)
         self.rect.center = self.x, self.y
 
     @property

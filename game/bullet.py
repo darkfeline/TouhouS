@@ -4,7 +4,7 @@ import pyglet
 
 from game.sprite import Sprite
 from game.constants import GAME_AREA
-from game.vector import Vector
+from game.primitives import Vector
 from game import resources
 
 class BulletGroup:

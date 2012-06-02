@@ -2,6 +2,8 @@
 
 import math
 
+from pygame import Rect
+
 from game.exceptions import NoAngleException
 
 class Vector(tuple):

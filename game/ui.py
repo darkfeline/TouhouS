@@ -11,6 +11,7 @@ class UI:
 
     def __init__(self):
         self.bg = resources.ui_image
+        self.fps = FPSDisplay()
 
     def on_draw(self):
         self.draw()
@@ -20,3 +21,4 @@ class UI:
 
     def draw(self):
         self.bg.blit(0, 0)
+        self.fps.draw()

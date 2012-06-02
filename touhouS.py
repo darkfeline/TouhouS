@@ -25,8 +25,6 @@ to_update = []
 # UI
 ui = game.ui.UI()
 window.push_handlers(ui)
-# FPS
-fps_display = pyglet.clock.ClockDisplay()
 # keys
 keys = key.KeyStateHandler()
 window.push_handlers(keys)
@@ -47,7 +45,6 @@ window.push_handlers()
 @window.event
 def on_draw():
     window.clear()
-    fps_display.draw()
 
 # Global update
 def update(dt):

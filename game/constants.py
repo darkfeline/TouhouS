@@ -3,7 +3,7 @@
 from game.primitives import Rect
 
 FPS = 1/60.
-HEIGHT = 600
-WIDTH = 800
+HEIGHT = 480
+WIDTH = 640
 WINDOW = Rect(0, 0, WIDTH, HEIGHT)
-GAME_AREA = Rect(10, 10, 500, 580)
+GAME_AREA = Rect(32, 16, 384, 448)

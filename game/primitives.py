@@ -6,6 +6,49 @@ from pygame import Rect
 
 from game.exceptions import NoAngleException
 
+class Circle(tuple):
+
+    __slots__ = ()
+
+    def __new__(cls, x=0, y=0, r=0):
+        return super().__new__(cls, (x, y, r))
+
+    @property
+    def x(self):
+        return super().__getitem__(0)
+
+    @property
+    def y(self):
+        return super().__getitem__(1)
+
+    @property
+    def r(self):
+        return super().__getitem__(2)
+
+    def collide(self, other):
+        if isinstance(other, Circle):
+            dist = Vector(other.x - self.x, other.y - self.y)
+            if dist.length <= self.r + other.r:
+                return True
+            else:
+                return False
+        else:
+            raise NotImplementedError
+
+    def __eq__(self, other):
+        if not isinstance(other, Circle):
+            raise NotImplemented
+        if (self.x, self.y, self.r) == (other.x, other.y, other.r):
+            return True
+        else:
+            return False
+
+    def __mul__(self, other):
+        if not (isinstance(other, int) or isinstance(other, float)):
+            raise NotImplemented
+        return Circle(self.x, self.y, self.r * other)
+
+
 class Vector(tuple):
 
     __slots__ = ()

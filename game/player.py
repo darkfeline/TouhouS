@@ -11,7 +11,7 @@ from game.primitives import Vector
 class Player(Sprite):
 
     def __init__(self, x=GAME_AREA.width/2+GAME_AREA.left, y=GAME_AREA.top+40,
-            img=None, hbimg=resources.hitbox_image, *args, **kwargs):
+            img=None, hbimg=resources.hitbox_image, keys=None, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500
@@ -20,7 +20,7 @@ class Player(Sprite):
         self.shot_rate = 50
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
-        self.keys = key.KeyStateHandler()
+        self.keys = keys
         self.hitbox = Sprite(img=hbimg)
 
     @property
@@ -119,8 +119,8 @@ class Player(Sprite):
 
 class PlayerA(Player):
 
-    def __init__(self):
-        super().__init__(img=resources.player_image)
+    def __init__(self, keys=None):
+        super().__init__(img=resources.player_image, keys=keys)
 
     def update_fire(self, dt):
         period = 1 / self.shot_rate  # period of shot

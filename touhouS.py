@@ -29,9 +29,8 @@ window.push_handlers(ui)
 keys = key.KeyStateHandler()
 window.push_handlers(keys)
 # player
-player = Player()
+player = Player(keys=keys)
 window.push_handlers(player)
-window.push_handlers(player.keys)
 to_update.append(player)
 # stage
 stage = Stage(player)

@@ -4,52 +4,74 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-import game.ui
 from game import resources
 from game.constants import WIDTH, HEIGHT, FPS
 from game.player import PlayerA as Player
 from game.stages.generic import Stage
+from game.ui import UI
 
-window = pyglet.window.Window(WIDTH, HEIGHT)
-window.set_caption('TouhouS')
-window.set_icon(resources.icon1, resources.icon2)
+class Game:
 
-# Transparency
-gl.glEnable(gl.GL_BLEND)
-gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+    def __init__(self, keys):
+        self.to_update = []
 
-to_update = []
+        # UI
+        self.ui = UI()
+        # player
+        self.player = Player(keys=keys)
+        self.to_update.append(self.player)
+        # stage
+        self.stage = Stage(self.player)
+        self.to_update.append(self.stage)
 
-# Logger
-#window.push_handlers(pyglet.window.event.WindowEventLogger())
-# UI
-ui = game.ui.UI()
-window.push_handlers(ui)
-# keys
-keys = key.KeyStateHandler()
-window.push_handlers(keys)
-# player
-player = Player(keys=keys)
-window.push_handlers(player)
-to_update.append(player)
-# stage
-stage = Stage(player)
-window.push_handlers(stage)
-to_update.append(stage)
+        self.player_lives = 3
+        self.score = 0
+        self.high_score = 0
 
-player_lives = 3
+    def update(self, dt):
+        for x in self.to_update:
+            x.update(dt)
 
-# Global event handlers
-window.push_handlers()
-@window.event
-def on_draw():
-    window.clear()
+    def on_draw(self, *args):
+        self.player.on_draw(*args)
+        self.stage.on_draw(*args)
+        self.ui.on_draw(*args)
 
-# Global update
-def update(dt):
-    for x in to_update:
-        x.update(dt)
-pyglet.clock.schedule_interval(update, FPS)
+    def on_key_press(self, *args):
+        self.player.on_key_press(*args)
+
+    def on_key_release(self, *args):
+        self.player.on_key_release(*args)
+
 
 if __name__ == "__main__":
+    window = pyglet.window.Window(WIDTH, HEIGHT)
+    window.set_caption('TouhouS')
+    window.set_icon(resources.icon1, resources.icon2)
+
+    # Transparency
+    gl.glEnable(gl.GL_BLEND)
+    gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+
+    to_update = []
+
+    # Logger
+    #window.push_handlers(pyglet.window.event.WindowEventLogger())
+    # keys
+    keys = key.KeyStateHandler()
+    window.push_handlers(keys)
+    # game
+    game = Game(keys)
+    to_update.append(game)
+    window.push_handlers(game)
+
+    def on_draw():
+        window.clear()
+    window.push_handlers(on_draw)
+
+    def update(dt):
+        for x in to_update:
+            x.update(dt)
+    pyglet.clock.schedule_interval(update, FPS)
+
     pyglet.app.run()

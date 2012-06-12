@@ -17,7 +17,7 @@ class Player(Sprite):
         self.speed_multiplier = 500
         self.focus_multiplier = .5
         self.shooting = 0
-        self.shot_rate = 50
+        self.shot_rate = 12
         self.shot_state = 0
         self.shots = bullet.BulletGroup()
         self.keys = keys
@@ -126,7 +126,10 @@ class PlayerA(Player):
         period = 1 / self.shot_rate  # period of shot
         i = 0
         while self.shot_state > period:
-            shot = bullet.PlayerBullet(x=self.x, y=self.y)
+            shot = bullet.PlayerBullet(x=self.x - 10, y=self.top)
+            shot.update(i)
+            self.shots.add(shot)
+            shot = bullet.PlayerBullet(x=self.x + 10, y=self.top)
             shot.update(i)
             self.shots.add(shot)
             self.shot_state -= period

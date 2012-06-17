@@ -24,9 +24,29 @@ class Game:
         self.stage = Stage(self.player)
         self.to_update.append(self.stage)
 
-        self.player_lives = 3
-        self.score = 0
-        self.high_score = 0
+    @property
+    def player_lives(self):
+        return self.ui.player_lives
+
+    @player_lives.setter
+    def player_lives(self, value):
+        self.ui.player_lives = value
+
+    @property
+    def score(self):
+        return self.ui.score
+
+    @score.setter
+    def score(self, value):
+        self.ui.score = value
+
+    @property
+    def high_score(self):
+        return self.ui.high_score
+
+    @high_score.setter
+    def high_score(self, value):
+        self.ui.high_score = value
 
     def update(self, dt):
         for x in self.to_update:

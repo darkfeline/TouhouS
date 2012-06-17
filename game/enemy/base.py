@@ -4,15 +4,14 @@ import pyglet
 
 from game.sprite import Sprite
 from game.primitives import Vector
-from game import bullet
-from game import resources
+from game.bullet.base import BulletGroup
 
 class EnemyGroup:
 
     def __init__(self):
         self.enemies = []
         self.batch = pyglet.graphics.Batch()
-        self.bullets = bullet.BulletGroup()
+        self.bullets = BulletGroup()
 
     def add(self, enemy):
         self.enemies.append(enemy)
@@ -29,7 +28,7 @@ class EnemyGroup:
         self.bullets.update(dt)
 
 
-class Enemy(Sprite):
+class BaseEnemy(Sprite):
 
     def __init__(self, x, y, img=None, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
@@ -79,15 +78,3 @@ class Enemy(Sprite):
             # movement
             self.x += self.speed * self.vector.x * dt
             self.y += self.speed * self.vector.y * dt
-
-
-class EnemyA(Enemy):
-
-    def __init__(self, x, y):
-        super().__init__(x, y, img=resources.enemy_image)
-
-    def fire_at(self, dest):
-        dest = Vector(dest[0], dest[1])
-        v = dest - Vector(self.x, self.y)
-        b = bullet.EnemyBullet(self.x, self.y, vector=v)
-        self.bullets.add(b)

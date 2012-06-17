@@ -5,7 +5,6 @@ import pyglet
 from game.sprite import Sprite
 from game.constants import GAME_AREA
 from game.primitives import Vector
-from game import resources
 
 class BulletGroup:
 
@@ -32,27 +31,22 @@ class BulletGroup:
         self.bullets = temp
 
 
-class Bullet(Sprite):
+class BaseBullet(Sprite):
 
     def __init__(self, x, y, speed=2000, vector=Vector(0, 1), img=None, *args,
             **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.speed = speed
-        self.vector = vector.get_unit_vector()
+        self._vector = vector.get_unit_vector()
+
+    @property
+    def vector(self):
+        return self._vector
+
+    @vector.setter
+    def vector(self, value):
+        self._vector = value.get_unit_vector()
 
     def update(self, dt):
         self.x += self.speed * self.vector.x * dt
         self.y += self.speed * self.vector.y * dt
-
-
-class PlayerBullet(Bullet):
-
-    def __init__(self, x, y):
-        super().__init__(x, y, img=resources.shot_image)
-
-
-class EnemyBullet(Bullet):
-
-    def __init__(self, x, y, vector):
-        super().__init__(x, y, img=resources.bullet_image, speed=300,
-                vector=vector)

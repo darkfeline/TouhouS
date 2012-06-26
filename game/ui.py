@@ -132,19 +132,15 @@ class UI:
     def __init__(self):
         self.bg = resources.ui_image
         self.fps = FPSDisplay()
-        self._high_score = 0
-        self._score = 0
-        self._lives = 3
-        self._bombs = 3
         self.label = {}
-        self.label['high_score'] = UILabel(y=415, text='High score {}'.format(
-            self._high_score))
-        self.label['score'] = UILabel(y=391, text='Score {}'.format(
-            self._score))
-        self.label['lives'] = UILabel(y=361, text='Lives {}'.format(
-            self._lives))
-        self.label['bombs'] = UILabel(y=339, text='Bombs {}'.format(
-            self._bombs))
+        self.label['high_score'] = UILabel(x=430, y=415, title='High score')
+        self.label['score'] = UILabel(x=430, y=391, title='Score')
+        self.label['lives'] = IconLabel(x=430, y=361, title='Lives')
+        self.label['bombs'] = IconLabel(x=430, y=339, title='Bombs')
+        self.high_score = 0
+        self.score = 0
+        self.lives = 3
+        self.bombs = 3
 
     @property
     def high_score(self):
@@ -153,6 +149,7 @@ class UI:
     @high_score.setter
     def high_score(self, value):
         self._high_score = value
+        self.label['high_score'].number = self._high_score
 
     @property
     def score(self):
@@ -161,6 +158,7 @@ class UI:
     @score.setter
     def score(self, value):
         self._score = value
+        self.label['score'].number = self._score
 
     @property
     def lives(self):
@@ -169,6 +167,7 @@ class UI:
     @lives.setter
     def lives(self, value):
         self._lives = value
+        self.label['lives'].number = self._lives
 
     @property
     def bombs(self):
@@ -177,6 +176,7 @@ class UI:
     @bombs.setter
     def bombs(self, value):
         self._bombs = value
+        self.label['bombs'].number = self._bombs
 
     def on_draw(self):
         self.draw()

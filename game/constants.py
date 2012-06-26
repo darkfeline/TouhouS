@@ -2,7 +2,7 @@
 
 from game.primitives import Rect
 
-FPS = 1/60.
+FPS = 60
 HEIGHT = 480
 WIDTH = 640
 WINDOW = Rect(0, 0, WIDTH, HEIGHT)

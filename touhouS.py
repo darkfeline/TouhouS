@@ -36,6 +36,6 @@ if __name__ == "__main__":
     def update(dt):
         for x in to_update:
             x.update(dt)
-    pyglet.clock.schedule_interval(update, FPS)
+    pyglet.clock.schedule_interval(update, 1./FPS)
 
     pyglet.app.run()

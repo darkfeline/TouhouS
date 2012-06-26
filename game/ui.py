@@ -9,12 +9,56 @@ class FPSDisplay(ClockDisplay):
     pass
 
 
-class UILabel(Label):
+class UILabel:
 
-    def __init__(self, anchor_x='left', anchor_y='bottom', font_size=10, x=420,
-            width=190, *args, **kwargs):
-        super().__init__(*args, x=x, width=width, anchor_x=anchor_x, anchor_y=anchor_y,
-                font_size=font_size, **kwargs)
+    def __init__(self, x, y, title, number=0, width=190):
+        self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
+                color=(0, 0, 0, 255))
+        self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
+                color=(0, 0, 0, 255))
+        self.width = width
+        self.x = x
+        self.y = y
+        self.title = title
+        self.number = number
+
+    @property
+    def x(self):
+        return self._title.x
+
+    @x.setter
+    def x(self, value):
+        self._title.x = value
+        self._number.x = self.width + value
+
+    @property
+    def y(self):
+        return self._title.y
+
+    @y.setter
+    def y(self, value):
+        self._title.y = value
+        self._number.y = value
+
+    @property
+    def title(self):
+        return self._title.text
+
+    @title.setter
+    def title(self, value):
+        self._title.text = value
+
+    @property
+    def number(self):
+        return self._number.text
+
+    @number.setter
+    def number(self, value):
+        self._number.text = str(value)
+
+    def draw(self):
+        self._title.draw()
+        self._number.draw()
 
 
 class UI:

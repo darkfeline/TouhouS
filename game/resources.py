@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import os.path
-
 from pyglet import resource
 
 def centered_image(image):
@@ -28,17 +26,17 @@ player = {}
 a = "players"
 # Reimu
 player['reimu'] = {}
-b = os.path.join(a, "reimu")
-player['reimu']['player'] = centered_image(os.path.join(b, "player.png"))
-player['reimu']['shot'] = centered_image(os.path.join(b, 'shot.png'))
-player['reimu']['hitbox'] = centered_image(os.path.join(b, 'hitbox.png'))
+b = a + "/reimu"
+player['reimu']['player'] = centered_image(b + "/player.png")
+player['reimu']['shot'] = centered_image(b + '/shot.png')
+player['reimu']['hitbox'] = centered_image(b + '/hitbox.png')
 
 # Enemies
 enemy = {}
 a = "enemies"
-enemy['generic'] = centered_image(os.path.join(a, 'generic.png'))
+enemy['generic'] = centered_image(a + '/generic.png')
 
 # Bullets
 bullet = {}
 a = "bullets"
-bullet['round'] = centered_image(os.path.join(a, 'round.png'))
+bullet['round'] = centered_image(a + '/round.png')

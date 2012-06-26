@@ -37,5 +37,6 @@ if __name__ == "__main__":
         for x in to_update:
             x.update(dt)
     pyglet.clock.schedule_interval(update, 1./FPS)
+    pyglet.clock.set_fps_limit(FPS)
 
     pyglet.app.run()

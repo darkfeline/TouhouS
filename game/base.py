@@ -11,6 +11,7 @@ class Game:
 
         # UI
         self.ui = UI()
+        self.to_update.append(self.ui)
         # player
         self.player = Player(keys=keys)
         self.to_update.append(self.player)

@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
 import pyglet
-from pyglet.clock import ClockDisplay
 from pyglet.text import Label
 
 from game import resources
 from game.sprite import Sprite
 
-class FPSDisplay(ClockDisplay):
+class FPSDisplay(pyglet.clock.ClockDisplay):
     pass
 
 

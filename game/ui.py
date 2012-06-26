@@ -12,11 +12,11 @@ class FPSDisplay(pyglet.clock.ClockDisplay):
 
 class UILabel:
 
-    def __init__(self, x, y, title, number=0, width=190):
+    def __init__(self, x, y, title, number=0, width=190, batch=None):
         self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255))
+                color=(0, 0, 0, 255), batch=batch)
         self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255))
+                color=(0, 0, 0, 255), batch=batch)
         self.width = width
         self.x = x
         self.y = y
@@ -57,16 +57,13 @@ class UILabel:
     def number(self, value):
         self._number.text = str(value)
 
-    def draw(self):
-        self._title.draw()
-        self._number.draw()
-
 
 class IconLabel(UILabel):
 
-    def __init__(self, x, y, title, number=0, width=190, img=resources.star):
+    def __init__(self, x, y, title, number=0, width=190, img=resources.star,
+            batch=None):
         self._title = Label(anchor_x='left', anchor_y='bottom',
-                font_size=10, color=(0, 0, 0, 255))
+                font_size=10, color=(0, 0, 0, 255), batch=batch)
         self.title = title
         self.width = width
         self.img = img
@@ -76,7 +73,7 @@ class IconLabel(UILabel):
         self.number = number
         self.x = x
         self.y = y
-        self.batch = pyglet.graphics.Batch()
+        self.batch = batch
 
     @property
     def display_max(self):
@@ -122,21 +119,22 @@ class IconLabel(UILabel):
         for i in range(i + 1, self.display_max):
             self.icons[i].batch = None
 
-    def draw(self):
-        self._title.draw()
-        self.batch.draw()
-
 
 class UI:
 
     def __init__(self):
         self.bg = resources.ui_image
+        self.batch = pyglet.graphics.Batch()
         self.fps = FPSDisplay()
         self.label = {}
-        self.label['high_score'] = UILabel(x=430, y=415, title='High score')
-        self.label['score'] = UILabel(x=430, y=391, title='Score')
-        self.label['lives'] = IconLabel(x=430, y=361, title='Lives')
-        self.label['bombs'] = IconLabel(x=430, y=339, title='Bombs')
+        self.label['high_score'] = UILabel(x=430, y=415, title='High score',
+                batch=self.batch)
+        self.label['score'] = UILabel(x=430, y=391, title='Score',
+                batch=self.batch)
+        self.label['lives'] = IconLabel(x=430, y=361, title='Lives',
+                batch=self.batch)
+        self.label['bombs'] = IconLabel(x=430, y=339, title='Bombs',
+                batch=self.batch)
         self.high_score = 0
         self.score = 0
         self.lives = 3
@@ -186,6 +184,4 @@ class UI:
 
     def draw(self):
         self.bg.blit(0, 0)
-        for k in self.label.keys():
-            self.label[k].draw()
-        self.fps.draw()
+        self.batch.draw()

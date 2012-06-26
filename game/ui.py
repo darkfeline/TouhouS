@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+import pyglet
 from pyglet.clock import ClockDisplay
 from pyglet.text import Label
 
 from game import resources
+from game.sprite import Sprite
 
 class FPSDisplay(ClockDisplay):
     pass
@@ -59,6 +61,71 @@ class UILabel:
     def draw(self):
         self._title.draw()
         self._number.draw()
+
+
+class IconLabel(UILabel):
+
+    def __init__(self, x, y, title, number=0, width=190, img=resources.star):
+        self._title = Label(anchor_x='left', anchor_y='bottom',
+                font_size=10, color=(0, 0, 0, 255))
+        self.title = title
+        self.width = width
+        self.img = img
+        self.icons = ()
+        self.display_max = 8
+        self.icon_width = self.icons[0].width
+        self.number = number
+        self.x = x
+        self.y = y
+        self.batch = pyglet.graphics.Batch()
+
+    @property
+    def display_max(self):
+        return len(self.icons)
+
+    @display_max.setter
+    def display_max(self, value):
+        self.icons = tuple([Sprite(img=self.img) for i in range(value)])
+
+    @property
+    def x(self):
+        return self._title.x
+
+    @x.setter
+    def x(self, value):
+        self._title.x = value
+        start = value + self.width - self.display_max * self.icon_width
+        for n, a in enumerate(self.icons):
+            a.x = start + n * self.icon_width
+
+    @property
+    def y(self):
+        return self._title.y
+
+    @y.setter
+    def y(self, value):
+        self._title.y = value
+        for i in self.icons:
+            i.y = value
+
+    @property
+    def number(self):
+        return self._number
+
+    @number.setter
+    def number(self, value):
+        self._number = value
+        i = 0
+        for i in range(self.number):
+            self.icons[i].batch = self.batch
+            if i == self.display_max:
+                break
+        for i in range(i + 1, self.display_max):
+            self.icons[i].batch = None
+
+    def draw(self):
+        self._title.draw()
+        self.batch.draw()
 
 
 class UI:

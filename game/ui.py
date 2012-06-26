@@ -6,8 +6,27 @@ from pyglet.text import Label
 from game import resources
 from game.sprite import Sprite
 
-class FPSDisplay(pyglet.clock.ClockDisplay):
-    pass
+class FPSDisplay:
+
+    def __init__(self, x, y, batch):
+        self._label = Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
+                font_size=10, color=(255, 255, 255, 255), batch=batch)
+        self.count = 0
+
+    @property
+    def fps(self):
+        return self._fps
+
+    @fps.setter
+    def fps(self, value):
+        self._fps = value
+        self._label.text = "{0:.1f}".format(self._fps) + 'fps'
+
+    def update(self, dt):
+        self.count += dt
+        if self.count > 1:
+            self.fps = pyglet.clock.get_fps()
+            self.count -= 1
 
 
 class UILabel:
@@ -125,7 +144,7 @@ class UI:
     def __init__(self):
         self.bg = resources.ui_image
         self.batch = pyglet.graphics.Batch()
-        self.fps = FPSDisplay()
+        self.fps = FPSDisplay(570, 2, self.batch)
         self.label = {}
         self.label['high_score'] = UILabel(x=430, y=415, title='High score',
                 batch=self.batch)
@@ -180,7 +199,7 @@ class UI:
         self.draw()
 
     def update(self, dt):
-        pass
+        self.fps.update(dt)
 
     def draw(self):
         self.bg.blit(0, 0)

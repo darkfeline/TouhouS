@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game.enemy.base import BaseEnemy
+from game.enemy import BaseEnemy
 from game.primitives import Vector
 from game.bullet.round import RoundBullet
 from game import resources

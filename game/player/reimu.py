@@ -2,7 +2,7 @@
 
 from game.bullet.reimu import ReimuShot
 from game import resources
-from game.player.base import BasePlayer
+from game.player import BasePlayer
 
 class Reimu(BasePlayer):
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game.stages.base import BaseStage
+from game.stages import BaseStage
 from game.enemy.generic import GenericEnemy
 from game.constants import GAME_AREA
 from game.primitives import Vector

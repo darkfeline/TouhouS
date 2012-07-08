@@ -4,7 +4,7 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-from game.base import Game
+from game import Game
 from game import resources
 from game.constants import WIDTH, HEIGHT, FPS
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game.bullet.base import BaseBullet
+from game.bullet import BaseBullet
 from game import resources
 
 class RoundBullet(BaseBullet):

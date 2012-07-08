@@ -35,3 +35,10 @@ class Stage(BaseStage):
             e.dest = Vector(GAME_AREA.left-30, 300)
             self.enemies.add(e)
             self.state -= self.rate
+        temp = []
+        for e in self.enemies:
+            if e.right < GAME_AREA.left:
+                e.delete()
+            else:
+                temp.append(e)
+        self.enemies.enemies = temp

@@ -19,7 +19,7 @@ class EnemyGroup:
         enemy.bullets = self.bullets
 
     def __iter__(self):
-        return iter(self.enemies[:])
+        return iter(self.enemies)
 
     def draw(self):
         self.batch.draw()

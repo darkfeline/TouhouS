@@ -1,6 +1,4 @@
+*.pyc
 .ropeproject
 *.swp
 __pycache__
-tools/
-resources-work
-*.py[co]

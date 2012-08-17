@@ -2,7 +2,8 @@
 
 from pyglet import resource
 
-def load_image(image):
+def centered_image(image):
+    """Loads an image and centers it"""
     image = resource.image(image)
     center_image(image)
     return image
@@ -15,12 +16,28 @@ def center_image(image):
 resource.path = ['resources']
 resource.reindex()
 
+# UI
+ui_image = resource.image('ui.png')
 icon1 = resource.image('icon16.png')
 icon2 = resource.image('icon32.png')
+star = resource.image('star.png')
 
+# Players
+player = {}
+a = "players"
+# Reimu
+player['reimu'] = {}
+b = a + "/reimu"
+player['reimu']['player'] = centered_image(b + "/player.png")
+player['reimu']['shot'] = centered_image(b + '/shot.png')
+player['reimu']['hitbox'] = centered_image(b + '/hitbox.png')
 
-player_image = load_image("player.png")
-shot_image = load_image('shot.png')
-enemy_image = load_image('enemy.png')
-bullet_image = load_image('bullet.png')
-hitbox_image = load_image('hitbox.png')
+# Enemies
+enemy = {}
+a = "enemies"
+enemy['generic'] = centered_image(a + '/generic.png')
+
+# Bullets
+bullet = {}
+a = "bullets"
+bullet['round'] = centered_image(a + '/round.png')

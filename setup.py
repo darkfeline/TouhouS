@@ -20,8 +20,8 @@ setup(
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
-    scripts = ['touhouS.py'],
     data_files = [
+        ('', ['touhouS.py']),
         ('resources', [ 'resources/power.png', 'resources/star.png',
             'resources/icon16.png', 'resources/icon32.png',
             'resources/point.png', 'resources/ui.png',

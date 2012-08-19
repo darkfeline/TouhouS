@@ -5,3 +5,4 @@ tools/
 resources-work
 *.py[co]
 build/
+testing*/

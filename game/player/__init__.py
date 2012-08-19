@@ -9,7 +9,7 @@ from game.primitives import Vector
 
 class BasePlayer(Sprite):
 
-    def __init__(self, x=GAME_AREA.width/2+GAME_AREA.right, y=GAME_AREA.bottom+40,
+    def __init__(self, x=GAME_AREA.width//2+GAME_AREA.left, y=GAME_AREA.bottom+40,
             img=None, hbimg=None, keys=None, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0

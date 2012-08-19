@@ -1,0 +1,6 @@
+*.pyc
+.ropeproject
+*.swp
+__pycache__
+*.c
+build/

@@ -2,7 +2,7 @@
 
 import math
 
-from pygame import Rect
+from game.rect import Rect
 
 from game.errors import NoAngleException
 

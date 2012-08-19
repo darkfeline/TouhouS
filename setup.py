@@ -9,6 +9,8 @@ if use_cython:
 else:
     ext_modules = [Extension("rect", ["gensokyo/cython/rect.c"])]
 
+data_dir = ''
+
 setup(
     name = 'Gensokyo',
     version='1.0',
@@ -21,8 +23,8 @@ setup(
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
     data_files = [
-        ('', ['touhouS.py']),
-        ('resources', [ 'resources/power.png', 'resources/star.png',
+        (data_dir + '', ['touhouS.py']),
+        (data_dir + 'resources', [ 'resources/power.png', 'resources/star.png',
             'resources/icon16.png', 'resources/icon32.png',
             'resources/point.png', 'resources/ui.png',
             'resources/players/reimu/option.png',

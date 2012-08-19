@@ -14,10 +14,10 @@ class Reimu(BasePlayer):
         period = 1 / self.shot_rate  # period of shot
         i = 0
         while self.shot_state > period:
-            shot = ReimuShot(x=self.x - 10, y=self.top)
+            shot = ReimuShot(x=self.x - 10, y=self.bottom)
             shot.update(i)
             self.shots.add(shot)
-            shot = ReimuShot(x=self.x + 10, y=self.top)
+            shot = ReimuShot(x=self.x + 10, y=self.bottom)
             shot.update(i)
             self.shots.add(shot)
             self.shot_state -= period

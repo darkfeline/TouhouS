@@ -9,7 +9,7 @@ from game.primitives import Vector
 
 class BasePlayer(Sprite):
 
-    def __init__(self, x=GAME_AREA.width/2+GAME_AREA.left, y=GAME_AREA.top+40,
+    def __init__(self, x=GAME_AREA.width/2+GAME_AREA.right, y=GAME_AREA.bottom+40,
             img=None, hbimg=None, keys=None, *args, **kwargs):
         super().__init__(*args, x=x, y=y, img=img, **kwargs)
         self.focus = 0
@@ -94,9 +94,9 @@ class BasePlayer(Sprite):
                 self.right = GAME_AREA.right
             elif self.left < GAME_AREA.left:
                 self.left = GAME_AREA.left
-            if self.bottom > GAME_AREA.bottom:
+            if self.bottom < GAME_AREA.bottom:
                 self.bottom = GAME_AREA.bottom
-            elif self.top < GAME_AREA.top:
+            elif self.top > GAME_AREA.top:
                 self.top = GAME_AREA.top
         # bullet generation
         if self.shooting:

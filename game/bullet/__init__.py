@@ -23,7 +23,7 @@ class BulletGroup:
         temp = []
         for b in self.bullets:
             b.update(dt)
-            if (b.bottom < GAME_AREA.top or b.top > GAME_AREA.bottom or b.left
+            if (b.bottom > GAME_AREA.top or b.top < GAME_AREA.bottom or b.left
                     > GAME_AREA.right or b.right < GAME_AREA.left):
                 b.delete()
             else:

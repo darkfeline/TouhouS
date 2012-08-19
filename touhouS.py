@@ -4,7 +4,7 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-from gensokyo import Game
+from gensokyo.game import Game
 from gensokyo import resources
 from gensokyo.constants import WIDTH, HEIGHT, FPS
 

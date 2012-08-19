@@ -8,7 +8,7 @@ from gensokyo.game import Game
 from gensokyo import resources
 from gensokyo.constants import WIDTH, HEIGHT, FPS
 
-if __name__ == "__main__":
+def main():
     window = pyglet.window.Window(WIDTH, HEIGHT)
     window.set_caption('TouhouS')
     window.set_icon(resources.icon1, resources.icon2)
@@ -40,3 +40,6 @@ if __name__ == "__main__":
     pyglet.clock.set_fps_limit(FPS)
 
     pyglet.app.run()
+
+if __name__ == "__main__":
+    main()

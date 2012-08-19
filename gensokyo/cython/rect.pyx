@@ -15,7 +15,7 @@ cdef class Rect:
         return 'Rect({}, {}, {}, {})'.format(self.x, self.y, self.w,
                 self.h)
 
-    def __richcmp__(self, int i, other):
+    def __richcmp__(self, other, int i):
         if i == 2:
             if (self.x == other.x and self.y == other.y and 
                     self.w == other.w and self.h == other.h):
@@ -25,85 +25,85 @@ cdef class Rect:
         else:
             raise NotImplementedError
 
-    @property
-    def width(self):
-        return self.w
+    property width:
 
-    @width.setter
-    def width(self, value):
-        self.w = value
+        def __get__(self):
+            return self.w
 
-    @property
-    def height(self):
-        return self.h
+        def __set__(self, value):
+            self.w = value
 
-    @height.setter
-    def height(self, value):
-        self.h = value
+    property height:
 
-    @property
-    def size(self):
-        return (self.w, self.h)
+        def __get__(self):
+            return self.h
 
-    @size.setter
-    def size(self, value):
-        self.w, self.h = value
+        def __set__(self, value):
+            self.h = value
 
-    @property
-    def centerx(self):
-        return self.w // 2 + self.x
+    property size:
 
-    @centerx.setter
-    def centerx(self, value):
-        self.x += value - self.centerx
+        def __get__(self):
+            return (self.w, self.h)
 
-    @property
-    def centery(self):
-        return self.h // 2 + self.y
+        def __set__(self, value):
+            self.w, self.h = value
 
-    @centery.setter
-    def centery(self, value):
-        self.y += value - self.centery
+    property centerx:
 
-    @property
-    def center(self):
-        return (self.centerx, self.centery)
+        def __get__(self):
+            return self.w // 2 + self.x
 
-    @center.setter
-    def center(self, other):
-        self.centerx, self.centery = other
+        def __set__(self, value):
+            self.x += value - self.centerx
 
-    @property
-    def top(self):
-        return self.y + self.h
+    property centery:
 
-    @top.setter
-    def top(self, value):
-        self.y += value - self.y - self.h
+        def __get__(self):
+            return self.h // 2 + self.y
 
-    @property
-    def bottom(self):
-        return self.y
+        def __set__(self, value):
+            self.y += value - self.centery
 
-    @bottom.setter
-    def bottom(self, value):
-        self.y += value - self.y
+    property center:
 
-    @property
-    def left(self):
-        return self.x
+        def __get__(self):
+            return (self.centerx, self.centery)
 
-    @left.setter
-    def left(self, value):
-        self.x += value - self.x
+        def __set__(self, other):
+            self.centerx, self.centery = other
 
-    @property
-    def right(self):
-        return self.x + self.w
+    property top:
 
-    @right.setter
-    def right(self, value):
-        self.x += value - self.x - self.w
+        def __get__(self):
+            return self.y + self.h
+
+        def __set__(self, value):
+            self.y += value - self.y - self.h
+
+    property bottom:
+
+        def __get__(self):
+            return self.y
+
+        def __set__(self, value):
+            self.y += value - self.y
+
+    property left:
+
+        def __get__(self):
+            return self.x
+
+        def __set__(self, value):
+            self.x += value - self.x
+
+    property right:
+
+        def __get__(self):
+            return self.x + self.w
+
+        def __set__(self, value):
+            self.x += value - self.x - self.w
 
     def copy(self):
         return self.__class__(self.x, self.y, self.w, self.h)

@@ -1,6 +1,11 @@
-class Rect:
+cdef class Rect:
 
-    def __init__(self, x, y, w, h):
+    cdef public int x
+    cdef public int y
+    cdef public int w
+    cdef public int h
+
+    def __cinit__(self, int x, int y, int w, int h):
         self.x = x
         self.y = y
         self.w = w
@@ -10,12 +15,15 @@ class Rect:
         return 'Rect({}, {}, {}, {})'.format(self.x, self.y, self.w,
                 self.h)
 
-    def __eq__(self, other):
-        if (self.x == other.x and self.y == other.y and 
-                self.w == other.w and self.h == other.h):
-            return True
+    def __richcmp__(self, int i, other):
+        if i == 2:
+            if (self.x == other.x and self.y == other.y and 
+                    self.w == other.w and self.h == other.h):
+                return True
+            else:
+                return False
         else:
-            return False
+            raise NotImplementedError
 
     @property
     def width(self):

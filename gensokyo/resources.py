@@ -13,7 +13,7 @@ def center_image(image):
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
-resource.path = ['@gensokyo.resources']
+resource.path = ['resources']
 resource.reindex()
 
 # UI

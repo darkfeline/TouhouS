@@ -2,10 +2,10 @@
 
 from pyglet.window import key
 
-from game.bullet import BulletGroup
-from game.sprite import Sprite
-from game.constants import GAME_AREA
-from game.primitives import Vector
+from gensokyo.bullet import BulletGroup
+from gensokyo.sprite import Sprite
+from gensokyo.constants import GAME_AREA
+from gensokyo.primitives import Vector
 
 class BasePlayer(Sprite):
 

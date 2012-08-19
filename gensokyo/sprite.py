@@ -2,7 +2,7 @@
 
 import pyglet
 
-from game import primitives
+from gensokyo import primitives
 
 class Sprite(pyglet.sprite.Sprite):
 
@@ -100,3 +100,15 @@ class Sprite(pyglet.sprite.Sprite):
     def bottomright(self, value):
         self.rect.bottomright = value
         self.x, self.y = self.rect.center
+
+
+class CollidingSprite(Sprite):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def collide(self, other):
+        try:
+            self.hb.collide(other)
+        except NotImplementedError as e:
+            raise e

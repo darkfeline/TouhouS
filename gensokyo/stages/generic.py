@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from game.stages import BaseStage
-from game.enemy.generic import GenericEnemy
-from game.constants import GAME_AREA
-from game.primitives import Vector
+from gensokyo.stages import BaseStage
+from gensokyo.enemy.generic import GenericEnemy
+from gensokyo.constants import GAME_AREA
+from gensokyo.primitives import Vector
 
 class Enemy(GenericEnemy):
 

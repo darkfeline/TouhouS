@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from game.enemy import BaseEnemy
-from game.primitives import Vector
-from game.bullet.round import RoundBullet
-from game import resources
+from gensokyo.enemy import BaseEnemy
+from gensokyo.primitives import Vector
+from gensokyo.bullet.round import RoundBullet
+from gensokyo import resources
 
 class GenericEnemy(BaseEnemy):
 

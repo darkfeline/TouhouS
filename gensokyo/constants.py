@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game.primitives import Rect
+from gensokyo.primitives import Rect
 
 FPS = 60
 HEIGHT = 480

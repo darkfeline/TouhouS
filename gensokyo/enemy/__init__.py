@@ -2,9 +2,9 @@
 
 import pyglet
 
-from game.sprite import Sprite
-from game.primitives import Vector
-from game.bullet import BulletGroup
+from gensokyo.sprite import Sprite
+from gensokyo.primitives import Vector
+from gensokyo.bullet import BulletGroup
 
 class EnemyGroup:
 

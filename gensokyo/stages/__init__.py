@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game.enemy import EnemyGroup
+from gensokyo.enemy import EnemyGroup
 
 class BaseStage:
 

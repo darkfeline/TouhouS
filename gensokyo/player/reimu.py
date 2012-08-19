@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from game.bullet.reimu import ReimuShot
-from game import resources
-from game.player import BasePlayer
+from gensokyo.bullet.reimu import ReimuShot
+from gensokyo import resources
+from gensokyo.player import BasePlayer
 
 class Reimu(BasePlayer):
 

@@ -2,9 +2,9 @@
 
 import math
 
-from game.rect import Rect
+from gensokyo.rect import Rect
 
-from game.errors import NoAngleException
+from gensokyo.errors import NoAngleException
 
 class Circle:
 

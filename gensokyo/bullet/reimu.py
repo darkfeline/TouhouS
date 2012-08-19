@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from game.bullet import BaseBullet
-from game import resources
+from gensokyo.bullet import BaseBullet
+from gensokyo import resources
 
 class ReimuShot(BaseBullet):
 

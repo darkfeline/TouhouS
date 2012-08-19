@@ -4,9 +4,9 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 
-from game import Game
-from game import resources
-from game.constants import WIDTH, HEIGHT, FPS
+from gensokyo import Game
+from gensokyo import resources
+from gensokyo.constants import WIDTH, HEIGHT, FPS
 
 if __name__ == "__main__":
     window = pyglet.window.Window(WIDTH, HEIGHT)

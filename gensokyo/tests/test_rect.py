@@ -2,7 +2,7 @@
 
 import unittest
 
-from game.rect import Rect
+from gensokyo.rect import Rect
 
 class TestRect(unittest.TestCase):
 

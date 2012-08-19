@@ -3,8 +3,8 @@
 import pyglet
 from pyglet.text import Label
 
-from game import resources
-from game.sprite import Sprite
+from gensokyo import resources
+from gensokyo.sprite import Sprite
 
 class FPSDisplay:
 

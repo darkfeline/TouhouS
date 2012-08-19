@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from game.player.reimu import Reimu as Player
-from game.stages.generic import Stage
-from game.ui import UI
+from gensokyo.player.reimu import Reimu as Player
+from gensokyo.stages.generic import Stage
+from gensokyo.ui import UI
 
 class Game:
 

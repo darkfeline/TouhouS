@@ -21,6 +21,14 @@ setup(
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
     scripts = ['touhouS.py'],
-    package_data = {'gensokyo':['resources/*.png', 'resources/bullets/*.png',
-        'resources/enemies/*.png', 'resources/players/*.png']}
+    data_files = [
+        ('resources', [ 'resources/power.png', 'resources/star.png',
+            'resources/icon16.png', 'resources/icon32.png',
+            'resources/point.png', 'resources/ui.png',
+            'resources/players/reimu/option.png',
+            'resources/players/reimu/shot.png',
+            'resources/players/reimu/hitbox.png',
+            'resources/players/reimu/shot2.png',
+            'resources/players/reimu/player.png',
+            'resources/enemies/generic.png', 'resources/bullets/round.png' ])]
 )

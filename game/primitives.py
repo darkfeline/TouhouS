@@ -6,24 +6,12 @@ from game.rect import Rect
 
 from game.errors import NoAngleException
 
-class Circle(tuple):
+class Circle:
 
-    __slots__ = ()
-
-    def __new__(cls, x=0, y=0, r=0):
-        return super().__new__(cls, (x, y, r))
-
-    @property
-    def x(self):
-        return super().__getitem__(0)
-
-    @property
-    def y(self):
-        return super().__getitem__(1)
-
-    @property
-    def r(self):
-        return super().__getitem__(2)
+    def __init__(self, x, y, r):
+        self.x = x
+        self.y = y
+        self.r = r
 
     def collide(self, other):
         if isinstance(other, Circle):
@@ -49,20 +37,11 @@ class Circle(tuple):
         return Circle(self.x, self.y, self.r * other)
 
 
-class Vector(tuple):
+class Vector:
 
-    __slots__ = ()
-
-    def __new__(cls, x=0, y=0):
-        return super().__new__(cls, (x, y))
-
-    @property
-    def x(self):
-        return super().__getitem__(0)
-
-    @property
-    def y(self):
-        return super().__getitem__(1)
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
     @property
     def length(self):

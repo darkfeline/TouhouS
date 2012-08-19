@@ -4,7 +4,7 @@ import math
 
 from pygame import Rect
 
-from game.exceptions import NoAngleException
+from game.errors import NoAngleException
 
 class Circle(tuple):
 

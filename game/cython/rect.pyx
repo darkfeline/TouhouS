@@ -1,33 +1,49 @@
 class Rect:
 
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, w, h):
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
+        self.w = w
+        self.h = h
 
     def __str__(self):
-        return 'Rect({}, {}, {}, {})'.format(self.x, self.y, self.width,
-                self.height)
+        return 'Rect({}, {}, {}, {})'.format(self.x, self.y, self.w,
+                self.h)
 
     def __eq__(self, other):
         if (self.x == other.x and self.y == other.y and 
-                self.width == other.width and self.height == other.height):
+                self.w == other.w and self.h == other.h):
             return True
         else:
             return False
 
     @property
+    def width(self):
+        return self.w
+
+    @width.setter
+    def width(self, value):
+        self.w = value
+
+    @property
+    def height(self):
+        return self.h
+
+    @height.setter
+    def height(self, value):
+        self.h = value
+
+    @property
     def size(self):
-        return (self.width, self.height)
+        return (self.w, self.h)
 
     @size.setter
     def size(self, value):
-        self.width, self.height = value
+        self.w, self.h = value
 
     @property
     def centerx(self):
-        return self.width // 2 + self.x
+        return self.w // 2 + self.x
 
     @centerx.setter
     def centerx(self, value):
@@ -35,7 +51,7 @@ class Rect:
 
     @property
     def centery(self):
-        return self.height // 2 + self.y
+        return self.h // 2 + self.y
 
     @centery.setter
     def centery(self, value):
@@ -51,11 +67,11 @@ class Rect:
 
     @property
     def top(self):
-        return self.y + self.height
+        return self.y + self.h
 
     @top.setter
     def top(self, value):
-        self.y += value - self.y - self.height
+        self.y += value - self.y - self.h
 
     @property
     def bottom(self):
@@ -75,11 +91,11 @@ class Rect:
 
     @property
     def right(self):
-        return self.x + self.width
+        return self.x + self.w
 
     @right.setter
     def right(self, value):
-        self.x += value - self.x - self.width
+        self.x += value - self.x - self.w
 
     def copy(self):
-        return self.__class__(self.x, self.y, self.width, self.height)
+        return self.__class__(self.x, self.y, self.w, self.h)

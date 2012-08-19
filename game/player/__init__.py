@@ -2,7 +2,7 @@
 
 from pyglet.window import key
 
-from game.bullet.base import BulletGroup
+from game.bullet import BulletGroup
 from game.sprite import Sprite
 from game.constants import GAME_AREA
 from game.primitives import Vector

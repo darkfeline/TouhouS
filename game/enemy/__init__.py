@@ -4,7 +4,7 @@ import pyglet
 
 from game.sprite import Sprite
 from game.primitives import Vector
-from game.bullet.base import BulletGroup
+from game.bullet import BulletGroup
 
 class EnemyGroup:
 

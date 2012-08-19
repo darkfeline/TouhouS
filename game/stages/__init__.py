@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from game.enemy.base import EnemyGroup
+from game.enemy import EnemyGroup
 
 class BaseStage:
 

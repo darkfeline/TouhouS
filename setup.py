@@ -25,19 +25,12 @@ setup(
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
     packages=['gensokyo', 'gensokyo.bullet', 'gensokyo.enemy',
-        'gensokyo.player', 'gensokyo.stages', 'gensokyo.tests'],
+        'gensokyo.player', 'gensokyo.stages', 'gensokyo.tests',
+        'gensokyo.data'],
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
-    data_files = [
-        (data_dir + '', ['touhouS.py']),
-        (data_dir + 'resources', [ 'resources/power.png', 'resources/star.png',
-            'resources/icon16.png', 'resources/icon32.png',
-            'resources/point.png', 'resources/ui.png',
-            'resources/players/reimu/option.png',
-            'resources/players/reimu/shot.png',
-            'resources/players/reimu/hitbox.png',
-            'resources/players/reimu/shot2.png',
-            'resources/players/reimu/player.png',
-            'resources/enemies/generic.png', 'resources/bullets/round.png' ])]
+    package_data = {'gensokyo': ['data/*.png', 'data/enemies/*.png',
+        'data/players/reimu/*.png', 'data/bullets/*.png']},
+    data_files = [('', ['touhouS.py', 'bin/profile.py'])]
 )

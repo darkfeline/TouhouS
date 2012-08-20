@@ -155,6 +155,16 @@ cdef class Rect:
     def copy(self):
         return self.__class__(self.x, self.y, self.w, self.h)
 
+    cpdef int collide(self, other) except? -1:
+        if isinstance(other, Rect):
+            if other.right < self.left: return False
+            if other.left > self.right: return False
+            if other.top < self.bottom: return False
+            if other.bottom > self.top: return False
+            return True
+        else:
+            raise NotImplementedError
+
 cdef class Circle:
 
     cdef public int x

@@ -2,6 +2,9 @@
 
 import pstats, cProfile
 
+import pyximport
+pyximport.install()
+
 import touhouS
 
 cProfile.runctx("touhouS.main()", globals(), locals(), "Profile.prof")

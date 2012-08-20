@@ -2,12 +2,19 @@
 
 from distutils.core import setup, Extension
 
+try:
+    from Cython.Distutils import build_ext
+except ImportError:
+    class build_ext:
+        pass
+
 use_cython = 1
 if use_cython:
-    from Cython.Distutils import build_ext
-    ext_modules = [Extension("rect", ["gensokyo/cython/rect.pyx"])]
+    ext_modules = [Extension("rect", ["gensokyo/cython/rect.pyx"]),
+            Extension("collision", ["gensokyo/cython/collision.pyx"])]
 else:
-    ext_modules = [Extension("rect", ["gensokyo/cython/rect.c"])]
+    ext_modules = [Extension("rect", ["gensokyo/cython/rect.c"]),
+            Extension("collision", ["gensokyo/cython/collision.c'"])]
 
 data_dir = ''
 

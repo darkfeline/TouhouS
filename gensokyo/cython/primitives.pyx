@@ -112,6 +112,46 @@ cdef class Rect:
         def __set__(self, value):
             self.x += value - self.x - self.w
 
+    property topleft:
+
+        def __get__(self):
+            return (self.x, self.y + self.h)
+
+        def __set__(self, value):
+            a = self.topleft
+            self.x += value[0] - a[0]
+            self.y += value[1] - a[1]
+
+    property topright:
+
+        def __get__(self):
+            return (self.x + self.w, self.y + self.h)
+
+        def __set__(self, value):
+            a = self.topright
+            self.x += value[0] - a[0]
+            self.y += value[1] - a[1]
+
+    property bottomleft:
+
+        def __get__(self):
+            return (self.x, self.y)
+
+        def __set__(self, value):
+            a = self.bottomleft
+            self.x += value[0] - a[0]
+            self.y += value[1] - a[1]
+
+    property bottomright:
+
+        def __get__(self):
+            return (self.x + self.w, self.y)
+
+        def __set__(self, value):
+            a = self.bottomright
+            self.x += value[0] - a[0]
+            self.y += value[1] - a[1]
+
     def copy(self):
         return self.__class__(self.x, self.y, self.w, self.h)
 

@@ -7,20 +7,20 @@ from gensokyo.sprite import Sprite
 from gensokyo.constants import GAME_AREA
 from gensokyo.primitives import Vector
 
-class BasePlayer(Sprite):
+class Player(Sprite):
 
-    def __init__(self, x=GAME_AREA.width//2+GAME_AREA.left, y=GAME_AREA.bottom+40,
-            img=None, hbimg=None, keys=None, *args, **kwargs):
-        super().__init__(*args, x=x, y=y, img=img, **kwargs)
+    def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left, y=GAME_AREA.bottom+40,
+            hbimg=None, keys=None, **kwargs):
+        super().__init__(img, x, y, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500
-        self.focus_multiplier = .5
+        self.focus_multiplier = 0.5
         self.shooting = 0
-        self.shot_rate = 12
+        self.shot_rate = 20
         self.shot_state = 0
         self.shots = BulletGroup()
         self.keys = keys
-        self.hitbox = Sprite(img=hbimg)
+        self.hitbox = hbimg
 
     @property
     def x(self):
@@ -28,7 +28,7 @@ class BasePlayer(Sprite):
 
     @x.setter
     def x(self, value):
-        super(BasePlayer, self.__class__).x.fset(self, value)
+        super(Player, self.__class__).x.fset(self, value)
         self.hitbox.x = value
 
     @property
@@ -37,7 +37,7 @@ class BasePlayer(Sprite):
 
     @y.setter
     def y(self, value):
-        super(BasePlayer, self.__class__).y.fset(self, value)
+        super(Player, self.__class__).y.fset(self, value)
         self.hitbox.y = value
 
     @property
@@ -71,7 +71,7 @@ class BasePlayer(Sprite):
         self.shots.draw()
         self.draw()
         if self.focus:
-            self.hitbox.draw()
+            self.hitbox.blit(self.x, self.y)
 
     def update(self, dt):
         # movement
@@ -107,3 +107,4 @@ class BasePlayer(Sprite):
 
     def update_fire(self, dt):
         pass
+

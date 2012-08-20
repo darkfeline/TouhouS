@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 
-from gensokyo.bullet.reimu import ReimuShot
-from gensokyo import resources
-from gensokyo.player import BasePlayer
+from gensokyo.player import Player
+from gensokyo.bullet import Bullet
+import resources
 
-class Reimu(BasePlayer):
+class ReimuShot(Bullet):
+
+    def __init__(self, x, y):
+        super().__init__(resources.player['reimu']['shot'], x, y)
+        self.speed = 1500
+
+
+class Reimu(Player):
 
     def __init__(self, keys=None):
         super().__init__(img=resources.player['reimu']['player'],
                 hbimg=resources.player['reimu']['hitbox'], keys=keys)
+        self.speed_multiplier = 500
+        self.focus_multiplier = .5
+        self.shot_rate = 20
 
     def update_fire(self, dt):
         period = 1 / self.shot_rate  # period of shot

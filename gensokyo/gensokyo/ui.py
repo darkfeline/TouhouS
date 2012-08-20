@@ -3,7 +3,6 @@
 import pyglet
 from pyglet.text import Label
 
-from gensokyo import resources
 from gensokyo.sprite import Sprite
 
 class FPSDisplay:
@@ -79,7 +78,7 @@ class UILabel:
 
 class IconLabel(UILabel):
 
-    def __init__(self, x, y, title, number=0, width=190, img=resources.star,
+    def __init__(self, x, y, title, number=0, width=190, img=None,
             batch=None):
         self._title = Label(anchor_x='left', anchor_y='bottom',
                 font_size=10, color=(0, 0, 0, 255), batch=batch)
@@ -141,8 +140,8 @@ class IconLabel(UILabel):
 
 class UI:
 
-    def __init__(self):
-        self.bg = resources.ui_image
+    def __init__(self, bg=None, icon=None):
+        self.bg = bg
         self.batch = pyglet.graphics.Batch()
         self.fps = FPSDisplay(570, 2, self.batch)
         self.label = {}
@@ -150,9 +149,9 @@ class UI:
                 batch=self.batch)
         self.label['score'] = UILabel(x=430, y=391, title='Score',
                 batch=self.batch)
-        self.label['lives'] = IconLabel(x=430, y=361, title='Lives',
+        self.label['lives'] = IconLabel(x=430, y=361, title='Lives', img=icon, 
                 batch=self.batch)
-        self.label['bombs'] = IconLabel(x=430, y=339, title='Bombs',
+        self.label['bombs'] = IconLabel(x=430, y=339, title='Bombs', img=icon, 
                 batch=self.batch)
         self.high_score = 0
         self.score = 0

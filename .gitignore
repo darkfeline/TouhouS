@@ -1,9 +1,7 @@
 .ropeproject
 *.swp
 __pycache__
-tools/
-data-work
 *.py[co]
 build/
-testing*/
 MANIFEST
+testing*/

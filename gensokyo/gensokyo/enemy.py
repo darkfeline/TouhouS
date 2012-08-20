@@ -34,14 +34,14 @@ class EnemyGroup(Group):
         self.bullets.update(dt)
 
 
-class BaseEnemy(Sprite):
+class Enemy(Sprite):
 
-    def __init__(self, x, y, img=None, *args, **kwargs):
-        super().__init__(*args, x=x, y=y, img=img, **kwargs)
+    def __init__(self, img, x=0, y=0, **kwargs):
+        super().__init__(img, x, y, **kwargs)
         self.dest = Vector(x, y)
         self.speed = 0
-        self.max_speed = 250
-        self.accel = 500
+        self.max_speed = 300
+        self.accel = 100
         self.bullets = None
 
     @property

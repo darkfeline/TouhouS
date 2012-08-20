@@ -6,8 +6,8 @@ from gensokyo import primitives
 
 class Sprite(pyglet.sprite.Sprite):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, img, x=0, y=0, **kwargs):
+        super().__init__(img, x, y, **kwargs)
         self.rect = primitives.Rect(0, 0, self.width, self.height)
         self.rect.center = self.x, self.y
 
@@ -104,8 +104,8 @@ class Sprite(pyglet.sprite.Sprite):
 
 class CollidingSprite(Sprite):
 
-    def __init__(self, *args, hb=None, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, img, x=0, y=0, hb=None, **kwargs):
+        super().__init__(img, x, y, **kwargs)
         self.hb = hb
 
     def collide(self, other):

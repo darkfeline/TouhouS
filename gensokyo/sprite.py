@@ -104,11 +104,12 @@ class Sprite(pyglet.sprite.Sprite):
 
 class CollidingSprite(Sprite):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, hb=None, **kwargs):
         super().__init__(*args, **kwargs)
+        self.hb = hb
 
     def collide(self, other):
         try:
-            self.hb.collide(other)
+            return self.hb.collide(other)
         except NotImplementedError as e:
             raise e

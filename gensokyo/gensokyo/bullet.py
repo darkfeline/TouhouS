@@ -28,13 +28,12 @@ class BulletGroup(Group):
         self.bullets = temp
 
 
-class BaseBullet(Sprite):
+class Bullet(Sprite):
 
-    def __init__(self, x, y, speed=2000, vector=Vector(0, 1), img=None, *args,
-            **kwargs):
-        super().__init__(*args, x=x, y=y, img=img, **kwargs)
+    def __init__(self, img, x=0, y=0, speed=500, vector=Vector(0, 1), **kwargs):
+        super().__init__(img, x, y, **kwargs)
         self.speed = speed
-        self._vector = vector.get_unit_vector()
+        self.vector = vector
 
     @property
     def vector(self):

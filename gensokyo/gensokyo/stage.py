@@ -2,7 +2,7 @@
 
 from gensokyo.enemy import EnemyGroup
 
-class BaseStage:
+class Stage:
 
     def __init__(self, player):
         self.enemies = EnemyGroup()

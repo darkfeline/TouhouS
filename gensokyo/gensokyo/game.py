@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 
-from gensokyo.player.reimu import Reimu as Player
-from gensokyo.stages.generic import Stage
-from gensokyo.ui import UI
+from gensokyo.player import Player
+from gensokyo.stage import Stage
 
 class Game:
 
-    def __init__(self, keys):
+    def __init__(self, keys, ui, player=Player, stage=Stage):
         self.to_update = []
 
         # UI
-        self.ui = UI()
+        self.ui = ui
         self.to_update.append(self.ui)
         # player
-        self.player = Player(keys=keys)
+        self.player = player(keys=keys)
         self.to_update.append(self.player)
         # stage
-        self.stage = Stage(self.player)
+        self.stage = stage(self.player)
         self.to_update.append(self.stage)
 
     @property

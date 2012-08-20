@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from gensokyo.stages import BaseStage
-from gensokyo.enemy.generic import GenericEnemy
+from gensokyo.stage import Stage
+from enemy import GenericEnemy
 from gensokyo.constants import GAME_AREA
 from gensokyo.primitives import Vector
 
@@ -20,7 +20,7 @@ class Enemy(GenericEnemy):
             self.state -= .5
 
 
-class Stage(BaseStage):
+class Stage(Stage):
 
     def __init__(self, player):
         super().__init__(player)

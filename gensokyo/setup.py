@@ -20,13 +20,8 @@ setup(
     description='TouhouS game engine',
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
-    packages=['gensokyo', 'gensokyo.bullet', 'gensokyo.enemy',
-        'gensokyo.player', 'gensokyo.stages', 'gensokyo.tests',
-        'gensokyo.data'],
+    packages=['gensokyo', 'gensokyo.test'],
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
-    ext_modules = ext_modules,
-    package_data = {'gensokyo': ['data/*.png', 'data/enemies/*.png',
-        'data/players/reimu/*.png', 'data/bullets/*.png']},
-    data_files = [('', ['touhouS.py', 'bin/profile.py'])]
+    ext_modules = ext_modules
 )

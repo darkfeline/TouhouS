@@ -5,10 +5,10 @@ from pyglet import resource
 def centered_image(image):
     """Loads an image and centers it"""
     image = resource.image(image)
-    center_image(image)
+    center(image)
     return image
 
-def center_image(image):
+def center(image):
     """Sets an image's anchor point to center"""
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2

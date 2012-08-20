@@ -10,10 +10,10 @@ except ImportError:
 
 use_cython = 1
 if use_cython:
-    ext_modules = [Extension("rect", ["gensokyo/cython/rect.pyx"]),
+    ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.pyx"]),
             Extension("collision", ["gensokyo/cython/collision.pyx"])]
 else:
-    ext_modules = [Extension("rect", ["gensokyo/cython/rect.c"]),
+    ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.c"]),
             Extension("collision", ["gensokyo/cython/collision.c'"])]
 
 data_dir = ''

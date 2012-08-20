@@ -2,17 +2,13 @@
 
 from distutils.core import setup, Extension
 
-try:
-    from Cython.Distutils import build_ext
-except ImportError:
-    class build_ext:
-        pass
-
 use_cython = 1
 if use_cython:
+    from Cython.Distutils import build_ext
     ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.pyx"]),
             Extension("collision", ["gensokyo/cython/collision.pyx"])]
 else:
+    class build_ext: pass
     ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.c"]),
             Extension("collision", ["gensokyo/cython/collision.c'"])]
 

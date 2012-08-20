@@ -2,32 +2,29 @@
 
 import pyglet
 
-from gensokyo.sprite import Sprite
+from gensokyo.sprite import Sprite, Group
 from gensokyo.constants import GAME_AREA
 from gensokyo.primitives import Vector
 
-class BulletGroup:
+class BulletGroup(Group):
 
-    def __init__(self):
-        self.bullets = []
-        self.batch = pyglet.graphics.Batch()
+    @property
+    def bullets(self):
+        return self.sprites
 
-    def add(self, bullet):
-        self.bullets.append(bullet)
-        bullet.batch = self.batch
-
-    def draw(self):
-        self.batch.draw()
+    @bullets.setter
+    def bullets(self, value):
+        self.sprites = value
 
     def update(self, dt):
-        temp = []
+        temp = set()
         for b in self.bullets:
             b.update(dt)
             if (b.bottom > GAME_AREA.top or b.top < GAME_AREA.bottom or b.left
                     > GAME_AREA.right or b.right < GAME_AREA.left):
                 b.delete()
             else:
-                temp.append(b)
+                temp.add(b)
         self.bullets = temp
 
 

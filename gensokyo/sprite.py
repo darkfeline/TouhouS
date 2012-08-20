@@ -113,3 +113,32 @@ class CollidingSprite(Sprite):
             return self.hb.collide(other)
         except NotImplementedError as e:
             raise e
+
+class Group:
+
+    def __init__(self):
+        self.sprites = set()
+        self.batch = pyglet.graphics.Batch()
+
+    @property
+    def sprites(self):
+        return list(self._sprites)
+
+    @sprites.setter
+    def sprites(self, value):
+        self._sprites = set(value)
+
+    def add(self, sprite):
+        self._sprites.add(sprite)
+        if sprite.batch is not self.batch:
+            sprite.batch = self.batch
+
+    def __iter__(self):
+        return iter(self._sprites)
+
+    def draw(self):
+        self.batch.draw()
+
+    def update(self, dt):
+        for sprite in self:
+            sprite.update(dt)

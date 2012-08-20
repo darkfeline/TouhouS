@@ -2,32 +2,35 @@
 
 import pyglet
 
-from gensokyo.sprite import Sprite
+from gensokyo.sprite import Sprite, Group
 from gensokyo.primitives import Vector
 from gensokyo.bullet import BulletGroup
 
-class EnemyGroup:
+class EnemyGroup(Group):
 
     def __init__(self):
-        self.enemies = []
-        self.batch = pyglet.graphics.Batch()
+        super().__init__()
         self.bullets = BulletGroup()
 
-    def add(self, enemy):
-        self.enemies.append(enemy)
-        enemy.batch = self.batch
-        enemy.bullets = self.bullets
+    @property
+    def enemies(self):
+        return self.sprites
 
-    def __iter__(self):
-        return iter(self.enemies)
+    @enemies.setter
+    def enemies(self, value):
+        self.sprites = value
+
+    def add(self, enemy):
+        super().add(enemy)
+        if enemy.bullets is not self.bullets:
+            enemy.bullets = self.bullets
 
     def draw(self):
-        self.batch.draw()
+        super().draw()
         self.bullets.draw()
 
     def update(self, dt):
-        for enemy in self.enemies:
-            enemy.update(dt)
+        super().update(dt)
         self.bullets.update(dt)
 
 

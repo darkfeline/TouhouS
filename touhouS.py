@@ -11,7 +11,7 @@ from gensokyo.constants import WIDTH, HEIGHT, FPS
 def main():
     window = pyglet.window.Window(WIDTH, HEIGHT)
     window.set_caption('TouhouS')
-    window.set_icon(resources.icon1, resources.icon2)
+    window.set_icon(resources.icon16, resources.icon32)
 
     # Transparency
     gl.glEnable(gl.GL_BLEND)

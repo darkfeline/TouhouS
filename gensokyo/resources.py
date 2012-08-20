@@ -18,8 +18,8 @@ resource.reindex()
 
 # UI
 ui_image = resource.image('ui.png')
-icon1 = resource.image('icon16.png')
-icon2 = resource.image('icon32.png')
+icon16 = resource.image('icon16.png')
+icon32 = resource.image('icon32.png')
 star = resource.image('star.png')
 
 # Players

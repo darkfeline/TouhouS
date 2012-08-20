@@ -6,3 +6,4 @@ resources-work
 *.py[co]
 build/
 testing*/
+MANIFEST

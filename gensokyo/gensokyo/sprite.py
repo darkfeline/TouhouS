@@ -102,18 +102,6 @@ class Sprite(pyglet.sprite.Sprite):
         self.x, self.y = self.rect.center
 
 
-class CollidingSprite(Sprite):
-
-    def __init__(self, img, x=0, y=0, hb=None, **kwargs):
-        super().__init__(img, x, y, **kwargs)
-        self.hb = hb
-
-    def collide(self, other):
-        try:
-            return self.hb.collide(other)
-        except NotImplementedError as e:
-            raise e
-
 class Group:
 
     def __init__(self):
@@ -162,3 +150,16 @@ class BatchedGroup(Group):
 
     def draw(self):
         self.batch.draw()
+
+
+class CollidingSprite(Sprite):
+
+    def __init__(self, img, x=0, y=0, hb=None, **kwargs):
+        super().__init__(img, x, y, **kwargs)
+        self.hb = hb
+
+    def collide(self, sprite):
+        try:
+            return self.hb.collide(sprite)
+        except NotImplementedError as e:
+            raise e

@@ -2,11 +2,11 @@
 
 import pyglet
 
-from gensokyo.sprite import Sprite, Group
+from gensokyo.sprite import CollidingSprite, BatchedCollidingGroup
 from gensokyo.constants import GAME_AREA
 from gensokyo.primitives import Vector
 
-class BulletGroup(Group):
+class BulletGroup(BatchedCollidingGroup):
 
     @property
     def bullets(self):
@@ -28,10 +28,11 @@ class BulletGroup(Group):
         self.bullets = temp
 
 
-class Bullet(Sprite):
+class Bullet(CollidingSprite):
 
-    def __init__(self, img, x=0, y=0, speed=500, vector=Vector(0, 1), **kwargs):
-        super().__init__(img, x, y, **kwargs)
+    def __init__(self, img, x=0, y=0, hb=None, speed=500, vector=Vector(0, 1),
+            **kwargs):
+        super().__init__(img, x, y, hb, **kwargs)
         self.speed = speed
         self.vector = vector
 

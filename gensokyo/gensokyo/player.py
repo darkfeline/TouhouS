@@ -3,11 +3,11 @@
 from pyglet.window import key
 
 from gensokyo.bullet import BulletGroup
-from gensokyo.sprite import Sprite
+from gensokyo.sprite import CollidingSprite
 from gensokyo.constants import GAME_AREA
 from gensokyo.primitives import Vector
 
-class Player(Sprite):
+class Player(CollidingSprite):
 
     def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left,
             y=GAME_AREA.bottom+40, hbimg=None, keys=None, **kwargs):

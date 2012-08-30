@@ -10,6 +10,8 @@ class Stage:
 
     def on_draw(self):
         self.enemies.draw()
+        self.bullets.draw()
 
     def update(self, dt):
         self.enemies.update(dt)
+        self.bullets.update(dt)

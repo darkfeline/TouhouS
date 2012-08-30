@@ -27,11 +27,9 @@ class EnemyGroup(Group):
 
     def draw(self):
         super().draw()
-        self.bullets.draw()
 
     def update(self, dt):
         super().update(dt)
-        self.bullets.update(dt)
 
 
 class Enemy(Sprite):

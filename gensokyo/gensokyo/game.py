@@ -6,17 +6,9 @@ from gensokyo.stage import Stage
 class Game:
 
     def __init__(self, keys, ui, player=Player, stage=Stage):
-        self.to_update = []
-
-        # UI
         self.ui = ui
-        self.to_update.append(self.ui)
-        # player
         self.player = player(keys=keys)
-        self.to_update.append(self.player)
-        # stage
         self.stage = stage(self.player)
-        self.to_update.append(self.stage)
 
     @property
     def player_lives(self):
@@ -43,8 +35,9 @@ class Game:
         self.ui.high_score = value
 
     def update(self, dt):
-        for x in self.to_update:
-            x.update(dt)
+        self.ui.update(dt)
+        self.player.update(dt)
+        self.stage.update(dt)
 
     def on_draw(self, *args):
         self.player.on_draw(*args)

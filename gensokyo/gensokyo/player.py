@@ -20,7 +20,7 @@ class Player(CollidingSprite):
         self.shooting = 0
         self.shot_rate = 20
         self.shot_state = 0
-        self.shots = BulletGroup()
+        self.bullets = BulletGroup()
         self.keys = keys
         self.hbimg = hbimg
         self.hb = hb
@@ -81,10 +81,10 @@ class Player(CollidingSprite):
             self.shooting = 0
 
     def on_draw(self):
-        self.shots.draw()
+        self.bullets.draw()
         self.draw()
         if self.focus:
-            self.hitbox.blit(self.x, self.y)
+            self.hbimg.blit(self.x, self.y)
 
     def update(self, dt):
         # movement
@@ -119,7 +119,7 @@ class Player(CollidingSprite):
             self.shot_state += dt
             self.update_fire(dt)
         # bullet movement
-        self.shots.update(dt)
+        self.bullets.update(dt)
 
     def update_fire(self, dt):
         pass

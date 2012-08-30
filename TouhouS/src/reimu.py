@@ -26,9 +26,9 @@ class Reimu(Player):
         while self.shot_state > period:
             shot = ReimuShot(x=self.x - 10, y=self.bottom)
             shot.update(i)
-            self.shots.add(shot)
+            self.bullets.add(shot)
             shot = ReimuShot(x=self.x + 10, y=self.bottom)
             shot.update(i)
-            self.shots.add(shot)
+            self.bullets.add(shot)
             self.shot_state -= period
             i += period

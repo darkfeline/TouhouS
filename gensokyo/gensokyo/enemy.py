@@ -40,6 +40,7 @@ class Enemy(CollidingSprite):
         self.speed = 0
         self.max_speed = 300
         self.accel = 100
+        self.life = 500
         self.bullets = None
 
     @property
@@ -63,6 +64,14 @@ class Enemy(CollidingSprite):
     @property
     def vector(self):
         return self._vector
+
+    def hit(self, dmg):
+        self.life -= dmg
+        if self.live < 0:
+            self.die()
+
+    def die(self):
+        pass
 
     def fire_at(self, dest):
         dest = Vector(dest[0], dest[1])

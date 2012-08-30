@@ -118,7 +118,6 @@ class Group:
 
     def __init__(self):
         self.sprites = set()
-        self.batch = pyglet.graphics.Batch()
 
     @property
     def sprites(self):
@@ -130,15 +129,29 @@ class Group:
 
     def add(self, sprite):
         self._sprites.add(sprite)
-        if sprite.batch is not self.batch:
-            sprite.batch = self.batch
 
     def __iter__(self):
         return iter(self._sprites)
 
     def draw(self):
-        self.batch.draw()
+        for x in self.sprites:
+            x.draw()
 
     def update(self, dt):
         for sprite in self:
             sprite.update(dt)
+
+
+class BatchedGroup(Group):
+
+    def __init__(self):
+        super().__init__()
+        self.batch = pyglet.graphics.Batch()
+
+    def add(self, sprite):
+        super().add(sprite)
+        if sprite.batch is not self.batch:
+            sprite.batch = self.batch
+
+    def draw(self):
+        self.batch.draw()

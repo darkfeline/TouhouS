@@ -5,8 +5,7 @@ from distutils.core import setup, Extension
 use_cython = 1
 if use_cython:
     from Cython.Distutils import build_ext
-    ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.pyx"]),
-            Extension("collision", ["gensokyo/cython/collision.pyx"])]
+    ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.pyx"])]
 else:
     class build_ext: pass
     ext_modules = [Extension("primitives", ["gensokyo/cython/primitives.c"]),

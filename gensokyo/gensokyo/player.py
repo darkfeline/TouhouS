@@ -9,8 +9,8 @@ from gensokyo.primitives import Vector
 
 class Player(Sprite):
 
-    def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left, y=GAME_AREA.bottom+40,
-            hbimg=None, keys=None, **kwargs):
+    def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left,
+            y=GAME_AREA.bottom+40, hbimg=None, keys=None, **kwargs):
         super().__init__(img, x, y, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500

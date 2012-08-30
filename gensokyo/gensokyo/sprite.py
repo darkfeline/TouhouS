@@ -172,10 +172,6 @@ class CollidingSprite(Sprite):
         return x
 
 
-class BatchedCollidingGroup(BatchedGroup, CollidingGroup):
-    pass
-
-
 class CollidingGroup(Group):
 
     def collide(self, sprite):
@@ -188,3 +184,7 @@ class CollidingGroup(Group):
             if y:
                 x[a] = y
         return x
+
+
+class BatchedCollidingGroup(BatchedGroup, CollidingGroup):
+    pass

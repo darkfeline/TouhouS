@@ -9,6 +9,8 @@ from gensokyo.primitives import Vector
 
 class Player(CollidingSprite):
 
+    _die_invuln = 15
+
     def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left,
             y=GAME_AREA.bottom+40, hbimg=None, keys=None, **kwargs):
         super().__init__(img, x, y, **kwargs)
@@ -21,6 +23,7 @@ class Player(CollidingSprite):
         self.shots = BulletGroup()
         self.keys = keys
         self.hitbox = hbimg
+        self.invuln = 0
 
     @property
     def x(self):
@@ -54,6 +57,13 @@ class Player(CollidingSprite):
             return self.speed_multiplier * self.focus_multiplier
         else:
             return self.speed_multiplier
+
+    def die(self):
+        if self.invuln > 0:
+            return 1
+        else:
+            self.invuln += Player._die_invuln
+            return 0
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.LSHIFT:
@@ -98,6 +108,9 @@ class Player(CollidingSprite):
                 self.bottom = GAME_AREA.bottom
             elif self.top > GAME_AREA.top:
                 self.top = GAME_AREA.top
+        # invuln
+        if self.invuln > 0:
+            self.invuln -= dt
         # bullet generation
         if self.shooting:
             self.shot_state += dt
@@ -107,4 +120,3 @@ class Player(CollidingSprite):
 
     def update_fire(self, dt):
         pass
-

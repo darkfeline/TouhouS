@@ -35,6 +35,7 @@ class Bullet(CollidingSprite):
         super().__init__(img, x, y, hb, **kwargs)
         self.speed = speed
         self.vector = vector
+        self.dmg = 0
 
     @property
     def vector(self):

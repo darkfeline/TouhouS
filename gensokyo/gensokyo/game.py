@@ -39,6 +39,23 @@ class Game:
         self.player.update(dt)
         self.stage.update(dt)
 
+        # player + enemy bullet
+        x = self.player.collide(self.stage.bullets)
+        if x:
+            self.player.die()
+            self.stage.bullets.delete(x[0])
+            if self.lives > 0:
+                self.lives -= 1
+            else:
+                pass
+
+        # enemy + player bullet
+        x = self.stage.enemies.collide(self.player.bullets)
+        for e in x.keys():
+            for b in x[e]:
+                e.hit(b.dmg)
+                self.player.bullets.delete(b)
+
     def on_draw(self):
         self.player.on_draw()
         self.stage.on_draw()
@@ -49,4 +66,3 @@ class Game:
 
     def on_key_release(self, *args):
         self.player.on_key_release(*args)
-

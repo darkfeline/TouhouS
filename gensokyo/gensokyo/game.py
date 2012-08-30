@@ -11,12 +11,12 @@ class Game:
         self.stage = stage(self.player)
 
     @property
-    def player_lives(self):
-        return self.ui.player_lives
+    def lives(self):
+        return self.ui.lives
 
-    @player_lives.setter
-    def player_lives(self, value):
-        self.ui.player_lives = value
+    @lives.setter
+    def lives(self, value):
+        self.ui.lives = value
 
     @property
     def score(self):

@@ -160,7 +160,7 @@ class CollidingSprite(Sprite):
 
     def collide(self, sprite):
         try:
-            return self.hb.collide(sprite)
+            return self.hb.collide(sprite.hb)
         except NotImplementedError as e:
             raise e
 

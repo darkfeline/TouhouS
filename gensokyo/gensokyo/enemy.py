@@ -8,9 +8,9 @@ from gensokyo.bullet import BulletGroup
 
 class EnemyGroup(Group):
 
-    def __init__(self):
+    def __init__(self, bullets=None):
         super().__init__()
-        self.bullets = BulletGroup()
+        self.bullets = bullets
 
     @property
     def enemies(self):

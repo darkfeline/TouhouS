@@ -39,10 +39,10 @@ class Game:
         self.player.update(dt)
         self.stage.update(dt)
 
-    def on_draw(self, *args):
-        self.player.on_draw(*args)
-        self.stage.on_draw(*args)
-        self.ui.on_draw(*args)
+    def on_draw(self):
+        self.player.on_draw()
+        self.stage.on_draw()
+        self.ui.on_draw()
 
     def on_key_press(self, *args):
         self.player.on_key_press(*args)

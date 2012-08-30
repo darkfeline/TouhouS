@@ -12,7 +12,7 @@ class Player(CollidingSprite):
     _die_invuln = 15
 
     def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left,
-            y=GAME_AREA.bottom+40, hbimg=None, keys=None, **kwargs):
+            y=GAME_AREA.bottom+40, hbimg=None, hb=None, keys=None, **kwargs):
         super().__init__(img, x, y, **kwargs)
         self.focus = 0
         self.speed_multiplier = 500
@@ -22,7 +22,8 @@ class Player(CollidingSprite):
         self.shot_state = 0
         self.shots = BulletGroup()
         self.keys = keys
-        self.hitbox = hbimg
+        self.hbimg = hbimg
+        self.hb = hb
         self.invuln = 0
 
     @property
@@ -32,7 +33,8 @@ class Player(CollidingSprite):
     @x.setter
     def x(self, value):
         super(Player, self.__class__).x.fset(self, value)
-        self.hitbox.x = value
+        self.hbimg.x = value
+        self.hb.x = value
 
     @property
     def y(self):
@@ -41,7 +43,8 @@ class Player(CollidingSprite):
     @y.setter
     def y(self, value):
         super(Player, self.__class__).y.fset(self, value)
-        self.hitbox.y = value
+        self.hbimg.y = value
+        self.hb.y = value
 
     @property
     def center(self):

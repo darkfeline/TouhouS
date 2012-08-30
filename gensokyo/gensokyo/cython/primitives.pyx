@@ -4,6 +4,15 @@
 from gensokyo.errors import NoAngleException
 import math
 
+cdef int _collide_circle_rect(Circle circle, Rect rect) except? -1:
+    if rect.left < circle.x < rect.right: return True
+    if rect.bottom < circle.y > rect.top: return True
+    if circle.y - circle.r < rect.bottom < circle.y + circle.r: return True
+    if circle.y - circle.r < rect.top < circle.y + circle.r: return True
+    if circle.x - circle.r < rect.left < circle.x + circle.r: return True
+    if circle.x - circle.r < rect.right < circle.x + circle.r: return True
+    return False
+
 cdef class Rect:
 
     cdef public int x
@@ -163,6 +172,8 @@ cdef class Rect:
             if other.top < self.bottom: return False
             if other.bottom > self.top: return False
             return True
+        if isinstance(other, Circle):
+            return _collide_circle_rect(other, self)
         else:
             raise NotImplementedError
 
@@ -184,6 +195,8 @@ cdef class Circle:
                 return True
             else:
                 return False
+        if isinstance(other, Rect):
+            return _collide_circle_rect(self, other)
         else:
             raise NotImplementedError
 

@@ -130,6 +130,13 @@ class Group:
     def add(self, sprite):
         self._sprites.add(sprite)
 
+    def remove(self, sprite):
+        self._sprites.remove(sprite)
+
+    def delete(self, sprite):
+        self.remove(sprite)
+        sprite.delete()
+
     def __iter__(self):
         return iter(self._sprites)
 

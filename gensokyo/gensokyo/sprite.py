@@ -163,3 +163,10 @@ class CollidingSprite(Sprite):
             return self.hb.collide(sprite)
         except NotImplementedError as e:
             raise e
+
+    def collide_group(self, group):
+        x = []
+        for sprite in group:
+            if self.collide(sprite):
+                x.append(sprite)
+        return x

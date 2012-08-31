@@ -178,11 +178,11 @@ class UI:
 
     @property
     def lives(self):
-        return self._lives
+        return self._lives + 1
 
     @lives.setter
     def lives(self, value):
-        self._lives = value
+        self._lives = value - 1
         self.label['lives'].number = self._lives
 
     @property

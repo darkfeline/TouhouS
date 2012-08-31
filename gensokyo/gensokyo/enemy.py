@@ -35,7 +35,7 @@ class EnemyGroup(BatchedCollidingGroup):
 class Enemy(CollidingSprite):
 
     def __init__(self, img, x=0, y=0, hb=None, **kwargs):
-        super().__init__(img, x, y, hb **kwargs)
+        super().__init__(img, x, y, hb, **kwargs)
         self.dest = Vector(x, y)
         self.speed = 0
         self.max_speed = 300
@@ -67,7 +67,7 @@ class Enemy(CollidingSprite):
 
     def hit(self, dmg):
         self.life -= dmg
-        if self.live < 0:
+        if self.life < 0:
             self.die()
 
     def die(self):

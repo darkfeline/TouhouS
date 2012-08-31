@@ -95,11 +95,13 @@ class IconLabel(Label):
 
     @property
     def display_max(self):
-        return len(self.icons)
+        return self._display_max
 
     @display_max.setter
     def display_max(self, value):
-        self.icons = tuple([Sprite(img=self.img) for i in range(value)])
+        self._display_max = value
+        self.icons = tuple([Sprite(img=self.img) for i in
+            range(self._display_max)])
 
     @property
     def x(self):

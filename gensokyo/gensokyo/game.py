@@ -42,9 +42,9 @@ class Game:
         # player + enemy bullet
         x = self.player.collide_group(self.stage.bullets)
         if x:
-            self.player.die()
-            self.stage.bullets.delete(x[0])
-            if self.lives > 0:
+            for b in x:
+                self.stage.bullets.delete(b)
+            if not self.player.die() and self.lives > 0:
                 self.lives -= 1
             else:
                 pass

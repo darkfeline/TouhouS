@@ -47,6 +47,7 @@ class Game:
             if not self.player.die() and self.lives > 0:
                 self.lives -= 1
             else:
+                # game over
                 pass
 
         # enemy + player bullet

@@ -129,13 +129,13 @@ class IconLabel(Label):
     @number.setter
     def number(self, value):
         self._number = value
-        i = 0
-        for i in range(self.number):
+        i = -1
+        for i in range(min(self.number, self.display_max)):
             self.icons[i].batch = self.batch
-            if i == self.display_max:
-                break
-        for i in range(i + 1, self.display_max):
+        i += 1
+        while i < self.display_max:
             self.icons[i].batch = None
+            i += 1
 
 
 class UI:

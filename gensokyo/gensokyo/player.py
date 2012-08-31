@@ -9,7 +9,7 @@ from gensokyo.primitives import Vector
 
 class Player(CollidingSprite):
 
-    _die_invuln = 15
+    _die_invuln = 3
 
     def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left,
             y=GAME_AREA.bottom+40, hbimg=None, hb=None, keys=None, **kwargs):

@@ -2,6 +2,7 @@
 
 from gensokyo.player import Player
 from gensokyo.bullet import Bullet
+from gensokyo.primitives import Circle
 import resources
 
 class ReimuShot(Bullet):
@@ -9,6 +10,8 @@ class ReimuShot(Bullet):
     def __init__(self, x, y):
         super().__init__(resources.player['reimu']['shot'], x, y)
         self.speed = 1500
+        self.dmg = 20
+        self.hb = self.rect
 
 
 class Reimu(Player):
@@ -16,6 +19,7 @@ class Reimu(Player):
     def __init__(self, keys=None):
         super().__init__(img=resources.player['reimu']['player'],
                 hbimg=resources.player['reimu']['hitbox'], keys=keys)
+        self.hb = Circle(self.x, self.y, 3)
         self.speed_multiplier = 500
         self.focus_multiplier = .5
         self.shot_rate = 20

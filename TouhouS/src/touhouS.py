@@ -28,7 +28,7 @@ def main():
     game = Game(keys)
     to_update.append(game)
     window.push_handlers(game)
-
+    # clear screen
     def on_draw():
         window.clear()
     window.push_handlers(on_draw)

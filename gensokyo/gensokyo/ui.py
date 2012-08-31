@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 import pyglet
-from pyglet.text import Label
+from pyglet import text
 
 from gensokyo.sprite import Sprite
 
 class FPSDisplay:
 
     def __init__(self, x, y, batch):
-        self._label = Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
+        self._label = text.Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
                 font_size=10, color=(255, 255, 255, 255), batch=batch)
         self.count = 0
 
@@ -28,12 +28,12 @@ class FPSDisplay:
             self.count -= 1
 
 
-class UILabel:
+class Label:
 
     def __init__(self, x, y, title, number=0, width=190, batch=None):
-        self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
+        self._title = text.Label(anchor_x='left', anchor_y='bottom', font_size=10,
                 color=(0, 0, 0, 255), batch=batch)
-        self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
+        self._number = text.Label(anchor_x='right', anchor_y='bottom', font_size=10,
                 color=(0, 0, 0, 255), batch=batch)
         self.width = width
         self.x = x
@@ -76,11 +76,11 @@ class UILabel:
         self._number.text = str(value)
 
 
-class IconLabel(UILabel):
+class IconLabel(Label):
 
     def __init__(self, x, y, title, number=0, width=190, img=None,
             batch=None):
-        self._title = Label(anchor_x='left', anchor_y='bottom',
+        self._title = text.Label(anchor_x='left', anchor_y='bottom',
                 font_size=10, color=(0, 0, 0, 255), batch=batch)
         self.title = title
         self.width = width
@@ -145,9 +145,9 @@ class UI:
         self.batch = pyglet.graphics.Batch()
         self.fps = FPSDisplay(570, 2, self.batch)
         self.label = {}
-        self.label['high_score'] = UILabel(x=430, y=415, title='High score',
+        self.label['high_score'] = Label(x=430, y=415, title='High score',
                 batch=self.batch)
-        self.label['score'] = UILabel(x=430, y=391, title='Score',
+        self.label['score'] = Label(x=430, y=391, title='Score',
                 batch=self.batch)
         self.label['lives'] = IconLabel(x=430, y=361, title='Lives', img=icon, 
                 batch=self.batch)

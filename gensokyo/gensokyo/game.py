@@ -55,6 +55,8 @@ class Game:
             for b in x[e]:
                 e.hit(b.dmg)
                 self.player.bullets.delete(b)
+            if e.life < 0:
+                self.stage.enemies.delete(e)
 
     def on_draw(self):
         self.player.on_draw()

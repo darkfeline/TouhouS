@@ -158,6 +158,25 @@ class CollidingSprite(Sprite):
         super().__init__(img, x, y, **kwargs)
         self.hb = hb
 
+    @property
+    def x(self):
+        return super().x
+
+    @x.setter
+    def x(self, value):
+        super(CollidingSprite, self.__class__).x.fset(self, value)
+        self.hb.x = value
+
+    @property
+    def y(self):
+        return super().y
+
+    @y.setter
+    def y(self, value):
+        super(CollidingSprite, self.__class__).y.fset(self, value)
+        self.hb.y = value
+
+
     def collide(self, sprite):
         try:
             return self.hb.collide(sprite.hb)

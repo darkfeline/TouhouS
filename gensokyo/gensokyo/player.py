@@ -34,7 +34,6 @@ class Player(CollidingSprite):
     def x(self, value):
         super(Player, self.__class__).x.fset(self, value)
         self.hbimg.x = value
-        self.hb.x = value
 
     @property
     def y(self):
@@ -44,7 +43,6 @@ class Player(CollidingSprite):
     def y(self, value):
         super(Player, self.__class__).y.fset(self, value)
         self.hbimg.y = value
-        self.hb.y = value
 
     @property
     def center(self):

@@ -40,7 +40,7 @@ class Game:
         self.stage.update(dt)
 
         # player + enemy bullet
-        x = self.player.collide(self.stage.bullets)
+        x = self.player.collide_group(self.stage.bullets)
         if x:
             self.player.die()
             self.stage.bullets.delete(x[0])
@@ -50,7 +50,7 @@ class Game:
                 pass
 
         # enemy + player bullet
-        x = self.stage.enemies.collide(self.player.bullets)
+        x = self.stage.enemies.collide_group(self.player.bullets)
         for e in x.keys():
             for b in x[e]:
                 e.hit(b.dmg)

@@ -40,7 +40,7 @@ class Enemy(CollidingSprite):
         self.speed = 0
         self.max_speed = 300
         self.accel = 100
-        self.life = 500
+        self.life = 200
         self.bullets = None
 
     @property

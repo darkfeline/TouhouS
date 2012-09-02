@@ -5,14 +5,10 @@ from gensokyo.bullet import BulletGroup
 
 class Stage:
 
-    def __init__(self, player):
+    def __init__(self):
         self.bullets = BulletGroup()
         self.enemies = EnemyGroup(self.bullets)
-        self.player = player
-
-    def on_draw(self):
-        self.enemies.draw()
-        self.bullets.draw()
+        self.player = None  # reference only
 
     def update(self, dt):
         self.enemies.update(dt)

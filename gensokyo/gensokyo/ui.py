@@ -2,14 +2,19 @@
 
 import pyglet
 from pyglet.text import Label
+from pyglet.sprite import Sprite
 
-from gensokyo.sprite import Sprite
+from gensokyo.object import SpriteWrapper
 
-class FPSDisplay:
+class FPSDisplay(SpriteWrapper):
 
-    def __init__(self, x, y, batch):
-        self._label = Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
-                font_size=10, color=(255, 255, 255, 255), batch=batch)
+    sprite_group = 'ui_element'
+
+    def __init__(self, x, y):
+        super().__init__()
+        self.label = Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
+                font_size=10, color=(255, 255, 255, 255))
+        self.add_sprite(self.label, self.__class__.sprite_group)
         self.count = 0
 
     @property
@@ -19,7 +24,7 @@ class FPSDisplay:
     @fps.setter
     def fps(self, value):
         self._fps = value
-        self._label.text = "{0:.1f}".format(self._fps) + 'fps'
+        self.label.text = "{0:.1f}".format(self._fps) + 'fps'
 
     def update(self, dt):
         self.count += dt
@@ -28,18 +33,50 @@ class FPSDisplay:
             self.count -= 1
 
 
-class Counter:
+class Counter(SpriteWrapper):
 
-    def __init__(self, x, y, title, number=0, width=190, batch=None):
+    sprite_group = "ui_element"
+
+    def __init__(self):
+        super().__init__()
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+
+    @property
+    def title(self):
+        return self._title.text
+
+    @title.setter
+    def title(self, value):
+        self._title.text = value
+
+
+class TextCounter(Counter):
+
+    def __init__(self, x, y, title, value=0, width=190):
+
+        super().__init__()
+        cls = self.__class__
+
         self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255), batch=batch)
+                color=(0, 0, 0, 255))
+        self.add_sprite(self._title, cls.sprite_group)
+
         self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255), batch=batch)
+                color=(0, 0, 0, 255))
+        self.add_sprite(self._number, cls.sprite_group)
+
         self.width = width
         self.x = x
         self.y = y
         self.title = title
-        self.number = number
+        self.value = value
 
     @property
     def x(self):
@@ -60,38 +97,42 @@ class Counter:
         self._number.y = value
 
     @property
-    def title(self):
-        return self._title.text
+    def value(self):
+        return self._value
 
-    @title.setter
-    def title(self, value):
-        self._title.text = value
-
-    @property
-    def number(self):
-        return self._number.text
-
-    @number.setter
-    def number(self, value):
+    @value.setter
+    def value(self, value):
+        self._value = value
         self._number.text = str(value)
 
 
 class IconCounter(Counter):
 
-    def __init__(self, x, y, title, number=0, width=190, img=None,
-            batch=None):
+    icon_img = None
+    sprite_group = 'ui_element'
+
+    def __init__(self, x, y, title, value=0, width=190):
+
+        super().__init__()
+
         self._title = Label(anchor_x='left', anchor_y='bottom',
-                font_size=10, color=(0, 0, 0, 255), batch=batch)
-        self.title = title
+                font_size=10, color=(0, 0, 0, 255))
+        self.add_sprite(self._title, self.__class__.sprite_group)
+
+        self._value = 0
+        self._display_max = 0
+
         self.width = width
-        self.img = img
-        self.icons = ()
+        self.icons = []
+        self.title = title
         self.display_max = 8
-        self.icon_width = self.icons[0].width
-        self.number = number
+        self.value = value
         self.x = x
         self.y = y
-        self.batch = batch
+
+    @property
+    def icon_width(self):
+        return self.__class__.icon_img.width
 
     @property
     def display_max(self):
@@ -100,8 +141,7 @@ class IconCounter(Counter):
     @display_max.setter
     def display_max(self, value):
         self._display_max = value
-        self.icons = tuple([Sprite(img=self.img) for i in
-            range(self._display_max)])
+        self.value = self.value
 
     @property
     def x(self):
@@ -125,83 +165,76 @@ class IconCounter(Counter):
             i.y = value
 
     @property
-    def number(self):
-        return self._number
+    def value(self):
+        return self._value
 
-    @number.setter
-    def number(self, value):
-        self._number = value
-        i = -1
-        for i in range(min(self.number, self.display_max)):
-            self.icons[i].batch = self.batch
-        i += 1
-        while i < self.display_max:
-            self.icons[i].batch = None
-            i += 1
+    @value.setter
+    def value(self, value):
+        new = min(self.display_max, value)
+        delta = new - self.value
+        self._value = value
+        while delta > 0:
+            s = Sprite(self.__class__.icon_img, y=self.y)
+            self.icons.append(s)
+            self.add_sprite(s, self.__class__.sprite_group)
+            self.x = self.x
+            delta -= 1
+        while delta < 0:
+            sprite = self.icons.pop()
+            sprite.delete()
+            delta += 1
 
 
-class UI:
+class UI(SpriteWrapper):
 
-    def __init__(self, bg=None, icon=None):
-        self.bg = bg
-        self.batch = pyglet.graphics.Batch()
-        self.fps = FPSDisplay(570, 2, self.batch)
+    bg_img = None
+    _counters = {'high_score': (TextCounter, 430, 415, 'High score'),
+        'score': (TextCounter, 430, 391, 'Score'),
+        'lives': (IconCounter, 430, 361, 'Lives'),
+        'bombs': (IconCounter, 430, 339, 'Bombs')}
+    sprite_group = 'ui'
+
+    def __init__(self):
+
+        super().__init__()
+        cls = self.__class__
+
+        self.fps = FPSDisplay(570, 2)
         self.label = {}
-        self.label['high_score'] = Counter(x=430, y=415, title='High score',
-                batch=self.batch)
-        self.label['score'] = Counter(x=430, y=391, title='Score',
-                batch=self.batch)
-        self.label['lives'] = IconCounter(x=430, y=361, title='Lives', img=icon, 
-                batch=self.batch)
-        self.label['bombs'] = IconCounter(x=430, y=339, title='Bombs', img=icon, 
-                batch=self.batch)
-        self.high_score = 0
-        self.score = 0
-        self.lives = 3
-        self.bombs = 3
-
-    @property
-    def high_score(self):
-        return self._high_score
-
-    @high_score.setter
-    def high_score(self, value):
-        self._high_score = value
-        self.label['high_score'].number = self._high_score
-
-    @property
-    def score(self):
-        return self._score
-
-    @score.setter
-    def score(self, value):
-        self._score = value
-        self.label['score'].number = self._score
-
-    @property
-    def lives(self):
-        return self._lives + 1
-
-    @lives.setter
-    def lives(self, value):
-        self._lives = value - 1
-        self.label['lives'].number = self._lives
-
-    @property
-    def bombs(self):
-        return self._bombs
-
-    @bombs.setter
-    def bombs(self, value):
-        self._bombs = value
-        self.label['bombs'].number = self._bombs
-
-    def on_draw(self):
-        self.draw()
+        for k in self._counters.keys():
+            t = self._counters[k]
+            self.label[k] = t[0](t[1], t[2], t[3])
+        self.bg = Sprite(cls.bg_img)
+        self.add_sprite(self.bg, cls.sprite_group)
 
     def update(self, dt):
         self.fps.update(dt)
 
-    def draw(self):
-        self.bg.blit(0, 0)
-        self.batch.draw()
+x = []
+for k in UI._counters.keys():
+    def get(self, k=k):
+        return getattr(self, '_' + k)
+    def set(self, value, k=k):
+        setattr(self, '_' + k, value)
+        self.label[k].value = value
+    x.append((k, property(get, set)))
+for name, prop in x:
+    setattr(UI, name, prop)
+del x
+del set
+del get
+
+
+class Menu:
+
+    def __init__(self):
+        self.title = Label(50, 50, "Press any key to start...")
+
+    def on_draw(self):
+        self.title.blit()
+
+    def on_key_press(self, *args):
+        pass
+
+    def on_key_release(self, *args):
+        pass

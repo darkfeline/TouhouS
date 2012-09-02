@@ -2,11 +2,11 @@
 
 import pyglet
 
-from gensokyo.sprite import CollidingSprite, BatchedCollidingGroup
+from gensokyo.object import Object, Group
 from gensokyo.primitives import Vector
 from gensokyo.bullet import BulletGroup
 
-class EnemyGroup(BatchedCollidingGroup):
+class EnemyGroup(Group):
 
     def __init__(self, bullets=None):
         super().__init__()
@@ -14,28 +14,28 @@ class EnemyGroup(BatchedCollidingGroup):
 
     @property
     def enemies(self):
-        return self.sprites
+        return list(self.objects)
 
     @enemies.setter
     def enemies(self, value):
-        self.sprites = value
+        self.objects = set(value)
 
     def add(self, enemy):
         super().add(enemy)
         if enemy.bullets is not self.bullets:
             enemy.bullets = self.bullets
 
-    def draw(self):
-        super().draw()
-
-    def update(self, dt):
-        super().update(dt)
+    def delete(self, enemy):
+        self.remove(enemy)
+        enemy.delete()
 
 
-class Enemy(CollidingSprite):
+class Enemy(Object):
 
-    def __init__(self, img, x=0, y=0, hb=None, **kwargs):
-        super().__init__(img, x, y, hb, **kwargs)
+    sprite_group = 'enemy'
+
+    def __init__(self, x, y, hb=None):
+        super().__init__(x, y, hb)
         self.dest = Vector(x, y)
         self.speed = 0
         self.max_speed = 300

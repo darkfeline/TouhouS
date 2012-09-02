@@ -2,37 +2,43 @@
 
 import pyglet
 
-from gensokyo.sprite import CollidingSprite, BatchedCollidingGroup
+from gensokyo.object import Object, Group
 from gensokyo.constants import GAME_AREA
 from gensokyo.primitives import Vector
 
-class BulletGroup(BatchedCollidingGroup):
+class BulletGroup(Group):
 
     @property
     def bullets(self):
-        return self.sprites
+        return list(self.objects)
 
     @bullets.setter
     def bullets(self, value):
-        self.sprites = value
+        self.objects = set(value)
+
+    def delete(self, bullet):
+        self.remove(bullet)
+        bullet.delete()
 
     def update(self, dt):
+        super().update(dt)
         temp = set()
         for b in self.bullets:
-            b.update(dt)
-            if (b.bottom > GAME_AREA.top or b.top < GAME_AREA.bottom or b.left
-                    > GAME_AREA.right or b.right < GAME_AREA.left):
+            r = b.rect
+            if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
+                    r.left > GAME_AREA.right or r.right < GAME_AREA.left):
                 b.delete()
             else:
                 temp.add(b)
         self.bullets = temp
 
 
-class Bullet(CollidingSprite):
+class Bullet(Object):
 
-    def __init__(self, img, x=0, y=0, hb=None, speed=500, vector=Vector(0, 1),
-            **kwargs):
-        super().__init__(img, x, y, hb, **kwargs)
+    sprite_group = 'enemy_bullet'
+
+    def __init__(self, x, y, hb=None, speed=500, vector=Vector(0, 1)):
+        super().__init__(x, y, hb)
         self.speed = speed
         self.vector = vector
         self.dmg = 20

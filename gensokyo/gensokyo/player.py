@@ -1,30 +1,34 @@
 #!/usr/bin/env python3
 
 from pyglet.window import key
+from pyglet.sprite import Sprite
 
 from gensokyo.bullet import BulletGroup
-from gensokyo.sprite import CollidingSprite
-from gensokyo.constants import GAME_AREA
+from gensokyo.object import Object
 from gensokyo.primitives import Vector
+from gensokyo.constants import GAME_AREA
+from gensokyo import constants
 
-class Player(CollidingSprite):
+class Player(Object):
 
+    sprite_img = None
+    sprite_group = 'player'
+    hb_img = None
+    hb_group = 'player_hb'
     _die_invuln = 3
 
-    def __init__(self, img, x=GAME_AREA.width//2+GAME_AREA.left,
-            y=GAME_AREA.bottom+40, hbimg=None, hb=None, keys=None, **kwargs):
-        super().__init__(img, x, y, **kwargs)
-        self.focus = 0
+    def __init__(self, x, y, hb=None):
+        super().__init__(x, y, hb=hb)
+        self._focus = 0
         self.speed_multiplier = 500
         self.focus_multiplier = 0.5
         self.shooting = 0
         self.shot_rate = 20
         self.shot_state = 0
         self.bullets = BulletGroup()
-        self.keys = keys
-        self.hbimg = hbimg
-        self.hb = hb
         self.invuln = 0
+        self.v = Vector(0, 0)
+        self.hbsprite = None
 
     @property
     def x(self):
@@ -33,7 +37,8 @@ class Player(CollidingSprite):
     @x.setter
     def x(self, value):
         super(Player, self.__class__).x.fset(self, value)
-        self.hbimg.x = value
+        if hasattr(self, 'hbsprite') and self.hbsprite is not None:
+            self.hbsprite.x = value
 
     @property
     def y(self):
@@ -42,15 +47,8 @@ class Player(CollidingSprite):
     @y.setter
     def y(self, value):
         super(Player, self.__class__).y.fset(self, value)
-        self.hbimg.y = value
-
-    @property
-    def center(self):
-        return (self.x, self.y)
-
-    @center.setter
-    def center(self, value):
-        self.x, self.y = value
+        if hasattr(self, 'hbsprite') and self.hbsprite is not None:
+            self.hbsprite.y = value
 
     @property
     def speed(self):
@@ -58,6 +56,24 @@ class Player(CollidingSprite):
             return self.speed_multiplier * self.focus_multiplier
         else:
             return self.speed_multiplier
+
+    @property
+    def focus(self):
+        return int(self._focus)
+
+    @focus.setter
+    def focus(self, value):
+        f = self.focus
+        v = bool(value)
+        if f != v:
+            self._focus = v
+            if v:
+                cls = self.__class__
+                self.hbsprite = Sprite(cls.hb_img, self.x, self.y)
+                self.add_sprite(self.hbsprite, cls.hb_group)
+            else:
+                self.hbsprite.delete()
+                self.hbsprite = None
 
     def die(self):
         if self.invuln > 0:
@@ -78,23 +94,17 @@ class Player(CollidingSprite):
         elif symbol == key.Z:
             self.shooting = 0
 
-    def on_draw(self):
-        self.bullets.draw()
-        self.draw()
-        if self.focus:
-            self.hbimg.blit(self.x, self.y)
-
     def update(self, dt):
         # movement
         x = 0
-        if self.keys[key.LEFT]:
+        if constants.KEYS[key.LEFT]:
             x = -1
-        if self.keys[key.RIGHT]:
+        if constants.KEYS[key.RIGHT]:
             x += 1
         y = 0
-        if self.keys[key.DOWN]:
+        if constants.KEYS[key.DOWN]:
             y = -1
-        if self.keys[key.UP]:
+        if constants.KEYS[key.UP]:
             y += 1
         if not x == y == 0:
             v = Vector(x, y).get_unit_vector()

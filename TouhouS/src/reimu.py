@@ -7,8 +7,10 @@ import resources
 
 class ReimuShot(Bullet):
 
+    sprite_img = resources.player['reimu']['shot']
+
     def __init__(self, x, y):
-        super().__init__(resources.player['reimu']['shot'], x, y)
+        super().__init__(x, y)
         self.speed = 1500
         self.dmg = 20
         self.hb = self.rect
@@ -16,9 +18,11 @@ class ReimuShot(Bullet):
 
 class Reimu(Player):
 
-    def __init__(self, keys=None):
-        super().__init__(img=resources.player['reimu']['player'],
-                hbimg=resources.player['reimu']['hitbox'], keys=keys)
+    sprite_img = resources.player['reimu']['player']
+    hb_img = resources.player['reimu']['hitbox']
+
+    def __init__(self, x, y, hb=None):
+        super().__init__(x, y)
         self.hb = Circle(self.x, self.y, 3)
         self.speed_multiplier = 500
         self.focus_multiplier = .5

@@ -22,8 +22,8 @@ class Enemy(GenericEnemy):
 
 class Stage(Stage):
 
-    def __init__(self, player):
-        super().__init__(player)
+    def __init__(self):
+        super().__init__()
         self.state = 0
         self.rate = 1
 

@@ -26,7 +26,8 @@ setup(
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
     package_dir={'':'src'},
-    py_modules=['touhouS', 'reimu', 'enemy', 'stage', 'model', 'resources'],
+    py_modules=['touhouS', 'reimu', 'enemy', 'stage', 'model', 'resources',
+        'ui'],
     packages=[],
     scripts=['bin/profile.py'],
     data_files=rmake('resources')

@@ -6,6 +6,7 @@ from pyglet import gl
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import globals
 from gensokyo.view import View
+from gensokyo.scene import Scene, SceneStack
 
 from model import Model
 import resources
@@ -21,19 +22,21 @@ def main():
     gl.glEnable(gl.GL_BLEND)
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
+    # Scene Stack
+    stack = SceneStack()
+
+    # init stuff
     # Logger
     #window.push_handlers(pyglet.window.event.WindowEventLogger())
     # keys
     keys = key.KeyStateHandler()
     window.push_handlers(keys)
-    globals.KEYS = keys
-    # view
+    # Main Scene
     view = View()
     window.push_handlers(view)
-    globals.VIEW = view
-    # model
     model = Model()
     window.push_handlers(model)
+    stack.push(Scene(keys, model, view))
 
     def update(dt):
         model.update(dt)

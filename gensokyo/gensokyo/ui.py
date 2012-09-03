@@ -175,9 +175,9 @@ class IconCounter(Counter):
         delta = new - self.value
         self._value = value
         while delta > 0:
-            s = Sprite(self.__class__.icon_img, y=self.y)
-            self.icons.append(s)
-            self.add_sprite(s, self.__class__.sprite_group)
+            sprite = Sprite(self.__class__.icon_img, y=self.y)
+            self.icons.append(sprite)
+            self.add_sprite(sprite, self.__class__.sprite_group)
             self.x = self.x
             delta -= 1
         while delta < 0:

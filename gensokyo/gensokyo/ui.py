@@ -24,7 +24,7 @@ class FPSDisplay(SpriteWrapper):
     @fps.setter
     def fps(self, value):
         self._fps = value
-        self.label.text = "{0:.1f}".format(self._fps) + 'fps'
+        self.label.text = "{0:.1f}".format(self._fps) + ' fps'
 
     def update(self, dt):
         self.count += dt

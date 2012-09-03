@@ -4,12 +4,12 @@ from pyglet.sprite import Sprite
 from pyglet.event import EventDispatcher
 
 from gensokyo import primitives
-from gensokyo import constants
+from gensokyo import globals
 
 class SpriteWrapper(EventDispatcher):
 
     def __init__(self):
-        self.push_handlers(constants.VIEW)
+        self.push_handlers(globals.VIEW)
 
     def add_sprite(self, sprite, group):
         self.dispatch_event('on_add_sprite', sprite, group)

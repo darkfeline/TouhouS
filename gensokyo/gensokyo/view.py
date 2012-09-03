@@ -4,7 +4,7 @@ import pyglet
 from pyglet.graphics import OrderedGroup
 from pyglet.text import Label
 
-from gensokyo import constants
+from gensokyo import globals
 
 class View:
 
@@ -18,7 +18,7 @@ class View:
         self.labels = pyglet.graphics.Batch()
 
     def on_draw(self):
-        constants.WINDOW.clear()
+        globals.WINDOW.clear()
         self.batch.draw()
         self.labels.draw()
 

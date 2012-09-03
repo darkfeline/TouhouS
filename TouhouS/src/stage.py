@@ -2,7 +2,7 @@
 
 from gensokyo.stage import Stage
 from enemy import GenericEnemy
-from gensokyo.constants import GAME_AREA
+from gensokyo.globals import GAME_AREA
 from gensokyo.primitives import Vector
 
 class Enemy(GenericEnemy):

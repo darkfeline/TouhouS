@@ -6,8 +6,8 @@ from pyglet.sprite import Sprite
 from gensokyo.bullet import BulletGroup
 from gensokyo.object import Object
 from gensokyo.primitives import Vector
-from gensokyo.constants import GAME_AREA
-from gensokyo import constants
+from gensokyo.globals import GAME_AREA
+from gensokyo import globals
 
 class Player(Object):
 
@@ -97,14 +97,14 @@ class Player(Object):
     def update(self, dt):
         # movement
         x = 0
-        if constants.KEYS[key.LEFT]:
+        if globals.KEYS[key.LEFT]:
             x = -1
-        if constants.KEYS[key.RIGHT]:
+        if globals.KEYS[key.RIGHT]:
             x += 1
         y = 0
-        if constants.KEYS[key.DOWN]:
+        if globals.KEYS[key.DOWN]:
             y = -1
-        if constants.KEYS[key.UP]:
+        if globals.KEYS[key.UP]:
             y += 1
         if not x == y == 0:
             v = Vector(x, y).get_unit_vector()

@@ -4,7 +4,7 @@ from gensokyo.object import SpriteWrapper
 from gensokyo.player import Player
 from gensokyo.stage import Stage
 from gensokyo.ui import UI
-from gensokyo.constants import DEF_PLAYER_XY as XY
+from gensokyo.globals import DEF_PLAYER_XY as XY
 
 class Model(SpriteWrapper):
 

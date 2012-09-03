@@ -3,8 +3,8 @@
 import pyglet
 from pyglet.window import key
 from pyglet import gl
-from gensokyo.constants import WIDTH, HEIGHT, FPS
-from gensokyo import constants
+from gensokyo.globals import WIDTH, HEIGHT, FPS
+from gensokyo import globals
 from gensokyo.view import View
 
 from model import Model
@@ -12,7 +12,7 @@ import resources
 
 def main():
     window = pyglet.window.Window(WIDTH, HEIGHT)
-    constants.WINDOW = window
+    globals.WINDOW = window
     window.set_caption('TouhouS')
     window.set_icon(resources.icon16, resources.icon32)
     window.clear()
@@ -26,11 +26,11 @@ def main():
     # keys
     keys = key.KeyStateHandler()
     window.push_handlers(keys)
-    constants.KEYS = keys
+    globals.KEYS = keys
     # view
     view = View()
     window.push_handlers(view)
-    constants.VIEW = view
+    globals.VIEW = view
     # model
     model = Model()
     window.push_handlers(model)

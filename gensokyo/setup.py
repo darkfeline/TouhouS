@@ -19,7 +19,7 @@ setup(
     description='TouhouS game engine',
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
-    packages=['gensokyo', 'gensokyo.test'],
+    packages=['gensokyo', 'gensokyo.model', 'gensokyo.test'],
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules

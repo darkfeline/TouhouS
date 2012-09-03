@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from gensokyo.enemy import EnemyGroup
-from gensokyo.bullet import BulletGroup
-from gensokyo.object import SpriteWrapper
+from gensokyo.model.enemy import EnemyGroup
+from gensokyo.model.bullet import BulletGroup
+from gensokyo.model.object import SpriteWrapper
 
 class Stage(SpriteWrapper):
 

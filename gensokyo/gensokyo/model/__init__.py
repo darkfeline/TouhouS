@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from gensokyo.object import SpriteAdder
-from gensokyo.player import Player
-from gensokyo.stage import Stage
-from gensokyo.ui import UI
+from gensokyo.model.object import SpriteAdder
+from gensokyo.model.player import Player
+from gensokyo.model.stage import Stage
+from gensokyo.model.ui import UI
 from gensokyo.globals import DEF_PLAYER_XY as XY
 
 class Model(SpriteAdder):

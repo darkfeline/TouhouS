@@ -2,7 +2,7 @@
 
 import pyglet
 
-from gensokyo.object import Object, Group
+from gensokyo.model.object import Object, Group
 from gensokyo.globals import GAME_AREA
 from gensokyo.primitives import Vector
 

@@ -3,8 +3,8 @@
 from pyglet.window import key
 from pyglet.sprite import Sprite
 
-from gensokyo.bullet import BulletGroup
-from gensokyo.object import Object
+from gensokyo.model.bullet import BulletGroup
+from gensokyo.model.object import Object
 from gensokyo.primitives import Vector
 from gensokyo.globals import GAME_AREA
 from gensokyo import globals

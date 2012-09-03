@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from gensokyo.enemy import Enemy
+from gensokyo.model.enemy import Enemy
 from gensokyo.primitives import Vector, Circle
-from gensokyo.bullet import Bullet
+from gensokyo.model.bullet import Bullet
 import resources
 
 class RoundBullet(Bullet):

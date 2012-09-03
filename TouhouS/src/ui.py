@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from gensokyo import ui
+from gensokyo.model import ui
 
 import resources
 

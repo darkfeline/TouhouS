@@ -2,9 +2,9 @@
 
 import pyglet
 
-from gensokyo.object import Object, Group
+from gensokyo.model.object import Object, Group
 from gensokyo.primitives import Vector
-from gensokyo.bullet import BulletGroup
+from gensokyo.model.bullet import BulletGroup
 
 class EnemyGroup(Group):
 

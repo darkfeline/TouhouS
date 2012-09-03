@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from gensokyo.stage import Stage
+from gensokyo.model.stage import Stage
 from enemy import GenericEnemy
 from gensokyo.globals import GAME_AREA
 from gensokyo.primitives import Vector

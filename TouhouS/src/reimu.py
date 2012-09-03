@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from gensokyo.player import Player
-from gensokyo.bullet import Bullet
+from gensokyo.model.player import Player
+from gensokyo.model.bullet import Bullet
 from gensokyo.primitives import Circle
 import resources
 

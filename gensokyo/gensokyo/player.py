@@ -126,8 +126,9 @@ class Player(Object):
         if self.shooting:
             self.shot_state += dt
             self.update_fire(dt)
-        # bullet movement
+        # bullet update
         self.bullets.update(dt)
+        self.add_sprites(self.bullets)
 
     def update_fire(self, dt):
         pass

@@ -243,7 +243,7 @@ cdef class Vector:
                 elif self.y < 0:
                     return math.pi * 3 / 2
                 else:
-                    raise NoAngleException()
+                    raise NoAngleError()
             else:
                 return math.fmod(math.atan2(self.y, self.x) + 2 * math.pi,
                         2 * math.pi)
@@ -251,7 +251,7 @@ cdef class Vector:
     def get_unit_vector(self):
         try:
             t = self.angle
-        except NoAngleException:
+        except NoAngleError:
             return Vector(0, 0)
         return Vector(math.cos(t), math.sin(t))
 
@@ -285,4 +285,4 @@ cdef class Vector:
         return Vector(self.x * other, self.y * other)
 
 
-class NoAngleException(Exception): pass
+class NoAngleError(Exception): pass

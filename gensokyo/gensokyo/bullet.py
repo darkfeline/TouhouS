@@ -16,10 +16,6 @@ class BulletGroup(Group):
     def bullets(self, value):
         self.objects = set(value)
 
-    def delete(self, bullet):
-        self.remove(bullet)
-        bullet.delete()
-
     def update(self, dt):
         super().update(dt)
         temp = set()

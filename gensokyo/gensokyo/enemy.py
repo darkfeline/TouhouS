@@ -25,10 +25,6 @@ class EnemyGroup(Group):
         if enemy.bullets is not self.bullets:
             enemy.bullets = self.bullets
 
-    def delete(self, enemy):
-        self.remove(enemy)
-        enemy.delete()
-
 
 class Enemy(Object):
 

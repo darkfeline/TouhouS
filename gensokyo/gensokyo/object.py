@@ -131,6 +131,10 @@ class Group:
         self.objects.remove(object)
         object.master = None
 
+    def delete(self, object):
+        self.objects.remove(object)
+        object.delete()
+
     def __iter__(self):
         return iter(self.objects)
 

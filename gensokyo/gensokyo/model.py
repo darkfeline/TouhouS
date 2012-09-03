@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from gensokyo.object import SpriteWrapper
+from gensokyo.object import SpriteAdder
 from gensokyo.player import Player
 from gensokyo.stage import Stage
 from gensokyo.ui import UI
 from gensokyo.globals import DEF_PLAYER_XY as XY
 
-class Model(SpriteWrapper):
+class Model(SpriteAdder):
 
     ui_class = None
     player_class = None
@@ -69,6 +69,7 @@ class Model(SpriteWrapper):
         self.player.on_key_release(symbol, modifiers)
 
     def update(self, dt):
+
         self.ui.update(dt)
         self.player.update(dt)
         self.stage.update(dt)
@@ -92,3 +93,7 @@ class Model(SpriteWrapper):
                 self.player.bullets.delete(b)
             if e.life < 0:
                 self.stage.enemies.delete(e)
+
+        self.add_sprites(self.ui)
+        self.add_sprites(self.player)
+        self.add_sprites(self.stage)

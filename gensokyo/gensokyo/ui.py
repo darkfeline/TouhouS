@@ -200,6 +200,7 @@ class UI(SpriteWrapper):
         cls = self.__class__
 
         self.fps = FPSDisplay(570, 2)
+        self.add_sprites(self.fps)
         self.label = {}
         for k in self._counters.keys():
             t = self._counters[k]
@@ -209,6 +210,8 @@ class UI(SpriteWrapper):
 
     def update(self, dt):
         self.fps.update(dt)
+        for k in self.label.keys():
+            self.add_sprites(self.label[k])
 
 x = []
 for k in UI._counters.keys():

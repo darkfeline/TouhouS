@@ -16,6 +16,7 @@ class FPSDisplay(SpriteWrapper):
                 font_size=10, color=(255, 255, 255, 255))
         self.add_sprite(self.label, self.__class__.sprite_group)
         self.count = 0
+        self.fps = 0
 
     @property
     def fps(self):

@@ -1,7 +1,6 @@
 # cython: profile=True
 # cython: language_level=3
 
-from gensokyo.errors import NoAngleException
 import math
 
 cdef int _collide_circle_rect(Circle circle, Rect rect) except? -1:
@@ -284,3 +283,6 @@ cdef class Vector:
         if not (isinstance(other, int) or isinstance(other, float)):
             raise NotImplemented
         return Vector(self.x * other, self.y * other)
+
+
+class NoAngleException(Exception): pass

@@ -38,10 +38,6 @@ class SceneStack(EventDispatcher):
 
         scene = self.stack.pop()
 
-        scene.controller.master = None
-        scene.model.master = None
-        scene.view.master = None
-
         self.pop_handlers()
         self.pop_handlers()
 

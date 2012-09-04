@@ -4,11 +4,11 @@ import pyglet
 from pyglet.window import key
 from pyglet import gl
 from gensokyo.globals import WIDTH, HEIGHT, FPS
-from gensokyo.view import View
 from gensokyo.scene import Scene, SceneStack
 from gensokyo.controller import Controller
 
-from model import Model
+from model import Menu
+from view import MenuView
 import resources
 
 def main():
@@ -26,11 +26,7 @@ def main():
 
     # init stuff
     # controller
-    controller = Controller()
-    # Main Scene
-    view = View()
-    model = Model()
-    stack.push(Scene(controller, model, view))
+    stack.push(Scene(Controller(), Menu(), MenuView()))
 
     pyglet.clock.schedule_interval(stack.update, 1./FPS)
     pyglet.clock.set_fps_limit(FPS)

@@ -16,6 +16,8 @@ class Model:
 
     def __init__(self):
 
+        self.master = None
+
         cls = self.__class__
 
         self.ui = cls.ui_class()

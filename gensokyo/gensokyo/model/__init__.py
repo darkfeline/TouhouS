@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import abc
+
 from pyglet.window import key
 
 from gensokyo.model.player import Player
@@ -8,7 +10,28 @@ from gensokyo.model.ui import UI
 from gensokyo.globals import DEF_PLAYER_XY as XY
 from gensokyo.primitives import Vector
 
-class Model:
+class AbstractModel:
+    
+    __metaclass__ = abc.ABCMeta
+
+    @property
+    def master(self):
+        return self._master
+
+    @master.setter
+    def master(self, value):
+        self._master = value
+
+    def add_sprite(self, sprite, group):
+        self.master.dispatch_event('on_add_sprite', sprite, group)
+
+    def add_sprites(self, wrapper):
+        for item in wrapper.sprites:
+            self.add_sprite(*item)
+        wrapper.sprites = set()
+
+
+class Model(AbstractModel):
 
     ui_class = None
     player_class = None
@@ -29,14 +52,6 @@ class Model:
         self.high_score = 0
         self.lives = 3
         self.bombs = 3
-
-    def add_sprite(self, sprite, group):
-        self.master.dispatch_event('on_add_sprite', sprite, group)
-
-    def add_sprites(self, wrapper):
-        for item in wrapper.sprites:
-            self.add_sprite(*item)
-        wrapper.sprites = set()
 
     @property
     def score(self):

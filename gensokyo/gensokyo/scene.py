@@ -46,6 +46,12 @@ class SceneStack(EventDispatcher):
 
         return scene
 
+    def on_push_scene(self, scene):
+        self.push(scene)
+
+    def on_pop_scene(self):
+        self.pop()
+
     def update(self, dt):
         self.dispatch_event('on_update', dt)
 
@@ -53,6 +59,8 @@ SceneStack.register_event_type('on_update')
 SceneStack.register_event_type('on_key_press')
 SceneStack.register_event_type('on_key_release')
 SceneStack.register_event_type('on_add_sprite')
+SceneStack.register_event_type('on_push_scene')
+SceneStack.register_event_type('on_pop_scene')
 
 
 class Scene:

@@ -22,6 +22,9 @@ class AbstractModel:
     def master(self, value):
         self._master = value
 
+
+class SpriteAdder:
+
     def add_sprite(self, sprite, group):
         self.master.dispatch_event('on_add_sprite', sprite, group)
 
@@ -31,7 +34,7 @@ class AbstractModel:
         wrapper.sprites = set()
 
 
-class Model(AbstractModel):
+class Model(AbstractModel, SpriteAdder):
 
     ui_class = None
     player_class = None

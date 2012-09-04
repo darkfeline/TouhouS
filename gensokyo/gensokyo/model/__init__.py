@@ -3,6 +3,7 @@
 import abc
 
 from pyglet.window import key
+from pyglet.event import EVENT_HANDLED
 
 from gensokyo.model.player import Player
 from gensokyo.model.stage import Stage
@@ -94,9 +95,11 @@ class Model(AbstractModel, SpriteAdder):
 
     def on_key_press(self, symbol, modifiers):
         self.player.on_key_press(symbol, modifiers)
+        return EVENT_HANDLED
 
     def on_key_release(self, symbol, modifiers):
         self.player.on_key_release(symbol, modifiers)
+        return EVENT_HANDLED
 
     def on_update(self, dt):
 
@@ -141,3 +144,4 @@ class Model(AbstractModel, SpriteAdder):
         self.add_sprites(self.player)
         self.add_sprites(self.stage)
 
+        return EVENT_HANDLED

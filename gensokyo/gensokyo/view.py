@@ -3,6 +3,7 @@
 import abc
 
 import pyglet
+from pyglet.event import EVENT_HANDLED
 from pyglet.graphics import OrderedGroup
 from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
@@ -35,12 +36,14 @@ class View(AbstractView):
     def on_draw(self):
         self.master.window.clear()
         self.batch.draw()
+        return EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
         if isinstance(sprite, Label):
             self.add_label(sprite, group)
         else:
             self.add_sprite(sprite, group)
+        return EVENT_HANDLED
 
     def add_label(self, label, group):
         set_label_group(label, self.groups[group])

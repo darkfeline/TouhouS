@@ -32,10 +32,13 @@ class View(AbstractView):
         self.groups = dict(zip(self.__class__._map,
             [OrderedGroup(i) for i in range(len(self.__class__._map))]))
         self.master = None
+        self.labels = set()
 
     def on_draw(self):
         self.master.window.clear()
         self.batch.draw()
+        for l in self.labels:
+            l.draw()
         return EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
@@ -46,9 +49,10 @@ class View(AbstractView):
         return EVENT_HANDLED
 
     def add_label(self, label, group):
-        set_label_group(label, self.groups[group])
-        label.batch = self.batch
-        label._own_batch = False
+        self.labels.add(label)
+        #set_label_group(label, self.groups[group])
+        #label.batch = self.batch
+        #label._own_batch = False
 
     def add_sprite(self, sprite, group):
         try:

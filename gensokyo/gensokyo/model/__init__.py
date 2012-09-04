@@ -141,17 +141,3 @@ class Model(AbstractModel, SpriteAdder):
         self.add_sprites(self.player)
         self.add_sprites(self.stage)
 
-
-class Menu:
-
-    def __init__(self):
-        self.title = Label(50, 50, "Press any key to start...")
-
-    def on_draw(self):
-        self.title.blit()
-
-    def on_key_press(self, *args):
-        pass
-
-    def on_key_release(self, *args):
-        pass

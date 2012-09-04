@@ -122,11 +122,11 @@ class Model(AbstractModel, SpriteAdder):
         if x:
             for b in x:
                 self.stage.bullets.delete(b)
-            if not self.player.die() and self.lives > 1:
-                self.lives -= 1
-            else:
-                # game over
-                pass
+            if not self.player.die():
+                if self.lives > 1:
+                    self.lives -= 1
+                else:
+                    self.master.dispatch_event('on_pop_scene')
 
         # enemy + player bullet
         x = self.stage.enemies.collide(self.player.bullets)

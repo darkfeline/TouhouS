@@ -7,7 +7,6 @@ from gensokyo.model.bullet import BulletGroup
 from gensokyo.model.object import Object
 from gensokyo.primitives import Vector
 from gensokyo.globals import GAME_AREA
-from gensokyo import globals
 
 class Player(Object):
 
@@ -96,29 +95,17 @@ class Player(Object):
 
     def update(self, dt):
         # movement
-        x = 0
-        if globals.KEYS[key.LEFT]:
-            x = -1
-        if globals.KEYS[key.RIGHT]:
-            x += 1
-        y = 0
-        if globals.KEYS[key.DOWN]:
-            y = -1
-        if globals.KEYS[key.UP]:
-            y += 1
-        if not x == y == 0:
-            v = Vector(x, y).get_unit_vector()
-            self.x += self.speed * v.x * dt
-            self.y += self.speed * v.y * dt
-            # bound movement
-            if self.right > GAME_AREA.right:
-                self.right = GAME_AREA.right
-            elif self.left < GAME_AREA.left:
-                self.left = GAME_AREA.left
-            if self.bottom < GAME_AREA.bottom:
-                self.bottom = GAME_AREA.bottom
-            elif self.top > GAME_AREA.top:
-                self.top = GAME_AREA.top
+        self.x += self.speed * self.v.x * dt
+        self.y += self.speed * self.v.y * dt
+        # bound movement
+        if self.right > GAME_AREA.right:
+            self.right = GAME_AREA.right
+        elif self.left < GAME_AREA.left:
+            self.left = GAME_AREA.left
+        if self.bottom < GAME_AREA.bottom:
+            self.bottom = GAME_AREA.bottom
+        elif self.top > GAME_AREA.top:
+            self.top = GAME_AREA.top
         # invuln
         if self.invuln > 0:
             self.invuln -= dt

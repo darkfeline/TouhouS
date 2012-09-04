@@ -6,8 +6,6 @@ from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 
-from gensokyo import globals
-
 class View:
 
     _map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
@@ -17,9 +15,10 @@ class View:
         self.batch = pyglet.graphics.Batch()
         self.groups = dict(zip(self.__class__._map,
             [OrderedGroup(i) for i in range(len(self.__class__._map))]))
+        self.master = None
 
     def on_draw(self):
-        globals.WINDOW.clear()
+        self.master.window.clear()
         self.batch.draw()
 
     def on_add_sprite(self, sprite, group):

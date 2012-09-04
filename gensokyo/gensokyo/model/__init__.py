@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 
-from gensokyo.model.object import SpriteAdder
+from pyglet.window import key
+
 from gensokyo.model.player import Player
 from gensokyo.model.stage import Stage
 from gensokyo.model.ui import UI
 from gensokyo.globals import DEF_PLAYER_XY as XY
+from gensokyo.primitives import Vector
 
-class Model(SpriteAdder):
+class Model:
 
     ui_class = None
     player_class = None
     stage_class = None
 
     def __init__(self):
+
+        self.master = None
 
         cls = self.__class__
 
@@ -25,6 +29,14 @@ class Model(SpriteAdder):
         self.high_score = 0
         self.lives = 3
         self.bombs = 3
+
+    def add_sprite(self, sprite, group):
+        self.master.dispatch_event('on_add_sprite', sprite, group)
+
+    def add_sprites(self, wrapper):
+        for item in wrapper.sprites:
+            self.add_sprite(*item)
+        wrapper.sprites = set()
 
     @property
     def score(self):
@@ -68,7 +80,20 @@ class Model(SpriteAdder):
     def on_key_release(self, symbol, modifiers):
         self.player.on_key_release(symbol, modifiers)
 
-    def update(self, dt):
+    def on_update(self, dt):
+
+        # player movement
+        x = 0
+        if self.master.controller[key.LEFT]:
+            x = -1
+        if self.master.controller[key.RIGHT]:
+            x += 1
+        y = 0
+        if self.master.controller[key.DOWN]:
+            y = -1
+        if self.master.controller[key.UP]:
+            y += 1
+        self.player.v = Vector(x, y).get_unit_vector()
 
         self.ui.update(dt)
         self.player.update(dt)

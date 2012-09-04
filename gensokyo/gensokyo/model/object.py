@@ -6,22 +6,6 @@ from pyglet.event import EventDispatcher
 from gensokyo import primitives
 from gensokyo import globals
 
-class SpriteAdder(EventDispatcher):
-
-    def register_view(self, view):
-        self.push_handlers(view)
-
-    def add_sprite(self, sprite, group):
-        self.dispatch_event('on_add_sprite', sprite, group)
-
-    def add_sprites(self, wrapper):
-        for item in wrapper.sprites:
-            self.add_sprite(*item)
-        wrapper.sprites = set()
-
-SpriteAdder.register_event_type('on_add_sprite')
-
-
 class SpriteWrapper:
 
     def __init__(self):

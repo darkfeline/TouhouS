@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+from pyglet.window import key
+
 from gensokyo.model.player import Player
 from gensokyo.model.stage import Stage
 from gensokyo.model.ui import UI
 from gensokyo.globals import DEF_PLAYER_XY as XY
+from gensokyo.primitives import Vector
 
 class Model:
 
@@ -75,7 +78,20 @@ class Model:
     def on_key_release(self, symbol, modifiers):
         self.player.on_key_release(symbol, modifiers)
 
-    def update(self, dt):
+    def on_update(self, dt):
+
+        # player movement
+        x = 0
+        if self.master.controller[key.LEFT]:
+            x = -1
+        if self.master.controller[key.RIGHT]:
+            x += 1
+        y = 0
+        if self.master.controller[key.DOWN]:
+            y = -1
+        if self.master.controller[key.UP]:
+            y += 1
+        self.player.v = Vector(x, y).get_unit_vector()
 
         self.ui.update(dt)
         self.player.update(dt)

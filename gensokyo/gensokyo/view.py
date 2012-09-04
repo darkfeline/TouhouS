@@ -1,12 +1,27 @@
 #!/usr/bin/env python3
 
+import abc
+
 import pyglet
 from pyglet.graphics import OrderedGroup
 from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 
-class View:
+class AbstractView:
+
+    __metaclass__ = abc.ABCMeta
+
+    @property
+    def master(self):
+        return self._master
+
+    @master.setter
+    def master(self, value):
+        self._master = value
+
+
+class View(AbstractView):
 
     _map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
             'enemy_bullet', 'ui', 'ui_element')

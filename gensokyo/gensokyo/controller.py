@@ -1,8 +1,27 @@
 #!/usr/bin/env python3
 
+import abc
+
 from pyglet.window.key import KeyStateHandler
 
-class Controller(KeyStateHandler):
+class AbstractController:
+
+    __metaclass__ = abc.ABCMeta
+
+    @property
+    def master(self):
+        return self._master
+
+    @master.setter
+    def master(self, value):
+        self._master = value
+
+    @abc.abstractmethod
+    def __getitem__(self, key):
+        return NotImplemented
+
+
+class Controller(KeyStateHandler, AbstractController):
 
     def __init__(self):
         super().__init__()

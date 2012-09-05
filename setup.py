@@ -4,6 +4,17 @@ from distutils.core import setup, Extension
 import os
 import os.path
 
+use_cython = 1
+if use_cython:
+    from Cython.Distutils import build_ext
+    ext_modules = [Extension("primitives",
+        ["src/gensokyo/cython/primitives.pyx"])]
+else:
+    class build_ext: pass
+    ext_modules = [Extension("primitives",
+        ["src/gensokyo/cython/primitives.c"])]
+
+
 def make_listing(dir):
     return (dir, [os.path.join(dir, x) for x in os.listdir(dir) if
         os.path.isfile(os.path.join(dir, x))])
@@ -28,7 +39,10 @@ setup(
     package_dir={'':'src'},
     py_modules=['touhouS', 'reimu', 'enemy', 'stage', 'model', 'resources',
         'ui', 'view'],
-    packages=[],
+    packages=['gensokyo', 'gensokyo.model', 'gensokyo.test'],
+    cmdclass = {'build_ext': build_ext},
+    ext_package = 'gensokyo',
+    ext_modules = ext_modules,
     scripts=['bin/profile.py'],
     data_files=rmake('resources')
 )

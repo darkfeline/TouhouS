@@ -16,20 +16,20 @@ else:
         ["src/gensokyo/cython/primitives.c"])]
 
 
+def get_resources(dir):
+    l = []
+    rget_resources(dir, l)
+    return l
+
 def make_listing(dir):
     return (dir, [os.path.join(dir, x) for x in os.listdir(dir) if
         os.path.isfile(os.path.join(dir, x))])
 
-def rmake(dir):
-    l = []
-    rmake_listing(dir, l)
-    return l
-
-def rmake_listing(dir, l):
+def rget_resources(dir, l):
     l.append(make_listing(dir))
     for d in os.listdir(dir):
         if os.path.isdir(os.path.join(dir, d)):
-            rmake_listing(os.path.join(dir, d), l)
+            rget_resources(os.path.join(dir, d), l)
 
 p_py = re.compile(r'(.+)\.py')
 def get_modules(dir):
@@ -48,5 +48,5 @@ setup(
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
     scripts=['src/touhouS.py', 'bin/profile.py'],
-    data_files=rmake('resources')
+    data_files=get_resources('resources')
 )

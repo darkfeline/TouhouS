@@ -24,3 +24,15 @@ class AbstractModel(SpriteAdder):
     @master.setter
     def master(self, value):
         self._master = value
+
+    @abc.abstractmethod
+    def on_key_press(self, symbol, modifiers):
+        return NotImplemented
+
+    @abc.abstractmethod
+    def on_key_release(self, symbol, modifiers):
+        return NotImplemented
+
+    @abc.abstractmethod
+    def on_update(self, dt):
+        return NotImplemented

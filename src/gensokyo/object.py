@@ -4,7 +4,6 @@ from pyglet.sprite import Sprite
 from pyglet.event import EventDispatcher
 
 from gensokyo import primitives
-from gensokyo import globals
 
 class SpriteWrapper:
 

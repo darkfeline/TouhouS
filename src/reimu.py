@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from gensokyo.model.player import Player
-from gensokyo.model.bullet import Bullet
 from gensokyo.primitives import Circle
+
+from player import Player
+from bullet import Bullet
 import resources
 
 class ReimuShot(Bullet):

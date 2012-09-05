@@ -43,6 +43,7 @@ setup(
     author_email='darkfeline@abagofapples.com',
     package_dir={'':'src'},
     py_modules=get_modules('src'),
+    packages=['gensokyo'],
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,

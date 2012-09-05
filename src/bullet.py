@@ -2,9 +2,11 @@
 
 import pyglet
 
-from gensokyo.model.object import Object, Group
-from gensokyo.globals import GAME_AREA
-from gensokyo.primitives import Vector
+from gensokyo.object import Object, Group
+from gensokyo.primitives import Vector, Circle
+
+from globals import GAME_AREA
+import resources
 
 class BulletGroup(Group):
 
@@ -50,3 +52,12 @@ class Bullet(Object):
     def update(self, dt):
         self.x += self.speed * self.vector.x * dt
         self.y += self.speed * self.vector.y * dt
+
+
+class RoundBullet(Bullet):
+
+    sprite_img = resources.bullet['round']
+
+    def __init__(self, x, y, vector):
+        super().__init__(x, y, speed=300, vector=vector)
+        self.hb = Circle(x, y, 10)

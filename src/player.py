@@ -2,11 +2,11 @@
 
 from pyglet.window import key
 from pyglet.sprite import Sprite
-
-from gensokyo.model.bullet import BulletGroup
-from gensokyo.model.object import Object
+from gensokyo.object import Object
 from gensokyo.primitives import Vector
-from gensokyo.globals import GAME_AREA
+
+from bullet import BulletGroup
+from globals import GAME_AREA
 
 class Player(Object):
 

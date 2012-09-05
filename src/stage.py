@@ -1,9 +1,26 @@
 #!/usr/bin/env python3
 
-from gensokyo.model.stage import Stage
-from enemy import GenericEnemy
-from gensokyo.globals import GAME_AREA
+from gensokyo.object import SpriteWrapper
 from gensokyo.primitives import Vector
+
+from enemy import EnemyGroup, GenericEnemy
+from bullet import BulletGroup
+from globals import GAME_AREA
+
+class Stage(SpriteWrapper):
+
+    def __init__(self):
+        super().__init__()
+        self.bullets = BulletGroup()
+        self.enemies = EnemyGroup(self.bullets)
+        self.player = None  # reference only
+
+    def update(self, dt):
+        self.enemies.update(dt)
+        self.bullets.update(dt)
+        self.add_sprites(self.enemies)
+        self.add_sprites(self.bullets)
+
 
 class Enemy(GenericEnemy):
 
@@ -20,7 +37,7 @@ class Enemy(GenericEnemy):
             self.state -= .5
 
 
-class Stage(Stage):
+class StageOne(Stage):
 
     def __init__(self):
         super().__init__()

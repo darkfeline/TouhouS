@@ -3,10 +3,10 @@
 import pyglet
 from pyglet.window import key
 from pyglet import gl
-from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo.scene import Scene, SceneStack
 from gensokyo.controller import Controller
 
+from globals import WIDTH, HEIGHT, FPS
 from model import Menu
 from view import MenuView
 import resources

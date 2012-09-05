@@ -46,6 +46,6 @@ setup(
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
-    scripts=['bin/profile.py'],
+    scripts=['src/touhouS.py', 'bin/profile.py'],
     data_files=rmake('resources')
 )

@@ -3,6 +3,7 @@
 from distutils.core import setup, Extension
 import os
 import os.path
+import re
 
 use_cython = 1
 if use_cython:
@@ -30,6 +31,10 @@ def rmake_listing(dir, l):
         if os.path.isdir(os.path.join(dir, d)):
             rmake_listing(os.path.join(dir, d), l)
 
+p_py = re.compile(r'(.+)\.py')
+def get_modules(dir):
+    return [p_py.match(x).group(1) for x in os.listdir(dir) if p_py.match(x)]
+
 setup(
     name = 'TouhouS',
     version='1.0',
@@ -37,9 +42,7 @@ setup(
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
     package_dir={'':'src'},
-    py_modules=['touhouS', 'reimu', 'enemy', 'stage', 'model', 'resources',
-        'ui', 'view'],
-    packages=['gensokyo', 'gensokyo.model'],
+    py_modules=get_modules('src'),
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,

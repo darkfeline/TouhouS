@@ -2,7 +2,6 @@
 
 import abc
 
-
 class SpriteAdder:
 
     def add_sprite(self, sprite, group):

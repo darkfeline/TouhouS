@@ -21,6 +21,14 @@ class AbstractView:
     def master(self, value):
         self._master = value
 
+    @abc.abstractmethod
+    def on_draw(self, sprite, group):
+        return NotImplemented
+
+    @abc.abstractmethod
+    def on_add_sprite(self, sprite, group):
+        return NotImplemented
+
 
 class View(AbstractView):
 

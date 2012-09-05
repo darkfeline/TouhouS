@@ -27,15 +27,15 @@ class AbstractModel:
 
     @abc.abstractmethod
     def on_key_press(self, symbol, modifiers):
-        return NotImplemented
+        raise NotImplementedError
 
     @abc.abstractmethod
     def on_key_release(self, symbol, modifiers):
-        return NotImplemented
+        raise NotImplementedError
 
     @abc.abstractmethod
     def on_update(self, dt):
-        return NotImplemented
+        raise NotImplementedError
 
 class Model(AbstractModel, SpriteAdder):
 

@@ -23,11 +23,11 @@ class AbstractView:
 
     @abc.abstractmethod
     def on_draw(self, sprite, group):
-        return NotImplemented
+        raise NotImplementedError
 
     @abc.abstractmethod
     def on_add_sprite(self, sprite, group):
-        return NotImplemented
+        raise NotImplementedError
 
 
 class View(AbstractView):

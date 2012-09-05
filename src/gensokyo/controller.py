@@ -18,7 +18,7 @@ class AbstractController:
 
     @abc.abstractmethod
     def __getitem__(self, key):
-        return NotImplemented
+        raise NotImplementedError
 
 
 class Controller(KeyStateHandler, AbstractController):

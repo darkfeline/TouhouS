@@ -13,7 +13,7 @@ class SpriteAdder:
         wrapper.sprites = set()
 
 
-class AbstractModel(SpriteAdder):
+class AbstractModel:
     
     __metaclass__ = abc.ABCMeta
 
@@ -36,3 +36,14 @@ class AbstractModel(SpriteAdder):
     @abc.abstractmethod
     def on_update(self, dt):
         return NotImplemented
+
+class Model(AbstractModel, SpriteAdder):
+
+    def on_key_press(self, symbol, modifiers):
+        return EVENT_HANDLED
+
+    def on_key_release(self, symbol, modifiers):
+        return EVENT_HANDLED
+
+    def on_update(self, dt):
+        return EVENT_HANDLED

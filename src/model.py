@@ -4,7 +4,7 @@ from pyglet.window import key
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
 from gensokyo.scene import Scene
-from gensokyo.model import AbstractModel
+from gensokyo.model import Model
 from gensokyo.primitives import Vector
 
 from reimu import Reimu
@@ -13,7 +13,7 @@ import view
 from ui import UI
 from globals import DEF_PLAYER_XY as XY
 
-class GameModel(AbstractModel):
+class GameModel(Model):
 
     ui_class = UI
     player_class = Reimu
@@ -125,7 +125,7 @@ class GameModel(AbstractModel):
         return EVENT_HANDLED
 
 
-class Menu(AbstractModel):
+class Menu(Model):
 
     def __init__(self):
         self.title = Label(x=150, y=150, text="Press any key to start...",

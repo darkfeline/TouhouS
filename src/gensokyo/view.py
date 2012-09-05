@@ -59,6 +59,8 @@ class View(AbstractView):
             sprite.group = self.groups[group]
         except AttributeError:  # sprite already deleted
             return
+        except KeyError:  # wrong group, probably from previous view
+            return
         sprite.batch = self.batch
 
 

@@ -12,6 +12,7 @@ from stage import StageOne
 import view
 from ui import UI
 from globals import DEF_PLAYER_XY as XY
+from globals import HEIGHT, WIDTH
 
 class GameModel(Model):
 
@@ -128,7 +129,7 @@ class GameModel(Model):
 class Menu(Model):
 
     def __init__(self):
-        self.title = Label(x=150, y=150, text="Press any key to start...",
+        self.title = Label(x=20, y=HEIGHT-30, text="Welcome to TouhouS",
                 color=(255, 255, 255, 255))
         self.sprites = set((self.title,))
 

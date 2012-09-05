@@ -39,7 +39,7 @@ setup(
     package_dir={'':'src'},
     py_modules=['touhouS', 'reimu', 'enemy', 'stage', 'model', 'resources',
         'ui', 'view'],
-    packages=['gensokyo', 'gensokyo.model', 'gensokyo.test'],
+    packages=['gensokyo', 'gensokyo.model'],
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,

@@ -35,6 +35,18 @@ p_py = re.compile(r'(.+)\.py')
 def get_modules(dir):
     return [p_py.match(x).group(1) for x in os.listdir(dir) if p_py.match(x)]
 
+def get_packages(dir):
+    l = []
+    rget_packages(dir, l)
+    return l
+
+def rget_packages(dir, l):
+    ls = os.listdir(dir)
+    if '__init__.py' in ls:
+        l.append(dir.replace('/', '.'))
+    for x in [x for x in ls if os.path.isdir(x)]:
+        rget_packages(os.path.join(dir, x), l)
+
 setup(
     name = 'TouhouS',
     version='1.0',
@@ -43,7 +55,7 @@ setup(
     author_email='darkfeline@abagofapples.com',
     package_dir={'':'src'},
     py_modules=get_modules('src'),
-    packages=['gensokyo'],
+    packages=get_packages('src'),
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,

@@ -4,16 +4,16 @@ from pyglet.window import key
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
 from gensokyo.scene import Scene
-from gensokyo.view import View
 from gensokyo.model import AbstractModel
 from gensokyo.primitives import Vector
 
 from reimu import Reimu
 from stage import StageOne
+import view
 from ui import UI
 from globals import DEF_PLAYER_XY as XY
 
-class Model(AbstractModel):
+class GameModel(AbstractModel):
 
     ui_class = UI
     player_class = Reimu
@@ -138,6 +138,6 @@ class Menu(AbstractModel):
             self.sprites = set()
 
     def on_key_press(self, symbol, modifiers):
-        scene = Scene(self.master.controller, Model(), View())
+        scene = Scene(self.master.controller, GameModel(), view.GameView())
         self.master.dispatch_event('on_push_scene', scene)
         self.sprites = set((self.title,))

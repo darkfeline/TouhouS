@@ -32,8 +32,7 @@ class AbstractView:
 
 class View(AbstractView):
 
-    _map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
-            'enemy_bullet', 'ui', 'ui_element')
+    _map = tuple()
 
     def __init__(self):
         self.batch = pyglet.graphics.Batch()

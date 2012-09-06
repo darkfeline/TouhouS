@@ -16,7 +16,6 @@ from globals import HEIGHT, WIDTH
 
 class GameModel(Model):
 
-    game_attr = ('high_score', 'score', 'lives', 'bombs')
     ui_class = UI
     player_class = Reimu
     stage_class = StageOne
@@ -36,6 +35,42 @@ class GameModel(Model):
         self.high_score = 0
         self.lives = 3
         self.bombs = 3
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        self._score = value
+        self.ui.score = value
+
+    @property
+    def high_score(self):
+        return self._high_score
+
+    @high_score.setter
+    def high_score(self, value):
+        self._high_score = value
+        self.ui.high_score = value
+
+    @property
+    def lives(self):
+        return self._lives
+
+    @lives.setter
+    def lives(self, value):
+        self._lives = value
+        self.ui.lives = value - 1
+
+    @property
+    def bombs(self):
+        return self._bombs
+
+    @bombs.setter
+    def bombs(self, value):
+        self._bombs = value
+        self.ui.bombs = value
 
     def on_key_press(self, symbol, modifiers):
         self.player.on_key_press(symbol, modifiers)
@@ -90,16 +125,6 @@ class GameModel(Model):
         self.add_sprites(self.stage)
 
         return EVENT_HANDLED
-
-for i in GameModel.game_attr:
-    def get(self, i=i):
-        return getattr(self, '_' + i)
-    def set(self, value, i=i):
-        setattr(self, '_' + i, value)
-        setattr(self.ui, i, value)
-    setattr(GameModel, i, property(get, set))
-del set
-del get
 
 
 class Menu(Model):

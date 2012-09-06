@@ -2,6 +2,8 @@
 
 import abc
 
+from pyglet.event import EVENT_HANDLED
+
 class SpriteAdder:
 
     def add_sprite(self, sprite, group):

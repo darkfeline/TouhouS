@@ -74,6 +74,7 @@ class GameModel(Model):
                     self.lives -= 1
                 else:
                     self.master.dispatch_event('on_pop_scene')
+                    return
 
         # enemy + player bullet
         x = self.stage.enemies.collide(self.player.bullets)

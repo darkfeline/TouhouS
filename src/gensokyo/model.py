@@ -39,6 +39,11 @@ class AbstractModel:
     def on_update(self, dt):
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def on_attach(self):
+        raise NotImplementedError
+
+
 class Model(AbstractModel, SpriteAdder):
 
     def on_key_press(self, symbol, modifiers):
@@ -48,4 +53,7 @@ class Model(AbstractModel, SpriteAdder):
         return EVENT_HANDLED
 
     def on_update(self, dt):
+        return EVENT_HANDLED
+
+    def on_attach(self):
         return EVENT_HANDLED

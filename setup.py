@@ -37,15 +37,15 @@ def get_modules(dir):
 
 def get_packages(dir):
     l = []
-    rget_packages(dir, l)
+    rget_packages(dir, '', l)
     return l
 
-def rget_packages(dir, l):
-    ls = os.listdir(dir)
+def rget_packages(start, dir, l):
+    ls = os.listdir(os.path.join(start, dir))
     if '__init__.py' in ls:
         l.append(dir.replace('/', '.'))
-    for x in [x for x in ls if os.path.isdir(x)]:
-        rget_packages(os.path.join(dir, x), l)
+    for x in [x for x in ls if os.path.isdir(os.path.join(start, dir, x))]:
+        rget_packages(start, os.path.join(dir, x), l)
 
 setup(
     name = 'TouhouS',

@@ -25,7 +25,6 @@ def main():
     stack = SceneStack(window)
 
     # init stuff
-    # controller
     stack.push(Scene(Controller(), Menu(), MenuView()))
 
     pyglet.clock.schedule_interval(stack.update, 1./FPS)

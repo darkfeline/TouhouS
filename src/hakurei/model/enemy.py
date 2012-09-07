@@ -5,9 +5,9 @@ import pyglet
 from gensokyo.object import Object, Group
 from gensokyo.primitives import Vector
 
-from bullet import BulletGroup
-import bullet
-import resources
+from hakurei.model.bullet import BulletGroup
+from hakurei.model import bullet
+from hakurei import resources
 
 class EnemyGroup(Group):
 

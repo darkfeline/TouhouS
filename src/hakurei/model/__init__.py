@@ -7,12 +7,12 @@ from gensokyo.scene import Scene
 from gensokyo.model import Model
 from gensokyo.primitives import Vector
 
-from reimu import Reimu
-from stage import StageOne
-import view
-from ui import UI
-from globals import DEF_PLAYER_XY as XY
-from globals import HEIGHT, WIDTH
+from hakurei.model.player.reimu import Reimu
+from hakurei.model.stage import StageOne
+from hakurei import view
+from hakurei.model.ui import UI
+from hakurei.globals import DEF_PLAYER_XY as XY
+from hakurei.globals import HEIGHT, WIDTH
 
 class GameModel(Model):
 

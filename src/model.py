@@ -132,12 +132,9 @@ class Menu(Model):
     def __init__(self):
         self.title = Label(x=20, y=HEIGHT-30, text="Welcome to TouhouS",
                 color=(255, 255, 255, 255))
-        self.sprites = set((self.title,))
 
-    def on_update(self, dt):
-        if self.sprites:
+    def on_attach(self):
             self.add_sprite(self.title, 'text')
-            self.sprites = set()
 
     def on_key_press(self, symbol, modifiers):
         scene = Scene(self.master.controller, GameModel(), view.GameView())

@@ -7,7 +7,7 @@ from gensokyo.scene import Scene, SceneStack
 from gensokyo.controller import Controller
 
 from globals import WIDTH, HEIGHT, FPS
-from model import Menu
+from model import MenuModel
 from view import MenuView
 import resources
 
@@ -25,7 +25,7 @@ def main():
     stack = SceneStack(window)
 
     # init stuff
-    stack.push(Scene(Controller(), Menu(), MenuView()))
+    stack.push(Scene(Controller(), MenuModel(), MenuView()))
 
     pyglet.clock.schedule_interval(stack.update, 1./FPS)
     pyglet.clock.set_fps_limit(FPS)

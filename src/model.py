@@ -127,7 +127,7 @@ class GameModel(Model):
         return EVENT_HANDLED
 
 
-class Menu(Model):
+class MenuModel(Model):
 
     def __init__(self):
         self.title = Label(x=20, y=HEIGHT-30, text="Welcome to TouhouS",

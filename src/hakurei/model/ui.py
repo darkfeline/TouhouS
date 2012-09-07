@@ -5,7 +5,7 @@ from pyglet.text import Label
 from pyglet.sprite import Sprite
 from gensokyo.object import SpriteWrapper
 
-import resources
+from hakurei import resources
 
 class FPSDisplay(SpriteWrapper):
 

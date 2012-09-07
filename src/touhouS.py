@@ -6,10 +6,10 @@ from pyglet import gl
 from gensokyo.scene import Scene, SceneStack
 from gensokyo.controller import Controller
 
-from globals import WIDTH, HEIGHT, FPS
-from model import MenuModel
-from view import MenuView
-import resources
+from hakurei.globals import WIDTH, HEIGHT, FPS
+from hakurei.model import MenuModel
+from hakurei.view import MenuView
+from hakurei import resources
 
 def main():
     window = pyglet.window.Window(WIDTH, HEIGHT)

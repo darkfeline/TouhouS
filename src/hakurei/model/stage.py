@@ -3,9 +3,9 @@
 from gensokyo.object import SpriteWrapper
 from gensokyo.primitives import Vector
 
-from enemy import EnemyGroup, GenericEnemy
-from bullet import BulletGroup
-from globals import GAME_AREA
+from hakurei.model.enemy import EnemyGroup, GenericEnemy
+from hakurei.model.bullet import BulletGroup
+from hakurei.globals import GAME_AREA
 
 class Stage(SpriteWrapper):
 

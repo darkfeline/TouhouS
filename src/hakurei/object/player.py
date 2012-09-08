@@ -2,7 +2,7 @@
 
 from pyglet.window import key
 from pyglet.sprite import Sprite
-from gensokyo.object import GameObject, InputComponent
+from gensokyo.object import GameObject, PlayerInputComponent
 from gensokyo.primitives import Vector, Circle
 from gensokyo.object import SpriteWrapper
 
@@ -10,7 +10,7 @@ from hakurei.object.bullet import Bullet, BulletGroup
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 
-class Player(GameObject, InputComponent, SpriteWrapper):
+class Player(GameObject, PlayerInputComponent, SpriteWrapper):
 
     sprite_img = None
     sprite_group = 'player'
@@ -20,7 +20,7 @@ class Player(GameObject, InputComponent, SpriteWrapper):
 
     def __init__(self, x, y, hb=None):
         super().__init__(x, y, hb=hb)
-        InputComponent.__init__(self)
+        PlayerInputComponent.__init__(self)
         self._focus = 0
         self.speed_multiplier = 500
         self.focus_multiplier = 0.5
@@ -90,6 +90,7 @@ class Player(GameObject, InputComponent, SpriteWrapper):
 
     def update(self, dt):
         super().update(dt)
+        PlayerInputComponent.update(self, dt)
         # bound movement
         if self.right > GAME_AREA.right:
             self.right = GAME_AREA.right
@@ -148,4 +149,3 @@ class Reimu(Player):
             self.bullets.add(shot)
             self.shot_state -= period
             i += period
-

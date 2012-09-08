@@ -226,6 +226,7 @@ class Group:
         for a in self.objects:
             a.update(dt)
 
+
 class SpriteWrapper:
 
     def add_sprite(self, sprite, group):

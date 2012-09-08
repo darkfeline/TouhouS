@@ -82,7 +82,6 @@ class ShootingScene:
                 if self.lives > 1:
                     self.lives -= 1
                 else:
-                    self.master.dispatch_event('on_pop_scene')
                     return
 
         # enemy + player bullet

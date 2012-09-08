@@ -45,6 +45,10 @@ class PhysicsComponent:
     def collide(self, other):
         return self.hb.collide(other.hb)
 
+    def update(self, dt):
+        self.x += self.v.x * self.speed * dt
+        self.y += self.v.y * self.speed * dt
+
 
 class GraphicsComponent:
 

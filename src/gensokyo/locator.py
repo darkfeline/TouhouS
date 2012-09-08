@@ -2,4 +2,6 @@
 
 from gensokyo.graphics import NullRenderingService
 
+window = None
 rendering = NullRenderingService()
+key_state = None

@@ -4,12 +4,13 @@ from pyglet.window import key
 from pyglet.sprite import Sprite
 from gensokyo.object import GameObject, InputComponent
 from gensokyo.primitives import Vector, Circle
+from gensokyo.object import SpriteWrapper
 
-from hakurei.object.bullet import BulletGroup
+from hakurei.object.bullet import Bullet, BulletGroup
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 
-class Player(GameObject, InputComponent):
+class Player(GameObject, InputComponent, SpriteWrapper):
 
     sprite_img = None
     sprite_group = 'player'
@@ -107,7 +108,6 @@ class Player(GameObject, InputComponent):
             self.update_fire(dt)
         # bullet update
         self.bullets.update(dt)
-        self.add_sprites(self.bullets)
 
     def update_fire(self, dt):
         pass

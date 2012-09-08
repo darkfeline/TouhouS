@@ -3,8 +3,8 @@
 from gensokyo.object import SpriteWrapper
 from gensokyo.primitives import Vector
 
-from hakurei.model.enemy import EnemyGroup, GenericEnemy
-from hakurei.model.bullet import BulletGroup
+from hakurei.object.enemy import EnemyGroup, GenericEnemy
+from hakurei.object.bullet import BulletGroup
 from hakurei.globals import GAME_AREA
 
 class Stage(SpriteWrapper):

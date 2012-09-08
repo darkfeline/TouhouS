@@ -5,7 +5,7 @@ from pyglet.sprite import Sprite
 from gensokyo.object import Object
 from gensokyo.primitives import Vector
 
-from hakurei.model.bullet import BulletGroup
+from hakurei.object.bullet import BulletGroup
 from hakurei.globals import GAME_AREA
 
 class Player(Object):

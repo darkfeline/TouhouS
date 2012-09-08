@@ -2,8 +2,8 @@
 
 from gensokyo.primitives import Circle
 
-from hakurei.model.player import Player
-from hakurei.model.bullet import Bullet
+from hakurei.object.player import Player
+from hakurei.object.bullet import Bullet
 from hakurei import resources
 
 class ReimuShot(Bullet):

@@ -9,6 +9,8 @@ from gensokyo.game import Game
 
 from hakurei.globals import WIDTH, HEIGHT, FPS
 from hakurei import resources
+from hakurei.game import ShootingScene
+from hakurei.view import GameView
 
 def main():
     # window
@@ -32,10 +34,15 @@ def main():
 
     # graphics
     rendering = RenderingService()
+    window.push_handlers(rendering)
     locator.rendering = rendering
 
-    pyglet.clock.schedule_interval(stack.update, 1./FPS)
+    # clock
+    pyglet.clock.schedule_interval(locator.game.update, 1./FPS)
     pyglet.clock.set_fps_limit(FPS)
+
+    locator.rendering.push(GameView())
+    locator.game.push(ShootingScene())
 
     pyglet.app.run()
 

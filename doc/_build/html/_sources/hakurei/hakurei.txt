@@ -1,0 +1,42 @@
+hakurei Package
+===============
+
+:mod:`hakurei` Package
+----------------------
+
+.. automodule:: hakurei.__init__
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`globals` Module
+---------------------
+
+.. automodule:: hakurei.globals
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`resources` Module
+-----------------------
+
+.. automodule:: hakurei.resources
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`view` Module
+------------------
+
+.. automodule:: hakurei.view
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    hakurei.model
+

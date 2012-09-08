@@ -9,7 +9,12 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle, Vector
 from gensokyo import locator
 
-class PhysicsComponent:
+class AbstractComponent:
+
+    __metaclass__ = abc.ABCMeta
+
+
+class PhysicsComponent(AbstractComponent):
 
     def __init__(self, x, y, w, h, hb=None):
         self.hb = hb
@@ -91,7 +96,7 @@ class PhysicsComponent:
         self.y += self.v.y * self.speed * dt
 
 
-class GraphicsComponent:
+class GraphicsComponent(AbstractComponent):
 
     def __init__(self, sprite, group):
         locator.rendering.add_sprite(sprite, group)
@@ -117,7 +122,7 @@ class GraphicsComponent:
         self.sprite.delete()
 
 
-class InputComponent:
+class InputComponent(AbstractComponent):
 
     def __init__(self):
         locator.window.push_handlers(self)
@@ -126,7 +131,7 @@ class InputComponent:
         locator.window.remove_handlers(self)
 
 
-class PlayerInputComponent:
+class PlayerInputComponent(InputComponent):
 
     def update(self, dt):
         x = 0

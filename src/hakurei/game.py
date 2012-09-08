@@ -3,26 +3,21 @@
 from pyglet.window import key
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
-from gensokyo.scene import Scene
-from gensokyo.model import Model
 from gensokyo.primitives import Vector
 
-from hakurei.game.player.reimu import Reimu
-from hakurei.game.stage import StageOne
-from hakurei import view
+from hakurei.object.player import Reimu
+from hakurei.object.stage import StageOne
 from hakurei.object.ui import UI
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT, WIDTH
 
-class GameModel(Model):
+class ShootingScene:
 
     ui_class = UI
     player_class = Reimu
     stage_class = StageOne
 
     def __init__(self):
-
-        self.master = None
 
         cls = self.__class__
 
@@ -99,14 +94,10 @@ class GameModel(Model):
             if e.life < 0:
                 self.stage.enemies.delete(e)
 
-        self.add_sprites(self.ui)
-        self.add_sprites(self.player)
-        self.add_sprites(self.stage)
-
         return EVENT_HANDLED
 
 
-class MenuModel(Model):
+class MenuModel:
 
     def __init__(self):
         self.title = Label(x=20, y=HEIGHT-30, text="Welcome to TouhouS",

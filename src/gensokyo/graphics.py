@@ -4,25 +4,17 @@ import abc
 
 import pyglet
 from pyglet.event import EVENT_HANDLED
-from pyglet.graphics import OrderedGroup
+from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 
-class AbstractView:
+class AbstractRenderingService:
 
     __metaclass__ = abc.ABCMeta
 
-    @property
-    def master(self):
-        return self._master
-
-    @master.setter
-    def master(self, value):
-        self._master = value
-
     @abc.abstractmethod
-    def on_draw(self, sprite, group):
+    def on_draw(self):
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -30,38 +22,69 @@ class AbstractView:
         raise NotImplementedError
 
 
-class View(AbstractView):
+class NullRenderingService:
+
+    def on_draw(self):
+        return EVENT_HANDLED
+
+    def on_add_sprite(self, sprite, group):
+        return EVENT_HANDLED
+
+
+class RenderingService(AbstractRenderingService):
+
+    def __init__(self):
+        self.views = []
+
+    def push(self, view):
+        self.views.append(view)
+
+    def pop(self):
+        self.views.pop()
+        return EVENT_HANDLED
+
+    def on_draw(self):
+        self.views[-1].draw()
+        return EVENT_HANDLED
+
+    def add_sprite(self, sprite, group):
+        self.views[-1].add_sprite(sprite, group)
+
+
+class View:
 
     _map = tuple()
 
     def __init__(self):
-        self.batch = pyglet.graphics.Batch()
-        self.groups = dict(zip(self.__class__._map,
-            [OrderedGroup(i) for i in range(len(self.__class__._map))]))
+        self.batch = Batch()
+        self.groups = dict(zip(self.map, 
+            [OrderedGroup(i) for i in range(len(self.map))]))
         self.master = None
         self.labels = set()
 
-    def on_draw(self):
+    @property
+    def map(self):
+        return self.__class__._map
+
+    def draw(self):
         self.master.window.clear()
         self.batch.draw()
         for l in self.labels:
             l.draw()
-        return EVENT_HANDLED
 
-    def on_add_sprite(self, sprite, group):
+    def add_sprite(self, sprite, group):
         if isinstance(sprite, Label):
-            self.add_label(sprite, group)
+            self._add_label(sprite, group)
         else:
-            self.add_sprite(sprite, group)
-        return EVENT_HANDLED
+            self._add_sprite(sprite, group)
 
-    def add_label(self, label, group):
+    def _add_label(self, label, group):
         self.labels.add(label)
         #set_label_group(label, self.groups[group])
         #label.batch = self.batch
         #label._own_batch = False
 
-    def add_sprite(self, sprite, group):
+    def _add_sprite(self, sprite, group):
         try:
             sprite.group = self.groups[group]
         except AttributeError:  # sprite already deleted

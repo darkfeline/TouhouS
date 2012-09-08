@@ -125,15 +125,6 @@ class GameObject(PhysicsComponent, GraphicsComponent):
         GraphicsComponent.__init__(self, Sprite(cls.sprite_img),
                 cls.sprite_group)
 
-    @property
-    def x(self):
-        return self.physics.x
-
-    @x.setter
-    def x(self, value):
-        self.physics.x = value
-        self.graphics.x = value
-
     def delete(self):
         GraphicsComponent.delete(self)
 

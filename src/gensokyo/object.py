@@ -1,36 +1,21 @@
 #!/usr/bin/env python3
 
+import abc
+
+from pyglet.event import EventDispatcher
 from pyglet.sprite import Sprite
 
 from gensokyo import primitives
+from gensokyo import locator
 
-class SpriteWrapper:
+class PhysicsComponent:
 
-    def __init__(self):
-        self.sprites = set()
-
-    def add_sprite(self, sprite, group):
-        self.sprites.add((sprite, group))
-
-    def add_sprites(self, wrapper):
-        self.sprites = self.sprites | wrapper.sprites
-        wrapper.sprites = set()
-
-
-class Object(SpriteWrapper):
-
-    sprite_img = None
-    sprite_group = ''
-
-    def __init__(self, x, y, hb=None):
-        super().__init__()
-        cls = self.__class__
-        self.rect = primitives.Rect(0, 0, cls.sprite_img.width,
-                cls.sprite_img.height)
+    def __init__(self, x, y, w, h, hb=None):
         self.hb = hb
-        self.sprite = Sprite(cls.sprite_img)
-        self.add_sprite(self.sprite, cls.sprite_group)
-        self.x, self.y = x, y
+        self.rect = primitives.Rect(0, 0, w, h)
+        self.x = x
+        self.y = y
+        self.v = primitives.Vector(0, 0)
 
     @property
     def x(self):
@@ -43,7 +28,6 @@ class Object(SpriteWrapper):
             self.hb.x = value
         elif isinstance(self.hb, primitives.Rect):
             self.hb.centerx = value
-        self.sprite.x = value
 
     @property
     def y(self):
@@ -56,54 +40,73 @@ class Object(SpriteWrapper):
             self.hb.y = value
         elif isinstance(self.hb, primitives.Rect):
             self.hb.centery = value
+
+    def collide(self, other):
+        return self.hb.collide(other.hb)
+
+
+class GraphicsComponent:
+
+    def __init__(self, sprite, group):
+        locator.rendering.add_sprite(sprite, group)
+        self.sprite = sprite
+
+    @property
+    def x(self):
+        return self.sprite.x
+
+    @x.setter
+    def x(self, value):
+        self.sprite.x = value
+
+    @property
+    def y(self):
+        return self.sprite.y
+
+    @y.setter
+    def y(self, value):
         self.sprite.y = value
-
-    @property
-    def left(self):
-        return self.rect.left
-
-    @left.setter
-    def left(self, value):
-        self.rect.left = value
-
-    @property
-    def right(self):
-        return self.rect.right
-
-    @right.setter
-    def right(self, value):
-        self.rect.right = value
-
-    @property
-    def top(self):
-        return self.rect.top
-
-    @top.setter
-    def top(self, value):
-        self.rect.top = value
-
-    @property
-    def bottom(self):
-        return self.rect.bottom
-
-    @bottom.setter
-    def bottom(self, value):
-        self.rect.bottom = value
-
-    @property
-    def center(self):
-        return self.rect.center
-
-    @center.setter
-    def center(self, value):
-        self.rect.center = value
 
     def delete(self):
         self.sprite.delete()
 
+
+class InputComponent:
+
+    def __init__(self):
+        locator.window.push_handlers(self)
+
+    def delete(self):
+        locator.window.remove_handlers(self)
+
+
+class GameObject(PhysicsComponent, GraphicsComponent):
+
+    sprite_img = None
+    sprite_group = ''
+
+    def __init__(self, x, y, hb=None):
+        cls = self.__class__
+        PhysicsComponent.__init__(x, y, cls.sprite_img.width,
+                cls.sprite_img.height, hb)
+        GraphicsComponent.__init__(self, Sprite(cls.sprite_img),
+                cls.sprite_group)
+
+    @property
+    def x(self):
+        return self.physics.x
+
+    @x.setter
+    def x(self, value):
+        self.physics.x = value
+        self.graphics.x = value
+
+    def delete(self):
+        GraphicsComponent.delete(self)
+
     def collide(self, other):
-        if isinstance(other, Object):
-            return self.hb.collide(other.hb)
+        if isinstance(other, GameObject):
+            return PhysicsComponent.collide(self, other)
         elif isinstance(other, Group):
             x = []
             for object in other:
@@ -114,7 +117,7 @@ class Object(SpriteWrapper):
             raise NotImplementedError
 
 
-class Group(SpriteWrapper):
+class Group:
 
     def __init__(self):
         super().__init__()
@@ -125,11 +128,9 @@ class Group(SpriteWrapper):
 
     def add(self, object):
         self.objects.add(object)
-        self.add_sprites(object)
 
     def remove(self, object):
         self.objects.remove(object)
-        object.master = None
 
     def delete(self, object):
         self.objects.remove(object)

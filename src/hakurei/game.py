@@ -72,28 +72,7 @@ class GameModel(Model):
         self._bombs = value
         self.ui.bombs = value
 
-    def on_key_press(self, symbol, modifiers):
-        self.player.on_key_press(symbol, modifiers)
-        return EVENT_HANDLED
-
-    def on_key_release(self, symbol, modifiers):
-        self.player.on_key_release(symbol, modifiers)
-        return EVENT_HANDLED
-
-    def on_update(self, dt):
-
-        # player movement
-        x = 0
-        if self.master.controller[key.LEFT]:
-            x = -1
-        if self.master.controller[key.RIGHT]:
-            x += 1
-        y = 0
-        if self.master.controller[key.DOWN]:
-            y = -1
-        if self.master.controller[key.UP]:
-            y += 1
-        self.player.v = Vector(x, y).get_unit_vector()
+    def update(self, dt):
 
         self.ui.update(dt)
         self.player.update(dt)

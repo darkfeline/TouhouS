@@ -120,7 +120,7 @@ class GameObject(PhysicsComponent, GraphicsComponent):
 
     def __init__(self, x, y, hb=None):
         cls = self.__class__
-        PhysicsComponent.__init__(x, y, cls.sprite_img.width,
+        PhysicsComponent.__init__(self, x, y, cls.sprite_img.width,
                 cls.sprite_img.height, hb)
         GraphicsComponent.__init__(self, Sprite(cls.sprite_img),
                 cls.sprite_group)

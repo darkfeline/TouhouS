@@ -43,7 +43,6 @@ class RenderingService(AbstractRenderingService):
 
     def pop(self):
         self.views.pop()
-        return EVENT_HANDLED
 
     def on_draw(self):
         locator.window.clear()

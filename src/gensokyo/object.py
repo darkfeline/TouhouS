@@ -14,15 +14,12 @@ class AbstractComponent:
     __metaclass__ = abc.ABCMeta
 
 
-class PhysicsComponent(AbstractComponent):
+class CollisionComponent(AbstractComponent):
 
-    def __init__(self, x, y, w, h, hb=None):
-        self.hb = hb
-        self.rect = Rect(0, 0, w, h)
+    def __init__(self, x, y, w, h):
+        self.hb = Rect(0, 0, w, h)
         self.x = x
         self.y = y
-        self.v = Vector(0, 0)
-        self.speed = 0
 
     @property
     def x(self):
@@ -30,7 +27,6 @@ class PhysicsComponent(AbstractComponent):
 
     @x.setter
     def x(self, value):
-        self.rect.centerx = value
         if isinstance(self.hb, Circle):
             self.hb.x = value
         elif isinstance(self.hb, Rect):
@@ -42,7 +38,6 @@ class PhysicsComponent(AbstractComponent):
 
     @y.setter
     def y(self, value):
-        self.rect.centery = value
         if isinstance(self.hb, Circle):
             self.hb.y = value
         elif isinstance(self.hb, Rect):
@@ -91,6 +86,15 @@ class PhysicsComponent(AbstractComponent):
     def collide(self, other):
         return self.hb.collide(other.hb)
 
+
+class PhysicsComponent(AbstractComponent):
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.v = Vector(0, 0)
+        self.speed = 0
+
     def update(self, dt):
         self.x += self.v.x * self.speed * dt
         self.y += self.v.y * self.speed * dt
@@ -98,7 +102,8 @@ class PhysicsComponent(AbstractComponent):
 
 class GraphicsComponent(AbstractComponent):
 
-    def __init__(self, sprite, group):
+    def __init__(self, group, *args, **kwargs):
+        sprite = Sprite(*args, **kwargs)
         locator.rendering.add_sprite(sprite, group)
         self.sprite = sprite
 
@@ -159,42 +164,24 @@ class PlayerInputComponent(InputComponent):
             self.shooting = 0
 
 
-class GameObject(PhysicsComponent, GraphicsComponent):
+class GameObject:
 
     sprite_img = None
     sprite_group = ''
 
     def __init__(self, x, y, hb=None):
         cls = self.__class__
-        PhysicsComponent.__init__(self, x, y, cls.sprite_img.width,
-                cls.sprite_img.height, hb)
-        GraphicsComponent.__init__(self, Sprite(cls.sprite_img),
-                cls.sprite_group)
-
-    @property
-    def x(self):
-        return PhysicsComponent.x.fget(self)
-
-    @x.setter
-    def x(self, value):
-        PhysicsComponent.x.fset(self, value)
-        GraphicsComponent.x.fset(self, value)
-
-    @property
-    def y(self):
-        return PhysicsComponent.y.fget(self)
-
-    @y.setter
-    def y(self, value):
-        PhysicsComponent.y.fset(self, value)
-        GraphicsComponent.y.fset(self, value)
+        self.physics = PhysicsComponent(x, y)
+        self.collision = CollisionComponent(x, y, cls.sprite_img.width,
+                cls.sprite_img.height)
+        self.graphics = graphics(self, cls.sprite_group, img=cls.sprite_img)
 
     def delete(self):
-        GraphicsComponent.delete(self)
+        self.graphics.delete()
 
     def collide(self, other):
         if isinstance(other, GameObject):
-            return PhysicsComponent.collide(self, other)
+            return self.physics.collide(self, other.physics)
         elif isinstance(other, Group):
             x = []
             for object in other:
@@ -243,9 +230,3 @@ class Group:
     def update(self, dt):
         for a in self.objects:
             a.update(dt)
-
-
-class SpriteWrapper:
-
-    def add_sprite(self, sprite, group):
-        locator.rendering.add_sprite(sprite, group)

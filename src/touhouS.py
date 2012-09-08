@@ -5,6 +5,7 @@ from pyglet.window.key import KeyStateHandler
 from pyglet import gl
 from gensokyo import locator
 from gensokyo.graphics import RenderingService
+from gensokyo.game import Game
 
 from hakurei.globals import WIDTH, HEIGHT, FPS
 from hakurei import resources
@@ -19,6 +20,10 @@ def main():
     # Transparency
     gl.glEnable(gl.GL_BLEND)
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+
+    # game
+    game = Game()
+    locator.game = game
 
     # key_state
     keys = KeyStateHandler()

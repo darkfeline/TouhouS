@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-from gensokyo.graphics import NullRenderingService
-from gensokyo.game import Game
-
 window = None
-rendering = NullRenderingService()
+rendering = None
 key_state = None
-game = Game()
+game = None

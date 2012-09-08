@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-from gensokyo.object import SpriteWrapper
 from gensokyo.primitives import Vector
 
 from hakurei.object.enemy import EnemyGroup, GenericEnemy
 from hakurei.object.bullet import BulletGroup
 from hakurei.globals import GAME_AREA
 
-class Stage(SpriteWrapper):
+class Stage:
 
     def __init__(self):
         super().__init__()
@@ -18,8 +17,6 @@ class Stage(SpriteWrapper):
     def update(self, dt):
         self.enemies.update(dt)
         self.bullets.update(dt)
-        self.add_sprites(self.enemies)
-        self.add_sprites(self.bullets)
 
 
 class Enemy(GenericEnemy):

@@ -9,6 +9,8 @@ from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 
+from gensokyo import locator
+
 class AbstractRenderingService:
 
     __metaclass__ = abc.ABCMeta
@@ -44,6 +46,7 @@ class RenderingService(AbstractRenderingService):
         return EVENT_HANDLED
 
     def on_draw(self):
+        locator.window.clear()
         self.views[-1].draw()
         return EVENT_HANDLED
 
@@ -67,7 +70,6 @@ class View:
         return self.__class__._map
 
     def draw(self):
-        self.master.window.clear()
         self.batch.draw()
         for l in self.labels:
             l.draw()

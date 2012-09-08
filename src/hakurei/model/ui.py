@@ -5,7 +5,7 @@ from pyglet.text import Label
 from pyglet.sprite import Sprite
 from gensokyo.object import SpriteWrapper
 
-import resources
+from hakurei import resources
 
 class FPSDisplay(SpriteWrapper):
 
@@ -216,16 +216,12 @@ class UI(SpriteWrapper):
         for k in self.label.keys():
             self.add_sprites(self.label[k])
 
-x = []
 for k in UI._counters.keys():
     def get(self, k=k):
         return getattr(self, '_' + k)
     def set(self, value, k=k):
         setattr(self, '_' + k, value)
         self.label[k].value = value
-    x.append((k, property(get, set)))
-for name, prop in x:
-    setattr(UI, name, prop)
-del x
+    setattr(UI, k, property(get, set))
 del set
 del get

@@ -34,6 +34,8 @@ class SceneStack(EventDispatcher):
         self.window.push_handlers(scene.controller)
         self.window.push_handlers(scene.view)
 
+        self.dispatch_event('on_attach')
+
     def pop(self):
 
         scene = self.stack.pop()
@@ -61,6 +63,7 @@ SceneStack.register_event_type('on_key_release')
 SceneStack.register_event_type('on_add_sprite')
 SceneStack.register_event_type('on_push_scene')
 SceneStack.register_event_type('on_pop_scene')
+SceneStack.register_event_type('on_attach')
 
 
 class Scene:

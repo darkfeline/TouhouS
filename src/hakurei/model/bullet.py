@@ -5,8 +5,8 @@ import pyglet
 from gensokyo.object import Object, Group
 from gensokyo.primitives import Vector, Circle
 
-from globals import GAME_AREA
-import resources
+from hakurei.globals import GAME_AREA
+from hakurei import resources
 
 class BulletGroup(Group):
 

@@ -1,0 +1,19 @@
+player Package
+==============
+
+:mod:`player` Package
+---------------------
+
+.. automodule:: hakurei.model.player
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`reimu` Module
+-------------------
+
+.. automodule:: hakurei.model.player.reimu
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

@@ -16,6 +16,7 @@ class PhysicsComponent:
         self.x = x
         self.y = y
         self.v = primitives.Vector(0, 0)
+        self.speed = 0
 
     @property
     def x(self):

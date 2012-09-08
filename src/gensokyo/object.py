@@ -171,6 +171,24 @@ class GameObject(PhysicsComponent, GraphicsComponent):
         GraphicsComponent.__init__(self, Sprite(cls.sprite_img),
                 cls.sprite_group)
 
+    @property
+    def x(self):
+        return PhysicsComponent.x.fget(self)
+
+    @x.setter
+    def x(self, value):
+        PhysicsComponent.x.fset(self, value)
+        GraphicsComponent.x.fset(self, value)
+
+    @property
+    def y(self):
+        return PhysicsComponent.y.fget(self)
+
+    @y.setter
+    def y(self, value):
+        PhysicsComponent.y.fset(self, value)
+        GraphicsComponent.y.fset(self, value)
+
     def delete(self):
         GraphicsComponent.delete(self)
 

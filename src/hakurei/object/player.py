@@ -58,6 +58,10 @@ class Player(GameObject, InputComponent):
         else:
             return self.speed_multiplier
 
+    @speed.setter
+    def speed(self, value):
+        self.speed_multiplier = value
+
     @property
     def focus(self):
         return int(self._focus)

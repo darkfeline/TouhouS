@@ -2,14 +2,14 @@
 
 from pyglet.window import key
 from pyglet.sprite import Sprite
-from gensokyo.object import Object
+from gensokyo.object import GameObject, InputComponent
 from gensokyo.primitives import Vector, Circle
 
 from hakurei.object.bullet import BulletGroup
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 
-class Player(Object):
+class Player(GameObject, InputComponent):
 
     sprite_img = None
     sprite_group = 'player'
@@ -19,6 +19,7 @@ class Player(Object):
 
     def __init__(self, x, y, hb=None):
         super().__init__(x, y, hb=hb)
+        InputComponent.__init__(self)
         self._focus = 0
         self.speed_multiplier = 500
         self.focus_multiplier = 0.5
@@ -82,22 +83,8 @@ class Player(Object):
             self.invuln += Player._die_invuln
             return 0
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            self.focus = 1
-        elif symbol == key.Z:
-            self.shooting = 1
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            self.focus = 0
-        elif symbol == key.Z:
-            self.shooting = 0
-
     def update(self, dt):
-        # movement
-        self.x += self.speed * self.v.x * dt
-        self.y += self.speed * self.v.y * dt
+        super().update(dt)
         # bound movement
         if self.right > GAME_AREA.right:
             self.right = GAME_AREA.right

@@ -2,7 +2,7 @@
 
 import pyglet
 
-from gensokyo.object import Object, Group
+from gensokyo.object import GameObject, Group
 from gensokyo.primitives import Vector
 
 from hakurei.object.bullet import BulletGroup
@@ -29,7 +29,7 @@ class EnemyGroup(Group):
             enemy.bullets = self.bullets
 
 
-class Enemy(Object):
+class Enemy(GameObject):
 
     sprite_group = 'enemy'
 

@@ -2,7 +2,7 @@
 
 import pyglet
 
-from gensokyo.object import Object, Group
+from gensokyo.object import GameObject, Group
 from gensokyo.primitives import Vector, Circle
 
 from hakurei.globals import GAME_AREA
@@ -31,7 +31,7 @@ class BulletGroup(Group):
         self.bullets = temp
 
 
-class Bullet(Object):
+class Bullet(GameObject):
 
     sprite_group = 'enemy_bullet'
 

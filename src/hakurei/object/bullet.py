@@ -49,10 +49,6 @@ class Bullet(Object):
     def vector(self, value):
         self._vector = value.get_unit_vector()
 
-    def update(self, dt):
-        self.x += self.speed * self.vector.x * dt
-        self.y += self.speed * self.vector.y * dt
-
 
 class RoundBullet(Bullet):
 

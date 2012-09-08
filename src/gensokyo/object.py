@@ -2,20 +2,21 @@
 
 import abc
 
+from pyglet.window import key
 from pyglet.event import EventDispatcher
 from pyglet.sprite import Sprite
 
-from gensokyo import primitives
+from gensokyo.primitives import Rect, Circle, Vector
 from gensokyo import locator
 
 class PhysicsComponent:
 
     def __init__(self, x, y, w, h, hb=None):
         self.hb = hb
-        self.rect = primitives.Rect(0, 0, w, h)
+        self.rect = Rect(0, 0, w, h)
         self.x = x
         self.y = y
-        self.v = primitives.Vector(0, 0)
+        self.v = Vector(0, 0)
         self.speed = 0
 
     @property
@@ -25,9 +26,9 @@ class PhysicsComponent:
     @x.setter
     def x(self, value):
         self.rect.centerx = value
-        if isinstance(self.hb, primitives.Circle):
+        if isinstance(self.hb, Circle):
             self.hb.x = value
-        elif isinstance(self.hb, primitives.Rect):
+        elif isinstance(self.hb, Rect):
             self.hb.centerx = value
 
     @property
@@ -37,9 +38,9 @@ class PhysicsComponent:
     @y.setter
     def y(self, value):
         self.rect.centery = value
-        if isinstance(self.hb, primitives.Circle):
+        if isinstance(self.hb, Circle):
             self.hb.y = value
-        elif isinstance(self.hb, primitives.Rect):
+        elif isinstance(self.hb, Rect):
             self.hb.centery = value
 
     @property

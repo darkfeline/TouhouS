@@ -5,8 +5,8 @@ class Game:
     def __init__(self):
         self.stack = []
 
-    def push(self, scene):
-        self.stack.append(scene)
+    def push(self, model):
+        self.stack.append(model)
 
     def pop(self):
         return self.stack.pop()

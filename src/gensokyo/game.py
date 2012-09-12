@@ -5,6 +5,10 @@ class Game:
     def __init__(self):
         self.stack = []
 
+    @property
+    def top(self):
+        return self.stack[-1]
+
     def push(self, model):
         self.stack.append(model)
 
@@ -12,4 +16,4 @@ class Game:
         return self.stack.pop()
 
     def update(self, dt):
-        self.stack[-1].update(dt)
+        self.top.update(dt)

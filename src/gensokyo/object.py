@@ -23,9 +23,10 @@ class AbstractComponent:
 
 class CollisionComponent(AbstractComponent):
 
-    def __init__(self, master, x, y, w, h):
+    def __init__(self, master, x, y, w, h, hb):
         super().__init__(master)
-        self.hb = Rect(0, 0, w, h)
+        self.rect = Rect(0, 0, w, h)
+        self.hb = hb
         self.x = x
         self.y = y
 
@@ -35,6 +36,7 @@ class CollisionComponent(AbstractComponent):
 
     @x.setter
     def x(self, value):
+        self.rect.centerx = value
         if isinstance(self.hb, Circle):
             self.hb.x = value
         elif isinstance(self.hb, Rect):
@@ -46,6 +48,7 @@ class CollisionComponent(AbstractComponent):
 
     @y.setter
     def y(self, value):
+        self.rect.centery = value
         if isinstance(self.hb, Circle):
             self.hb.y = value
         elif isinstance(self.hb, Rect):

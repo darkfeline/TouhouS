@@ -165,6 +165,9 @@ class GameObject:
         else:
             raise NotImplementedError
 
+    def update(self, dt):
+        self.physics.update(dt)
+
 
 class Group:
 

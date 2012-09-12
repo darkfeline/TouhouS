@@ -13,10 +13,18 @@ class AbstractComponent:
 
     __metaclass__ = abc.ABCMeta
 
+    def __init__(self, master):
+        self._master = master
+
+    @property
+    def master(self):
+        return self._master
+
 
 class CollisionComponent(AbstractComponent):
 
-    def __init__(self, x, y, w, h):
+    def __init__(self, master, x, y, w, h):
+        super().__init__(master)
         self.hb = Rect(0, 0, w, h)
         self.x = x
         self.y = y
@@ -89,7 +97,8 @@ class CollisionComponent(AbstractComponent):
 
 class PhysicsComponent(AbstractComponent):
 
-    def __init__(self, x, y):
+    def __init__(self, master, x, y):
+        super().__init__(master)
         self.x = x
         self.y = y
         self.v = Vector(0, 0)
@@ -102,7 +111,8 @@ class PhysicsComponent(AbstractComponent):
 
 class GraphicsComponent(AbstractComponent):
 
-    def __init__(self, group, *args, **kwargs):
+    def __init__(self, master, group, *args, **kwargs):
+        super().__init__(master)
         sprite = Sprite(*args, **kwargs)
         locator.rendering.add_sprite(sprite, group)
         self.sprite = sprite
@@ -129,7 +139,8 @@ class GraphicsComponent(AbstractComponent):
 
 class InputComponent(AbstractComponent):
 
-    def __init__(self):
+    def __init__(self, master):
+        super().__init__(master)
         locator.window.push_handlers(self)
 
     def delete(self):

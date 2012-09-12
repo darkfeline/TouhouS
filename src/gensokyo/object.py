@@ -9,6 +9,17 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle, Vector
 from gensokyo import locator
 
+class AbstractContainer:
+
+    __metaclass__ = abc.ABCMeta
+
+    def __init__(self):
+        self.components = set()
+
+    def add(self, c):
+        self.components.add(c)
+
+
 class AbstractComponent:
 
     __metaclass__ = abc.ABCMeta
@@ -50,17 +61,18 @@ class CollisionComponent(AbstractComponent):
         return self.hb.collide(other.hb)
 
 
-class PhysicsComponent(AbstractComponent):
+class PhysicsComponent(AbstractComponent, EventDispatcher):
 
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self):
         self.v = Vector(0, 0)
         self.speed = 0
 
     def update(self, dt):
-        self.x += self.v.x * self.speed * dt
-        self.y += self.v.y * self.speed * dt
+        self.dispatch_event('on_dx', self.v.x * self.speed * dt)
+        self.dispatch_event('on_dy', self.v.y * self.speed * dt)
+
+PhysicsComponent.register_event_type('on_dx')
+PhysicsComponent.register_event_type('on_dy')
 
 
 class GraphicsComponent(AbstractComponent):
@@ -89,6 +101,12 @@ class GraphicsComponent(AbstractComponent):
     def delete(self):
         self.sprite.delete()
 
+    def on_dx(self, dx):
+        self.x += dx
+
+    def on_dy(self, dy):
+        self.y += dy
+
 
 class InputComponent(AbstractComponent):
 
@@ -101,7 +119,7 @@ class InputComponent(AbstractComponent):
 
 class PlayerInputComponent(InputComponent):
 
-    def update(self, dt):
+    def on_update(self, dt):
         x = 0
         if locator.key_state[key.LEFT]:
             x = -1
@@ -112,32 +130,37 @@ class PlayerInputComponent(InputComponent):
             y = -1
         if locator.key_state[key.UP]:
             y += 1
-        self.v = Vector(x, y).get_unit_vector()
+        Vector(x, y).get_unit_vector()
 
-    def on_key_press(self, symbol, modifiers):
+    def key_press(self, symbol, modifiers):
         if symbol == key.LSHIFT:
             self.focus = 1
         elif symbol == key.Z:
             self.shooting = 1
 
-    def on_key_release(self, symbol, modifiers):
+    def key_release(self, symbol, modifiers):
         if symbol == key.LSHIFT:
             self.focus = 0
         elif symbol == key.Z:
             self.shooting = 0
 
 
-class GameObject:
+class GameObject(AbstractContainer):
 
     sprite_img = None
     sprite_group = ''
 
     def __init__(self, x, y, hb=None):
+        self.__init__()
         cls = self.__class__
-        self.physics = PhysicsComponent(x, y)
-        self.collision = CollisionComponent(x, y, cls.sprite_img.width,
+        p = PhysicsComponent()
+        c = CollisionComponent(x, y, cls.sprite_img.width,
                 cls.sprite_img.height)
-        self.graphics = graphics(self, cls.sprite_group, img=cls.sprite_img)
+        g = GraphicsComponent(cls.sprite_group, img=cls.sprite_img)
+        p.push_handlers(g)
+        self.add(p)
+        self.add(c)
+        self.add(g)
 
     def delete(self):
         self.graphics.delete()

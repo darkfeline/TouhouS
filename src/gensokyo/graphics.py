@@ -24,15 +24,6 @@ class AbstractRenderingService:
         raise NotImplementedError
 
 
-class NullRenderingService:
-
-    def on_draw(self):
-        return EVENT_HANDLED
-
-    def on_add_sprite(self, sprite, group):
-        return EVENT_HANDLED
-
-
 class RenderingService(AbstractRenderingService):
 
     def __init__(self):

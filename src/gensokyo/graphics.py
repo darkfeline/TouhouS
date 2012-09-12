@@ -52,7 +52,6 @@ class View:
         self.batch = Batch()
         self.groups = dict(zip(self.map, 
             [OrderedGroup(i) for i in range(len(self.map))]))
-        self.master = None
         self.labels = set()
 
     @property

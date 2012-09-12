@@ -33,7 +33,7 @@ class RenderingService(AbstractRenderingService):
         self.views.append(view)
 
     def pop(self):
-        self.views.pop()
+        return self.views.pop()
 
     def on_draw(self):
         locator.window.clear()

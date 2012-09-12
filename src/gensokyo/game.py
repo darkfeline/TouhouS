@@ -9,7 +9,7 @@ class Game:
         self.stack.append(scene)
 
     def pop(self):
-        self.stack.pop()
+        return self.stack.pop()
 
     def update(self, dt):
         self.stack[-1].update(dt)

@@ -51,46 +51,6 @@ class CollisionComponent(AbstractComponent):
         elif isinstance(self.hb, Rect):
             self.hb.centery = value
 
-    @property
-    def right(self):
-        return self.rect.right
-
-    @right.setter
-    def right(self, value):
-        self.rect.right = value
-
-    @property
-    def left(self):
-        return self.rect.left
-
-    @left.setter
-    def left(self, value):
-        self.rect.left = value
-
-    @property
-    def top(self):
-        return self.rect.top
-
-    @top.setter
-    def top(self, value):
-        self.rect.top = value
-
-    @property
-    def bottom(self):
-        return self.rect.bottom
-
-    @bottom.setter
-    def bottom(self, value):
-        self.rect.bottom = value
-
-    @property
-    def center(self):
-        return self.rect.center
-
-    @center.setter
-    def center(self, value):
-        self.rect.center = value
-
     def collide(self, other):
         return self.hb.collide(other.hb)
 

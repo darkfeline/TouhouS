@@ -1,23 +1,41 @@
 #!/usr/bin/env python3
 
-import weakref
+from weakref import WeakKeyDictionary
 
 from pyglet.event import EventDispatcher
 
 class CollisionManager(EventDispatcher):
 
-    def __init__(self):
-        self.components = []
+    """
+    {
+        class: {
+            component: {
+                type: method,
+                ...
+            },
+            ...
+        }
+    }
+    self.components[class][component][type] = method
+    component.method(other)
 
-    def add(self, component, type, method):
-        self.components.append((weakref.ref(component), type, method))
+    """
+
+    def __init__(self):
+        self.components = {}
+
+    def add(self, component, handlers):
+        cls = component.__class__
+        if cls not in self.components.keys():
+            self.components[cls] = WeakKeyDictionary()
+        self.components[cls][component] = handlers
 
     def update(self, dt):
-        items = self.components[:]
-        for ac, at, am in items:
-            for bc, bt, bm in items:
-                if a.collide(b):
-                    if isinstance(bc, at) and af is not None:
-                        af(a)
-                    if isinstance(ac, bt) and bf is not None:
-                        bf(b)
+        c = self.components
+        items = ((comp, c[cls][comp]) for cls in c.keys()
+                for comp in c[cls].keys())
+        for comp, hands in items:
+            for type, meth in hands.items():
+                for other_comp in (comp for comp in c[type].keys()):
+                    if comp.collide(other_comp):
+                        meth(comp, other_comp)

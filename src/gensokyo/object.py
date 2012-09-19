@@ -11,6 +11,14 @@ from gensokyo import locator
 
 class AbstractContainer:
 
+    """
+    Abstract Container for Components
+
+    Keeps a reference to components to keep alive.
+    Propagates updates to components with update method.
+
+    """
+
     __metaclass__ = abc.ABCMeta
 
     def __init__(self):

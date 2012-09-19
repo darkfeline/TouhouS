@@ -140,6 +140,20 @@ class InputComponent(AbstractComponent):
         locator.window.remove_handlers(self)
 
 
+class AIComponent(AbstractComponent, EventDispatcher):
+
+    """
+    Abstract AI Component
+
+    There's not much to put here...
+    Most likely you'll have this handle and dispatch events.
+    You'll have to implement that yourself.
+
+    """
+
+    pass
+
+
 class GameObject(AbstractContainer):
 
     """

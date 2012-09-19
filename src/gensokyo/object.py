@@ -37,6 +37,7 @@ class CollisionComponent(AbstractComponent):
         self.hb = hb
         self.x = x
         self.y = y
+        locator.add(self)
 
     @property
     def x(self):
@@ -67,9 +68,6 @@ class CollisionComponent(AbstractComponent):
 
     def on_dy(self, dy):
         self.y += dy
-
-    def collide(self, other):
-        return self.hb.collide(other.hb)
 
 
 class PhysicsComponent(AbstractComponent, EventDispatcher):
@@ -183,18 +181,6 @@ class GameObject(AbstractContainer):
     def delete(self):
         self.graphics.delete()
 
-    def collide(self, other):
-        if isinstance(other, GameObject):
-            return self.physics.collide(self, other.physics)
-        elif isinstance(other, Group):
-            x = []
-            for object in other:
-                if self.collide(object):
-                    x.append(object)
-            return x
-        else:
-            raise NotImplementedError
-
 
 class Group:
 
@@ -217,19 +203,6 @@ class Group:
 
     def __iter__(self):
         return iter(self.objects)
-
-    def collide(self, other):
-        if isinstance(other, GameObject):
-            return other.collide(self)
-        elif isinstance(other, Group):
-            x = {}
-            for a in self:
-                y = a.collide(other)
-                if y:
-                    x[a] = y
-            return x
-        else:
-            raise NotImplementedError
 
     def update(self, dt):
         for a in self.objects:

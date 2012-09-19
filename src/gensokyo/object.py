@@ -30,7 +30,7 @@ class AbstractComponent:
     __metaclass__ = abc.ABCMeta
 
 
-class CollisionComponent(AbstractComponent):
+class CollisionComponent(AbstractComponent, EventDispatcher):
 
     def __init__(self, x, y, w, h, hb):
         self.rect = Rect(0, 0, w, h)

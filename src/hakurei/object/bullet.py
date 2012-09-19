@@ -4,8 +4,10 @@ import pyglet
 
 from gensokyo.primitives import Vector, Circle
 from gensokyo.object import AbstractContainer
+from gensokyo.object import CollisionComponent
 
 from hakurei.globals import GAME_AREA
+from hakurei.object.player import PlayerCollisionComponent
 from hakurei import resources
 
 class BulletGroup(Group):
@@ -30,6 +32,19 @@ class BulletGroup(Group):
                 temp.add(b)
         self.bullets = temp
 
+
+class BulletCollisionComponent(CollisionComponent):
+
+    def __init__(self, x, y, w, h, hb):
+        super().__init__(x, y, w, h, hb)
+        self.handlers = {PlayerCollisionComponent:self.die}
+
+    def die(self):
+        self.dispatch_event('on_delete')
+        self.dispatch_event('on_remove', self)
+
+BulletCollisionComponent.register_event_type('on_delete')
+BulletCollisionComponent.register_event_type('on_remove')
 
 
 class Bullet(AbstractContainer):

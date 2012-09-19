@@ -168,6 +168,9 @@ class GameObject(AbstractContainer):
         c = CollisionComponent(x, y, cls.sprite_img.width,
                 cls.sprite_img.height)
         g = GraphicsComponent(cls.sprite_group, img=cls.sprite_img)
+
+        self.graphics = g
+
         p.push_handlers(g)
         p.push_handlers(c)
 

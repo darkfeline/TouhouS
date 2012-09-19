@@ -162,7 +162,9 @@ class GameObject(AbstractContainer):
     sprite_group = ''
 
     def __init__(self, x, y, hb=None):
+
         self.__init__()
+
         cls = self.__class__
         p = PhysicsComponent()
         c = CollisionComponent(x, y, cls.sprite_img.width,

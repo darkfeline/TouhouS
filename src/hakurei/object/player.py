@@ -2,13 +2,41 @@
 
 from pyglet.window import key
 from pyglet.sprite import Sprite
-from gensokyo.object import GameObject, PlayerInputComponent
+from gensokyo.object import GameObject, InputComponent
 from gensokyo.primitives import Vector, Circle
 from gensokyo.object import SpriteWrapper
 
 from hakurei.object.bullet import Bullet, BulletGroup
 from hakurei.globals import GAME_AREA
 from hakurei import resources
+
+class PlayerInputComponent(InputComponent):
+
+    def on_update(self, dt):
+        x = 0
+        if locator.key_state[key.LEFT]:
+            x = -1
+        if locator.key_state[key.RIGHT]:
+            x += 1
+        y = 0
+        if locator.key_state[key.DOWN]:
+            y = -1
+        if locator.key_state[key.UP]:
+            y += 1
+        Vector(x, y).get_unit_vector()
+
+    def key_press(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            self.focus = 1
+        elif symbol == key.Z:
+            self.shooting = 1
+
+    def key_release(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            self.focus = 0
+        elif symbol == key.Z:
+            self.shooting = 0
+
 
 class Player(GameObject, PlayerInputComponent, SpriteWrapper):
 

@@ -19,6 +19,11 @@ class AbstractContainer:
     def add(self, c):
         self.components.add(c)
 
+    def update(self, dt):
+        for c in self.components:
+            if hasattr(c, 'update'):
+                c.update(dt)
+
 
 class AbstractComponent:
 
@@ -176,9 +181,6 @@ class GameObject(AbstractContainer):
             return x
         else:
             raise NotImplementedError
-
-    def update(self, dt):
-        self.physics.update(dt)
 
 
 class Group:

@@ -3,9 +3,17 @@
 import pyglet
 from pyglet.text import Label
 from pyglet.sprite import Sprite
-from gensokyo.object import SpriteWrapper
+from gensokyo import locator
 
 from hakurei import resources
+
+class SpriteWrapper
+
+    """Simple superclass which provides easy sprite registering"""
+
+    def add_sprite(self, sprite, group):
+        locator.rendering.add_sprite(sprite, group)
+
 
 class FPSDisplay(SpriteWrapper):
 

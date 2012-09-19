@@ -30,7 +30,19 @@ class CollisionManager:
     def __init__(self):
         self.components = {}
 
-    def add(self, component, handlers):
+    def add(self, component):
+        """Adds handlers of component.
+
+        First checks for instance attribute chandlers and adds handlers if has.
+        Else checks for class attribute chandlers.
+
+        """
+        if hasattr(component, 'chandlers'):
+            self.add_handlers(component, component.chandlers)
+        elif hasattr(component.__class__, 'chandlers'):
+            self.add_handlers(component, component.__class__chandlers)
+
+    def add_handlers(self, component, handlers):
         """
         handlers = {class: method,...}
         """

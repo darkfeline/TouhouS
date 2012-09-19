@@ -5,6 +5,8 @@ import pyglet
 from gensokyo.primitives import Vector, Circle
 from gensokyo.object import AbstractContainer
 from gensokyo.object import CollisionComponent
+from gensokyo.object import PhysicsComponent
+from gensokyo.object import GraphicsComponent
 
 from hakurei.globals import GAME_AREA
 from hakurei.object.player import PlayerCollisionComponent

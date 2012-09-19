@@ -4,6 +4,11 @@ from pyglet.event import EventDispatcher
 
 class Game:
 
+    """
+    Game stack.
+
+    """
+
     def __init__(self):
         self.stack = []
 

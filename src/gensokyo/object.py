@@ -142,6 +142,13 @@ class InputComponent(AbstractComponent):
 
 class GameObject(AbstractContainer):
 
+    """
+    Example GameObject implementation
+
+    You'll most likely overwrite __init__
+
+    """
+
     sprite_img = None
     sprite_group = ''
 

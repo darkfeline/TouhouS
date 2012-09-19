@@ -16,7 +16,7 @@ class CollisionManager(EventDispatcher):
             ...
         }
     }
-    self.components[class][component][type] = method
+    self.components[class][component][other_class] = method
     component.method(other)
 
     """
@@ -25,6 +25,9 @@ class CollisionManager(EventDispatcher):
         self.components = {}
 
     def add(self, component, handlers):
+        """
+        handlers = {class: method,...}
+        """
         cls = component.__class__
         if cls not in self.components.keys():
             self.components[cls] = WeakKeyDictionary()

@@ -5,6 +5,13 @@ from weakref import WeakKeyDictionary
 class CollisionManager:
 
     """
+    Collision Manager
+
+    On every tick/update, checks all added collision components for collisions.
+    Uses weak references so components garbage collect normally.
+    Each component is associated with a dictionary of collision handlers.
+    The key is the class whose collision against triggers the handler.
+
     {
         class: {
             component: {
@@ -14,6 +21,7 @@ class CollisionManager:
             ...
         }
     }
+
     self.components[class][component][other_class] = method
     component.method(other)
 

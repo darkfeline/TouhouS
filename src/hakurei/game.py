@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from pyglet.window import key
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
 from gensokyo.primitives import Vector

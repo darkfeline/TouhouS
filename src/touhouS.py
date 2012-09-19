@@ -6,6 +6,7 @@ from pyglet import gl
 from gensokyo import locator
 from gensokyo.graphics import RenderingService
 from gensokyo.game import Game
+from gensokyo.collision import CollisionManager
 
 from hakurei.globals import WIDTH, HEIGHT, FPS
 from hakurei import resources
@@ -36,6 +37,10 @@ def main():
     rendering = RenderingService()
     window.push_handlers(rendering)
     locator.rendering = rendering
+
+    # collision
+    collision = CollisionManager()
+    locator.collision = collision
 
     # clock
     pyglet.clock.schedule_interval(locator.game.update, 1./FPS)

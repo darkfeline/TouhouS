@@ -169,6 +169,8 @@ class GameObject(AbstractContainer):
                 cls.sprite_img.height)
         g = GraphicsComponent(cls.sprite_group, img=cls.sprite_img)
         p.push_handlers(g)
+        p.push_handlers(c)
+
         self.add(p)
         self.add(c)
         self.add(g)

@@ -59,7 +59,7 @@ class Bullet(AbstractContainer):
 
         cls = self.__class__
         p = PhysicsComponent()
-        c = CollisionComponent(x, y, cls.sprite_img.width,
+        c = BulletCollisionComponent(x, y, cls.sprite_img.width,
                 cls.sprite_img.height)
         g = GraphicsComponent(cls.sprite_group, img=cls.sprite_img)
 

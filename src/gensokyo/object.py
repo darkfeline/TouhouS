@@ -62,6 +62,12 @@ class CollisionComponent(AbstractComponent):
         elif isinstance(self.hb, Rect):
             self.hb.centery = value
 
+    def on_dx(self, dx):
+        self.x += dx
+
+    def on_dy(self, dy):
+        self.y += dy
+
     def collide(self, other):
         return self.hb.collide(other.hb)
 

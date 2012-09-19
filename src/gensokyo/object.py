@@ -124,6 +124,12 @@ class GraphicsComponent(AbstractComponent):
     def on_dy(self, dy):
         self.y += dy
 
+    def on_setx(self x):
+        self.x = x
+
+    def on_sety(self y):
+        self.y = y
+
 
 class InputComponent(AbstractComponent):
 

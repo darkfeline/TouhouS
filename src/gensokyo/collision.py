@@ -2,9 +2,7 @@
 
 from weakref import WeakKeyDictionary
 
-from pyglet.event import EventDispatcher
-
-class CollisionManager(EventDispatcher):
+class CollisionManager:
 
     """
     {

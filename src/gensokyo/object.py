@@ -115,7 +115,7 @@ class GraphicsComponent(AbstractComponent):
     def y(self, value):
         self.sprite.y = value
 
-    def delete(self):
+    def on_delete(self):
         self.sprite.delete()
 
     def on_dx(self, dx):
@@ -155,17 +155,13 @@ class GameObject(AbstractContainer):
                 cls.sprite_img.height)
         g = GraphicsComponent(cls.sprite_group, img=cls.sprite_img)
 
-        self.graphics = g
-
         p.push_handlers(g)
         p.push_handlers(c)
+        c.push_handlers(g)
 
         self.add(p)
         self.add(c)
         self.add(g)
-
-    def delete(self):
-        self.graphics.delete()
 
 
 class Group:

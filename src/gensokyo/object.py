@@ -147,7 +147,7 @@ class GameObject(AbstractContainer):
 
     def __init__(self, x, y, hb=None):
 
-        self.__init__()
+        super().__init__()
 
         cls = self.__class__
         p = PhysicsComponent()

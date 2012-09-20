@@ -43,10 +43,10 @@ class BulletCollisionComponent(CollisionComponent):
 
     def die(self):
         self.dispatch_event('on_delete')
-        self.dispatch_event('on_remove', self)
+        self.dispatch_event('on_die')
 
 BulletCollisionComponent.register_event_type('on_delete')
-BulletCollisionComponent.register_event_type('on_remove')
+BulletCollisionComponent.register_event_type('on_die')
 
 
 class Bullet(AbstractContainer):

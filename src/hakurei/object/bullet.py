@@ -48,7 +48,7 @@ class Bullet(AbstractContainer):
 
     def __init__(self, x, y, speed=500, vector=Vector(0, 1)):
 
-        super().__init__(x, y, hb)
+        super().__init__()
 
         cls = self.__class__
         p = PhysicsComponent()
@@ -62,6 +62,7 @@ class Bullet(AbstractContainer):
         p.push_handlers(g)
         p.push_handlers(c)
         c.push_handlers(g)
+        c.push_handlers(self)
 
         self.add(p)
         self.add(c)

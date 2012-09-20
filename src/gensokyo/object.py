@@ -157,3 +157,13 @@ class AIComponent(AbstractComponent, EventDispatcher):
     """
 
     pass
+
+
+class DeathComponent(AbstractComponent, EventDispatcher):
+
+    def die(self):
+        self.dispatch_event('on_delete')
+        self.dispatch_event('on_die')
+
+DeathComponent.register_event_type('on_delete')
+DeathComponent.register_event_type('on_die')

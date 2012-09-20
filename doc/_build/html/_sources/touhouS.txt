@@ -1,0 +1,7 @@
+touhouS Module
+==============
+
+.. automodule:: touhouS
+    :members:
+    :undoc-members:
+    :show-inheritance:

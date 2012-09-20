@@ -4,23 +4,39 @@ gensokyo Package
 :mod:`gensokyo` Package
 -----------------------
 
-.. automodule:: gensokyo.__init__
+.. automodule:: gensokyo
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`controller` Module
-------------------------
+:mod:`collision` Module
+-----------------------
 
-.. automodule:: gensokyo.controller
+.. automodule:: gensokyo.collision
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`model` Module
--------------------
+:mod:`game` Module
+------------------
 
-.. automodule:: gensokyo.model
+.. automodule:: gensokyo.game
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`graphics` Module
+----------------------
+
+.. automodule:: gensokyo.graphics
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`locator` Module
+---------------------
+
+.. automodule:: gensokyo.locator
     :members:
     :undoc-members:
     :show-inheritance:
@@ -29,22 +45,6 @@ gensokyo Package
 --------------------
 
 .. automodule:: gensokyo.object
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`scene` Module
--------------------
-
-.. automodule:: gensokyo.scene
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`view` Module
-------------------
-
-.. automodule:: gensokyo.view
     :members:
     :undoc-members:
     :show-inheritance:

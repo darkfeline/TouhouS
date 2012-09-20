@@ -4,7 +4,7 @@ gensokyo Package
 :mod:`gensokyo` Package
 -----------------------
 
-.. automodule:: gensokyo.__init__
+.. automodule:: gensokyo
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gensokyo Package &mdash; TouhouS 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="TouhouS 1.0 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gensokyo-package">
+<h1>gensokyo Package<a class="headerlink" href="#gensokyo-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><a class="reference internal" href="#module-gensokyo" title="gensokyo"><tt class="xref py py-mod docutils literal"><span class="pre">gensokyo</span></tt></a> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-gensokyo"></span></div>
+<div class="section" id="module-gensokyo.collision">
+<span id="collision-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">collision</span></tt> Module<a class="headerlink" href="#module-gensokyo.collision" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.collision.CollisionManager">
+<em class="property">class </em><tt class="descclassname">gensokyo.collision.</tt><tt class="descname">CollisionManager</tt><a class="headerlink" href="#gensokyo.collision.CollisionManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>Collision Manager</p>
+<p>On every tick/update, checks all added collision components for collisions.
+Uses weak references so components garbage collect normally.
+Each component is associated with a dictionary of collision handlers.
+The key is the class whose collision against triggers the handler.</p>
+<p>:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd><dl class="first docutils">
+<dt>class: {</dt>
+<dd><dl class="first last docutils">
+<dt>component: {</dt>
+<dd>type: method,
+...</dd>
+</dl>
+</dd>
+</dl>
+<p class="last">}</p>
+</dd>
+</dl>
+<p>}</p>
+<p>self.components[class][component][other_class] = method
+component.method(other)</p>
+</div></blockquote>
+<dl class="method">
+<dt id="gensokyo.collision.CollisionManager.add">
+<tt class="descname">add</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#gensokyo.collision.CollisionManager.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds handlers of component.</p>
+<p>First checks for instance attribute chandlers and adds handlers if has.
+Else checks for class attribute chandlers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.collision.CollisionManager.add_handlers">
+<tt class="descname">add_handlers</tt><big>(</big><em>component</em>, <em>handlers</em><big>)</big><a class="headerlink" href="#gensokyo.collision.CollisionManager.add_handlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>handlers = {class: method,...}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.collision.CollisionManager.update">
+<tt class="descname">update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.collision.CollisionManager.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.game">
+<span id="game-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">game</span></tt> Module<a class="headerlink" href="#module-gensokyo.game" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.game.Game">
+<em class="property">class </em><tt class="descclassname">gensokyo.game.</tt><tt class="descname">Game</tt><a class="headerlink" href="#gensokyo.game.Game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>Game stack.</p>
+<dl class="method">
+<dt id="gensokyo.game.Game.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.game.Game.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.game.Game.push">
+<tt class="descname">push</tt><big>(</big><em>model</em><big>)</big><a class="headerlink" href="#gensokyo.game.Game.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.game.Game.top">
+<tt class="descname">top</tt><a class="headerlink" href="#gensokyo.game.Game.top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.game.Game.update">
+<tt class="descname">update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.game.Game.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls update on top of stack</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.game.Scene">
+<em class="property">class </em><tt class="descclassname">gensokyo.game.</tt><tt class="descname">Scene</tt><a class="headerlink" href="#gensokyo.game.Scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>Abstract Scene</p>
+<dl class="method">
+<dt id="gensokyo.game.Scene.on_remove">
+<tt class="descname">on_remove</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#gensokyo.game.Scene.on_remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.game.Scene.update">
+<tt class="descname">update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.game.Scene.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls update on all objects with update attribute</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.graphics">
+<span id="graphics-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">graphics</span></tt> Module<a class="headerlink" href="#module-gensokyo.graphics" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.graphics.AbstractRenderingService">
+<em class="property">class </em><tt class="descclassname">gensokyo.graphics.</tt><tt class="descname">AbstractRenderingService</tt><a class="headerlink" href="#gensokyo.graphics.AbstractRenderingService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.graphics.AbstractRenderingService.on_add_sprite">
+<tt class="descname">on_add_sprite</tt><big>(</big><em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.graphics.AbstractRenderingService.on_add_sprite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.graphics.AbstractRenderingService.on_draw">
+<tt class="descname">on_draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.graphics.AbstractRenderingService.on_draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.graphics.RenderingService">
+<em class="property">class </em><tt class="descclassname">gensokyo.graphics.</tt><tt class="descname">RenderingService</tt><a class="headerlink" href="#gensokyo.graphics.RenderingService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.graphics.AbstractRenderingService" title="gensokyo.graphics.AbstractRenderingService"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.graphics.AbstractRenderingService</span></tt></a></p>
+<dl class="method">
+<dt id="gensokyo.graphics.RenderingService.add_sprite">
+<tt class="descname">add_sprite</tt><big>(</big><em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.graphics.RenderingService.add_sprite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.graphics.RenderingService.on_draw">
+<tt class="descname">on_draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.graphics.RenderingService.on_draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.graphics.RenderingService.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.graphics.RenderingService.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.graphics.RenderingService.push">
+<tt class="descname">push</tt><big>(</big><em>view</em><big>)</big><a class="headerlink" href="#gensokyo.graphics.RenderingService.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.graphics.View">
+<em class="property">class </em><tt class="descclassname">gensokyo.graphics.</tt><tt class="descname">View</tt><a class="headerlink" href="#gensokyo.graphics.View" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.graphics.View.add_sprite">
+<tt class="descname">add_sprite</tt><big>(</big><em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.graphics.View.add_sprite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.graphics.View.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.graphics.View.draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.graphics.View.map">
+<tt class="descname">map</tt><a class="headerlink" href="#gensokyo.graphics.View.map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="gensokyo.graphics.View.set_label_group">
+<em class="property">static </em><tt class="descname">set_label_group</tt><big>(</big><em>label</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.graphics.View.set_label_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.locator">
+<span id="locator-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">locator</span></tt> Module<a class="headerlink" href="#module-gensokyo.locator" title="Permalink to this headline">¶</a></h2>
+<p>Resource locator</p>
+<p>Basically global/singleton.
+Don&#8217;t add global variables or other classes.</p>
+</div>
+<div class="section" id="module-gensokyo.object">
+<span id="object-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">object</span></tt> Module<a class="headerlink" href="#module-gensokyo.object" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.object.AIComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">AIComponent</tt><a class="headerlink" href="#gensokyo.object.AIComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<p>Abstract AI Component</p>
+<p>There&#8217;s not much to put here...
+Most likely you&#8217;ll have this handle and dispatch events.
+You&#8217;ll have to implement that yourself.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.object.AbstractComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">AbstractComponent</tt><a class="headerlink" href="#gensokyo.object.AbstractComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.object.AbstractContainer">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">AbstractContainer</tt><a class="headerlink" href="#gensokyo.object.AbstractContainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<p>Abstract Container for Components</p>
+<p>Keeps a reference to components to keep alive.
+Propagates updates to components with update method.</p>
+<dl class="method">
+<dt id="gensokyo.object.AbstractContainer.add">
+<tt class="descname">add</tt><big>(</big><em>c</em><big>)</big><a class="headerlink" href="#gensokyo.object.AbstractContainer.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.AbstractContainer.event_types">
+<tt class="descname">event_types</tt><em class="property"> = ['on_remove']</em><a class="headerlink" href="#gensokyo.object.AbstractContainer.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.AbstractContainer.on_die">
+<tt class="descname">on_die</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.object.AbstractContainer.on_die" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.AbstractContainer.update">
+<tt class="descname">update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.object.AbstractContainer.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.object.CollisionComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">CollisionComponent</tt><big>(</big><em>x</em>, <em>y</em>, <em>w</em>, <em>h</em>, <em>hb</em><big>)</big><a class="headerlink" href="#gensokyo.object.CollisionComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.object.CollisionComponent.on_dx">
+<tt class="descname">on_dx</tt><big>(</big><em>dx</em><big>)</big><a class="headerlink" href="#gensokyo.object.CollisionComponent.on_dx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.CollisionComponent.on_dy">
+<tt class="descname">on_dy</tt><big>(</big><em>dy</em><big>)</big><a class="headerlink" href="#gensokyo.object.CollisionComponent.on_dy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.CollisionComponent.x">
+<tt class="descname">x</tt><a class="headerlink" href="#gensokyo.object.CollisionComponent.x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.CollisionComponent.y">
+<tt class="descname">y</tt><a class="headerlink" href="#gensokyo.object.CollisionComponent.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.object.InputComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">InputComponent</tt><a class="headerlink" href="#gensokyo.object.InputComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a></p>
+<dl class="method">
+<dt id="gensokyo.object.InputComponent.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.object.InputComponent.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.object.PhysicsComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">PhysicsComponent</tt><a class="headerlink" href="#gensokyo.object.PhysicsComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<dl class="attribute">
+<dt id="gensokyo.object.PhysicsComponent.event_types">
+<tt class="descname">event_types</tt><em class="property"> = ['on_dx', 'on_dy']</em><a class="headerlink" href="#gensokyo.object.PhysicsComponent.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.PhysicsComponent.update">
+<tt class="descname">update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.object.PhysicsComponent.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.object.SpriteComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">SpriteComponent</tt><big>(</big><em>group</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.object.SpriteComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a></p>
+<dl class="method">
+<dt id="gensokyo.object.SpriteComponent.on_delete">
+<tt class="descname">on_delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.object.SpriteComponent.on_delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.SpriteComponent.on_dx">
+<tt class="descname">on_dx</tt><big>(</big><em>dx</em><big>)</big><a class="headerlink" href="#gensokyo.object.SpriteComponent.on_dx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.SpriteComponent.on_dy">
+<tt class="descname">on_dy</tt><big>(</big><em>dy</em><big>)</big><a class="headerlink" href="#gensokyo.object.SpriteComponent.on_dy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.SpriteComponent.on_setx">
+<tt class="descname">on_setx</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#gensokyo.object.SpriteComponent.on_setx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.object.SpriteComponent.on_sety">
+<tt class="descname">on_sety</tt><big>(</big><em>y</em><big>)</big><a class="headerlink" href="#gensokyo.object.SpriteComponent.on_sety" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.SpriteComponent.x">
+<tt class="descname">x</tt><a class="headerlink" href="#gensokyo.object.SpriteComponent.x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.SpriteComponent.y">
+<tt class="descname">y</tt><a class="headerlink" href="#gensokyo.object.SpriteComponent.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">gensokyo Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">gensokyo</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-gensokyo.collision"><tt class="docutils literal"><span class="pre">collision</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.game"><tt class="docutils literal"><span class="pre">game</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.graphics"><tt class="docutils literal"><span class="pre">graphics</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.locator"><tt class="docutils literal"><span class="pre">locator</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.object"><tt class="docutils literal"><span class="pre">object</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gensokyo.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Allen Li.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

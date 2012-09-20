@@ -1,0 +1,9 @@
+lib.linux-x86_64-3.2
+====================
+
+.. toctree::
+   :maxdepth: 4
+
+   gensokyo
+   hakurei
+   touhouS

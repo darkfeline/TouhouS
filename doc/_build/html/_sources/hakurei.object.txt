@@ -1,0 +1,51 @@
+object Package
+==============
+
+:mod:`object` Package
+---------------------
+
+.. automodule:: hakurei.object
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`bullet` Module
+--------------------
+
+.. automodule:: hakurei.object.bullet
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`enemy` Module
+-------------------
+
+.. automodule:: hakurei.object.enemy
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`player` Module
+--------------------
+
+.. automodule:: hakurei.object.player
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`stage` Module
+-------------------
+
+.. automodule:: hakurei.object.stage
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`ui` Module
+----------------
+
+.. automodule:: hakurei.object.ui
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

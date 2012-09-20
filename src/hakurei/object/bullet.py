@@ -7,20 +7,17 @@ from gensokyo.object import AbstractContainer
 from gensokyo.object import CollisionComponent
 from gensokyo.object import PhysicsComponent
 from gensokyo.object import SpriteComponent
+from gensokyo.object import DeathInterface
 
 from hakurei.globals import GAME_AREA
 from hakurei.object.player import PlayerCollisionComponent
 from hakurei import resources
 
-class BulletCollisionComponent(CollisionComponent):
+class BulletCollisionComponent(CollisionComponent, DeathInterface):
 
     def __init__(self, x, y, w, h, hb):
         super().__init__(x, y, w, h, hb)
         self.handlers = {PlayerCollisionComponent:self.die}
-
-    def die(self):
-        self.dispatch_event('on_delete')
-        self.dispatch_event('on_die')
 
     def check_bounds(self):
         r = self.rect
@@ -35,9 +32,6 @@ class BulletCollisionComponent(CollisionComponent):
     def on_dy(self, dy):
         super().on_dy(dy)
         self.check_bounds()
-
-BulletCollisionComponent.register_event_type('on_delete')
-BulletCollisionComponent.register_event_type('on_die')
 
 
 class Bullet(AbstractContainer):

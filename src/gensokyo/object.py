@@ -159,11 +159,15 @@ class AIComponent(AbstractComponent, EventDispatcher):
     pass
 
 
-class DeathComponent(AbstractComponent, EventDispatcher):
+class DeathInterface(EventDispatcher):
+
+    """
+    Have components subclass this if it needs to kill its container
+    """
 
     def die(self):
         self.dispatch_event('on_delete')
         self.dispatch_event('on_die')
 
-DeathComponent.register_event_type('on_delete')
-DeathComponent.register_event_type('on_die')
+DeathInterface.register_event_type('on_delete')
+DeathInterface.register_event_type('on_die')

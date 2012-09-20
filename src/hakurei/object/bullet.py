@@ -44,8 +44,9 @@ class Bullet(AbstractContainer):
 
     sprite_img = None
     sprite_group = 'enemy_bullet'
+    hb = None
 
-    def __init__(self, x, y, hb=None, speed=500, vector=Vector(0, 1)):
+    def __init__(self, x, y, speed=500, vector=Vector(0, 1)):
         super().__init__(x, y, hb)
 
         cls = self.__class__

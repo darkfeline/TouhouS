@@ -62,26 +62,19 @@
 Uses weak references so components garbage collect normally.
 Each component is associated with a dictionary of collision handlers.
 The key is the class whose collision against triggers the handler.</p>
-<p>:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>{</dt>
-<dd><dl class="first docutils">
-<dt>class: {</dt>
-<dd><dl class="first last docutils">
-<dt>component: {</dt>
-<dd>type: method,
-...</dd>
-</dl>
-</dd>
-</dl>
-<p class="last">}</p>
-</dd>
-</dl>
-<p>}</p>
-<p>self.components[class][component][other_class] = method
-component.method(other)</p>
-</div></blockquote>
+<div class="highlight-python"><pre>{
+    class: {
+        component: {
+            type: method,
+            ...
+        },
+        ...
+    }
+}
+
+self.components[class][component][other_class] = method
+component.method(other)</pre>
+</div>
 <dl class="method">
 <dt id="gensokyo.collision.CollisionManager.add">
 <tt class="descname">add</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#gensokyo.collision.CollisionManager.add" title="Permalink to this definition">¶</a></dt>

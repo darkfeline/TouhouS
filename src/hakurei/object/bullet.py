@@ -50,11 +50,10 @@ class Bullet(AbstractContainer):
 
         super().__init__()
 
-        cls = self.__class__
         p = PhysicsComponent()
-        c = BulletCollisionComponent(x, y, cls.sprite_img.width,
-                cls.sprite_img.height, cls.hb)
-        g = SpriteComponent(cls.sprite_group, img=cls.sprite_img)
+        c = BulletCollisionComponent(x, y, self.sprite_img.width,
+                self.sprite_img.height, self.hb)
+        g = SpriteComponent(self.sprite_group, img=self.sprite_img)
 
         p.v = vector
         p.speed = speed

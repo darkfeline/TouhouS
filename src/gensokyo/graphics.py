@@ -56,7 +56,7 @@ class View:
 
     @property
     def map(self):
-        return self.__class__._map
+        return self._map
 
     def draw(self):
         self.batch.draw()

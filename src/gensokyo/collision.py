@@ -47,14 +47,14 @@ class CollisionManager:
         """
         if hasattr(component, 'chandlers'):
             self.add_handlers(component, component.chandlers)
-        elif hasattr(component.__class__, 'chandlers'):
-            self.add_handlers(component, component.__class__chandlers)
+        elif hasattr(type(component), 'chandlers'):
+            self.add_handlers(component, type(component).chandlers)
 
     def add_handlers(self, component, handlers):
         """
         handlers = {class: method,...}
         """
-        cls = component.__class__
+        cls = type(component)
         if cls not in self.components.keys():
             self.components[cls] = WeakKeyDictionary()
         self.components[cls][component] = handlers

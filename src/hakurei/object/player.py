@@ -66,7 +66,7 @@ class Player(GameObject, PlayerInputComponent, SpriteWrapper):
 
     @x.setter
     def x(self, value):
-        super(Player, self.__class__).x.fset(self, value)
+        super(type(self), type(self)).x.fset(self, value)
         if hasattr(self, 'hbsprite') and self.hbsprite is not None:
             self.hbsprite.x = value
 
@@ -76,7 +76,7 @@ class Player(GameObject, PlayerInputComponent, SpriteWrapper):
 
     @y.setter
     def y(self, value):
-        super(Player, self.__class__).y.fset(self, value)
+        super(type(self), type(self)).y.fset(self, value)
         if hasattr(self, 'hbsprite') and self.hbsprite is not None:
             self.hbsprite.y = value
 
@@ -102,9 +102,8 @@ class Player(GameObject, PlayerInputComponent, SpriteWrapper):
         if f != v:
             self._focus = v
             if v:
-                cls = self.__class__
-                self.hbsprite = Sprite(cls.hb_img, self.x, self.y)
-                self.add_sprite(self.hbsprite, cls.hb_group)
+                self.hbsprite = Sprite(self.hb_img, self.x, self.y)
+                self.add_sprite(self.hbsprite, self.hb_group)
             else:
                 self.hbsprite.delete()
                 self.hbsprite = None

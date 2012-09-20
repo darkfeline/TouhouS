@@ -23,7 +23,7 @@ class FPSDisplay(SpriteWrapper):
         super().__init__()
         self.label = Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
                 font_size=10, color=(255, 255, 255, 255))
-        self.add_sprite(self.label, self.__class__.sprite_group)
+        self.add_sprite(self.label, self.sprite_group)
         self.count = 0
         self.fps = 0
 
@@ -73,14 +73,13 @@ class TextCounter(Counter):
 
         super().__init__()
 
-        cls = self.__class__
         self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
                 color=(0, 0, 0, 255))
-        self.add_sprite(self._title, cls.sprite_group)
+        self.add_sprite(self._title, self.sprite_group)
 
         self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
                 color=(0, 0, 0, 255))
-        self.add_sprite(self._number, cls.sprite_group)
+        self.add_sprite(self._number, self.sprite_group)
 
         self.width = width
         self.x = x
@@ -125,7 +124,6 @@ class IconCounter(Counter):
 
         super().__init__()
 
-        cls = self.__class__
         self._title = Label(anchor_x='left', anchor_y='bottom',
                 font_size=10, color=(0, 0, 0, 255))
         self.add_sprite(self._title, cls.sprite_group)
@@ -143,7 +141,7 @@ class IconCounter(Counter):
 
     @property
     def icon_width(self):
-        return self.__class__.icon_img.width
+        return self.icon_img.width
 
     @property
     def display_max(self):
@@ -185,9 +183,9 @@ class IconCounter(Counter):
         delta = new - self.value
         self._value = value
         while delta > 0:
-            sprite = Sprite(self.__class__.icon_img, y=self.y)
+            sprite = Sprite(self.icon_img, y=self.y)
             self.icons.append(sprite)
-            self.add_sprite(sprite, self.__class__.sprite_group)
+            self.add_sprite(sprite, self.sprite_group)
             self.x = self.x
             delta -= 1
         while delta < 0:
@@ -208,15 +206,14 @@ class UI(SpriteWrapper):
     def __init__(self):
 
         super().__init__()
-        cls = self.__class__
 
         self.fps = FPSDisplay(570, 2)
         self.label = {}
         for k in self._counters.keys():
             t = self._counters[k]
             self.label[k] = t[0](t[1], t[2], t[3])
-        self.bg = Sprite(cls.bg_img)
-        self.add_sprite(self.bg, cls.sprite_group)
+        self.bg = Sprite(self.bg_img)
+        self.add_sprite(self.bg, self.sprite_group)
 
     def update(self, dt):
         self.fps.update(dt)

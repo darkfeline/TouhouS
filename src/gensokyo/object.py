@@ -9,7 +9,7 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle, Vector
 from gensokyo import locator
 
-class AbstractContainer:
+class AbstractContainer(EventDispatcher):
 
     """
     Abstract Container for Components
@@ -31,6 +31,11 @@ class AbstractContainer:
         for c in self.components:
             if hasattr(c, 'update'):
                 c.update(dt)
+
+    def on_die(self):
+        self.dispatch_event('on_remove', self)
+
+AbstractContainer.register_event_type('on_remove')
 
 
 class AbstractComponent:

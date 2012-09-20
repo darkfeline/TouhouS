@@ -22,3 +22,17 @@ class Game:
 
     def update(self, dt):
         self.top.update(dt)
+
+
+class Scene:
+
+    """
+    Abstract Scene
+
+    """
+
+    def __init__(self):
+        self.objects = set()
+
+    def on_remove(self, obj):
+        self.objects.remove(obj)

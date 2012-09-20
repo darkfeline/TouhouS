@@ -25,7 +25,13 @@ class CollisionManager:
         }
 
         self.components[class][component][other_class] = method
-        component.method(other)
+
+    Declare attribute on component `handlers`::
+
+        comp.handlers = {A:method}
+
+    When CollisionManager detects `comp` has collided with another registered
+    component that is an instance of `A`, it calls `method(comp)`.
 
     """
 

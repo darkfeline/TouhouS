@@ -97,7 +97,7 @@ PhysicsComponent.register_event_type('on_dx')
 PhysicsComponent.register_event_type('on_dy')
 
 
-class GraphicsComponent(AbstractComponent):
+class SpriteComponent(AbstractComponent):
 
     def __init__(self, group, *args, **kwargs):
         sprite = Sprite(*args, **kwargs)

@@ -6,7 +6,7 @@ from gensokyo.primitives import Vector, Circle
 from gensokyo.object import AbstractContainer
 from gensokyo.object import CollisionComponent
 from gensokyo.object import PhysicsComponent
-from gensokyo.object import GraphicsComponent
+from gensokyo.object import SpriteComponent
 
 from hakurei.globals import GAME_AREA
 from hakurei.object.player import PlayerCollisionComponent
@@ -52,7 +52,7 @@ class Bullet(AbstractContainer):
         p = PhysicsComponent()
         c = BulletCollisionComponent(x, y, cls.sprite_img.width,
                 cls.sprite_img.height)
-        g = GraphicsComponent(cls.sprite_group, img=cls.sprite_img)
+        g = SpriteComponent(cls.sprite_group, img=cls.sprite_img)
 
         p.v = vector
         p.speed = speed

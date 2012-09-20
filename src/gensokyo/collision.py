@@ -12,18 +12,20 @@ class CollisionManager:
     Each component is associated with a dictionary of collision handlers.
     The key is the class whose collision against triggers the handler.
 
-    {
-        class: {
-            component: {
-                type: method,
-                ...
-            },
-            ...
-        }
-    }
+    ::
 
-    self.components[class][component][other_class] = method
-    component.method(other)
+        {
+            class: {
+                component: {
+                    type: method,
+                    ...
+                },
+                ...
+            }
+        }
+
+        self.components[class][component][other_class] = method
+        component.method(other)
 
     """
 

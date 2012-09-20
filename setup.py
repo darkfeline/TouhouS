@@ -59,6 +59,6 @@ setup(
     cmdclass = {'build_ext': build_ext},
     ext_package = 'gensokyo',
     ext_modules = ext_modules,
-    scripts=['src/touhouS.py', 'bin/profile.py'],
+    scripts=['src/touhouS.py'],
     data_files=get_resources('resources')
 )

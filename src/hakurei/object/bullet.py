@@ -12,29 +12,6 @@ from hakurei.globals import GAME_AREA
 from hakurei.object.player import PlayerCollisionComponent
 from hakurei import resources
 
-class BulletGroup(Group):
-
-    @property
-    def bullets(self):
-        return list(self.objects)
-
-    @bullets.setter
-    def bullets(self, value):
-        self.objects = set(value)
-
-    def update(self, dt):
-        super().update(dt)
-        temp = set()
-        for b in self.bullets:
-            r = b.rect
-            if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
-                    r.left > GAME_AREA.right or r.right < GAME_AREA.left):
-                b.delete()
-            else:
-                temp.add(b)
-        self.bullets = temp
-
-
 class BulletCollisionComponent(CollisionComponent):
 
     def __init__(self, x, y, w, h, hb):

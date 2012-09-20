@@ -129,10 +129,10 @@ class SpriteComponent(AbstractComponent):
     def on_dy(self, dy):
         self.y += dy
 
-    def on_setx(self x):
+    def on_setx(self, x):
         self.x = x
 
-    def on_sety(self y):
+    def on_sety(self, y):
         self.y = y
 
 

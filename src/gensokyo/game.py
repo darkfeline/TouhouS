@@ -21,6 +21,7 @@ class Game:
         return self.stack.pop()
 
     def update(self, dt):
+        """Calls update on top of stack"""
         self.top.update(dt)
 
 

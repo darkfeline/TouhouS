@@ -37,3 +37,9 @@ class Scene:
 
     def on_remove(self, obj):
         self.objects.remove(obj)
+
+    def update(self, dt):
+        """Calls update on all objects with update attribute"""
+        for obj in self.objects:
+            if hasattr(obj, 'update'):
+                obj.update(dt)

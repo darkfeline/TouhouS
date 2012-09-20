@@ -31,7 +31,8 @@ class CollisionManager:
         comp.handlers = {A:method}
 
     When CollisionManager detects `comp` has collided with another registered
-    component that is an instance of `A`, it calls `method(comp)`.
+    component `other` that is an instance of `A`, it calls `method(comp,
+    other)`.
 
     """
 

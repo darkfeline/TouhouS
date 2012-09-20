@@ -50,8 +50,8 @@ class View:
 
     def __init__(self):
         self.batch = Batch()
-        self.groups = dict([(x, y) for x, y in self.map,
-            [OrderedGroup(i) for i in range(len(self.map))]])
+        o = (OrderedGroup(i) for i in range(len(self.map)))
+        self.groups = dict((self.map[i], o[i]) for i in range(len(self.map)))
         self.labels = set()
 
     @property

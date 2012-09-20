@@ -45,6 +45,20 @@ class BulletCollisionComponent(CollisionComponent):
         self.dispatch_event('on_delete')
         self.dispatch_event('on_die')
 
+    def check_bounds(self):
+        r = self.rect
+        if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
+                r.left > GAME_AREA.right or r.right < GAME_AREA.left):
+            self.die()
+
+    def on_dx(self, dx):
+        super().on_dx(dx)
+        self.check_bounds()
+
+    def on_dy(self, dy):
+        super().on_dy(dy)
+        self.check_bounds()
+
 BulletCollisionComponent.register_event_type('on_delete')
 BulletCollisionComponent.register_event_type('on_die')
 

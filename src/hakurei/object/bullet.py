@@ -19,6 +19,9 @@ class BulletCollisionComponent(CollisionComponent, DeathInterface):
         super().__init__(x, y, w, h, hb)
         self.handlers = {PlayerCollisionComponent:self.die}
 
+    def die(self, other):
+        super().die()
+
     def check_bounds(self):
         r = self.rect
         if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or

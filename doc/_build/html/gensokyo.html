@@ -49,8 +49,8 @@
   <div class="section" id="gensokyo-package">
 <h1>gensokyo Package<a class="headerlink" href="#gensokyo-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2><a class="reference internal" href="#module-gensokyo" title="gensokyo"><tt class="xref py py-mod docutils literal"><span class="pre">gensokyo</span></tt></a> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-gensokyo"></span></div>
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">gensokyo</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-gensokyo.__init__"></span></div>
 <div class="section" id="module-gensokyo.collision">
 <span id="collision-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">collision</span></tt> Module<a class="headerlink" href="#module-gensokyo.collision" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -72,9 +72,14 @@ The key is the class whose collision against triggers the handler.</p>
     }
 }
 
-self.components[class][component][other_class] = method
-component.method(other)</pre>
+self.components[class][component][other_class] = method</pre>
 </div>
+<p>Declare attribute on component <cite>handlers</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">comp</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">{</span><span class="n">A</span><span class="p">:</span><span class="n">method</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>When CollisionManager detects <cite>comp</cite> has collided with another registered
+component that is an instance of <cite>A</cite>, it calls <cite>method(comp)</cite>.</p>
 <dl class="method">
 <dt id="gensokyo.collision.CollisionManager.add">
 <tt class="descname">add</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#gensokyo.collision.CollisionManager.add" title="Permalink to this definition">¶</a></dt>

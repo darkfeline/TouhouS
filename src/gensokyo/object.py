@@ -99,12 +99,29 @@ class PhysicsComponent(AbstractComponent, EventDispatcher):
     """
 
     def __init__(self):
-        self.v = Vector(0, 0)
-        self.speed = 0
+        self.vel = Vector(0, 0)
+        self.acc = Vector(0, 0)
+
+    @property
+    def speed(self):
+        return self.vel.length
+
+    @speed.setter
+    def speed(self, value):
+        self.vel = self.vel.get_unit_vector() * value
+
+    @property
+    def accel(self):
+        return self.acc.length
+
+    @accel.setter
+    def accel(self, value):
+        self.acc = self.acc.get_unit_vector() * value
 
     def update(self, dt):
-        self.dispatch_event('on_dx', self.v.x * self.speed * dt)
-        self.dispatch_event('on_dy', self.v.y * self.speed * dt)
+        self.dispatch_event('on_dx', self.vel.x * dt)
+        self.dispatch_event('on_dy', self.vel.y * dt)
+        self.vel += self.acc * dt
 
 PhysicsComponent.register_event_type('on_dx')
 PhysicsComponent.register_event_type('on_dy')

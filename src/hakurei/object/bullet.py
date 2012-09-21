@@ -3,7 +3,7 @@
 import pyglet
 
 from gensokyo.primitives import Vector, Circle
-from gensokyo.object import AbstractContainer
+from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
 from gensokyo.object import PhysicsComponent
 from gensokyo.object import SpriteComponent
@@ -37,7 +37,7 @@ class BulletCollisionComponent(CollisionComponent, DeathInterface):
         self.check_bounds()
 
 
-class Bullet(AbstractContainer):
+class Bullet(Container):
 
     sprite_img = None
     sprite_group = 'enemy_bullet'

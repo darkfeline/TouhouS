@@ -49,3 +49,11 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`physics` Module
+---------------------
+
+.. automodule:: gensokyo.physics
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

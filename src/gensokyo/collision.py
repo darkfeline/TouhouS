@@ -26,7 +26,7 @@ class CollisionManager:
 
         self.components[class][component][other_class] = method
 
-    Declare attribute on component `handlers`::
+    Declare `handlers` attribute on component::
 
         comp.handlers = {A:method}
 

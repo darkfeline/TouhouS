@@ -56,6 +56,7 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
@@ -75,23 +76,25 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.object.AbstractComponent">AbstractComponent (class in gensokyo.object)</a>
-  </dt>
-
-      
-  <dt><a href="gensokyo.html#gensokyo.object.AbstractContainer">AbstractContainer (class in gensokyo.object)</a>
-  </dt>
-
-      
   <dt><a href="gensokyo.html#gensokyo.graphics.AbstractRenderingService">AbstractRenderingService (class in gensokyo.graphics)</a>
   </dt>
 
       
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent.acc">acc (gensokyo.object.PhysicsComponent attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.AccelPhysicsComp.acc">acc (gensokyo.physics.AccelPhysicsComp attribute)</a>
   </dt>
 
       
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent.accel">accel (gensokyo.object.PhysicsComponent attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.AccelPhysicsComp.accel">accel (gensokyo.physics.AccelPhysicsComp attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearAccelPhysicsComp.accel">(gensokyo.physics.LinearAccelPhysicsComp attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.AccelPhysicsComp">AccelPhysicsComp (class in gensokyo.physics)</a>
   </dt>
 
   </dl></td>
@@ -102,7 +105,7 @@
 
       <dd><dl>
         
-  <dt><a href="gensokyo.html#gensokyo.object.AbstractContainer.add">(gensokyo.object.AbstractContainer method)</a>
+  <dt><a href="gensokyo.html#gensokyo.object.Container.add">(gensokyo.object.Container method)</a>
   </dt>
 
       </dl></dd>
@@ -121,7 +124,7 @@
 
       </dl></dd>
       
-  <dt><a href="gensokyo.html#gensokyo.object.AIComponent">AIComponent (class in gensokyo.object)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.AccelPhysicsComp.adir">adir (gensokyo.physics.AccelPhysicsComp attribute)</a>
   </dt>
 
   </dl></td>
@@ -134,10 +137,14 @@
   <dt><a href="gensokyo.html#gensokyo.object.CollisionComponent">CollisionComponent (class in gensokyo.object)</a>
   </dt>
 
+      
+  <dt><a href="gensokyo.html#gensokyo.collision.CollisionManager">CollisionManager (class in gensokyo.collision)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.collision.CollisionManager">CollisionManager (class in gensokyo.collision)</a>
+  <dt><a href="gensokyo.html#gensokyo.object.Container">Container (class in gensokyo.object)</a>
   </dt>
 
   </dl></td>
@@ -171,7 +178,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.object.AbstractContainer.event_types">event_types (gensokyo.object.AbstractContainer attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.object.Container.event_types">event_types (gensokyo.object.Container attribute)</a>
   </dt>
 
       <dd><dl>
@@ -180,10 +187,20 @@
   </dt>
 
         
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent.event_types">(gensokyo.object.PhysicsComponent attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.event_types">(gensokyo.physics.FreePhysicsComp attribute)</a>
   </dt>
 
       </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp">FreePhysicsComp (class in gensokyo.physics)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -206,8 +223,6 @@
   <dt><a href="gensokyo.html#module-gensokyo.game">gensokyo.game (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#module-gensokyo.graphics">gensokyo.graphics (module)</a>
   </dt>
@@ -216,8 +231,26 @@
   <dt><a href="gensokyo.html#module-gensokyo.locator">gensokyo.locator (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#module-gensokyo.object">gensokyo.object (module)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#module-gensokyo.physics">gensokyo.physics (module)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.get_dir">get_dir() (gensokyo.physics.FreePhysicsComp method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.get_mag">get_mag() (gensokyo.physics.FreePhysicsComp method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.get_vector">get_vector() (gensokyo.physics.FreePhysicsComp method)</a>
   </dt>
 
   </dl></td>
@@ -240,6 +273,16 @@
   <dt><a href="gensokyo.html#gensokyo.object.LifeComponent">LifeComponent (class in gensokyo.object)</a>
   </dt>
 
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearAccelPhysicsComp">LinearAccelPhysicsComp (class in gensokyo.physics)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearPhysicsComp">LinearPhysicsComp (class in gensokyo.physics)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -250,6 +293,18 @@
   <dt><a href="gensokyo.html#gensokyo.graphics.View.map">map (gensokyo.graphics.View attribute)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.AccelPhysicsComp.max_speed">max_speed (gensokyo.physics.AccelPhysicsComp attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearAccelPhysicsComp.max_speed">(gensokyo.physics.LinearAccelPhysicsComp attribute)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -265,7 +320,7 @@
   </dt>
 
       
-  <dt><a href="gensokyo.html#gensokyo.object.AbstractContainer.on_die">on_die() (gensokyo.object.AbstractContainer method)</a>
+  <dt><a href="gensokyo.html#gensokyo.object.Container.on_die">on_die() (gensokyo.object.Container method)</a>
   </dt>
 
       
@@ -323,10 +378,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent">PhysicsComponent (class in gensokyo.object)</a>
-  </dt>
-
-      
   <dt><a href="gensokyo.html#gensokyo.game.Game.pop">pop() (gensokyo.game.Game method)</a>
   </dt>
 
@@ -369,13 +420,25 @@
   </dt>
 
       
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.set_dir">set_dir() (gensokyo.physics.FreePhysicsComp method)</a>
+  </dt>
+
+      
   <dt><a href="gensokyo.html#gensokyo.graphics.View.set_label_group">set_label_group() (gensokyo.graphics.View static method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.set_mag">set_mag() (gensokyo.physics.FreePhysicsComp method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent.speed">speed (gensokyo.object.PhysicsComponent attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.set_vector">set_vector() (gensokyo.physics.FreePhysicsComp method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearPhysicsComp.speed">speed (gensokyo.physics.LinearPhysicsComp attribute)</a>
   </dt>
 
       
@@ -412,11 +475,19 @@
   </dt>
 
         
-  <dt><a href="gensokyo.html#gensokyo.object.AbstractContainer.update">(gensokyo.object.AbstractContainer method)</a>
+  <dt><a href="gensokyo.html#gensokyo.object.Container.update">(gensokyo.object.Container method)</a>
   </dt>
 
         
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent.update">(gensokyo.object.PhysicsComponent method)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.AccelPhysicsComp.update">(gensokyo.physics.AccelPhysicsComp method)</a>
+  </dt>
+
+        
+  <dt><a href="gensokyo.html#gensokyo.physics.FreePhysicsComp.update">(gensokyo.physics.FreePhysicsComp method)</a>
+  </dt>
+
+        
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearAccelPhysicsComp.update">(gensokyo.physics.LinearAccelPhysicsComp method)</a>
   </dt>
 
       </dl></dd>
@@ -427,7 +498,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.object.PhysicsComponent.vel">vel (gensokyo.object.PhysicsComponent attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearPhysicsComp.vdir">vdir (gensokyo.physics.LinearPhysicsComp attribute)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.physics.LinearPhysicsComp.vel">vel (gensokyo.physics.LinearPhysicsComp attribute)</a>
   </dt>
 
   </dl></td>

@@ -17,8 +17,6 @@ class Container(EventDispatcher):
 
     """
 
-    __metaclass__ = abc.ABCMeta
-
     def __init__(self):
         self.components = set()
 

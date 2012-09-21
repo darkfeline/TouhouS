@@ -52,7 +52,7 @@ class Bullet(AbstractContainer):
                 self.sprite_img.height, self.hb)
         g = SpriteComponent(self.sprite_group, img=self.sprite_img)
 
-        p.v = vector
+        p.vel = vector
         p.speed = speed
 
         p.push_handlers(g)

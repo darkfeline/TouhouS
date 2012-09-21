@@ -79,7 +79,8 @@ self.components[class][component][other_class] = method</pre>
 </pre></div>
 </div>
 <p>When CollisionManager detects <cite>comp</cite> has collided with another registered
-component that is an instance of <cite>A</cite>, it calls <cite>method(comp)</cite>.</p>
+component <cite>other</cite> that is an instance of <cite>A</cite>, it calls <cite>method(comp,
+other)</cite>.</p>
 <dl class="method">
 <dt id="gensokyo.collision.CollisionManager.add">
 <tt class="descname">add</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#gensokyo.collision.CollisionManager.add" title="Permalink to this definition">¶</a></dt>
@@ -302,6 +303,23 @@ Propagates updates to components with update method.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="gensokyo.object.DeathInterface">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">DeathInterface</tt><a class="headerlink" href="#gensokyo.object.DeathInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<p>Have components subclass this if it needs to kill its container</p>
+<dl class="method">
+<dt id="gensokyo.object.DeathInterface.die">
+<tt class="descname">die</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.object.DeathInterface.die" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.DeathInterface.event_types">
+<tt class="descname">event_types</tt><em class="property"> = ['on_delete', 'on_die']</em><a class="headerlink" href="#gensokyo.object.DeathInterface.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="gensokyo.object.InputComponent">
 <em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">InputComponent</tt><a class="headerlink" href="#gensokyo.object.InputComponent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a></p>
@@ -313,12 +331,46 @@ Propagates updates to components with update method.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="gensokyo.object.LifeComponent">
+<em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">LifeComponent</tt><big>(</big><em>life</em><big>)</big><a class="headerlink" href="#gensokyo.object.LifeComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a>, <a class="reference internal" href="#gensokyo.object.DeathInterface" title="gensokyo.object.DeathInterface"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.DeathInterface</span></tt></a></p>
+<dl class="method">
+<dt id="gensokyo.object.LifeComponent.on_hit">
+<tt class="descname">on_hit</tt><big>(</big><em>dmg</em><big>)</big><a class="headerlink" href="#gensokyo.object.LifeComponent.on_hit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="gensokyo.object.PhysicsComponent">
 <em class="property">class </em><tt class="descclassname">gensokyo.object.</tt><tt class="descname">PhysicsComponent</tt><a class="headerlink" href="#gensokyo.object.PhysicsComponent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.object.AbstractComponent" title="gensokyo.object.AbstractComponent"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.object.AbstractComponent</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<p>Physics Component</p>
+<dl class="attribute">
+<dt id="gensokyo.object.PhysicsComponent.vel">
+<tt class="descname">vel</tt><a class="headerlink" href="#gensokyo.object.PhysicsComponent.vel" title="Permalink to this definition">¶</a></dt>
+<dd><p>velocity vector</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.PhysicsComponent.acc">
+<tt class="descname">acc</tt><a class="headerlink" href="#gensokyo.object.PhysicsComponent.acc" title="Permalink to this definition">¶</a></dt>
+<dd><p>acceleration vector</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.PhysicsComponent.accel">
+<tt class="descname">accel</tt><a class="headerlink" href="#gensokyo.object.PhysicsComponent.accel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="gensokyo.object.PhysicsComponent.event_types">
 <tt class="descname">event_types</tt><em class="property"> = ['on_dx', 'on_dy']</em><a class="headerlink" href="#gensokyo.object.PhysicsComponent.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.object.PhysicsComponent.speed">
+<tt class="descname">speed</tt><a class="headerlink" href="#gensokyo.object.PhysicsComponent.speed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">

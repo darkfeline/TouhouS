@@ -85,6 +85,19 @@ class CollisionComponent(AbstractComponent, EventDispatcher):
 
 class PhysicsComponent(AbstractComponent, EventDispatcher):
 
+    """
+    Physics Component
+
+    .. attribute:: vel
+
+        velocity vector
+
+    .. attribute:: acc
+
+        acceleration vector
+
+    """
+
     def __init__(self):
         self.v = Vector(0, 0)
         self.speed = 0

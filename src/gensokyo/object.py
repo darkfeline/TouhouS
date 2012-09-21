@@ -31,7 +31,7 @@ class Container(EventDispatcher):
     def on_die(self):
         self.dispatch_event('on_remove', self)
 
-AbstractContainer.register_event_type('on_remove')
+Container.register_event_type('on_remove')
 
 
 class CollisionComponent(EventDispatcher):
@@ -122,17 +122,6 @@ class InputComponent:
         locator.window.remove_handlers(self)
 
 
-class LifeComponent(DeathInterface):
-
-    def __init__(self, life):
-        self.life = life
-
-    def on_hit(self, dmg):
-        self.life -= dmg
-        if self.life <= 0:
-            self.die()
-
-
 class DeathInterface(EventDispatcher):
 
     """
@@ -145,3 +134,14 @@ class DeathInterface(EventDispatcher):
 
 DeathInterface.register_event_type('on_delete')
 DeathInterface.register_event_type('on_die')
+
+
+class LifeComponent(DeathInterface):
+
+    def __init__(self, life):
+        self.life = life
+
+    def on_hit(self, dmg):
+        self.life -= dmg
+        if self.life <= 0:
+            self.die()

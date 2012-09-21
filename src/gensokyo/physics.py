@@ -50,7 +50,7 @@ class FreePhysicsComp(EventDispatcher):
     def set_dir(self, i, value):
         speed = self.get_mag(i)
         try:
-            self.set_vector(i) = value
+            self.set_vector(i, value)
         except IndexError:
             raise IndexError(self + " doesn't have vector with degree " + i)
         self.set_mag(speed)
@@ -161,7 +161,7 @@ class AccelPhysicsComp(LinearPhysicsComp):
             self.speed = self.max_speed
 
 
-class LinearAccelPhysicsComp(LinearAccelPhysicsComp):
+class LinearAccelPhysicsComp(LinearPhysicsComp):
 
     """
     Physics Component

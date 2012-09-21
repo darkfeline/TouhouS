@@ -82,3 +82,29 @@ class AccelPhysicsComp(VelPhysicsComp):
         if self.max_speed >= 0 and self.speed > self.max_speed:
             self.speed = self.max_speed
 
+
+class LinearAccelPhysicsComp(VelPhysicsComp):
+
+    """
+    Physics Component
+
+    .. attribute:: accel
+
+        acceleration amount per second
+
+    .. attribute:: max_speed
+
+        Caps speed after acceleration.  -1 for uncapped.
+
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.accel = 0
+        self.max_speed = -1
+
+    def update(self, dt):
+        super().update(dt)
+        self.speed += self.accel * dt
+        if self.max_speed >= 0 and self.speed > self.max_speed:
+            self.speed = self.max_speed

@@ -38,12 +38,7 @@ class AbstractContainer(EventDispatcher):
 AbstractContainer.register_event_type('on_remove')
 
 
-class AbstractComponent:
-
-    __metaclass__ = abc.ABCMeta
-
-
-class CollisionComponent(AbstractComponent, EventDispatcher):
+class CollisionComponent(EventDispatcher):
 
     def __init__(self, x, y, w, h, hb):
         self.rect = Rect(0, 0, w, h)
@@ -83,7 +78,7 @@ class CollisionComponent(AbstractComponent, EventDispatcher):
         self.y += dy
 
 
-class PhysicsComponent(AbstractComponent, EventDispatcher):
+class PhysicsComponent(EventDispatcher):
 
     """
     Physics Component
@@ -127,7 +122,7 @@ PhysicsComponent.register_event_type('on_dx')
 PhysicsComponent.register_event_type('on_dy')
 
 
-class SpriteComponent(AbstractComponent):
+class SpriteComponent:
 
     def __init__(self, group, *args, **kwargs):
         sprite = Sprite(*args, **kwargs)
@@ -166,7 +161,7 @@ class SpriteComponent(AbstractComponent):
         self.y = y
 
 
-class InputComponent(AbstractComponent):
+class InputComponent:
 
     def __init__(self):
         locator.window.push_handlers(self)
@@ -175,7 +170,7 @@ class InputComponent(AbstractComponent):
         locator.window.remove_handlers(self)
 
 
-class AIComponent(AbstractComponent, EventDispatcher):
+class AIComponent(EventDispatcher):
 
     """
     Abstract AI Component

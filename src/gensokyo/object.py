@@ -89,11 +89,16 @@ class PhysicsComponent(EventDispatcher):
 
         acceleration vector
 
+    .. attribute:: max_speed
+
+        Caps speed after acceleration.  -1 for uncapped.
+
     """
 
     def __init__(self):
         self.vel = Vector(0, 0)
         self.acc = Vector(0, 0)
+        self.max_speed = -1
 
     @property
     def speed(self):
@@ -115,6 +120,8 @@ class PhysicsComponent(EventDispatcher):
         self.dispatch_event('on_dx', self.vel.x * dt)
         self.dispatch_event('on_dy', self.vel.y * dt)
         self.vel += self.acc * dt
+        if self.max_speed >= 0 and self.speed > self.max_speed:
+            self.speed = self.max_speed
 
 PhysicsComponent.register_event_type('on_dx')
 PhysicsComponent.register_event_type('on_dy')

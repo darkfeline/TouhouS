@@ -124,20 +124,6 @@ class InputComponent:
         locator.window.remove_handlers(self)
 
 
-class AIComponent(EventDispatcher):
-
-    """
-    Abstract AI Component
-
-    There's not much to put here...
-    Most likely you'll have this handle and dispatch events.
-    You'll have to implement that yourself.
-
-    """
-
-    pass
-
-
 class LifeComponent(DeathInterface):
 
     def __init__(self, life):

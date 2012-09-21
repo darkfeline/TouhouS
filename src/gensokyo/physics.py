@@ -70,7 +70,7 @@ class FreePhysicsComp(EventDispatcher):
 FreePhysicsComp.register_event_type('on_dx')
 FreePhysicsComp.register_event_type('on_dy')
 
-class LinearPhysicsComp(EventDispatcher):
+class LinearPhysicsComp(FreePhysicsComp):
 
     """
     Linear Physics Component
@@ -80,7 +80,15 @@ class LinearPhysicsComp(EventDispatcher):
     """
 
     def __init__(self):
-        self.vel = Vector(0, 0)
+        super().__init__(1)
+
+    @property
+    def vel(self):
+        return self.get_vector(0)
+
+    @vel.setter
+    def vel(self, value):
+        self.set_vector(1, value)
 
     @property
     def speed(self):
@@ -101,15 +109,8 @@ class LinearPhysicsComp(EventDispatcher):
         self.vel = vector
         self.speed = speed
 
-    def update(self, dt):
-        self.dispatch_event('on_dx', self.vel.x * dt)
-        self.dispatch_event('on_dy', self.vel.y * dt)
 
-LinearPhysicsComp.register_event_type('on_dx')
-LinearPhysicsComp.register_event_type('on_dy')
-
-
-class AccelPhysicsComp(VelPhysicsComp):
+class AccelPhysicsComp(LinearPhysicsComp):
 
     """
     Physics Component
@@ -124,8 +125,16 @@ class AccelPhysicsComp(VelPhysicsComp):
 
     def __init__(self):
         super().__init__()
-        self.acc = Vector(0, 0)
+        self.vectors.append(Vector(0, 0))
         self.max_speed = -1
+
+    @property
+    def acc(self):
+        return self.get_vector(1)
+
+    @acc.setter
+    def acc(self, value):
+        self.set_vector(1, value)
 
     @property
     def accel(self):
@@ -148,12 +157,11 @@ class AccelPhysicsComp(VelPhysicsComp):
 
     def update(self, dt):
         super().update(dt)
-        self.vel += self.acc * dt
         if self.max_speed >= 0 and self.speed > self.max_speed:
             self.speed = self.max_speed
 
 
-class LinearAccelPhysicsComp(VelPhysicsComp):
+class LinearAccelPhysicsComp(LinearAccelPhysicsComp):
 
     """
     Physics Component

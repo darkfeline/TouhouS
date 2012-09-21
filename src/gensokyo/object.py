@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import abc
-
 from pyglet.window import key
 from pyglet.event import EventDispatcher
 from pyglet.sprite import Sprite
@@ -9,10 +7,10 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle, Vector
 from gensokyo import locator
 
-class AbstractContainer(EventDispatcher):
+class Container(EventDispatcher):
 
     """
-    Abstract Container for Components
+    Container for Components
 
     Keeps a reference to components to keep alive.
     Propagates updates to components with update method.

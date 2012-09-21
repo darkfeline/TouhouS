@@ -9,6 +9,8 @@ class LinearPhysicsComp(EventDispatcher):
     """
     Linear Physics Component
 
+    Provides simple single velocity movement
+
     """
 
     def __init__(self):
@@ -45,6 +47,8 @@ class AccelPhysicsComp(VelPhysicsComp):
 
     """
     Physics Component
+
+    Provides freeform velocity and acceleration, with capped velocity
 
     .. attribute:: max_speed
 

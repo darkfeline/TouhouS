@@ -5,9 +5,9 @@ import pyglet
 from gensokyo.primitives import Vector, Circle
 from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
-from gensokyo.object import PhysicsComponent
 from gensokyo.object import SpriteComponent
 from gensokyo.object import DeathInterface
+from gensokyo.physics import LinearPhysicsComp
 
 from hakurei.globals import GAME_AREA
 from hakurei.object.player import PlayerCollisionComponent
@@ -47,7 +47,7 @@ class Bullet(Container):
 
         super().__init__()
 
-        p = PhysicsComponent()
+        p = LinearPhysicsComp()
         c = BulletCollisionComponent(x, y, self.sprite_img.width,
                 self.sprite_img.height, self.hb)
         g = SpriteComponent(self.sprite_group, img=self.sprite_img)

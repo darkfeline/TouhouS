@@ -4,29 +4,15 @@ from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector
 
-class PhysicsComponent(EventDispatcher):
+class LinearPhysicsComp(EventDispatcher):
 
     """
-    Physics Component
-
-    .. attribute:: vel
-
-        velocity vector
-
-    .. attribute:: acc
-
-        acceleration vector
-
-    .. attribute:: max_speed
-
-        Caps speed after acceleration.  -1 for uncapped.
+    Linear Physics Component
 
     """
 
     def __init__(self):
         self.vel = Vector(0, 0)
-        self.acc = Vector(0, 0)
-        self.max_speed = -1
 
     @property
     def speed(self):
@@ -35,14 +21,6 @@ class PhysicsComponent(EventDispatcher):
     @speed.setter
     def speed(self, value):
         self.vel = self.vdir * value
-
-    @property
-    def accel(self):
-        return self.acc.length
-
-    @accel.setter
-    def accel(self, value):
-        self.acc = self.adir * value
 
     @property
     def vdir(self):
@@ -54,6 +32,38 @@ class PhysicsComponent(EventDispatcher):
         speed = self.speed
         self.vel = vector
         self.speed = speed
+
+    def update(self, dt):
+        self.dispatch_event('on_dx', self.vel.x * dt)
+        self.dispatch_event('on_dy', self.vel.y * dt)
+
+LinearPhysicsComp.register_event_type('on_dx')
+LinearPhysicsComp.register_event_type('on_dy')
+
+
+class AccelPhysicsComp(VelPhysicsComp):
+
+    """
+    Physics Component
+
+    .. attribute:: max_speed
+
+        Caps speed after acceleration.  -1 for uncapped.
+
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.acc = Vector(0, 0)
+        self.max_speed = -1
+
+    @property
+    def accel(self):
+        return self.acc.length
+
+    @accel.setter
+    def accel(self, value):
+        self.acc = self.adir * value
 
     @property
     def adir(self):
@@ -67,11 +77,8 @@ class PhysicsComponent(EventDispatcher):
         self.speed = speed
 
     def update(self, dt):
-        self.dispatch_event('on_dx', self.vel.x * dt)
-        self.dispatch_event('on_dy', self.vel.y * dt)
+        super().update(dt)
         self.vel += self.acc * dt
         if self.max_speed >= 0 and self.speed > self.max_speed:
             self.speed = self.max_speed
 
-PhysicsComponent.register_event_type('on_dx')
-PhysicsComponent.register_event_type('on_dy')

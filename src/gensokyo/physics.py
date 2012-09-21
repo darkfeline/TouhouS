@@ -4,6 +4,72 @@ from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector
 
+class FreePhysicsComp(EventDispatcher):
+
+    """
+    Free Physics Component
+
+    Provides simple single velocity movement, with physics vectors to an
+    arbitrary degree (v, dv, ddv, ...)
+
+    """
+
+    def __init__(self, n=1):
+        self.vectors = [Vector(0, 0) for i in range(n)]
+
+    def get_vector(self, i):
+        try:
+            return self.vectors[i]
+        except IndexError:
+            raise IndexError(self + " doesn't have vector with degree " + i)
+
+    def set_vector(self, i, vector):
+        try:
+            self.vectors[i] = vector
+        except IndexError:
+            raise IndexError(self + " doesn't have vector with degree " + i)
+
+    def get_mag(self, i):
+        try:
+            return self.vectors[i].length
+        except IndexError:
+            raise IndexError(self + " doesn't have vector with degree " + i)
+
+    def set_mag(self, i, value):
+        try:
+            self.vectors[i].length = value
+        except IndexError:
+            raise IndexError(self + " doesn't have vector with degree " + i)
+
+    def get_dir(self, i):
+        try:
+            return self.vectors[i].get_unit_vector()
+        except IndexError:
+            raise IndexError(self + " doesn't have vector with degree " + i)
+
+    def set_dir(self, i, value):
+        speed = self.get_mag(i)
+        try:
+            self.set_vector(i) = value
+        except IndexError:
+            raise IndexError(self + " doesn't have vector with degree " + i)
+        self.set_mag(speed)
+
+    def update(self, dt):
+        v = self.get_vector(0)
+        self.dispatch_event('on_dx', v.x * dt)
+        self.dispatch_event('on_dy', v.y * dt)
+        if len(self.vectors) > 1:
+            for i in range(1, len(self.vectors) - 1):
+                v = self.get_vector(i)
+                dv = self.get_vector(i + 1)
+                v.x = v.x + dv.x * dt
+                v.y = v.y + dv.y * dt
+                self.set_vector(i, v)
+
+FreePhysicsComp.register_event_type('on_dx')
+FreePhysicsComp.register_event_type('on_dy')
+
 class LinearPhysicsComp(EventDispatcher):
 
     """

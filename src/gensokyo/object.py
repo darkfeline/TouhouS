@@ -138,6 +138,17 @@ class AIComponent(EventDispatcher):
     pass
 
 
+class LifeComponent(DeathInterface):
+
+    def __init__(self, life):
+        self.life = life
+
+    def on_hit(self, dmg):
+        self.life -= dmg
+        if self.life <= 0:
+            self.die()
+
+
 class DeathInterface(EventDispatcher):
 
     """

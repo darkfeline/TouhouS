@@ -106,7 +106,7 @@ class PhysicsComponent(EventDispatcher):
 
     @speed.setter
     def speed(self, value):
-        self.vel = self.vel.get_unit_vector() * value
+        self.vel = self.vdir * value
 
     @property
     def accel(self):
@@ -114,7 +114,29 @@ class PhysicsComponent(EventDispatcher):
 
     @accel.setter
     def accel(self, value):
-        self.acc = self.acc.get_unit_vector() * value
+        self.acc = self.adir * value
+
+    @property
+    def vdir(self):
+        return self.vel.get_unit_vector()
+
+    @vdir.setter
+    def vdir(self, value):
+        """Set velocity direction as the same as vector"""
+        speed = self.speed
+        self.vel = vector
+        self.speed = speed
+
+    @property
+    def adir(self):
+        return self.acc.get_unit_vector()
+
+    @adir.setter
+    def adir(self, value):
+        """Set acceleration direction as the same as vector"""
+        speed = self.speed
+        self.acc = vector
+        self.speed = speed
 
     def update(self, dt):
         self.dispatch_event('on_dx', self.vel.x * dt)

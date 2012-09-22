@@ -40,7 +40,8 @@ class CollisionManager:
         self.components = {}
 
     def add(self, component):
-        """Adds handlers of component.
+        """
+        Adds handlers of component.
 
         First checks for instance attribute chandlers and adds handlers if has.
         Else checks for class attribute chandlers.
@@ -53,7 +54,11 @@ class CollisionManager:
 
     def add_handlers(self, component, handlers):
         """
-        handlers = {class: method,...}
+        Add handlers and associate with component
+
+        :param handlers: {class: method,...}
+        :type handlers: dict
+
         """
         cls = type(component)
         if cls not in self.components.keys():

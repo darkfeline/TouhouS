@@ -35,6 +35,9 @@ class Scene:
     def __init__(self):
         self.objects = set()
 
+    def add(self, obj):
+        self.objects.add(obj)
+
     def on_remove(self, obj):
         self.objects.remove(obj)
 

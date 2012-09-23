@@ -11,11 +11,21 @@ Some shared terminology:
 
 """
 
+import abc
+
 from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector
 
-class DiffBasePhysicsComp(EventDispatcher):
+class AbstractPhysicsComponent(EventDispatcher):
+
+    __meta__ = abc.ABCMeta
+
+AbstractPhysicsComponent.register_event_type('on_dx')
+AbstractPhysicsComponent.register_event_type('on_dy')
+
+
+class DiffBasePhysicsComp(AbstractPhysicsComponent):
 
     """
     Differentials Base Physics Component
@@ -83,9 +93,6 @@ class DiffBasePhysicsComp(EventDispatcher):
                 v.x = v.x + dv.x * dt
                 v.y = v.y + dv.y * dt
                 self.set_vector(i, v)
-
-DiffBasePhysicsComp.register_event_type('on_dx')
-DiffBasePhysicsComp.register_event_type('on_dy')
 
 
 class LinearPhysicsComp(DiffBasePhysicsComp):

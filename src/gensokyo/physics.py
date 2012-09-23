@@ -242,24 +242,10 @@ class LinearDestComp(LinearPhysicsComp):
             super().update(dt)
 
 
-class SmoothDestComp(LinearDestComp):
+class SmoothDestComp(LinearDestComp, LinearAccelPhysicsComp):
 
     """
     Moves with acceleration and deceleration toward dest.
     """
 
-    def __init__(self):
-        super().__init__(self)
-        self.accel = 0
-        self.max_speed = -1
-
-    @property
-    def vdir(self):
-        return self.vel.get_unit_vector()
-
-    @vdir.setter
-    def vdir(self, value):
-        """Set velocity direction as the same as vector"""
-        speed = self.speed
-        self.vel = vector
-        self.speed = speed
+    pass

@@ -15,10 +15,11 @@ class EnemyCollisionComponent(CollisionComponent):
 
     def __init__(self, x, y, w, h, hb):
         super().__init__(x, y, w, h, hb)
-        self.handlers = {PlayerBulletCollisionComponent:self.hit}
 
     def hit(self, other):
         self.dispatch_event('on_hit', other.dmg)
+
+    handlers = {PlayerBulletCollisionComponent:hit}
 
 EnemyCollisionComponent.register_event_type('on_hit')
 

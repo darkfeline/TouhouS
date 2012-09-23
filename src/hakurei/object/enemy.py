@@ -4,10 +4,24 @@ import pyglet
 
 from gensokyo.object import GameObject, Group
 from gensokyo.primitives import Vector
+from gensokyo.object import CollisionComponent
 
 from hakurei.object.bullet import BulletGroup
 from hakurei.object import bullet
+from hakurei.object.player import PlayerBulletCollisionComponent
 from hakurei import resources
+
+class EnemyCollisionComponent(CollisionComponent):
+
+    def __init__(self, x, y, w, h, hb):
+        super().__init__(x, y, w, h, hb)
+        self.handlers = {PlayerBulletCollisionComponent:self.hit}
+
+    def hit(self, other):
+        self.dispatch_event('on_hit', other.dmg)
+
+EnemyCollisionComponent.register_event_type('on_hit')
+
 
 class EnemyGroup(Group):
 

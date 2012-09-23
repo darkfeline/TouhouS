@@ -231,3 +231,22 @@ class SmoothDestComp(LinearDestComp):
                 self.speed += self.accel * dt
                 if self.speed > self.max_speed:
                     self.speed = self.max_speed
+
+
+class SplitBasePhysicsComp(AbstractPhysicsComponent):
+
+    """
+    Split Factor Base Physics Comp
+
+    Direction and speed (magnitude) are split.  This implementation makes
+    certain things easier, such as player movement.
+
+    """
+
+    def __init__(self, speed):
+        self.vdir = Vector(0, 0)
+        self.speed = speed
+
+    def update(self, dt):
+        self.dispatch_event('on_dx', self.vdir.x * self.speed * dt)
+        self.dispatch_event('on_dx', self.vdir.y * self.speed * dt)

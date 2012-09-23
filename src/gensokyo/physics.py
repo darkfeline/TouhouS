@@ -193,10 +193,31 @@ class LinearDestComp(LinearPhysicsComp):
             super().update(dt)
 
 
-class SmoothDestComp(LinearDestComp, LinearAccelPhysicsComp):
+class SmoothDestComp(LinearDestComp):
 
     """
     Moves with acceleration and deceleration toward dest.
     """
 
-    pass
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.accel = 0
+        self.max_speed = -1
+
+    @property
+    def accel_dist(self):
+        return self.max_speed - self.speed
+
+    @property
+    def decel_dist(self):
+        return self.speed
+
+    def update(self, dt):
+        super().update(dt)
+        if not self.dpos.length = 0:
+            if self.dpos.length <= self.decel_dist:
+                self.speed -= self.accel * dt
+            elif self.speed < self.max_speed:
+                self.speed += self.accel * dt
+                if self.speed > self.max_speed:
+                    self.speed = self.max_speed

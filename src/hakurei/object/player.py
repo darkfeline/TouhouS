@@ -50,7 +50,7 @@ class PlayerPhysicsComp(MultiSplitPhysicsComp):
         self.state = state
 
 
-class Player(GameObject, PlayerInputComponent):
+class Player(Container):
 
     sprite_img = None
     sprite_group = 'player'
@@ -59,6 +59,31 @@ class Player(GameObject, PlayerInputComponent):
     _die_invuln = 3
 
     def __init__(self, x, y, hb=None):
+
+        super().__init__()
+
+        p = SmoothDestComp()
+        c = EnemyCollisionComponent(x, y, self.sprite_img.width,
+                self.sprite_img.height, self.hb)
+        g = SpriteComponent(self.sprite_group, img=self.sprite_img)
+        l = LifeComponent(self.init_life)
+
+        p.speed = 0
+        p.accel = 100
+        p.max_speed = 300
+
+        p.push_handlers(g)
+        p.push_handlers(c)
+        c.push_handlers(l)
+        l.push_handlers(g)
+        l.push_handlers(self)
+
+        self.add(p)
+        self.add(c)
+        self.add(g)
+        self.add(l)
+
+
         super().__init__(x, y, hb=hb)
         PlayerInputComponent.__init__(self)
         self._focus = 0

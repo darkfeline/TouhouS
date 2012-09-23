@@ -128,57 +128,6 @@ class LinearPhysicsComp(DiffBasePhysicsComp):
         self.speed = speed
 
 
-class AccelPhysicsComp(LinearPhysicsComp):
-
-    """
-    Physics Component
-
-    Provides freeform velocity and acceleration, with capped velocity
-
-    .. attribute:: max_speed
-
-        Caps speed after acceleration.  -1 for uncapped.
-
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.vectors.append(Vector(0, 0))
-        self.max_speed = -1
-
-    @property
-    def acc(self):
-        return self.get_vector(1)
-
-    @acc.setter
-    def acc(self, value):
-        self.set_vector(1, value)
-
-    @property
-    def accel(self):
-        return self.acc.length
-
-    @accel.setter
-    def accel(self, value):
-        self.acc = self.adir * value
-
-    @property
-    def adir(self):
-        return self.acc.get_unit_vector()
-
-    @adir.setter
-    def adir(self, value):
-        """Set acceleration direction as the same as vector"""
-        speed = self.speed
-        self.acc = vector
-        self.speed = speed
-
-    def update(self, dt):
-        super().update(dt)
-        if self.max_speed >= 0 and self.speed > self.max_speed:
-            self.speed = self.max_speed
-
-
 class LinearAccelPhysicsComp(LinearPhysicsComp):
 
     """

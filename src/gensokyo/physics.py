@@ -189,7 +189,7 @@ class LinearDestComp(LinearPhysicsComp):
         self.dpos = (self.dpos[0], self.dpos[1] - dy)
 
     def update(self, dt):
-        if not self.dpos[0] <= 0 and not self.dpos[1] <= 1:
+        if not self.dpos[0] <= 0 and not self.dpos[1] <= 0:
             super().update(dt)
 
 

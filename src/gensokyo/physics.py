@@ -249,9 +249,9 @@ class SplitPhysicsComp(AbstractPhysicsComponent):
 
     """
 
-    def __init__(self, speed):
+    def __init__(self):
         self.vdir = Vector(0, 0)
-        self.speed = speed
+        self.speed = 0
 
     def update(self, dt):
         self.dispatch_event('on_dx', self.vdir.x * self.speed * dt)

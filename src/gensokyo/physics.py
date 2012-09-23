@@ -232,13 +232,14 @@ class LinearDestComp(LinearPhysicsComp):
 
     def on_dx(self, dx):
         self.pos += Vector(dx, 0)
+        self.dpos = (self.dpos[0] - dx, self.dpos[1])
 
     def on_dy(self, dy):
         self.pos += Vector(0, dy)
+        self.dpos = (self.dpos[0], self.dpos[1] - dy)
 
     def update(self, dt):
         if not self.dpos[0] <= 0 and not self.dpos[1] <= 1:
-            self.dpos = (self.dpos[i] - self.vel[i] for i in range(2))
             super().update(dt)
 
 

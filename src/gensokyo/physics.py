@@ -206,29 +206,40 @@ class LinearAccelPhysicsComp(LinearPhysicsComp):
             self.speed = self.max_speed
 
 
-class LinearDestComp:
+class LinearDestComp(LinearPhysicsComp):
 
     """
     Moves at a constant speed to the destination.
     """
 
     def __init__(self, x, y):
-    def __init__(self):
+        super().__init__()
+        self.pos = Vector(x, y)
         self.dest = Vector(0, 0)
-        self.vel = Vector(0, 0)
-        self.accel = 0
-
-    @property
-    def speed(self):
-        return self.vel.length
-
-    @speed.setter
-    def speed(self, value):
-        self.vel.length = value
+        self.dpos = (0, 0)
 
     @property
     def dest(self):
         return self._dest
+
+    @dest.setter
+    def dest(self, value):
+        self._dest = value
+        speed = self.speed
+        self.vel = value - self.pos
+        self.speed = speed
+        self.dpos = (a for a in (self.dest - self.pos))
+
+    def on_dx(self, dx):
+        self.pos += Vector(dx, 0)
+
+    def on_dy(self, dy):
+        self.pos += Vector(0, dy)
+
+    def update(self, dt):
+        if not self.dpos[0] <= 0 and not self.dpos[1] <= 1:
+            self.dpos = (self.dpos[i] - self.vel[i] for i in range(2))
+            super().update(dt)
 
 
 class SmoothDestComp(LinearDestComp):

@@ -35,6 +35,17 @@ class PlayerInputComponent(InputComponent):
             self.shooting = 0
 
 
+class PlayerPhysicsComp(MultiSplitPhysicsComp):
+
+    speeds = (0, 0)
+
+    def on_set_vdir(self, vector):
+        self.vdir = vector
+
+    def on_set_state(self, state):
+        self.state = state
+
+
 class Player(GameObject, PlayerInputComponent):
 
     sprite_img = None

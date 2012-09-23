@@ -3,6 +3,7 @@
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
 from gensokyo.primitives import Vector
+from gensokyo.game import Scene
 
 from hakurei.object.player import Reimu
 from hakurei.object.stage import StageOne
@@ -10,7 +11,7 @@ from hakurei.object.ui import UI
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT, WIDTH
 
-class ShootingScene:
+class ShootingScene(Scene):
 
     ui_class = UI
     player_class = Reimu
@@ -67,6 +68,8 @@ class ShootingScene:
         self.ui.bombs = value
 
     def update(self, dt):
+
+        super().update(dt)
 
         self.ui.update(dt)
         self.player.update(dt)

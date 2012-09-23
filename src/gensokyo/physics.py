@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 
+"""
+Some shared terminology:
+
+`vel`, `acc`
+    velocity, acceleration vectors
+
+`speed`, `accel`
+    speed, acceleration, i.e. magnitude of vel, acc
+
+"""
+
 from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector

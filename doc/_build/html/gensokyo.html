@@ -147,6 +147,11 @@ Else checks for class attribute chandlers.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>Abstract Scene</p>
 <dl class="method">
+<dt id="gensokyo.game.Scene.add">
+<tt class="descname">add</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#gensokyo.game.Scene.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="gensokyo.game.Scene.on_remove">
 <tt class="descname">on_remove</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#gensokyo.game.Scene.on_remove" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -377,6 +382,13 @@ Propagates updates to components with update method.</p>
 </div>
 <div class="section" id="module-gensokyo.physics">
 <span id="physics-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">physics</span></tt> Module<a class="headerlink" href="#module-gensokyo.physics" title="Permalink to this headline">¶</a></h2>
+<p>Some shared terminology:</p>
+<dl class="docutils">
+<dt><cite>vel</cite>, <cite>acc</cite></dt>
+<dd>velocity, acceleration vectors</dd>
+<dt><cite>speed</cite>, <cite>accel</cite></dt>
+<dd>speed, acceleration, i.e. magnitude of vel, acc</dd>
+</dl>
 <dl class="class">
 <dt id="gensokyo.physics.AccelPhysicsComp">
 <em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">AccelPhysicsComp</tt><a class="headerlink" href="#gensokyo.physics.AccelPhysicsComp" title="Permalink to this definition">¶</a></dt>
@@ -489,6 +501,12 @@ vector.  0 is v, 1 is dv, 2 is ddv, and so on.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="gensokyo.physics.LinearDestComp">
+<em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">LinearDestComp</tt><a class="headerlink" href="#gensokyo.physics.LinearDestComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+</dd></dl>
+
+<dl class="class">
 <dt id="gensokyo.physics.LinearPhysicsComp">
 <em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">LinearPhysicsComp</tt><a class="headerlink" href="#gensokyo.physics.LinearPhysicsComp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.physics.FreePhysicsComp" title="gensokyo.physics.FreePhysicsComp"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.physics.FreePhysicsComp</span></tt></a></p>
@@ -507,6 +525,17 @@ vector.  0 is v, 1 is dv, 2 is ddv, and so on.</p>
 <dl class="attribute">
 <dt id="gensokyo.physics.LinearPhysicsComp.vel">
 <tt class="descname">vel</tt><a class="headerlink" href="#gensokyo.physics.LinearPhysicsComp.vel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.physics.SmoothDestPhysicsComp">
+<em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">SmoothDestPhysicsComp</tt><a class="headerlink" href="#gensokyo.physics.SmoothDestPhysicsComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.physics.LinearPhysicsComp" title="gensokyo.physics.LinearPhysicsComp"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.physics.LinearPhysicsComp</span></tt></a></p>
+<dl class="attribute">
+<dt id="gensokyo.physics.SmoothDestPhysicsComp.vdir">
+<tt class="descname">vdir</tt><a class="headerlink" href="#gensokyo.physics.SmoothDestPhysicsComp.vdir" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

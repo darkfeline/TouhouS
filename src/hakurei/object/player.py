@@ -9,7 +9,7 @@ from hakurei import resources
 
 class PlayerInputComponent(InputComponent):
 
-    def on_update(self, dt):
+    def update(self, dt):
         x = 0
         if locator.key_state[key.LEFT]:
             x = -1
@@ -20,19 +20,23 @@ class PlayerInputComponent(InputComponent):
             y = -1
         if locator.key_state[key.UP]:
             y += 1
-        Vector(x, y).get_unit_vector()
+        v = Vector(x, y).get_unit_vector()
+        self.dispatch_event('on_set_vdir', v)
 
     def key_press(self, symbol, modifiers):
         if symbol == key.LSHIFT:
-            self.focus = 1
+            self.dispatch_event('on_set_state', 1)
         elif symbol == key.Z:
             self.shooting = 1
 
     def key_release(self, symbol, modifiers):
         if symbol == key.LSHIFT:
-            self.focus = 0
+            self.dispatch_event('on_set_state', 0)
         elif symbol == key.Z:
             self.shooting = 0
+
+PlayerInputComponent.register_event_type('on_set_state')
+PlayerInputComponent.register_event_type('on_set_vdir')
 
 
 class PlayerPhysicsComp(MultiSplitPhysicsComp):

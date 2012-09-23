@@ -23,26 +23,6 @@ class EnemyCollisionComponent(CollisionComponent):
 EnemyCollisionComponent.register_event_type('on_hit')
 
 
-class EnemyGroup(Group):
-
-    def __init__(self, bullets=None):
-        super().__init__()
-        self.bullets = bullets
-
-    @property
-    def enemies(self):
-        return list(self.objects)
-
-    @enemies.setter
-    def enemies(self, value):
-        self.objects = set(value)
-
-    def add(self, enemy):
-        super().add(enemy)
-        if enemy.bullets is not self.bullets:
-            enemy.bullets = self.bullets
-
-
 class Enemy(Container):
 
     sprite_img = None

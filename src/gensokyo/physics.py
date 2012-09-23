@@ -150,9 +150,10 @@ class LinearAccelPhysicsComp(LinearPhysicsComp):
 
     def update(self, dt):
         super().update(dt)
-        self.speed += self.accel * dt
-        if self.max_speed >= 0 and self.speed > self.max_speed:
-            self.speed = self.max_speed
+        if self.speed < self.max_speed:
+            self.speed += self.accel * dt
+            if self.speed > self.max_speed:
+                self.speed = self.max_speed
 
 
 class LinearDestComp(LinearPhysicsComp):

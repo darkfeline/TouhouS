@@ -6,6 +6,9 @@ from gensokyo.object import GameObject, Group
 from gensokyo.primitives import Vector
 from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
+from gensokyo.object import SpriteComponent
+from gensokyo.object import LifeComponent
+from gensokyo.physics import LinearAccelPhysicsComp
 
 from hakurei.object.bullet import BulletGroup
 from hakurei.object import bullet
@@ -46,16 +49,37 @@ class EnemyGroup(Group):
 
 class Enemy(Container):
 
+    sprite_img = None
     sprite_group = 'enemy'
+    hb = None
+    init_life = 200
 
-    def __init__(self, x, y, hb=None):
-        super().__init__(x, y, hb)
+    def __init__(self, x, y):
+
+        super().__init__()
+
+        p = LinearAccelPhysicsComp()
+        c = EnemyCollisionComponent(x, y, self.sprite_img.width,
+                self.sprite_img.height, self.hb)
+        g = SpriteComponent(self.sprite_group, img=self.sprite_img)
+        l = LifeComponent(self.init_life)
+        a = EnemyAIComponent()
+
+        p.speed = 0
+        p.accel = 100
+        p.max_speed = 300
+
+        p.push_handlers(g)
+        p.push_handlers(c)
+        c.push_handlers(l)
+        l.push_handlers(g)
+        l.push_handlers(self)
+
+        self.add(p)
+        self.add(c)
+        self.add(g)
+
         self.dest = Vector(x, y)
-        self.speed = 0
-        self.max_speed = 300
-        self.accel = 100
-        self.life = 200
-        self.bullets = None
 
     @property
     def accel_dist(self):

@@ -20,11 +20,11 @@ class DiffBasePhysicsComp(EventDispatcher):
     """
     Differentials Base Physics Component
 
-    Provides simple single velocity movement, with physics vectors to an
+    Provides simple single velocity movement, with differetial vectors to an
     arbitrary degree (v, dv, ddv, ...)
 
-    On update, sends `on_dx` and `on_dy` according to v and `dt`.  Then it changes
-    v according to dv and `dt`.  And so on.
+    On update, sends `on_dx` and `on_dy` according to v and `dt`.  Then it
+    changes v according to dv and `dt`.  And so on.
 
     Get/set methods take an index `i` which refers to the 'degree' of the
     vector.  0 is v, 1 is dv, 2 is ddv, and so on.

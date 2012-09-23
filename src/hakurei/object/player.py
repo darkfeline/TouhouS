@@ -62,11 +62,10 @@ class Player(Container):
 
         super().__init__()
 
-        p = SmoothDestComp()
+        p = PlayerPhysicsComp()
         c = EnemyCollisionComponent(x, y, self.sprite_img.width,
                 self.sprite_img.height, self.hb)
         g = SpriteComponent(self.sprite_group, img=self.sprite_img)
-        l = LifeComponent(self.init_life)
 
         p.speed = 0
         p.accel = 100
@@ -74,14 +73,12 @@ class Player(Container):
 
         p.push_handlers(g)
         p.push_handlers(c)
-        c.push_handlers(l)
-        l.push_handlers(g)
-        l.push_handlers(self)
+        c.push_handlers(g)
+        c.push_handlers(self)
 
         self.add(p)
         self.add(c)
         self.add(g)
-        self.add(l)
 
 
         super().__init__(x, y, hb=hb)

@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 from pyglet.window import key
-from pyglet.sprite import Sprite
-from gensokyo.object import GameObject, InputComponent
 from gensokyo.primitives import Vector, Circle
 
-from hakurei.object.bullet import Bullet, BulletGroup
+from hakurei.object.bullet import Bullet
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 

@@ -203,3 +203,23 @@ class LinearAccelPhysicsComp(LinearPhysicsComp):
         self.speed += self.accel * dt
         if self.max_speed >= 0 and self.speed > self.max_speed:
             self.speed = self.max_speed
+
+
+class LinearDestComp:
+
+    def __init__(self):
+        self.dest = Vector(0, 0)
+        self.vel = Vector(0, 0)
+        self.accel = 0
+
+    @property
+    def speed(self):
+        return self.vel.length
+
+    @speed.setter
+    def speed(self, value):
+        self.vel.length = value
+
+    @property
+    def dest(self):
+        return self._dest

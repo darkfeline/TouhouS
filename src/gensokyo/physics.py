@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
 """
+Physics components
+
+All physics components should subclass AbstractPhysicsComponent.  All
+implementations have the different naming scheme PhysicsComp for brevity; this
+should be maintained to reduce confusion.
+
 Physics components use some consistent terminology to keeps things
 understandable:
 

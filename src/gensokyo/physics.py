@@ -87,6 +87,7 @@ class FreePhysicsComp(EventDispatcher):
 FreePhysicsComp.register_event_type('on_dx')
 FreePhysicsComp.register_event_type('on_dy')
 
+
 class LinearPhysicsComp(FreePhysicsComp):
 
     """

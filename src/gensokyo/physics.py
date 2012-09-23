@@ -15,10 +15,10 @@ from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector
 
-class FreePhysicsComp(EventDispatcher):
+class DiffBasePhysicsComp(EventDispatcher):
 
     """
-    Free Physics Component
+    Differentials Base Physics Component
 
     Provides simple single velocity movement, with physics vectors to an
     arbitrary degree (v, dv, ddv, ...)
@@ -84,11 +84,11 @@ class FreePhysicsComp(EventDispatcher):
                 v.y = v.y + dv.y * dt
                 self.set_vector(i, v)
 
-FreePhysicsComp.register_event_type('on_dx')
-FreePhysicsComp.register_event_type('on_dy')
+DiffBasePhysicsComp.register_event_type('on_dx')
+DiffBasePhysicsComp.register_event_type('on_dy')
 
 
-class LinearPhysicsComp(FreePhysicsComp):
+class LinearPhysicsComp(DiffBasePhysicsComp):
 
     """
     Linear Physics Component

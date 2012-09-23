@@ -39,6 +39,9 @@ class BulletCollisionComponent(CollisionComponent, DeathInterface):
 
 class Bullet(Container):
 
+    physics = LinearPhysicsComp
+    collision = BulletCollisionComponent
+
     sprite_img = None
     sprite_group = 'enemy_bullet'
     hb = None
@@ -47,9 +50,9 @@ class Bullet(Container):
 
         super().__init__()
 
-        p = LinearPhysicsComp()
-        c = BulletCollisionComponent(x, y, self.sprite_img.width,
-                self.sprite_img.height, self.hb)
+        p = self.physics()
+        c = self.collision(x, y, self.sprite_img.width, self.sprite_img.height,
+                self.hb)
         g = SpriteComponent(self.sprite_group, img=self.sprite_img)
 
         p.vel = vector

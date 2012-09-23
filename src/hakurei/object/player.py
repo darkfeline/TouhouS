@@ -56,7 +56,7 @@ class Player(Container):
     sprite_group = 'player'
     hb_img = None
     hb_group = 'player_hb'
-    _die_invuln = 3
+    die_invuln = 3
 
     def __init__(self, x, y, hb=None):
 
@@ -149,7 +149,7 @@ class Player(Container):
         if self.invuln > 0:
             return 1
         else:
-            self.invuln += Player._die_invuln
+            self.invuln += Player.die_invuln
             return 0
 
     def update(self, dt):

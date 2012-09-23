@@ -121,6 +121,9 @@ class InputComponent:
     def delete(self):
         locator.window.remove_handlers(self)
 
+    def on_delete(self):
+        self.delete()
+
 
 class DeathInterface(EventDispatcher):
 

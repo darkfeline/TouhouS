@@ -5,7 +5,7 @@ from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
 from gensokyo.object import SpriteComponent
 from gensokyo.object import LifeComponent
-from gensokyo.physics import LinearAccelPhysicsComp
+from gensokyo.physics import SmoothDestComp
 
 from hakurei.object import bullet
 from hakurei.object.player import PlayerBulletCollisionComponent
@@ -34,12 +34,11 @@ class Enemy(Container):
 
         super().__init__()
 
-        p = LinearAccelPhysicsComp()
+        p = SmoothDestComp()
         c = EnemyCollisionComponent(x, y, self.sprite_img.width,
                 self.sprite_img.height, self.hb)
         g = SpriteComponent(self.sprite_group, img=self.sprite_img)
         l = LifeComponent(self.init_life)
-        a = EnemyAIComponent()
 
         p.speed = 0
         p.accel = 100
@@ -54,57 +53,9 @@ class Enemy(Container):
         self.add(p)
         self.add(c)
         self.add(g)
+        self.add(l)
 
-        self.dest = Vector(x, y)
-
-    @property
-    def accel_dist(self):
-        return self.max_speed - self.speed
-
-    @property
-    def decel_dist(self):
-        return self.speed
-
-    @property
-    def dest(self):
-        return self._dest
-
-    @dest.setter
-    def dest(self, value):
-        self._dest = value
-        self._vector = value - Vector(self.x, self.y)
-        self._vector = self._vector.get_unit_vector()
-
-    @property
-    def vector(self):
-        return self._vector
-
-    def hit(self, dmg):
-        self.life -= dmg
-        if self.life < 0:
-            self.die()
-
-    def die(self):
-        pass
-
-    def fire_at(self, dest):
-        dest = Vector(dest[0], dest[1])
-        v = dest - Vector(self.x, self.y)
-        b = bullet.Bullet(self.x, self.y, vector=v)
-        self.bullets.add(b)
-
-    def update(self, dt):
-        # movement
-        diff = self.dest - Vector(self.x, self.y)
-        if diff != Vector(0, 0):
-            # acceleration/deceleration
-            if diff.length <= self.decel_dist:
-                self.speed -= self.accel * dt
-            if self.speed < self.max_speed:
-                self.speed += self.accel * dt
-            # movement
-            self.x += self.speed * self.vector.x * dt
-            self.y += self.speed * self.vector.y * dt
+        self.physics = p
 
 
 class GenericEnemy(Enemy):

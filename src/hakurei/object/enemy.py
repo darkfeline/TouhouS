@@ -4,6 +4,7 @@ import pyglet
 
 from gensokyo.object import GameObject, Group
 from gensokyo.primitives import Vector
+from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
 
 from hakurei.object.bullet import BulletGroup
@@ -43,7 +44,7 @@ class EnemyGroup(Group):
             enemy.bullets = self.bullets
 
 
-class Enemy(GameObject):
+class Enemy(Container):
 
     sprite_group = 'enemy'
 

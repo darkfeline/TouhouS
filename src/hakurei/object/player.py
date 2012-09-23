@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from pyglet.window import key
+from gensokyo.object import Container
+from gensokyo.physics import MultiSplitPhysicsComp
 from gensokyo.primitives import Vector, Circle
 
 from hakurei.object.bullet import Bullet

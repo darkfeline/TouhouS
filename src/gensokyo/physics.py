@@ -256,3 +256,28 @@ class SplitPhysicsComp(AbstractPhysicsComponent):
     def update(self, dt):
         self.dispatch_event('on_dx', self.vdir.x * self.speed * dt)
         self.dispatch_event('on_dx', self.vdir.y * self.speed * dt)
+
+
+class MultiSplitPhysicsComp(SplitPhysicsComp):
+
+    """
+    Multiple Speed Split Physics Comp
+    """
+
+    speeds = (0)
+
+    def __init__(self):
+        self.vdir = Vector(0, 0)
+        self.state = 0
+
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, value):
+        self._state = value
+
+    @property
+    def speed(self):
+        return self.speeds[self.state]

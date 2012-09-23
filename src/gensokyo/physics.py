@@ -166,7 +166,10 @@ class LinearDestComp(LinearPhysicsComp):
         super().__init__()
         self.pos = Vector(x, y)
         self.dest = Vector(0, 0)
-        self.dpos = (0, 0)
+
+    @property
+    def dpos(self):
+        return self.dest - self.pos
 
     @property
     def dest(self):
@@ -178,18 +181,15 @@ class LinearDestComp(LinearPhysicsComp):
         speed = self.speed
         self.vel = value - self.pos
         self.speed = speed
-        self.dpos = (a for a in (self.dest - self.pos))
 
     def on_dx(self, dx):
         self.pos += Vector(dx, 0)
-        self.dpos = (self.dpos[0] - dx, self.dpos[1])
 
     def on_dy(self, dy):
         self.pos += Vector(0, dy)
-        self.dpos = (self.dpos[0], self.dpos[1] - dy)
 
     def update(self, dt):
-        if not self.dpos[0] <= 0 and not self.dpos[1] <= 0:
+        if not self.dpos.length = 0:
             super().update(dt)
 
 

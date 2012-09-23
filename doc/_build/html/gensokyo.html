@@ -502,8 +502,29 @@ vector.  0 is v, 1 is dv, 2 is ddv, and so on.</p>
 
 <dl class="class">
 <dt id="gensokyo.physics.LinearDestComp">
-<em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">LinearDestComp</tt><a class="headerlink" href="#gensokyo.physics.LinearDestComp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">LinearDestComp</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#gensokyo.physics.LinearDestComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.physics.LinearPhysicsComp" title="gensokyo.physics.LinearPhysicsComp"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.physics.LinearPhysicsComp</span></tt></a></p>
+<p>Moves at a constant speed to the destination.</p>
+<dl class="attribute">
+<dt id="gensokyo.physics.LinearDestComp.dest">
+<tt class="descname">dest</tt><a class="headerlink" href="#gensokyo.physics.LinearDestComp.dest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.physics.LinearDestComp.on_dx">
+<tt class="descname">on_dx</tt><big>(</big><em>dx</em><big>)</big><a class="headerlink" href="#gensokyo.physics.LinearDestComp.on_dx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.physics.LinearDestComp.on_dy">
+<tt class="descname">on_dy</tt><big>(</big><em>dy</em><big>)</big><a class="headerlink" href="#gensokyo.physics.LinearDestComp.on_dy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.physics.LinearDestComp.update">
+<tt class="descname">update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.physics.LinearDestComp.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -511,7 +532,7 @@ vector.  0 is v, 1 is dv, 2 is ddv, and so on.</p>
 <em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">LinearPhysicsComp</tt><a class="headerlink" href="#gensokyo.physics.LinearPhysicsComp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.physics.FreePhysicsComp" title="gensokyo.physics.FreePhysicsComp"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.physics.FreePhysicsComp</span></tt></a></p>
 <p>Linear Physics Component</p>
-<p>Provides simple single velocity movement</p>
+<p>Provides simple single velocity movement and adds convenience properties.</p>
 <dl class="attribute">
 <dt id="gensokyo.physics.LinearPhysicsComp.speed">
 <tt class="descname">speed</tt><a class="headerlink" href="#gensokyo.physics.LinearPhysicsComp.speed" title="Permalink to this definition">¶</a></dt>
@@ -530,12 +551,13 @@ vector.  0 is v, 1 is dv, 2 is ddv, and so on.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="gensokyo.physics.SmoothDestPhysicsComp">
-<em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">SmoothDestPhysicsComp</tt><a class="headerlink" href="#gensokyo.physics.SmoothDestPhysicsComp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.physics.LinearPhysicsComp" title="gensokyo.physics.LinearPhysicsComp"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.physics.LinearPhysicsComp</span></tt></a></p>
+<dt id="gensokyo.physics.SmoothDestComp">
+<em class="property">class </em><tt class="descclassname">gensokyo.physics.</tt><tt class="descname">SmoothDestComp</tt><a class="headerlink" href="#gensokyo.physics.SmoothDestComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.physics.LinearDestComp" title="gensokyo.physics.LinearDestComp"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.physics.LinearDestComp</span></tt></a></p>
+<p>Moves with acceleration and deceleration toward dest.</p>
 <dl class="attribute">
-<dt id="gensokyo.physics.SmoothDestPhysicsComp.vdir">
-<tt class="descname">vdir</tt><a class="headerlink" href="#gensokyo.physics.SmoothDestPhysicsComp.vdir" title="Permalink to this definition">¶</a></dt>
+<dt id="gensokyo.physics.SmoothDestComp.vdir">
+<tt class="descname">vdir</tt><a class="headerlink" href="#gensokyo.physics.SmoothDestComp.vdir" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

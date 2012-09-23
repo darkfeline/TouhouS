@@ -28,10 +28,10 @@ AbstractPhysicsComponent.register_event_type('on_dx')
 AbstractPhysicsComponent.register_event_type('on_dy')
 
 
-class DiffBasePhysicsComp(AbstractPhysicsComponent):
+class DiffPhysicsComp(AbstractPhysicsComponent):
 
     """
-    Differentials Base Physics Component
+    Differentials Physics Component
 
     Provides simple single velocity movement, with differetial vectors to an
     arbitrary degree (v, dv, ddv, ...)
@@ -98,7 +98,7 @@ class DiffBasePhysicsComp(AbstractPhysicsComponent):
                 self.set_vector(i, v)
 
 
-class LinearPhysicsComp(DiffBasePhysicsComp):
+class LinearPhysicsComp(DiffPhysicsComp):
 
     """
     Linear Physics Component
@@ -233,10 +233,10 @@ class SmoothDestComp(LinearDestComp):
                     self.speed = self.max_speed
 
 
-class SplitBasePhysicsComp(AbstractPhysicsComponent):
+class SplitPhysicsComp(AbstractPhysicsComponent):
 
     """
-    Split Factor Base Physics Comp
+    Split Factor Physics Comp
 
     Direction and speed (magnitude) are split.  This implementation makes
     certain things easier, such as player movement.

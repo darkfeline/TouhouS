@@ -65,7 +65,12 @@ class Bullet(Container):
         self.add(g)
 
 
-class RoundBullet(Bullet):
+class EnemyBullet(Bullet):
+
+    collision = EnemyBulletCollisionComponent
+
+
+class RoundBullet(EnemyBullet):
 
     sprite_img = resources.bullet['round']
 

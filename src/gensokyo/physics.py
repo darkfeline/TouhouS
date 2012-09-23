@@ -93,7 +93,7 @@ class LinearPhysicsComp(FreePhysicsComp):
     """
     Linear Physics Component
 
-    Provides simple single velocity movement
+    Provides simple single velocity movement and adds convenience properties.
 
     """
 
@@ -208,6 +208,11 @@ class LinearAccelPhysicsComp(LinearPhysicsComp):
 
 class LinearDestComp:
 
+    """
+    Moves at a constant speed to the destination.
+    """
+
+    def __init__(self, x, y):
     def __init__(self):
         self.dest = Vector(0, 0)
         self.vel = Vector(0, 0)
@@ -227,6 +232,10 @@ class LinearDestComp:
 
 
 class SmoothDestComp(LinearDestComp):
+
+    """
+    Moves with acceleration and deceleration toward dest.
+    """
 
     def __init__(self):
         super().__init__(self)

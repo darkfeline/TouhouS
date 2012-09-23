@@ -15,16 +15,16 @@ from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector
 
-class FreePhysicsComp(EventDispatcher):
+class DiffBasePhysicsComp(EventDispatcher):
 
     """
-    Free Physics Component
+    Differentials Base Physics Component
 
-    Provides simple single velocity movement, with physics vectors to an
+    Provides simple single velocity movement, with differetial vectors to an
     arbitrary degree (v, dv, ddv, ...)
 
-    On update, sends `on_dx` and `on_dy` according to v and `dt`.  Then it changes
-    v according to dv and `dt`.  And so on.
+    On update, sends `on_dx` and `on_dy` according to v and `dt`.  Then it
+    changes v according to dv and `dt`.  And so on.
 
     Get/set methods take an index `i` which refers to the 'degree' of the
     vector.  0 is v, 1 is dv, 2 is ddv, and so on.
@@ -84,15 +84,16 @@ class FreePhysicsComp(EventDispatcher):
                 v.y = v.y + dv.y * dt
                 self.set_vector(i, v)
 
-FreePhysicsComp.register_event_type('on_dx')
-FreePhysicsComp.register_event_type('on_dy')
+DiffBasePhysicsComp.register_event_type('on_dx')
+DiffBasePhysicsComp.register_event_type('on_dy')
 
-class LinearPhysicsComp(FreePhysicsComp):
+
+class LinearPhysicsComp(DiffBasePhysicsComp):
 
     """
     Linear Physics Component
 
-    Provides simple single velocity movement
+    Provides simple single velocity movement and adds convenience properties.
 
     """
 
@@ -127,57 +128,6 @@ class LinearPhysicsComp(FreePhysicsComp):
         self.speed = speed
 
 
-class AccelPhysicsComp(LinearPhysicsComp):
-
-    """
-    Physics Component
-
-    Provides freeform velocity and acceleration, with capped velocity
-
-    .. attribute:: max_speed
-
-        Caps speed after acceleration.  -1 for uncapped.
-
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.vectors.append(Vector(0, 0))
-        self.max_speed = -1
-
-    @property
-    def acc(self):
-        return self.get_vector(1)
-
-    @acc.setter
-    def acc(self, value):
-        self.set_vector(1, value)
-
-    @property
-    def accel(self):
-        return self.acc.length
-
-    @accel.setter
-    def accel(self, value):
-        self.acc = self.adir * value
-
-    @property
-    def adir(self):
-        return self.acc.get_unit_vector()
-
-    @adir.setter
-    def adir(self, value):
-        """Set acceleration direction as the same as vector"""
-        speed = self.speed
-        self.acc = vector
-        self.speed = speed
-
-    def update(self, dt):
-        super().update(dt)
-        if self.max_speed >= 0 and self.speed > self.max_speed:
-            self.speed = self.max_speed
-
-
 class LinearAccelPhysicsComp(LinearPhysicsComp):
 
     """
@@ -200,6 +150,74 @@ class LinearAccelPhysicsComp(LinearPhysicsComp):
 
     def update(self, dt):
         super().update(dt)
-        self.speed += self.accel * dt
-        if self.max_speed >= 0 and self.speed > self.max_speed:
-            self.speed = self.max_speed
+        if self.speed < self.max_speed:
+            self.speed += self.accel * dt
+            if self.speed > self.max_speed:
+                self.speed = self.max_speed
+
+
+class LinearDestComp(LinearPhysicsComp):
+
+    """
+    Moves at a constant speed to the destination.
+    """
+
+    def __init__(self, x, y):
+        super().__init__()
+        self.pos = Vector(x, y)
+        self.dest = Vector(0, 0)
+
+    @property
+    def dpos(self):
+        return self.dest - self.pos
+
+    @property
+    def dest(self):
+        return self._dest
+
+    @dest.setter
+    def dest(self, value):
+        self._dest = value
+        speed = self.speed
+        self.vel = value - self.pos
+        self.speed = speed
+
+    def on_dx(self, dx):
+        self.pos += Vector(dx, 0)
+
+    def on_dy(self, dy):
+        self.pos += Vector(0, dy)
+
+    def update(self, dt):
+        if not self.dpos.length = 0:
+            super().update(dt)
+
+
+class SmoothDestComp(LinearDestComp):
+
+    """
+    Moves with acceleration and deceleration toward dest.
+    """
+
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.accel = 0
+        self.max_speed = -1
+
+    @property
+    def accel_dist(self):
+        return self.max_speed - self.speed
+
+    @property
+    def decel_dist(self):
+        return self.speed
+
+    def update(self, dt):
+        super().update(dt)
+        if not self.dpos.length = 0:
+            if self.dpos.length <= self.decel_dist:
+                self.speed -= self.accel * dt
+            elif self.speed < self.max_speed:
+                self.speed += self.accel * dt
+                if self.speed > self.max_speed:
+                    self.speed = self.max_speed

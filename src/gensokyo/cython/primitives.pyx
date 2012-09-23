@@ -256,6 +256,28 @@ cdef class Vector:
             return Vector(0, 0)
         return Vector(math.cos(t), math.sin(t))
 
+    def __len__(self):
+        return 2
+
+    def __iter__(self):
+        return (self.x, self.y)
+
+    def __getitem__(self, key):
+        if key == 0:
+            return self.x
+        elif key == 1:
+            return self.y
+        else:
+            raise IndexError
+
+    def __setitem__(self, key, value):
+        if key == 0:
+            self.x = value
+        elif key == 1:
+            self.y = value
+        else:
+            raise IndexError
+
     def __add__(self, other):
         if not isinstance(other, Vector):
             raise NotImplemented

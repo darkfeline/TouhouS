@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
 """
-Some shared terminology:
+Physics components use some consistent terminology to keeps things
+understandable:
 
 `vel`, `acc`
     velocity, acceleration vectors
 
 `speed`, `accel`
     speed, acceleration, i.e. magnitude of vel, acc
+
+If these do not apply, the fact will be explicitly stated.
 
 """
 
@@ -203,7 +206,7 @@ class LinearDestComp(LinearPhysicsComp):
 class SmoothDestComp(LinearDestComp):
 
     """
-    Moves with acceleration and deceleration toward dest.
+    Moves with smooth acceleration and deceleration toward dest.
     """
 
     def __init__(self, x, y):

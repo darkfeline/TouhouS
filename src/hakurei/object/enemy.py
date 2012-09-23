@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-import pyglet
-
-from gensokyo.object import GameObject, Group
 from gensokyo.primitives import Vector
 from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
@@ -10,7 +7,6 @@ from gensokyo.object import SpriteComponent
 from gensokyo.object import LifeComponent
 from gensokyo.physics import LinearAccelPhysicsComp
 
-from hakurei.object.bullet import BulletGroup
 from hakurei.object import bullet
 from hakurei.object.player import PlayerBulletCollisionComponent
 from hakurei import resources

@@ -61,13 +61,13 @@ class Enemy(Container):
 class GenericEnemy(Enemy):
 
     sprite_img = resources.enemy['generic']
+    hb = Circle(0, 0, sprite_img.width)
+    init_life = 200
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.hb = self.rect
-        self.max_speed = 300
-        self.accel = 100
-        self.life = 200
+        self.physics.max_speed = 300
+        self.physics.accel = 100
 
     def fire_at(self, dest):
         dest = Vector(dest[0], dest[1])

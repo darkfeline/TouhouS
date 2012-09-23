@@ -2,10 +2,13 @@
 
 from pyglet.window import key
 from gensokyo.object import Container
+from gensokyo.object import CollisionComponent
 from gensokyo.physics import MultiSplitPhysicsComp
 from gensokyo.primitives import Vector, Circle
 
 from hakurei.object.bullet import Bullet
+from hakurei.object.bullet import EnemyCollisionComponent
+from hakurei.object.bullet import EnemyBulletCollisionComponent
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 
@@ -50,6 +53,17 @@ class PlayerPhysicsComp(MultiSplitPhysicsComp):
 
     def on_set_state(self, state):
         self.state = state
+
+
+class PlayerCollisionComponent(CollisionComponent):
+
+    def die(self):
+        self.dispatch_event('on_player_hit')
+
+    handlers = {EnemyBulletCollisionComponent:die,
+                EnemyCollisionComponent:die}
+
+PlayerCollisionComponent.register_event_type('on_player_hit')
 
 
 class Player(Container):

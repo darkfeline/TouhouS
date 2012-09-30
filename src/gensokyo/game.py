@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+from gensokyo import manager
+
+
 class Game:
 
     """
@@ -33,16 +36,5 @@ class Scene:
     """
 
     def __init__(self):
-        self.objects = set()
-
-    def add(self, obj):
-        self.objects.add(obj)
-
-    def on_remove(self, obj):
-        self.objects.remove(obj)
-
-    def update(self, dt):
-        """Calls update on all objects with update attribute"""
-        for obj in self.objects:
-            if hasattr(obj, 'update'):
-                obj.update(dt)
+        self.em = manager.EntityManager()
+        self.sm = manager.SystemManager()

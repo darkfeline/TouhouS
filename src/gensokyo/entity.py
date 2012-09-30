@@ -4,8 +4,11 @@
 class Entity:
 
     """
-    Entity
-    Contains Components
+    An entity represents a game object and contains components which
+    encapsulate certain data.  An entity may have one component per class,
+    however it should only have one component per superclass, e.g., while an
+    entity could both have an A component and a ASubclass component, it should
+    only have either one or the other.
 
     """
 
@@ -37,7 +40,11 @@ class Entity:
                     "{} doesn't contain a component of {}".format(self, type))
 
     def get_all(self, type):
-        """Return a list of all components whose type is a subclass of type"""
+        """
+        Return a list of all components whose type is a subclass of type.  This
+        is useful for e.g. Interfaces
+
+        """
         a = []
         for ct, c in self.components.items():
             if issubclass(ct, type):

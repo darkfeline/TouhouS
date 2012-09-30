@@ -21,8 +21,20 @@ class Entity:
         self.components[type(component)] = component
 
     def get(self, type):
-        """Return the component of that type"""
-        return self.components[type]
+        """
+        Return the component of that type.  If it doesn't exist, return the
+        first component whose type is a subclass of type.  If there are still
+        no components, raise TypeError.
+
+        """
+        try:
+            return self.components[type]
+        except KeyError:
+            try:
+                return self.get_all(type)[0]
+            except IndexError:
+                raise TypeError(
+                    "{} doesn't contain a component of {}".format(self, type))
 
     def get_all(self, type):
         """Return a list of all components whose type is a subclass of type"""

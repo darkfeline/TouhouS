@@ -5,6 +5,8 @@ Resource locator
 
 Defines a ServiceLocator class and creates a module level instance.
 
+You can call the module as a global instance of ServiceLocator.
+
 """
 
 import sys

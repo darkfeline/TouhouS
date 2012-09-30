@@ -40,4 +40,3 @@ class Scene:
 
     def update(self, dt):
         self.model.update(dt)
-        self.view.update(dt)

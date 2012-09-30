@@ -8,7 +8,7 @@ gensokyo is designed for TouhouS, a Touhou-like shoot-em-up.
 gensokyo primarily uses MVC and a Component/System based design pattern.
 
 Design Hierarchy
-****************
+################
 
 Game
     Controller
@@ -23,7 +23,7 @@ Game
             View
 
 Update Hierarchy
-****************
+################
 
 Update
     SceneStack
@@ -33,7 +33,7 @@ Update
                     System
 
 on_draw Hierarchy
-*****************
+#################
 
 on_draw
     SceneStack

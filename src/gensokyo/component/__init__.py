@@ -19,8 +19,8 @@ class Entity(EventDispatcher):
     def __init__(self):
         self.components = set()
 
-    def add(self, c):
-        self.components.add(c)
+    def add(self, component):
+        self.components.add(component)
 
     def update(self, dt):
         for c in self.components:

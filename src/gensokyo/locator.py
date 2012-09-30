@@ -14,17 +14,16 @@ class ServiceLocator:
 
     def __init__(self):
         self.window = None
-        self.rendering = None
         self.key_state = None
-        self.game = None
+        self.scene_stack = None
         self.collision = None
 
     @property
-    def em(self):
-        return self.game.em
+    def view(self):
+        return self.scene_stack.view
 
     @property
-    def sm(self):
-        return self.game.sm
+    def model(self):
+        return self.scene_stack.model
 
 sys.modules[__name__] = ServiceLocator()

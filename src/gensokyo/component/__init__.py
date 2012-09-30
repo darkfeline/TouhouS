@@ -12,6 +12,40 @@ class Position:
         self.y = y
 
 
+class Hitbox:
+
+    def __init__(self, hb):
+        self.hb = hb
+
+    @property
+    def x(self):
+        if isinstance(self.hb, Circle):
+            return self.hb.x
+        elif isinstance(self.hb, Rect):
+            return self.hb.centerx
+
+    @x.setter
+    def x(self, value):
+        if isinstance(self.hb, Circle):
+            self.hb.x = value
+        elif isinstance(self.hb, Rect):
+            self.hb.centerx = value
+
+    @property
+    def y(self):
+        if isinstance(self.hb, Circle):
+            return self.hb.y
+        elif isinstance(self.hb, Rect):
+            return self.hb.centery
+
+    @y.setter
+    def y(self, value):
+        if isinstance(self.hb, Circle):
+            self.hb.y = value
+        elif isinstance(self.hb, Rect):
+            self.hb.centery = value
+
+
 class CollisionComponent(EventDispatcher):
 
     def __init__(self, x, y, w, h, hb):

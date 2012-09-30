@@ -11,6 +11,12 @@ from gensokyo import locator
 
 class Position:
 
+    """
+    Abstract Interface for components who have a position, i.e. x, y
+    coordinates that need to be updated by physics
+
+    """
+
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractproperty

@@ -10,17 +10,24 @@ class Entity:
     """
 
     def __init__(self):
-        self.components = set()
+        self.components = {}
 
     def __iter__(self):
         return iter(self.components)
 
     def add(self, component):
-        self.components.add(component)
+        if type(component) in self.components.keys():
+            return
+        self.components[type(component)] = component
 
     def get(self, type):
-        x = []
-        for a in self.components:
-            if isinstance(a, type):
-                x.append(a)
-        return x
+        """Return the component of that type"""
+        return self.components[type]
+
+    def get_all(self, type):
+        """Return a list of all components whose type is a subclass of type"""
+        a = []
+        for ct, c in self.components.items():
+            if issubclass(ct, type):
+                a.append(c)
+        return a

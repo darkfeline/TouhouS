@@ -53,3 +53,4 @@ class CollisionSystem:
                 hb2 = e2.get(component.Hitbox)
                 if hb1.collide(hb2):
                     collided.append((e1, e2))
+        # TODO

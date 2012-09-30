@@ -40,7 +40,7 @@ class PhysicsSystem(System):
                     vs[i - 1].y += v.y * dt
 
 
-class CollisionSystem:
+class CollisionSystem(System):
 
     req_componenets = (component.Hitbox,)
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from pyglet.event import EventDispatcher
-from pyglet.sprite import Sprite
+from pyglet import sprite
 
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
@@ -89,7 +89,7 @@ class CollisionComponent(EventDispatcher):
 class SpriteComponent:
 
     def __init__(self, group, *args, **kwargs):
-        sprite = Sprite(*args, **kwargs)
+        sprite = sprite.Sprite(*args, **kwargs)
         locator.rendering.add_sprite(sprite, group)
         self.sprite = sprite
 

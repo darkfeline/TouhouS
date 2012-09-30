@@ -38,3 +38,18 @@ class PhysicsSystem(System):
                 else:
                     vs[i - 1].x += v.x * dt
                     vs[i - 1].y += v.y * dt
+
+
+class CollisionSystem:
+
+    req_componenets = (component.Hitbox,)
+
+    def update(self, dt):
+        collided = []
+        entities = [e for e in locator.em if self.check(e)]
+        for i, e1 in enumerate(entities):
+            for e2 in entities[i + 1:]:
+                hb1 = e1.get(component.Hitbox)
+                hb2 = e2.get(component.Hitbox)
+                if hb1.collide(hb2):
+                    collided.append((e1, e2))

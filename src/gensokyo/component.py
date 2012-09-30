@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+"""
+This module contains the components provided by gensokyo.
+
+In a component/system design, components hold only data.  Systems operate on
+entites which own components, and thus all logic are in systems.
+
+"""
+
 import abc
 
 from pyglet import sprite
@@ -67,7 +75,7 @@ class Sprite(Position):
         sprite = sprite.Sprite(*args, **kwargs)
         self.sprite = sprite
         self.group = group
-        locator.rendering.add_sprite(sprite, group)
+        locator.view.add_sprite(sprite, group)
 
     @property
     def x(self):

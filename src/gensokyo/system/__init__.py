@@ -32,7 +32,7 @@ class PhysicsSystem(System):
             vs = e.get(component.Velocity)
             for i, v in enumerate(vs):
                 if i == 0:
-                    for p in e.get(component.Position):
+                    for p in e.get_all(component.Position):
                         p.x += v.x * dt
                         p.y += v.y * dt
                 else:

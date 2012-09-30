@@ -8,8 +8,11 @@ Don't add global variables or other classes.
 
 """
 
-window = None
-rendering = None
-key_state = None
-game = None
-collision = None
+class ServiceLocator:
+
+    def __init__(self):
+        self.window = None
+        self.rendering = None
+        self.key_state = None
+        self.game = None
+        self.collision = None

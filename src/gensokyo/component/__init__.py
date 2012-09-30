@@ -5,7 +5,7 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
 
-class Entity(EventDispatcher):
+class Entity:
 
     """
     Entity
@@ -22,15 +22,6 @@ class Entity(EventDispatcher):
     def add(self, component):
         self.components.add(component)
 
-    def update(self, dt):
-        for c in self.components:
-            if hasattr(c, 'update'):
-                c.update(dt)
-
-    def on_die(self):
-        self.dispatch_event('on_remove', self)
-
-Entity.register_event_type('on_remove')
 
 
 class CollisionComponent(EventDispatcher):

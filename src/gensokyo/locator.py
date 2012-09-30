@@ -7,6 +7,9 @@ Defines a ServiceLocator class and creates a module level instance.
 
 """
 
+import sys
+
+
 class ServiceLocator:
 
     def __init__(self):
@@ -23,3 +26,5 @@ class ServiceLocator:
     @property
     def sm(self):
         return self.game.sm
+
+sys.modules[__name__] = ServiceLocator()

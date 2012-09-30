@@ -20,6 +20,9 @@ class SceneStack:
         """Calls update on top of stack"""
         self.top.update(dt)
 
+    def on_draw(self):
+        self.top.view.draw()
+
 
 class Scene:
 

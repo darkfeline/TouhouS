@@ -26,6 +26,7 @@ from pyglet.event import EventDispatcher
 
 from gensokyo.primitives import Vector
 
+
 class AbstractPhysicsComponent(EventDispatcher):
 
     __meta__ = abc.ABCMeta
@@ -140,7 +141,7 @@ class LinearPhysicsComp(DiffPhysicsComp):
     def vdir(self, value):
         """Set velocity direction as the same as vector"""
         speed = self.speed
-        self.vel = vector
+        self.vel = value
         self.speed = speed
 
 
@@ -205,7 +206,7 @@ class LinearDestComp(LinearPhysicsComp):
         self.pos += Vector(0, dy)
 
     def update(self, dt):
-        if not self.dpos.length = 0:
+        if not self.dpos.length == 0:
             super().update(dt)
 
 
@@ -230,7 +231,7 @@ class SmoothDestComp(LinearDestComp):
 
     def update(self, dt):
         super().update(dt)
-        if not self.dpos.length = 0:
+        if not self.dpos.length == 0:
             if self.dpos.length <= self.decel_dist:
                 self.speed -= self.accel * dt
             elif self.speed < self.max_speed:

@@ -7,10 +7,11 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
 
-class Container(EventDispatcher):
+class Entity(EventDispatcher):
 
     """
-    Container for Components
+    Entity
+    Contains Components
 
     Keeps a reference to components to keep alive.
     Propagates updates to components with update method.
@@ -31,7 +32,7 @@ class Container(EventDispatcher):
     def on_die(self):
         self.dispatch_event('on_remove', self)
 
-Container.register_event_type('on_remove')
+Entity.register_event_type('on_remove')
 
 
 class CollisionComponent(EventDispatcher):

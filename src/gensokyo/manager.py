@@ -3,7 +3,7 @@
 from gensokyo import component
 
 
-class Manager:
+class SetManager:
 
     def __init__(self):
         self.items = set()
@@ -15,7 +15,7 @@ class Manager:
         return iter(self.items)
 
 
-class EntityManager(Manager):
+class EntityManager(SetManager):
 
     @property
     def entities(self):
@@ -27,7 +27,7 @@ class EntityManager(Manager):
             a.delete()
 
 
-class SystemManager(Manager):
+class SystemManager(SetManager):
 
     @property
     def systems(self):

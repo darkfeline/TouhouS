@@ -99,5 +99,15 @@ class Sprite(Position):
 
 class Velocity:
 
+    """
+    Velocity Physics component.  It contains a list whose index is the degree
+    of the differential, i.e. 0 is velocity, 1 is acceleration, etc., and value
+    is the corresponding Vector.
+
+    .. attribute: vectors
+        list of Vectors
+
+    """
+
     def __init__(self):
         self.vectors = []

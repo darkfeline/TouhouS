@@ -25,6 +25,10 @@ Update
             Model
                 SystemManager
                     System
+
+on_draw
+    SceneStack
+        Scene
             View
 
 """

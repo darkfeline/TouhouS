@@ -46,6 +46,34 @@ class Hitbox:
             self.hb.centery = value
 
 
+class Sprite:
+
+    def __init__(self, group, *args, **kwargs):
+        sprite = sprite.Sprite(*args, **kwargs)
+        self.sprite = sprite
+        self.group = group
+        locator.rendering.add_sprite(sprite, group)
+
+    @property
+    def x(self):
+        return self.sprite.x
+
+    @x.setter
+    def x(self, value):
+        self.sprite.x = value
+
+    @property
+    def y(self):
+        return self.sprite.y
+
+    @y.setter
+    def y(self, value):
+        self.sprite.y = value
+
+    def delete(self):
+        self.sprite.delete()
+
+
 class CollisionComponent(EventDispatcher):
 
     def __init__(self, x, y, w, h, hb):

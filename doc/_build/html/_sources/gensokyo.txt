@@ -9,26 +9,18 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`collision` Module
+:mod:`component` Module
 -----------------------
 
-.. automodule:: gensokyo.collision
+.. automodule:: gensokyo.component
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`game` Module
-------------------
+:mod:`entity` Module
+--------------------
 
-.. automodule:: gensokyo.game
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`graphics` Module
-----------------------
-
-.. automodule:: gensokyo.graphics
+.. automodule:: gensokyo.entity
     :members:
     :undoc-members:
     :show-inheritance:
@@ -41,18 +33,42 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`object` Module
---------------------
+:mod:`manager` Module
+---------------------
 
-.. automodule:: gensokyo.object
+.. automodule:: gensokyo.manager
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`physics` Module
----------------------
+:mod:`model` Module
+-------------------
 
-.. automodule:: gensokyo.physics
+.. automodule:: gensokyo.model
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`scene` Module
+-------------------
+
+.. automodule:: gensokyo.scene
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`system` Module
+--------------------
+
+.. automodule:: gensokyo.system
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`view` Module
+------------------
+
+.. automodule:: gensokyo.view
     :members:
     :undoc-members:
     :show-inheritance:

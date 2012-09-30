@@ -7,9 +7,6 @@ class Entity:
     Entity
     Contains Components
 
-    Keeps a reference to components to keep alive.
-    Propagates updates to components with update method.
-
     """
 
     def __init__(self):

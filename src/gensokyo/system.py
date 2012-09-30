@@ -6,6 +6,14 @@ from gensokyo import locator
 
 class System:
 
+    """
+    Superclass for Systems
+
+    System implements a check class method which checks if an entity contains
+    the components it is looking for
+
+    """
+
     req_components = ()
 
     @classmethod

@@ -11,6 +11,9 @@ class Manager:
     def add(self, item):
         self.items.add(item)
 
+    def __iter__(self):
+        return iter(self.items)
+
 
 class EntityManager(Manager):
 

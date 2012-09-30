@@ -22,7 +22,7 @@ class Position:
         raise NotImplementedError
 
 
-class Hitbox:
+class Hitbox(Position):
 
     def __init__(self, hb):
         self.hb = hb
@@ -56,7 +56,7 @@ class Hitbox:
             self.hb.centery = value
 
 
-class Sprite:
+class Sprite(Position):
 
     def __init__(self, group, *args, **kwargs):
         sprite = sprite.Sprite(*args, **kwargs)

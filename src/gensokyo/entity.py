@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 class Entity:
 
     """
@@ -13,6 +14,9 @@ class Entity:
 
     def __init__(self):
         self.components = set()
+
+    def __iter__(self):
+        return iter(self.components)
 
     def add(self, component):
         self.components.add(component)

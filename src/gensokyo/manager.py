@@ -51,6 +51,12 @@ class GroupManager(MapManager):
         self.items[key].add(entity)
 
 
+class TagManager(MapManager):
+
+    def tag(self, key, entity):
+        self.items[key] = entity
+
+
 class SystemManager(SetManager):
 
     @property

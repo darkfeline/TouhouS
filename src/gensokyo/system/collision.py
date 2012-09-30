@@ -2,10 +2,10 @@
 
 from weakref import WeakKeyDictionary
 
-class CollisionManager:
+class CollisionSystem:
 
     """
-    Collision Manager
+    Collision System
 
     On every tick/update, checks all added collision components for collisions.
     Uses weak references so components garbage collect normally.
@@ -30,7 +30,7 @@ class CollisionManager:
 
         comp.handlers = {A:method}
 
-    When CollisionManager detects `comp` has collided with another registered
+    When CollisionSystem detects `comp` has collided with another registered
     component `other` that is an instance of `A`, it calls `method(comp,
     other)`.
 

@@ -38,6 +38,19 @@ class MapManager:
         return self.items[key]
 
 
+class GroupManager(MapManager):
+
+    @property
+    def groups(self):
+        return self.items
+
+    def make_group(self, key):
+        self.groups[key] = set()
+
+    def add_to(self, key, entity):
+        self.items[key].add(entity)
+
+
 class SystemManager(SetManager):
 
     @property

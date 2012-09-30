@@ -5,6 +5,13 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
 
+class Position:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
 class CollisionComponent(EventDispatcher):
 
     def __init__(self, x, y, w, h, hb):

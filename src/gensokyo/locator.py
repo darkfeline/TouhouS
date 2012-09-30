@@ -3,8 +3,7 @@
 """
 Resource locator
 
-Basically global/singleton.
-Don't add global variables or other classes.
+Defines a ServiceLocator class and creates a module level instance.
 
 """
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+from gensokyo import component
+from gensokyo import locator
+
 
 class System:
 
@@ -18,3 +21,20 @@ class System:
             return False
         else:
             return True
+
+
+class PhysicsSystem(System):
+
+    req_componenets = (component.Position, component.Velocity)
+
+    def update(self, dt):
+        for entity in [e for e in locator.em if self.check(e)]:
+            vs = e.get(component.Velocity)
+            for i, v in enumerate(vs):
+                if i == 0:
+                    for p in e.get(component.Position):
+                        p.x += v.x * dt
+                        p.y += v.y * dt
+                else:
+                    vs[i - 1].x += v.x * dt
+                    vs[i - 1].y += v.y * dt

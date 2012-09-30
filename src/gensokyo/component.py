@@ -2,7 +2,6 @@
 
 import abc
 
-from pyglet.event import EventDispatcher
 from pyglet import sprite
 
 from gensokyo.primitives import Rect, Circle

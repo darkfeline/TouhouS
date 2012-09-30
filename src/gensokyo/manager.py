@@ -12,13 +12,11 @@ class Manager:
         self.items.add(item)
 
 
-class EntityManager:
+class EntityManager(Manager):
 
-    def __init__(self):
-        self.entities = set()
-
-    def add(self, entity):
-        self.entities.add(entity)
+    @property
+    def entities(self):
+        return self.items
 
     def delete(self, entity):
         self.entities.remove(entity)

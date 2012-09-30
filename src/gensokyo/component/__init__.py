@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from pyglet.event import EventDispatcher
 from pyglet.sprite import Sprite
 

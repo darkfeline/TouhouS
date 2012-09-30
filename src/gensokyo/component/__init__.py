@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+
 from pyglet.event import EventDispatcher
 from pyglet import sprite
 
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
+
 
 class Position:
 
@@ -72,6 +74,12 @@ class Sprite:
 
     def delete(self):
         self.sprite.delete()
+
+
+class Velocity:
+
+    def __init__(self):
+        self.vectors = []
 
 
 class CollisionComponent(EventDispatcher):

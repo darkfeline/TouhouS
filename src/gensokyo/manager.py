@@ -22,3 +22,14 @@ class EntityManager(Manager):
         self.entities.remove(entity)
         for a in entity.get(component.Sprite):
             a.delete()
+
+
+class SystemManager(Manager):
+
+    @property
+    def systems(self):
+        return self.items
+
+    def update(self, dt):
+        for system in self.systems:
+            system.update(dt)

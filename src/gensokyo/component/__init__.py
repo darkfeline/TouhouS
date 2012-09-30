@@ -5,36 +5,6 @@ from pyglet.sprite import Sprite
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
 
-class Entity:
-
-    """
-    Entity
-    Contains Components
-
-    Keeps a reference to components to keep alive.
-    Propagates updates to components with update method.
-
-    """
-
-    def __init__(self):
-        self.components = set()
-
-    def add(self, component):
-        self.components.add(component)
-
-    def has(self, type):
-        for a in self.components:
-            if isinstance(a, type):
-                return True
-        return False
-
-    def get(self, type):
-        for a in self.components:
-            if isinstance(a, type):
-                return a
-        return None
-
-
 class CollisionComponent(EventDispatcher):
 
     def __init__(self, x, y, w, h, hb):

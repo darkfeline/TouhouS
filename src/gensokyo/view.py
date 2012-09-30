@@ -8,17 +8,13 @@ from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 
 class View:
 
-    _map = tuple()
+    map = tuple()
 
     def __init__(self):
         self.batch = Batch()
         o = (OrderedGroup(i) for i in range(len(self.map)))
         self.groups = dict((self.map[i], o[i]) for i in range(len(self.map)))
         self.labels = set()
-
-    @property
-    def map(self):
-        return self._map
 
     def draw(self):
         self.batch.draw()

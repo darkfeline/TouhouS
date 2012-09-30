@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import abc
+
 from pyglet.event import EventDispatcher
 from pyglet import sprite
 
@@ -9,9 +11,15 @@ from gensokyo import locator
 
 class Position:
 
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractproperty
+    def x(self):
+        raise NotImplementedError
+
+    @abc.abstractproperty
+    def y(self):
+        raise NotImplementedError
 
 
 class Hitbox:

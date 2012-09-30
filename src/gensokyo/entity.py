@@ -24,7 +24,8 @@ class Entity:
         return False
 
     def get(self, type):
+        x = []
         for a in self.components:
             if isinstance(a, type):
-                return a
-        return None
+                x.append(a)
+        return x

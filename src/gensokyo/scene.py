@@ -10,8 +10,16 @@ class SceneStack:
     def top(self):
         return self.stack[-1]
 
-    def push(self, model):
-        self.stack.append(model)
+    @property
+    def view(self):
+        return self.top.view
+
+    @property
+    def model(self):
+        return self.top.model
+
+    def push(self, scene):
+        self.stack.append(scene)
 
     def pop(self):
         return self.stack.pop()

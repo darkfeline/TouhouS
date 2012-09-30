@@ -22,6 +22,17 @@ class Entity:
     def add(self, component):
         self.components.add(component)
 
+    def has(self, type):
+        for a in self.components:
+            if isinstance(a, type):
+                return True
+        return False
+
+    def get(self, type):
+        for a in self.components:
+            if isinstance(a, type):
+                return a
+        return None
 
 
 class CollisionComponent(EventDispatcher):

@@ -35,54 +35,6 @@ def make_text_counter(x, y):
     return title, number
 
 
-class TextCounter(Counter):
-
-    def __init__(self, x, y, title, value=0, width=190):
-
-        super().__init__()
-
-        self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255))
-        self.add_sprite(self._title, self.sprite_group)
-
-        self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255))
-        self.add_sprite(self._number, self.sprite_group)
-
-        self.width = width
-        self.x = x
-        self.y = y
-        self.title = title
-        self.value = value
-
-    @property
-    def x(self):
-        return self._title.x
-
-    @x.setter
-    def x(self, value):
-        self._title.x = value
-        self._number.x = self.width + value
-
-    @property
-    def y(self):
-        return self._title.y
-
-    @y.setter
-    def y(self, value):
-        self._title.y = value
-        self._number.y = value
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        self._number.text = str(value)
-
-
 class IconCounter(Counter):
 
     icon_img = resources.star

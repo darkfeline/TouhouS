@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from gensokyo.graphics import View
+from gensokyo.view import View
 
 class GameView(View):
 

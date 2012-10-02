@@ -10,38 +10,20 @@ from gensokyo import component
 from hakurei import resources
 
 
-class FPSDisplay(Entity):
+class UILabel(Entity):
 
     sprite_group = 'ui_element'
 
-    def __init__(self, x, y):
+    def __init__(self, *args, **kwargs):
         super.__init__()
-        self.add(Label(self.sprite_group, x=x, y=y, anchor_x='left',
-            anchor_y='bottom', font_size=10, color=(255, 255, 255, 255)))
+        self.add(Label(self.sprite_group, *args, **kwargs))
 
 
-class Counter(SpriteWrapper):
+class FPSDisplay(UILabel):
 
-    sprite_group = "ui_element"
-
-    def __init__(self):
-        super().__init__()
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-
-    @property
-    def title(self):
-        return self._title.text
-
-    @title.setter
-    def title(self, value):
-        self._title.text = value
+    def __init__(self, x, y):
+        super.__init__(x=x, y=y, anchor_x='left', anchor_y='bottom',
+                font_size=10, color=(255, 255, 255, 255))
 
 
 class TextCounter(Counter):

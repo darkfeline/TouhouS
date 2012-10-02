@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from pyglet import event
+
 from gensokyo import component
 from gensokyo import locator
 
@@ -48,7 +50,7 @@ class PhysicsSystem(System):
                     vs[i - 1].y += v.y * dt
 
 
-class CollisionSystem(System):
+class CollisionSystem(System, event.EventDispatcher):
 
     req_componenets = (component.Hitbox,)
 
@@ -61,4 +63,7 @@ class CollisionSystem(System):
                 hb2 = e2.get(component.Hitbox)
                 if hb1.collide(hb2):
                     collided.append((e1, e2))
-        # TODO Finish this
+        for a in collided:
+            self.dispatch_event('on_collide', a)
+
+CollisionSystem.register_event_type('on_collide')

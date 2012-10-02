@@ -167,7 +167,6 @@ class Player(Container):
 
     def update(self, dt):
         super().update(dt)
-        PlayerInputComponent.update(self, dt)
         # bound movement
         if self.right > GAME_AREA.right:
             self.right = GAME_AREA.right

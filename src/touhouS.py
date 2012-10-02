@@ -4,14 +4,13 @@ import pyglet
 from pyglet.window.key import KeyStateHandler
 from pyglet import gl
 from gensokyo import locator
-from gensokyo.graphics import RenderingService
-from gensokyo.game import Game
-from gensokyo.collision import CollisionManager
+from gensokyo.scene import SceneStack, Scene
 
 from hakurei.globals import WIDTH, HEIGHT, FPS
 from hakurei import resources
-from hakurei.game import ShootingScene
+from hakurei.model import GameModel
 from hakurei.view import GameView
+
 
 def main():
     # window
@@ -25,29 +24,20 @@ def main():
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
     # game
-    game = Game()
-    locator.game = game
+    scene_stack = SceneStack()
+    window.push_handlers(scene_stack)
+    locator.scene_stack = scene_stack
 
     # key_state
     keys = KeyStateHandler()
     window.push_handlers(keys)
     locator.key_state = keys
 
-    # graphics
-    rendering = RenderingService()
-    window.push_handlers(rendering)
-    locator.rendering = rendering
-
-    # collision
-    collision = CollisionManager()
-    locator.collision = collision
-
     # clock
-    pyglet.clock.schedule_interval(locator.game.update, 1./FPS)
+    pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
     pyglet.clock.set_fps_limit(FPS)
 
-    locator.rendering.push(GameView())
-    locator.game.push(ShootingScene())
+    locator.game.push(Scene(GameModel(), GameView()))
 
     pyglet.app.run()
 

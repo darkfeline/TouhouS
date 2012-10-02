@@ -7,7 +7,8 @@ from gensokyo import locator
 
 from hakurei import resources
 
-class SpriteWrapper
+
+class SpriteWrapper:
 
     """Simple superclass which provides easy sprite registering"""
 
@@ -126,7 +127,7 @@ class IconCounter(Counter):
 
         self._title = Label(anchor_x='left', anchor_y='bottom',
                 font_size=10, color=(0, 0, 0, 255))
-        self.add_sprite(self._title, cls.sprite_group)
+        self.add_sprite(self._title, self.sprite_group)
 
         self._value = 0
         self._display_max = 0

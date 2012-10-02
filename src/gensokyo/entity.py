@@ -7,7 +7,8 @@ class Entity:
     An entity represents a game object and contains components which
     encapsulate certain data.  An entity should only have one component per
     superclass, e.g., it should have either an A component or an
-    ASubclass component, not both.
+    ASubclass component, not both.  However, it may be useful to make Interface
+    superclasses.
 
     """
 

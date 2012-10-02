@@ -20,3 +20,25 @@ class Entity:
 
     def add(self, component):
         self.components.add(component)
+
+    def get(self, types):
+        """
+        Find all components of the given types and return a tuple with the
+        following format::
+
+            (
+                (components where isinstance(component, types[0])),
+                (components where isinstance(component, types[1])),
+                .
+                .
+            )
+
+        Some tuples may be empty if the entity does not have those components.
+
+        """
+        components = [[] for i in range(len(types))]
+        for i, type in enumerate(types):
+            for component in self:
+                if isinstance(component, type):
+                    components[i].append(component)
+        return tuple(tuple(a) for a in components)

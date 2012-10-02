@@ -37,7 +37,7 @@ def main():
     pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
     pyglet.clock.set_fps_limit(FPS)
 
-    locator.game.push(Scene(model.MenuModel(), view.MenuView()).init())
+    locator.game.push(Scene(model.MenuModel(), view.MenuView()))
 
     pyglet.app.run()
 

@@ -20,6 +20,7 @@ class SceneStack:
 
     def push(self, scene):
         self.stack.append(scene)
+        self.top.init()
 
     def pop(self):
         return self.stack.pop()
@@ -46,7 +47,6 @@ class Scene:
 
     def init(self):
         self.model.init(self.view)
-        return self
 
     def update(self, dt):
         self.model.update(dt)

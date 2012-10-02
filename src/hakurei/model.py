@@ -108,4 +108,4 @@ class MenuModel(Model):
 
     def on_key_press(self, symbol, modifiers):
         import sys; sys.exit()
-        locator.scene_stack.push(Scene(GameModel(), view.GameView())
+        locator.scene_stack.push(Scene(GameModel(), view.GameView()).init())

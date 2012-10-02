@@ -5,23 +5,16 @@ from weakref import WeakValueDictionary
 from gensokyo import component
 
 
-class SetManager:
+class EntityManager:
 
     def __init__(self):
-        self.items = set()
+        self.entities = set()
 
-    def add(self, item):
-        self.items.add(item)
+    def add(self, entity):
+        self.entities.add(entity)
 
     def __iter__(self):
-        return iter(self.items)
-
-
-class EntityManager(SetManager):
-
-    @property
-    def entities(self):
-        return self.items
+        return iter(self.entities)
 
     def delete(self, entity):
         self.entities.remove(entity)
@@ -60,7 +53,23 @@ class EntityManager(SetManager):
         return good
 
 
-class MapManager:
+class GroupManager:
+
+    def __init__(self):
+        self.groups = WeakValueDictionary()
+
+    def __getitem__(self, key):
+        return self.groups[key]
+
+    def make_group(self, key):
+        if not key in self.groups.keys():
+            self.groups[key] = set()
+
+    def add_to(self, key, entity):
+        self.items[key].add(entity)
+
+
+class TagManager:
 
     def __init__(self):
         self.items = WeakValueDictionary()
@@ -68,31 +77,20 @@ class MapManager:
     def __getitem__(self, key):
         return self.items[key]
 
-
-class GroupManager(MapManager):
-
-    @property
-    def groups(self):
-        return self.items
-
-    def make_group(self, key):
-        self.groups[key] = set()
-
-    def add_to(self, key, entity):
-        self.items[key].add(entity)
-
-
-class TagManager(MapManager):
-
     def tag(self, key, entity):
         self.items[key] = entity
 
 
-class SystemManager(SetManager):
+class SystemManager:
 
-    @property
-    def systems(self):
-        return self.items
+    def __init__(self):
+        self.systems = set()
+
+    def add(self, system):
+        self.systems.add(system)
+
+    def __iter__(self):
+        return iter(self.systems)
 
     def update(self, dt):
         for system in self.systems:

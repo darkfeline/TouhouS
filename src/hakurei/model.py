@@ -107,5 +107,4 @@ class MenuModel(Model):
         view.add_sprite(self.title, 'text')
 
     def on_key_press(self, symbol, modifiers):
-        import sys; sys.exit()
         locator.scene_stack.push(Scene(GameModel(), view.GameView()).init())

@@ -11,6 +11,7 @@ entites which own components, and thus all logic are in systems.
 import abc
 
 from pyglet import sprite
+from pyglet import text
 
 from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
@@ -69,10 +70,13 @@ class Hitbox(Position):
             self.hb.centery = value
 
 
-class Sprite(Position):
+class GraphicsObject(Position):
+
+    __metaclass__ = abc.ABCMeta
+    type = None
 
     def __init__(self, group, *args, **kwargs):
-        sprite = sprite.Sprite(*args, **kwargs)
+        sprite = self.type(*args, **kwargs)
         self.sprite = sprite
         self.group = group
         locator.view.add_sprite(sprite, group)
@@ -95,6 +99,16 @@ class Sprite(Position):
 
     def delete(self):
         self.sprite.delete()
+
+
+class Sprite(GraphicsObject):
+
+    type = sprite.Sprite
+
+
+class Label(GraphicsObject):
+
+    type = text.Label
 
 
 class Velocity:

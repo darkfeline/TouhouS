@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import abc
+
 from pyglet import event
 
 from gensokyo import component
@@ -13,7 +15,11 @@ class System:
 
     """
 
-    req_components = ()
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def update(self, dt):
+        raise NotImplementedError
 
 
 class PhysicsSystem(System):

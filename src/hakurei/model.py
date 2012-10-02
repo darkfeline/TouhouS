@@ -2,16 +2,16 @@
 
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
-from gensokyo.primitives import Vector
-from gensokyo.game import Scene
+from gensokyo.model import Model
 
 from hakurei.object.player import Reimu
 from hakurei.object.stage import StageOne
 from hakurei.object.ui import UI
 from hakurei.globals import DEF_PLAYER_XY as XY
-from hakurei.globals import HEIGHT, WIDTH
+from hakurei.globals import HEIGHT
 
-class ShootingScene(Scene):
+
+class GameModel(Model):
 
     ui_class = UI
     player_class = Reimu
@@ -19,11 +19,9 @@ class ShootingScene(Scene):
 
     def __init__(self):
 
-        cls = self.__class__
-
-        self.ui = cls.ui_class()
-        self.player = cls.player_class(XY[0], XY[1])
-        self.stage = cls.stage_class()
+        self.ui = self.ui_class()
+        self.player = self.player_class(XY[0], XY[1])
+        self.stage = self.stage_class()
         self.stage.player = self.player
 
         self.score = 0
@@ -98,16 +96,17 @@ class ShootingScene(Scene):
         return EVENT_HANDLED
 
 
-class MenuModel:
+class MenuModel(Model):
 
     def __init__(self):
-        self.title = Label(x=20, y=HEIGHT-30, text="Welcome to TouhouS",
+        self.title = Label(x=20, y=HEIGHT - 30, text="Welcome to TouhouS",
                 color=(255, 255, 255, 255))
 
     def on_attach(self):
             self.add_sprite(self.title, 'text')
 
     def on_key_press(self, symbol, modifiers):
+        import sys; sys.exit()
         scene = Scene(self.master.controller, GameModel(), view.GameView())
         self.master.dispatch_event('on_push_scene', scene)
         self.sprites = set((self.title,))

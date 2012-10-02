@@ -35,15 +35,15 @@ class PhysicsSystem(System):
 
 class CollisionSystem(System, event.EventDispatcher):
 
-    req_componenets = (component.Hitbox,)
+    req_components = (component.Hitbox,)
 
     def update(self, dt):
         collided = []
-        entities = [e for e in locator.em if self.check(e)]
+        entities, comps = locator.em.get_with(self.req_components)
         for i, e1 in enumerate(entities):
-            for e2 in entities[i + 1:]:
-                hb1 = e1.get(component.Hitbox)
-                hb2 = e2.get(component.Hitbox)
+            hb1 = comps[i][0]
+            for j, e2 in enumerate(entities[i + 1:]):
+                hb2 = comps[i + j + 1][0]
                 if hb1.collide(hb2):
                     collided.append((e1, e2))
         for a in collided:

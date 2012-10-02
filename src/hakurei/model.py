@@ -3,10 +3,13 @@
 from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
 from gensokyo.model import Model
+from gensokyo.scene import Scene
+from gensokyo import locator
 
 from hakurei.object.player import Reimu
 from hakurei.object.stage import StageOne
 from hakurei.object.ui import UI
+from hakurei import view
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT
 
@@ -98,15 +101,11 @@ class GameModel(Model):
 
 class MenuModel(Model):
 
-    def __init__(self):
+    def init(self, view):
         self.title = Label(x=20, y=HEIGHT - 30, text="Welcome to TouhouS",
                 color=(255, 255, 255, 255))
-
-    def on_attach(self):
-            self.add_sprite(self.title, 'text')
+        view.add_sprite(self.title, 'text')
 
     def on_key_press(self, symbol, modifiers):
         import sys; sys.exit()
-        scene = Scene(self.master.controller, GameModel(), view.GameView())
-        self.master.dispatch_event('on_push_scene', scene)
-        self.sprites = set((self.title,))
+        locator.scene_stack.push(Scene(GameModel(), view.GameView())

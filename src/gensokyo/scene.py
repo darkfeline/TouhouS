@@ -44,5 +44,9 @@ class Scene:
         self.model = model
         self.view = view
 
+    def init(self):
+        self.model.init(self.view)
+        return self
+
     def update(self, dt):
         self.model.update(dt)

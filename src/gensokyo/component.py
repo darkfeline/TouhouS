@@ -109,6 +109,10 @@ class Label(GraphicsObject):
     def __init__(self, *args, **kwargs):
         super().__init__(text.Label, *args, **kwargs)
 
+    @property
+    def label(self):
+        return self.sprite
+
 
 class Velocity:
 

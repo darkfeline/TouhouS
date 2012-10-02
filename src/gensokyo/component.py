@@ -72,11 +72,8 @@ class Hitbox(Position):
 
 class GraphicsObject(Position):
 
-    __metaclass__ = abc.ABCMeta
-    type = None
-
-    def __init__(self, group, *args, **kwargs):
-        sprite = self.type(*args, **kwargs)
+    def __init__(self, type, group, *args, **kwargs):
+        sprite = type(*args, **kwargs)
         self.sprite = sprite
         self.group = group
         locator.view.add_sprite(sprite, group)
@@ -103,12 +100,14 @@ class GraphicsObject(Position):
 
 class Sprite(GraphicsObject):
 
-    type = sprite.Sprite
+    def __init__(self, *args, **kwargs):
+        super().__init__(sprite.Sprite, *args, **kwargs)
 
 
 class Label(GraphicsObject):
 
-    type = text.Label
+    def __init__(self, *args, **kwargs):
+        super().__init__(text.Label, *args, **kwargs)
 
 
 class Velocity:

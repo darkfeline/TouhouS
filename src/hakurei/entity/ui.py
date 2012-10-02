@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-import pyglet
 from pyglet.text import Label
 from pyglet.sprite import Sprite
-from gensokyo import locator
 from gensokyo.entity import Entity
-from gensokyo import component
 
 from hakurei import resources
+from hakurei.entity import ui
 
 
 class UILabel(Entity):

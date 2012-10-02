@@ -25,6 +25,7 @@ class GameModel(Model):
     def init(self):
 
         # Entities
+        # FPS
         fps = ui.FPSDisplay(570, 2)
         self.em.add(fps)
         self.tm.tag('fps_display', fps)

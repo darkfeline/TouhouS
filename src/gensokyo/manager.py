@@ -53,16 +53,10 @@ class EntityManager(SetManager):
         """
         good = []
         for entity in self.entities:
-            components = [[] for i in range(len(types))]
-            for i, type in enumerate(types):
-                for component in entity:
-                    if isinstance(component, type):
-                        components[i].append(component)
-            # Check if all lists in components are filled
+            components = entity.get(types)
+            # Check if all slots in components are filled
             if len([a for a in components if len(a) == 0]) == 0:
-                good.append(tuple(
-                    [entity, tuple(tuple(a) for a in components)]
-                ))
+                good.append((entity, components))
         return good
 
 

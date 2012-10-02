@@ -31,6 +31,12 @@ class SceneStack:
     def on_draw(self):
         self.top.view.draw()
 
+    def on_key_press(self, symbol, modifiers):
+        self.top.model.on_key_press(symbol, modifiers)
+
+    def on_key_release(self, symbol, modifiers):
+        self.top.model.on_key_release(symbol, modifiers)
+
 
 class Scene:
 

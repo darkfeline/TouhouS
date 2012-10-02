@@ -11,7 +11,7 @@ class Model:
         self.gm = manager.GroupManager()
         self.tm = manager.TagManager()
 
-    def init(self, view):
+    def init(self):
         pass
 
     def update(self, dt):

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from pyglet.text import Label
 from pyglet.event import EVENT_HANDLED
 from gensokyo.model import Model
 from gensokyo.scene import Scene
+from gensokyo import component
 from gensokyo import locator
 
 import hakurei
@@ -22,7 +22,7 @@ class GameModel(Model):
     player_class = Reimu
     stage_class = StageOne
 
-    def init(self, view):
+    def init(self):
 
         # Entities
         fps = ui.FPSDisplay(570, 2)
@@ -114,10 +114,9 @@ class GameModel(Model):
 
 class MenuModel(Model):
 
-    def init(self, view):
-        self.title = Label(x=20, y=HEIGHT - 30, text="Welcome to TouhouS",
-                color=(255, 255, 255, 255))
-        view.add_sprite(self.title, 'text')
+    def init(self):
+        self.title = component.Label(x=20, y=HEIGHT - 30, text="Welcome to
+                TouhouS", color=(255, 255, 255, 255))
 
     def on_key_press(self, symbol, modifiers):
         locator.scene_stack.push(Scene(GameModel(), view.GameView()))

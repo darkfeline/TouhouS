@@ -6,9 +6,9 @@ from gensokyo.model import Model
 from gensokyo.scene import Scene
 from gensokyo import locator
 
-from hakurei.object.player import Reimu
-from hakurei.object.stage import StageOne
-from hakurei.object.ui import UI
+from hakurei.entity.player import Reimu
+from hakurei.entity.stage import StageOne
+from hakurei.entity.ui import UI
 from hakurei import view
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT

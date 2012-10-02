@@ -4,44 +4,20 @@ import pyglet
 from pyglet.text import Label
 from pyglet.sprite import Sprite
 from gensokyo import locator
+from gensokyo.entity import Entity
+from gensokyo import component
 
 from hakurei import resources
 
 
-class SpriteWrapper:
-
-    """Simple superclass which provides easy sprite registering"""
-
-    def add_sprite(self, sprite, group):
-        locator.rendering.add_sprite(sprite, group)
-
-
-class FPSDisplay(SpriteWrapper):
+class FPSDisplay(Entity):
 
     sprite_group = 'ui_element'
 
     def __init__(self, x, y):
-        super().__init__()
-        self.label = Label(x=x, y=y, anchor_x='left', anchor_y='bottom',
-                font_size=10, color=(255, 255, 255, 255))
-        self.add_sprite(self.label, self.sprite_group)
-        self.count = 0
-        self.fps = 0
-
-    @property
-    def fps(self):
-        return self._fps
-
-    @fps.setter
-    def fps(self, value):
-        self._fps = value
-        self.label.text = "{0:.1f}".format(self._fps) + ' fps'
-
-    def update(self, dt):
-        self.count += dt
-        if self.count > 1:
-            self.fps = pyglet.clock.get_fps()
-            self.count -= 1
+        super.__init__()
+        self.add(Label(self.sprite_group, x=x, y=y, anchor_x='left',
+            anchor_y='bottom', font_size=10, color=(255, 255, 255, 255)))
 
 
 class Counter(SpriteWrapper):

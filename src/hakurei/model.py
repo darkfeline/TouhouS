@@ -6,9 +6,11 @@ from gensokyo.model import Model
 from gensokyo.scene import Scene
 from gensokyo import locator
 
+import hakurei
 from hakurei.entity.player import Reimu
 from hakurei.entity.stage import StageOne
 from hakurei.entity.ui import UI
+from hakurei.entity import ui
 from hakurei import view
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT
@@ -19,6 +21,17 @@ class GameModel(Model):
     ui_class = UI
     player_class = Reimu
     stage_class = StageOne
+
+    def init(self, view):
+
+        # Entities
+        fps = ui.FPSDisplay(570, 2)
+        self.em.add(fps)
+        self.tm.tag('fps_display', fps)
+
+        # Systems
+        fps = hakurei.system.FPSSystem()
+        self.sm.add(fps)
 
     def __init__(self):
 

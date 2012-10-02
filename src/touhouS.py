@@ -8,8 +8,8 @@ from gensokyo.scene import SceneStack, Scene
 
 from hakurei.globals import WIDTH, HEIGHT, FPS
 from hakurei import resources
-from hakurei.model import GameModel
-from hakurei.view import GameView
+from hakurei import model
+from hakurei import view
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
     gl.glEnable(gl.GL_BLEND)
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-    # game
+    # Scene stack
     scene_stack = SceneStack()
     window.push_handlers(scene_stack)
     locator.scene_stack = scene_stack
@@ -37,7 +37,7 @@ def main():
     pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
     pyglet.clock.set_fps_limit(FPS)
 
-    locator.game.push(Scene(GameModel(), GameView()))
+    locator.game.push(Scene(model.MenuModel(), view.MenuView()).init())
 
     pyglet.app.run()
 

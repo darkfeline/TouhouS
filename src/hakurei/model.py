@@ -29,6 +29,10 @@ class GameModel(Model):
         self.em.add(fps)
         self.tm.tag('fps_display', fps)
 
+        # Data
+        data = hakurei.entity.DataEntity(hakurei.component.GameData())
+        self.tm.tag('data', data)
+
         # Systems
         fps = hakurei.system.FPSSystem()
         self.sm.add(fps)

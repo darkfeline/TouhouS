@@ -17,7 +17,19 @@ from gensokyo.primitives import Rect, Circle
 from gensokyo import locator
 
 
-class Position:
+class Component:
+
+    """
+    Abstract Base Class for components
+
+    Please subclass to avoid confusion
+
+    """
+
+    __metaclass__ = abc.ABCMeta
+
+
+class Position(Component):
 
     """
     Abstract Interface for components who have a position, i.e. x, y
@@ -114,7 +126,7 @@ class Label(GraphicsObject):
         return self.sprite
 
 
-class Velocity:
+class Velocity(Component):
 
     """
     Velocity Physics component.  It contains a list whose index is the degree

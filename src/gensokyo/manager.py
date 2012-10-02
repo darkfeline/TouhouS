@@ -28,6 +28,43 @@ class EntityManager(SetManager):
         for a in entity.get(component.Sprite):
             a.delete()
 
+    def get_with(self, types):
+        """
+        Find all entities who have components of all the types and return a
+        list of tuples with the following format::
+
+            (entity, (
+                (components where isinstance(component, types[0])),
+                (components where isinstance(component, types[1])),
+                .
+                .
+            ))
+
+        You can loop over the returned list like so::
+
+            for entity, comps in em.get_with(types):
+                # setup
+                # get single component
+                comp = comps[0][0]
+                # enumerate over many
+                for comp in comps[1]:
+                    # process
+
+        """
+        good = []
+        for entity in self.entities:
+            components = [[] for i in range(len(types))]
+            for i, type in enumerate(types):
+                for component in entity:
+                    if isinstance(component, type):
+                        components[i].append(component)
+            # Check if all lists in components are filled
+            if len([a for a in components if len(a) == 0]) == 0:
+                good.append(tuple(
+                    [entity, tuple(tuple(a) for a in components)]
+                ))
+        return good
+
 
 class MapManager:
 

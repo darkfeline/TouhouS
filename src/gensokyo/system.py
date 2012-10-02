@@ -18,10 +18,10 @@ class System:
 
 class PhysicsSystem(System):
 
-    req_componenets = (component.Velocity, component.Position)
+    req_components = (component.Velocity, component.Position)
 
     def update(self, dt):
-        for entity, comps in locator.em.get_with(self.req_componenets):
+        for entity, comps in locator.em.get_with(self.req_components):
             vs = comps[0][0]
             for i, v in enumerate(vs):
                 if i == 0:

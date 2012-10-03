@@ -17,10 +17,6 @@ class System:
 
     __metaclass__ = abc.ABCMeta
 
-    @abc.abstractmethod
-    def update(self, dt):
-        raise NotImplementedError
-
 
 class PhysicsSystem(System):
 

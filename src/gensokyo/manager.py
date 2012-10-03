@@ -116,4 +116,5 @@ class SystemManager:
 
     def update(self, dt):
         for system in self.systems:
-            system.update(dt)
+            if hasattr(system, 'update'):
+                system.update(dt)

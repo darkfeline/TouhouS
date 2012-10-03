@@ -18,8 +18,8 @@ class EntityManager:
 
     def delete(self, entity):
         self.entities.remove(entity)
-        for a in entity.get(component.Sprite):
-            a.delete()
+        for a in entity.get(component.Component):
+            entity.delete(a)
 
     def get_with(self, types):
         """

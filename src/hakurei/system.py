@@ -6,6 +6,8 @@ from gensokyo.system import System
 from gensokyo import component
 from gensokyo import locator
 
+from hakurei import game
+
 
 class FPSSystem(System):
 
@@ -24,10 +26,27 @@ class FPSSystem(System):
 
 class DataSystem(System):
 
+    """
+    Superclass for systems that need to access game data
+
+    """
+
     fields = set('high_score', 'score', 'lives', 'bombs')
 
-    def on_change(self, field, value):
+    def get(self, field):
         if field not in self.fields:
             raise TypeError
+        entity = locator.model.tm['data']
+        for comp in entity.get(game.GameData):
+            return getattr(comp, field)
+
+    def set(self, field, value):
+        if field not in self.fields:
+            raise TypeError
+        # set counter
         entity = locator.tm[field]
         entity.set_value(value)
+        # set data
+        entity = locator.model.tm['data']
+        for comp in entity.get(game.GameData):
+            setattr(comp, field, value)

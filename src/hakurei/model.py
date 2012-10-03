@@ -11,6 +11,7 @@ from hakurei.entity.player import Reimu
 from hakurei.entity.stage import StageOne
 from hakurei.entity.ui import UI
 from hakurei.entity import ui
+from hakurei import entity
 from hakurei import view
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT
@@ -21,10 +22,14 @@ class GameModel(Model):
     ui_class = UI
     player_class = Reimu
     stage_class = StageOne
+    ui_image = resources.ui_image
 
     def init(self):
 
         # Entities
+        # UI image
+        bg = entity.Wrapper(component.Sprite('ui', self.ui_image))
+        self.em.add(bg)
         # FPS
         fps = ui.FPSDisplay(570, 2)
         self.em.add(fps)

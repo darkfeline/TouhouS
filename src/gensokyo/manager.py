@@ -23,15 +23,26 @@ class EntityManager:
 
     def get_with(self, types):
         """
-        Find all entities who have components of all the types and return a
-        list of tuples with the following format::
+        If types is a single type, find all entities who have at least one
+        component of that type and return a tuple with the following format::
 
-            (entity, (
-                (components where isinstance(component, types[0])),
-                (components where isinstance(component, types[1])),
+            (
+                (entity, (components where isisntace(component, types))),
                 .
                 .
-            ))
+            )
+        If types is a list of types, find all entities who have at least one
+        components of each type and return a list of tuples with the following
+        format::
+
+            (
+                (entity, (
+                    (components where isinstance(component, types[0])),
+                    (components where isinstance(component, types[1])),
+                    .
+                    .
+                ))
+            )
 
         You can loop over the returned list like so::
 
@@ -41,6 +52,17 @@ class EntityManager:
                 comp = comps[0][0]
                 # enumerate over many
                 for comp in comps[1]:
+                    # process
+                # this works too for single components
+                for comp in comps[2]:
+                    # process
+
+        And for a single type::
+
+            for entity, comps in em.get_with(types):
+                # setup
+                # enumerate over components
+                for comp in comps:
                     # process
 
         """

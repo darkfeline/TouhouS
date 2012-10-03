@@ -117,38 +117,3 @@ class IconCounter(Counter):
     def icon_width(self):
         return self.icon_img.width
         self.value = self.value
-
-
-class UI(SpriteWrapper):
-
-    bg_img = resources.ui_image
-    _counters = {'high_score': (TextCounter, 430, 415, 'High score'),
-        'score': (TextCounter, 430, 391, 'Score'),
-        'lives': (IconCounter, 430, 361, 'Lives'),
-        'bombs': (IconCounter, 430, 339, 'Bombs')}
-    sprite_group = 'ui'
-
-    def __init__(self):
-
-        super().__init__()
-
-        self.fps = FPSDisplay(570, 2)
-        self.label = {}
-        for k in self._counters.keys():
-            t = self._counters[k]
-            self.label[k] = t[0](t[1], t[2], t[3])
-        self.bg = Sprite(self.bg_img)
-        self.add_sprite(self.bg, self.sprite_group)
-
-    def update(self, dt):
-        self.fps.update(dt)
-
-for k in UI._counters.keys():
-    def get(self, k=k):
-        return getattr(self, '_' + k)
-    def set(self, value, k=k):
-        setattr(self, '_' + k, value)
-        self.label[k].value = value
-    setattr(UI, k, property(get, set))
-del set
-del get

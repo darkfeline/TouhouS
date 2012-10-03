@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 
-import pyglet
-
-from gensokyo.primitives import Vector, Circle
-from gensokyo.object import Container
+from gensokyo.primitives import Circle
 from gensokyo.object import CollisionComponent
-from gensokyo.object import SpriteComponent
 from gensokyo.object import DeathInterface
-from gensokyo.physics import LinearPhysicsComp
+from gensokyo.entity import Entity
+from gensokyo import component
 
 from hakurei.globals import GAME_AREA
 from hakurei.object.player import PlayerCollisionComponent
@@ -37,46 +34,36 @@ class BulletCollisionComponent(CollisionComponent, DeathInterface):
         self.check_bounds()
 
 
-class Bullet(Container):
-
-    physics = LinearPhysicsComp
-    collision = BulletCollisionComponent
+class Bullet(Entity):
 
     sprite_img = None
-    sprite_group = 'enemy_bullet'
-    hb = None
+    sprite_group = None
 
-    def __init__(self, x, y, speed=500, vector=Vector(0, 1)):
+    def __init__(self, x, y, velocity, hitbox):
 
         super().__init__()
 
-        p = self.physics()
-        c = self.collision(x, y, self.sprite_img.width, self.sprite_img.height,
-                self.hb)
-        g = SpriteComponent(self.sprite_group, img=self.sprite_img)
+        v = velocity
+        s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        hb = component.Hitbox(hitbox)
 
-        p.vel = vector
-        p.speed = speed
-
-        p.push_handlers(g)
-        p.push_handlers(c)
-        c.push_handlers(g)
-        c.push_handlers(self)
-
-        self.add(p)
-        self.add(c)
-        self.add(g)
+        self.add(v)
+        self.add(s)
+        self.add(hb)
 
 
 class EnemyBullet(Bullet):
 
-    collision = EnemyBulletCollisionComponent
+    sprite_group = 'enemy_bullet'
+
+    def __init__(self, x, y, velocity, hitbox):
+        super().__init__(x, y, velocity, hitbox)
 
 
 class RoundBullet(EnemyBullet):
 
     sprite_img = resources.bullet['round']
 
-    def __init__(self, x, y, vector):
-        super().__init__(x, y, speed=300, vector=vector)
-        self.hb = Circle(x, y, 10)
+    def __init__(self, x, y, velocity):
+        hb = Circle(x, y, 10)
+        super().__init__(x, y, velocity, hb)

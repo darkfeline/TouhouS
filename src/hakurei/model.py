@@ -48,6 +48,8 @@ class GameModel(Model):
         # Systems
         fps = hakurei.system.FPSSystem()
         self.sm.add(fps)
+        data = hakurei.system.DataSystem()
+        self.sm.add(data)
 
     def __init__(self):
 

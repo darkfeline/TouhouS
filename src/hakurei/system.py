@@ -20,3 +20,14 @@ class FPSSystem(System):
             for l in labels:
                 l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
             self.count = 0
+
+
+class DataSystem(System):
+
+    fields = set('high_score', 'score', 'lives', 'bombs')
+
+    def on_change(self, field, value):
+        if field not in self.fields:
+            raise TypeError
+        entity = locator.tm[field]
+        entity.set_value(value)

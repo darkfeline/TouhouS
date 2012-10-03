@@ -31,15 +31,15 @@ class GameModel(Model):
         self.tm.tag('fps_display', fps)
 
         counters = {
-            'high_score': (ui.make_text_counter, 430, 415, 'High score'),
-            'score': (ui.make_text_counter, 430, 391, 'Score'),
-            'lives': (IconCounter, 430, 361, 'Lives'),
-            'bombs': (IconCounter, 430, 339, 'Bombs')}
+            'high_score': (ui.TextCounter, 430, 415, 'High score'),
+            'score': (ui.TextCounter, 430, 391, 'Score'),
+            'lives': (ui.IconCounter, 430, 361, 'Lives'),
+            'bombs': (ui.IconCounter, 430, 339, 'Bombs')}
         for tag, a in counters.items():
-            f, x, y, tit = a
-            title, number = f(x, y)
-            title.text = tit
-            self.tm.tag(tag, number)
+            c, x, y, tit = a
+            counter = c(x, y, tit)
+            self.em.add(counter)
+            self.tm.tag(tag, counter)
 
         # Data
         data = hakurei.entity.Wrapper(hakurei.component.GameData())

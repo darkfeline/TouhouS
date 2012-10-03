@@ -5,6 +5,7 @@ import abc
 from pyglet.text import Label
 from gensokyo import component
 from gensokyo.entity import Entity
+from gensokyo import locator
 
 from hakurei import resources
 from hakurei.entity import ui
@@ -27,7 +28,7 @@ class FPSDisplay(UILabel):
                 font_size=10, color=(255, 255, 255, 255))
 
 
-class Counter:
+class Counter(Entity):
 
     __metaclass__ = abc.ABCMeta
     sprite_group = 'ui_element'
@@ -48,12 +49,13 @@ class TextCounter(Counter):
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                 'color': (0, 0, 0, 255)}
 
-        self.title = ui.UILabel(self.sprite_group, x=x, y=y, anchor_x='left',
-                **kwargs)
-        locator.model.em.add(self.title)
-        self.number = ui.UILabel(self.sprite_group, x=x + width, y=y,
+        self.title = component.Label(self.sprite_group, x=x, y=y,
+                anchor_x='left', **kwargs)
+        self.add(self.title)
+        self.number = component.Label(self.sprite_group, x=x + width, y=y,
                 anchor_x='right', **kwargs)
-        locator.model.em.add(self.number)
+        self.add(self.number)
+
         self.set_title(title)
 
     def set_title(self, value):
@@ -73,8 +75,8 @@ class IconCounter(Counter):
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                 'color': (0, 0, 0, 255)}
 
-        self.title = ui.UILabel(x=x, y=y, anchor_x='left', **kwargs)
-        locator.model.em.add(self.title)
+        self.title = component.Label(x=x, y=y, anchor_x='left', **kwargs)
+        self.add(title)
 
         self.icons = []
         self.width = width
@@ -98,17 +100,16 @@ class IconCounter(Counter):
         i = self.display_max - self.value
         # add icons
         while delta > 0:
-            sprite = Wrapper(component.Sprite(self.sprite_group, self.icon_img,
-                x=self.x + width - i * self.icon_width, y=self.y))
+            sprite = component.Sprite(self.sprite_group, self.icon_img,
+                    x=self.x + self.width - i * self.icon_width, y=self.y)
             self.icons.append(sprite)
-            locator.model.em.add(self.title)
             self.x = self.x
             i -= 1
             delta -= 1
         # remove icons
         while delta < 0:
             sprite = self.icons.pop()
-            locator.model.em.delete(sprite)
+            sprite.delete()
             i += 1
             delta += 1
 

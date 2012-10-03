@@ -28,8 +28,10 @@ class Entity:
 
     def get(self, types):
         """
-        Find all components of the given types and return a tuple with the
-        following format::
+        If types is a single type, return a tuple of components who are an
+        instance of type or a subclass of type.  If types is a list of types,
+        return a tuple of all components of the given types with the following
+        format::
 
             (
                 (components where isinstance(component, types[0])),
@@ -41,9 +43,11 @@ class Entity:
         Some tuples may be empty if the entity does not have those components.
 
         """
-        components = [[] for i in range(len(types))]
-        for i, type in enumerate(types):
-            for component in self:
-                if isinstance(component, type):
-                    components[i].append(component)
-        return tuple(tuple(a) for a in components)
+        try:
+            return tuple([tuple([
+                component for component in self if isinstance(component, type)
+                ]) for type in types])
+        except TypeError:
+            return tuple([
+                component for component in self if isinstance(component, types)
+                ])

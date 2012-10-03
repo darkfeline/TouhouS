@@ -2,8 +2,6 @@
 
 import abc
 
-from pyglet import event
-
 from gensokyo import component
 from gensokyo import locator
 
@@ -35,7 +33,7 @@ class PhysicsSystem(System):
                     vs[i - 1].y += v.y * dt
 
 
-class CollisionSystem(System, event.EventDispatcher):
+class CollisionSystem(System):
 
     req_components = (component.Hitbox,)
 
@@ -49,6 +47,4 @@ class CollisionSystem(System, event.EventDispatcher):
                 if hb1.collide(hb2):
                     collided.append((e1, e2))
         for a in collided:
-            self.dispatch_event('on_collide', a)
-
-CollisionSystem.register_event_type('on_collide')
+            locator.model.sm.dispatch_event('on_collide', a)

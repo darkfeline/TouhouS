@@ -30,6 +30,7 @@ class GameModel(Model):
         self.em.add(fps)
         self.tm.tag('fps_display', fps)
 
+        # Counters
         counters = {
             'high_score': (ui.TextCounter, 430, 415, 'High score'),
             'score': (ui.TextCounter, 430, 391, 'Score'),

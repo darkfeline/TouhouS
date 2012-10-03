@@ -2,6 +2,8 @@
 
 from weakref import WeakValueDictionary
 
+from pyglet import event
+
 from gensokyo import component
 
 
@@ -103,13 +105,14 @@ class TagManager:
         self.items[key] = entity
 
 
-class SystemManager:
+class SystemManager(event.EventManager):
 
     def __init__(self):
         self.systems = set()
 
     def add(self, system):
         self.systems.add(system)
+        self.push_handlers(system)
 
     def __iter__(self):
         return iter(self.systems)

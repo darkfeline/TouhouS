@@ -5,11 +5,8 @@ import abc
 from pyglet.text import Label
 from gensokyo import component
 from gensokyo.entity import Entity
-from gensokyo import locator
 
 from hakurei import resources
-from hakurei.entity import ui
-from hakurei.entity import Wrapper
 
 
 class UILabel(Entity):

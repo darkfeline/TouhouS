@@ -7,11 +7,8 @@ from gensokyo import component
 from gensokyo import locator
 
 import hakurei
-from hakurei.entity.player import Reimu
-from hakurei.entity.stage import StageOne
-from hakurei.entity.ui import UI
-from hakurei.entity import ui
-from hakurei import entity
+from hakurei import game
+from hakurei.game import ui
 from hakurei import view
 from hakurei.globals import DEF_PLAYER_XY as XY
 from hakurei.globals import HEIGHT
@@ -19,9 +16,8 @@ from hakurei.globals import HEIGHT
 
 class GameModel(Model):
 
-    ui_class = UI
-    player_class = Reimu
-    stage_class = StageOne
+    player_class = game.player.Reimu
+    stage_class = game.stage.StageOne
     ui_image = resources.ui_image
 
     def init(self):

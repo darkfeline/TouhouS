@@ -3,7 +3,7 @@
 from gensokyo.entity import Entity
 
 
-class DataEntity(Entity):
+class Wrapper(Entity):
 
     def __init__(self, component):
         self.add(component)

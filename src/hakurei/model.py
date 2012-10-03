@@ -42,7 +42,7 @@ class GameModel(Model):
             self.tm.tag(tag, number)
 
         # Data
-        data = hakurei.entity.DataEntity(hakurei.component.GameData())
+        data = hakurei.entity.Wrapper(hakurei.component.GameData())
         self.tm.tag('data', data)
 
         # Systems

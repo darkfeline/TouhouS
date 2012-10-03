@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
+import abc
+
 from pyglet.text import Label
-from pyglet.sprite import Sprite
+from gensokyo import component
 from gensokyo.entity import Entity
 
 from hakurei import resources
 from hakurei.entity import ui
+from hakurei.entity import Wrapper
 
 
 class UILabel(Entity):
@@ -24,132 +27,95 @@ class FPSDisplay(UILabel):
                 font_size=10, color=(255, 255, 255, 255))
 
 
+class Counter:
+
+    __metaclass__ = abc.ABCMeta
+    sprite_group = 'ui_element'
+
+    @abc.abstractmethod
+    def set_title(self, value):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def set_value(self, value):
+        raise NotImplementedError
+
 
 class TextCounter(Counter):
 
     def __init__(self, x, y, title, value=0, width=190):
 
-        super().__init__()
+        kwargs = {'anchor_y': "bottom", 'font_size': 10,
+                'color': (0, 0, 0, 255)}
 
-        self._title = Label(anchor_x='left', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255))
-        self.add_sprite(self._title, self.sprite_group)
+        self.title = ui.UILabel(self.sprite_group, x=x, y=y, anchor_x='left',
+                **kwargs)
+        locator.model.em.add(self.title)
+        self.number = ui.UILabel(self.sprite_group, x=x + width, y=y,
+                anchor_x='right', **kwargs)
+        locator.model.em.add(self.number)
+        self.set_title(title)
 
-        self._number = Label(anchor_x='right', anchor_y='bottom', font_size=10,
-                color=(0, 0, 0, 255))
-        self.add_sprite(self._number, self.sprite_group)
+    def set_title(self, value):
+        self.title.text = value
 
-        self.width = width
-        self.x = x
-        self.y = y
-        self.title = title
-        self.value = value
-
-    @property
-    def x(self):
-        return self._title.x
-
-    @x.setter
-    def x(self, value):
-        self._title.x = value
-        self._number.x = self.width + value
-
-    @property
-    def y(self):
-        return self._title.y
-
-    @y.setter
-    def y(self, value):
-        self._title.y = value
-        self._number.y = value
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        self._number.text = str(value)
+    def set_value(self, value):
+        self.number.text = value
 
 
 class IconCounter(Counter):
 
     icon_img = resources.star
-    sprite_group = 'ui_element'
+    display_max = 8
 
     def __init__(self, x, y, title, value=0, width=190):
 
-        super().__init__()
+        kwargs = {'anchor_y': "bottom", 'font_size': 10,
+                'color': (0, 0, 0, 255)}
 
-        self._title = Label(anchor_x='left', anchor_y='bottom',
-                font_size=10, color=(0, 0, 0, 255))
-        self.add_sprite(self._title, self.sprite_group)
+        self.title = ui.UILabel(x=x, y=y, anchor_x='left', **kwargs)
+        locator.model.em.add(self.title)
 
-        self._value = 0
-        self._display_max = 0
-
-        self.width = width
         self.icons = []
-        self.title = title
-        self.display_max = 8
-        self.value = value
+        self.width = width
+        self.set_title(title)
+        self.set_value(value)
         self.x = x
         self.y = y
 
     @property
-    def icon_width(self):
-        return self.icon_img.width
-
-    @property
-    def display_max(self):
-        return self._display_max
-
-    @display_max.setter
-    def display_max(self, value):
-        self._display_max = value
-        self.value = self.value
-
-    @property
-    def x(self):
-        return self._title.x
-
-    @x.setter
-    def x(self, value):
-        self._title.x = value
-        start = value + self.width - self.display_max * self.icon_width
-        for n, a in enumerate(self.icons):
-            a.x = start + n * self.icon_width
-
-    @property
-    def y(self):
-        return self._title.y
-
-    @y.setter
-    def y(self, value):
-        self._title.y = value
-        for i in self.icons:
-            i.y = value
-
-    @property
     def value(self):
-        return self._value
+        return len(self.icons)
 
-    @value.setter
-    def value(self, value):
+    def set_title(self, value):
+        self.title.text = value
+
+    def set_value(self, value):
         new = min(self.display_max, value)
+        # number of icons to add
         delta = new - self.value
-        self._value = value
+        # number of missing icons
+        i = self.display_max - self.value
+        # add icons
         while delta > 0:
-            sprite = Sprite(self.icon_img, y=self.y)
+            sprite = Wrapper(component.Sprite(self.sprite_group, self.icon_img,
+                x=self.x + width - i * self.icon_width, y=self.y))
             self.icons.append(sprite)
-            self.add_sprite(sprite, self.sprite_group)
+            locator.model.em.add(self.title)
             self.x = self.x
+            i -= 1
             delta -= 1
+        # remove icons
         while delta < 0:
             sprite = self.icons.pop()
-            sprite.delete()
+            locator.model.em.delete(sprite)
+            i += 1
             delta += 1
+
+    @property
+    def icon_width(self):
+        return self.icon_img.width
+        self.value = self.value
 
 
 class UI(SpriteWrapper):

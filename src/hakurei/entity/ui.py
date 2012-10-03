@@ -24,16 +24,6 @@ class FPSDisplay(UILabel):
                 font_size=10, color=(255, 255, 255, 255))
 
 
-def make_text_counter(x, y):
-    """Make and return a pair of UILabels that make up a text counter"""
-    kwargs = {'anchor_y': "bottom", 'font_size': 10,
-            'color': (0, 0, 0, 255)}
-    width = 190
-
-    title = ui.UILabel(x=x, y=y, anchor_x='left', **kwargs)
-    number = ui.UILabel(x=width + x, y=y, anchor_x='right', **kwargs)
-    return title, number
-
 
 class TextCounter(Counter):
 

@@ -21,6 +21,11 @@ class Entity:
     def add(self, component):
         self.components.add(component)
 
+    def delete(self, component):
+        self.components.remove(component)
+        if hasattr(component, 'delete'):
+            component.delete()
+
     def get(self, types):
         """
         Find all components of the given types and return a tuple with the

@@ -4,6 +4,8 @@ from gensokyo.entity import Entity
 from gensokyo.primitives import Rect
 from gensokyo import component
 
+from hakurei import globals
+
 
 class GameData:
 
@@ -20,8 +22,8 @@ class Wrapper(Entity):
         self.add(component)
 
 
-class GameBounds(Entity):
+class GameArea(Entity):
 
-    def __init__(self, x, y, width, height):
-        hb = component.Hitbox(Rect(x, y, width, height))
+    def __init__(self):
+        hb = component.Hitbox(globals.GAME_AREA)
         self.add(hb)

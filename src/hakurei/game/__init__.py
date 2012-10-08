@@ -22,6 +22,7 @@ class Wrapper(Entity):
         self.add(component)
 
 
+# TODO change this?
 class GameArea(Entity):
 
     def __init__(self):

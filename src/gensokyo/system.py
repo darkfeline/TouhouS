@@ -37,14 +37,32 @@ class CollisionSystem(System):
 
     req_components = (component.Hitbox,)
 
+    @staticmethod
+    def collide(hb1, hb2):
+        """
+        :param t1, t2: hitboxes to compare
+        :type t1, t2: tuple of hitbox components
+        :rtype: boolean
+
+        """
+        for i in range(len(hb1)):
+            for j in range(len(hb2)):
+                if hb1[i].collide(hb2[j]):
+                    return True
+        return False
+
     def update(self, dt):
+        """
+        Compare ALL of the hitboxes of entities with a hitbox component.  If
+        any of them collide, have the SystemManager dispatch on_collide event
+        with a tuple containing the two entities as an argument.
+
+        """
         collided = []
         entities, comps = locator.em.get_with(self.req_components)
         for i, e1 in enumerate(entities):
-            hb1 = comps[i][0]
             for j, e2 in enumerate(entities[i + 1:]):
-                hb2 = comps[i + j + 1][0]
-                if hb1.collide(hb2):
+                if self.collide(comps[i], comps[i + j + 1]):
                     collided.append((e1, e2))
         for a in collided:
             locator.model.sm.dispatch_event('on_collide', a)

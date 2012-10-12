@@ -2,14 +2,14 @@
 
 from pyglet import clock
 
-from gensokyo.system import System
+from gensokyo import system
 from gensokyo import component
 from gensokyo import locator
 
 from hakurei import game
 
 
-class FPSSystem(System):
+class FPSSystem(system.System):
 
     def __init__(self):
         self.count = 0
@@ -24,7 +24,7 @@ class FPSSystem(System):
             self.count = 0
 
 
-class DataSystem(System):
+class DataSystem(system.System):
 
     """
     Superclass for systems that need to access game data

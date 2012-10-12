@@ -21,6 +21,11 @@ class PhysicsSystem(System):
     req_components = (component.Velocity, component.Position)
 
     def update(self, dt):
+        """
+        For all entities with Velocity and Position components, PhysicsSystem
+        applies ALL velocities to ALL positions
+
+        """
         for entity in locator.em.get_with(self.req_components):
             vel, pos = entity.get(self.req_components)
             for v in vel:

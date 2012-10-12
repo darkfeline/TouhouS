@@ -50,3 +50,23 @@ class DataSystem(system.System):
         entity = locator.model.tm['data']
         for comp in entity.get(game.GameData):
             setattr(comp, field, value)
+
+
+class GameCollisionSystem(system.CollisionSystem):
+
+    @staticmethod
+    def _change_bound_state(e, i):
+        e = e.get(game.BoundState)
+        if len(e) > 0:
+            e[0].state += i
+
+    def on_collide(self, entities):
+        e1, e2 = entities
+        if isinstance(e1, game.GameArea):
+            self._change_bound_state(e2, 1)
+        elif isinstance(e2, game.GameArea):
+            self._change_bound_state(e1, 1)
+        elif isinstance(e1, game.GameBounds):
+            self._change_bound_state(e2, -1)
+        elif isinstance(e2, game.GameBounds):
+            self._change_bound_state(e1, -1)

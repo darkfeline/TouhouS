@@ -21,16 +21,17 @@ class PhysicsSystem(System):
     req_components = (component.Velocity, component.Position)
 
     def update(self, dt):
-        for entity, comps in locator.em.get_with(self.req_components):
-            vs = comps[0][0]
-            for i, v in enumerate(vs):
-                if i == 0:
-                    for p in comps[1]:
-                        p.x += v.x * dt
-                        p.y += v.y * dt
-                else:
-                    vs[i - 1].x += v.x * dt
-                    vs[i - 1].y += v.y * dt
+        for entity in locator.em.get_with(self.req_components):
+            vel, pos = entity.get(self.req_components)
+            for v in vel:
+                for i in range(len(v)):
+                    if i == 0:
+                        for p in pos:
+                            p.x += v[0].x * dt
+                            p.y += v[0].y * dt
+                    else:
+                        v[i - 1].x += v[i].x * dt
+                        v[i - 1].y += v[i].y * dt
 
 
 class CollisionSystem(System):

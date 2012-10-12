@@ -140,3 +140,12 @@ class Velocity(Component):
 
     def __init__(self):
         self.vectors = []
+
+    def __len__(self):
+        return len(self.vectors)
+
+    def __getitem__(self, index):
+        return self.vectors[index]
+
+    def add(self, vector):
+        self.vectors.append(vector)

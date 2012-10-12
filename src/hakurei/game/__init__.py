@@ -16,6 +16,12 @@ class GameData:
         self.bombs = bombs
 
 
+class BoundState:
+
+    def __init__(self):
+        self.state = 0
+
+
 class Wrapper(Entity):
 
     def __init__(self, component):

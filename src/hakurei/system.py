@@ -62,6 +62,7 @@ class GameCollisionSystem(system.CollisionSystem):
 
     def on_collide(self, entities):
         e1, e2 = entities
+        # Bounds check
         if isinstance(e1, game.GameArea):
             self._change_bound_state(e2, 1)
         elif isinstance(e2, game.GameArea):
@@ -70,3 +71,8 @@ class GameCollisionSystem(system.CollisionSystem):
             self._change_bound_state(e2, -1)
         elif isinstance(e2, game.GameBounds):
             self._change_bound_state(e1, -1)
+        # TODO player + enemy bullet
+        # TODO enemy + player bullet
+
+
+# TODO garbage collet bounds checked stuff

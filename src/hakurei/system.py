@@ -55,6 +55,17 @@ class DataSystem(system.System):
 
 class GameCollisionSystem(system.CollisionSystem):
 
+    @staticmethod
+    def check_types(entities, types):
+        """Return True if one entity is one type, and the other is the other"""
+        e1, e2 = entities
+        t1, t2 = types
+        if isinstance(e1, t1) and isinstance(e2, t2) or \
+                isinstance(e1, t2) and isinstance(e2, t1):
+            return True
+        else:
+            return False
+
     def on_collide(self, entities):
         e1, e2 = entities
         # TODO player + enemy bullet

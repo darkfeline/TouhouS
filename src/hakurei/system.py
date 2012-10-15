@@ -7,6 +7,7 @@ from gensokyo import component
 from gensokyo import locator
 
 from hakurei import game
+from hakurei.globals import GAME_AREA
 
 
 class FPSSystem(system.System):
@@ -54,25 +55,31 @@ class DataSystem(system.System):
 
 class GameCollisionSystem(system.CollisionSystem):
 
-    @staticmethod
-    def _change_bound_state(e, i):
-        e = e.get(game.BoundState)
-        if len(e) > 0:
-            e[0].state += i
-
     def on_collide(self, entities):
         e1, e2 = entities
-        # Bounds check
-        if isinstance(e1, game.GameArea):
-            self._change_bound_state(e2, 1)
-        elif isinstance(e2, game.GameArea):
-            self._change_bound_state(e1, 1)
-        elif isinstance(e1, game.GameBounds):
-            self._change_bound_state(e2, -1)
-        elif isinstance(e2, game.GameBounds):
-            self._change_bound_state(e1, -1)
         # TODO player + enemy bullet
         # TODO enemy + player bullet
 
 
-# TODO garbage collet bounds checked stuff
+class GarbageCollectSystem(system.System):
+
+    req_components = (game.Presence,)
+
+    @classmethod
+    def check_bounds(cls, entity):
+        """Return true if entity is outside bounds"""
+        c = entity.get(game.Presence)
+        if len(c) < 1:
+            raise NotImplementedError
+        r = c[0].hb
+        if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
+                r.left > GAME_AREA.right or r.right < GAME_AREA.left):
+            return True
+        else:
+            return False
+
+    def update(self, dt):
+        entities = locator.em.get_with(self.req_components)
+        for e1 in enumerate(entities):
+            if self.check_bounds(e1):
+                locator.em.delete(e1)

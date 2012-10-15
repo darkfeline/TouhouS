@@ -67,7 +67,7 @@ class GarbageCollectSystem(system.System):
 
     @staticmethod
     def check_bounds(entity):
-        """Return true if entity is outside bounds"""
+        """Return True if entity is outside bounds"""
         c = entity.get(game.Presence)
         if len(c) < 1:
             raise NotImplementedError

@@ -65,8 +65,8 @@ class GarbageCollectSystem(system.System):
 
     req_components = (game.Presence,)
 
-    @classmethod
-    def check_bounds(cls, entity):
+    @staticmethod
+    def check_bounds(entity):
         """Return true if entity is outside bounds"""
         c = entity.get(game.Presence)
         if len(c) < 1:

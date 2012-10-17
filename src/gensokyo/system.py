@@ -94,4 +94,4 @@ class CollisionSystem(System):
                         if self.collide(hb1, hb2):
                             collided.append((e1, e2))
         for a in collided:
-            locator.model.sm.dispatch_event('on_collide', a)
+            self.sm.dispatch_event('on_collide', a)

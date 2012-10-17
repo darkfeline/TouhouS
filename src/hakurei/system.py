@@ -91,9 +91,9 @@ class GarbageCollectSystem(system.System):
 
     def update(self, dt):
         entities = self.get_with(self.req_components)
-        for e1 in enumerate(entities):
-            if self.check_bounds(e1):
-                locator.em.delete(e1)
+        for e in entities:
+            if self.check_bounds(e):
+                locator.em.delete(e)
 
 
 class EnemyAISystem(system.System):

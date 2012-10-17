@@ -47,7 +47,7 @@ class DataSystem(system.System):
         entity = self.get_tag('data')
         entity.set_value(value)
         # set data
-        entity = locator.model.tm['data']
+        entity = self.get_tag(field)
         for comp in entity.get(game.GameData):
             setattr(comp, field, value)
 

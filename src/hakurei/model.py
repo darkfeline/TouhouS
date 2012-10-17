@@ -53,6 +53,8 @@ class GameModel(Model):
         data = hakurei.system.DataSystem()
         self.sm.add(data)
 
+        # TODO finish this
+
     def __init__(self):
 
         self.ui = self.ui_class()

@@ -26,6 +26,7 @@ class EnemyAI(component.Component):
     def __init__(self, script):
         self.script = script
         self.step = 0
+        self.sleep = 0
 
 
 class Wrapper(entity.Entity):

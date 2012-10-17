@@ -21,7 +21,7 @@ class FPSDisplay(UILabel):
 
     def __init__(self, x, y):
         super.__init__(x=x, y=y, anchor_x='left', anchor_y='bottom',
-                font_size=10, color=(255, 255, 255, 255))
+                       font_size=10, color=(255, 255, 255, 255))
 
 
 class Counter(Entity):
@@ -43,13 +43,13 @@ class TextCounter(Counter):
     def __init__(self, x, y, title, value=0, width=190):
 
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
-                'color': (0, 0, 0, 255)}
+                  'color': (0, 0, 0, 255)}
 
         self.title = component.Label(self.sprite_group, x=x, y=y,
-                anchor_x='left', **kwargs)
+                                     anchor_x='left', **kwargs)
         self.add(self.title)
         self.number = component.Label(self.sprite_group, x=x + width, y=y,
-                anchor_x='right', **kwargs)
+                                      anchor_x='right', **kwargs)
         self.add(self.number)
 
         self.set_title(title)
@@ -69,7 +69,7 @@ class IconCounter(Counter):
     def __init__(self, x, y, title, value=0, width=190):
 
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
-                'color': (0, 0, 0, 255)}
+                  'color': (0, 0, 0, 255)}
 
         self.title = component.Label(x=x, y=y, anchor_x='left', **kwargs)
         self.add(title)
@@ -96,8 +96,9 @@ class IconCounter(Counter):
         i = self.display_max - self.value
         # add icons
         while delta > 0:
-            sprite = component.Sprite(self.sprite_group, self.icon_img,
-                    x=self.x + self.width - i * self.icon_width, y=self.y)
+            sprite = component.Sprite(
+                self.sprite_group, self.icon_img, x=self.x + self.width - i *
+                self.icon_width, y=self.y)
             self.icons.append(sprite)
             self.x = self.x
             i -= 1

@@ -12,8 +12,9 @@ class Bullet(entity.Entity):
 
     sprite_img = None
     sprite_group = None
+    hitbox = None
 
-    def __init__(self, x, y, velocity, hitbox):
+    def __init__(self, x, y, velocity):
 
         """
         :param x: x coordinate
@@ -22,14 +23,12 @@ class Bullet(entity.Entity):
         :type y: int
         :param velocity: physics vectors
         :type velocity: list
-        :param hitbox: hitbox object
-        :type hitbox: shape
 
         """
 
         super().__init__()
 
-        hb = component.Hitbox(hitbox)
+        hb = component.Hitbox(self.hitbox)
         hb.x, hb.y = x, y
         self.add(hb)
 

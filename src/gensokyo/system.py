@@ -23,7 +23,7 @@ class System:
         :rtype: set
 
         """
-        return locator.em.get_with(types)
+        return locator.model.em.get_with(types)
 
     @staticmethod
     def dispatch_event(event, *args):

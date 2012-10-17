@@ -128,7 +128,7 @@ class EnemyAISystem(system.System):
 
         """
 
-        return getattr(self, method_name)(self, entity, *args, **kwargs)
+        return getattr(self, method_name)(self, entity, ai, *args, **kwargs)
 
     def update(self, dt):
         entities = self.get_with(self.req_components)

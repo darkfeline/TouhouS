@@ -119,6 +119,12 @@ class EnemyAISystem(system.System):
         """
         Call method with given name and pass it the given entity
 
+        Valid methods for such calling have the type signature::
+
+            method_name(self, entity, ai, *args, **kwargs)
+
+        `*args` and `**kwargs` are optional depending on method.
+
         :param entity: entity passed to call
         :type entity: Entity
         :param ai: AI component passed to call

@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 
 from gensokyo.entity import Entity
-from gensokyo.primitives import Rect
 from gensokyo import component
-
-from hakurei import globals
 
 
 class GameData:

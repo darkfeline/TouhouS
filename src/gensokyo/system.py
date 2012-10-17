@@ -15,6 +15,16 @@ class System:
 
     __metaclass__ = abc.ABCMeta
 
+    @staticmethod
+    def get_with(types):
+        """
+        :param types: component types to look for
+        :type types: tuple
+        :rtype: set
+
+        """
+        return locator.em.get_with(types)
+
 
 class PhysicsSystem(System):
 

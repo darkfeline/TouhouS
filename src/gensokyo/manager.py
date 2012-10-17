@@ -28,6 +28,10 @@ class EntityManager:
         Find all entities who have at least one component of each type and
         return a set of entities
 
+        :param types: component types to look for
+        :type types: tuple
+        :rtype: set
+
         """
         good = set()
         for entity in self.entities:

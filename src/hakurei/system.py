@@ -19,8 +19,7 @@ class FPSSystem(system.System):
         self.count += dt
         if self.count > 1:
             entity = self.get_tag('fps_display')
-            labels = entity.get((component.Label,))[0]
-            for l in labels:
+            for l in entity.get(component.Label):
                 l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
             self.count = 0
 
@@ -78,16 +77,15 @@ class GarbageCollectSystem(system.System):
 
     @staticmethod
     def check_bounds(entity):
-        """Return True if entity is outside bounds"""
+        """Return True if entity has a Presence component outside of bounds"""
         c = entity.get(game.Presence)
         if len(c) < 1:
             raise NotImplementedError
-        r = c[0].hb
-        if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
-                r.left > GAME_AREA.right or r.right < GAME_AREA.left):
-            return True
-        else:
-            return False
+        for r in [a.hb for a in c]:
+            if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
+                    r.left > GAME_AREA.right or r.right < GAME_AREA.left):
+                return True
+        return False
 
     def update(self, dt):
         entities = self.get_with(self.req_components)

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+from gensokyo import entity
+from gensokyo import component
+from gensokyo import primitives
+
 from gensokyo.primitives import Vector
 from gensokyo.object import Container
 from gensokyo.object import CollisionComponent
@@ -22,6 +26,42 @@ class EnemyCollisionComponent(CollisionComponent):
     handlers = {PlayerBulletCollisionComponent:hit}
 
 EnemyCollisionComponent.register_event_type('on_hit')
+
+# TODO finish this
+
+
+class Enemy(entity.Entity):
+
+    sprite_img = None
+    sprite_group = 'enemy'
+    hb = None
+    init_life = 200
+
+    def __init__(self, x, y, velocity, hitbox):
+
+        """
+        :param x: x coordinate
+        :type x: int
+        :param y: y coordinate
+        :type y: int
+        :param velocity: physics vectors
+        :type velocity: list
+        :param hitbox: hitbox object
+        :type hitbox: shape
+
+        """
+
+        super().__init__()
+
+        hb = component.Hitbox(hitbox)
+        hb.x, hb.y = x, y
+        self.add(hb)
+
+        s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        self.add(s)
+
+        v = component.Velocity(velocity)
+        self.add(v)
 
 
 class Enemy(Container):

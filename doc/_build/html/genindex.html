@@ -58,6 +58,8 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
@@ -74,19 +76,41 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.entity.Entity.add">add() (gensokyo.entity.Entity method)</a>
+  <dt><a href="gensokyo.html#gensokyo.view.AbstractView">AbstractView (class in gensokyo.view)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.component.Velocity.add">add() (gensokyo.component.Velocity method)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="gensokyo.html#gensokyo.manager.Manager.add">(gensokyo.manager.Manager method)</a>
+  <dt><a href="gensokyo.html#gensokyo.entity.Entity.add">(gensokyo.entity.Entity method)</a>
+  </dt>
+
+        
+  <dt><a href="gensokyo.html#gensokyo.manager.EntityManager.add">(gensokyo.manager.EntityManager method)</a>
+  </dt>
+
+        
+  <dt><a href="gensokyo.html#gensokyo.manager.SystemManager.add">(gensokyo.manager.SystemManager method)</a>
   </dt>
 
       </dl></dd>
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.view.View.add_sprite">add_sprite() (gensokyo.view.View method)</a>
+  <dt><a href="gensokyo.html#gensokyo.view.AbstractView.add_sprite">add_sprite() (gensokyo.view.AbstractView method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.view.View.add_sprite">(gensokyo.view.View method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="gensokyo.html#gensokyo.manager.GroupManager.add_to">add_to() (gensokyo.manager.GroupManager method)</a>
   </dt>
 
   </dl></td>
@@ -96,13 +120,17 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.system.System.check">check() (gensokyo.system.System class method)</a>
+  <dt><a href="gensokyo.html#gensokyo.system.CollisionSystem.collide">collide() (gensokyo.system.CollisionSystem static method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.system.CollisionSystem">CollisionSystem (class in gensokyo.system)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.system.CollisionSystem">CollisionSystem (class in gensokyo.system)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.Component">Component (class in gensokyo.component)</a>
   </dt>
 
   </dl></td>
@@ -112,10 +140,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.component.Sprite.delete">delete() (gensokyo.component.Sprite method)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.GraphicsObject.delete">delete() (gensokyo.component.GraphicsObject method)</a>
   </dt>
 
       <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.entity.Entity.delete">(gensokyo.entity.Entity method)</a>
+  </dt>
+
         
   <dt><a href="gensokyo.html#gensokyo.manager.EntityManager.delete">(gensokyo.manager.EntityManager method)</a>
   </dt>
@@ -124,19 +156,21 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.view.View.draw">draw() (gensokyo.view.View method)</a>
+  <dt><a href="gensokyo.html#gensokyo.view.AbstractView.draw">draw() (gensokyo.view.AbstractView method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.view.View.draw">(gensokyo.view.View method)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="gensokyo.html#gensokyo.manager.EntityManager.entities">entities (gensokyo.manager.EntityManager attribute)</a>
-  </dt>
-
       
   <dt><a href="gensokyo.html#gensokyo.entity.Entity">Entity (class in gensokyo.entity)</a>
   </dt>
@@ -177,12 +211,12 @@
   <dt><a href="gensokyo.html#module-gensokyo.model">gensokyo.model (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#module-gensokyo.scene">gensokyo.scene (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#module-gensokyo.system">gensokyo.system (module)</a>
   </dt>
@@ -196,7 +230,15 @@
   </dt>
 
       
-  <dt><a href="gensokyo.html#gensokyo.entity.Entity.get_all">get_all() (gensokyo.entity.Entity method)</a>
+  <dt><a href="gensokyo.html#gensokyo.manager.EntityManager.get_with">get_with() (gensokyo.manager.EntityManager method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.component.GraphicsObject">GraphicsObject (class in gensokyo.component)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.manager.GroupManager">GroupManager (class in gensokyo.manager)</a>
   </dt>
 
   </dl></td>
@@ -212,11 +254,43 @@
   </dl></td>
 </tr></table>
 
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.model.Model.init">init() (gensokyo.model.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.scene.Scene.init">(gensokyo.scene.Scene method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.component.Label">Label (class in gensokyo.component)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.component.Label.label">label (gensokyo.component.Label attribute)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.manager.Manager">Manager (class in gensokyo.manager)</a>
+  <dt><a href="gensokyo.html#gensokyo.manager.GroupManager.make_group">make_group() (gensokyo.manager.GroupManager method)</a>
   </dt>
 
       
@@ -243,6 +317,28 @@
   <dt><a href="gensokyo.html#gensokyo.scene.SceneStack.on_draw">on_draw() (gensokyo.scene.SceneStack method)</a>
   </dt>
 
+      
+  <dt><a href="gensokyo.html#gensokyo.model.Model.on_key_press">on_key_press() (gensokyo.model.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.scene.SceneStack.on_key_press">(gensokyo.scene.SceneStack method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.model.Model.on_key_release">on_key_release() (gensokyo.model.Model method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.html#gensokyo.scene.SceneStack.on_key_release">(gensokyo.scene.SceneStack method)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -274,21 +370,15 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.system.CollisionSystem.req_componenets">req_componenets (gensokyo.system.CollisionSystem attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.system.CollisionSystem.req_components">req_components (gensokyo.system.CollisionSystem attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="gensokyo.html#gensokyo.system.PhysicsSystem.req_componenets">(gensokyo.system.PhysicsSystem attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.system.PhysicsSystem.req_components">(gensokyo.system.PhysicsSystem attribute)</a>
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="gensokyo.html#gensokyo.system.System.req_components">req_components (gensokyo.system.System attribute)</a>
-  </dt>
-
   </dl></td>
 </tr></table>
 
@@ -307,12 +397,12 @@
   <dt><a href="gensokyo.html#gensokyo.view.View.set_label_group">set_label_group() (gensokyo.view.View static method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#gensokyo.component.Sprite">Sprite (class in gensokyo.component)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#gensokyo.system.System">System (class in gensokyo.system)</a>
   </dt>
@@ -321,15 +411,21 @@
   <dt><a href="gensokyo.html#gensokyo.manager.SystemManager">SystemManager (class in gensokyo.manager)</a>
   </dt>
 
-      
-  <dt><a href="gensokyo.html#gensokyo.manager.SystemManager.systems">systems (gensokyo.manager.SystemManager attribute)</a>
-  </dt>
-
   </dl></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="gensokyo.html#gensokyo.manager.TagManager.tag">tag() (gensokyo.manager.TagManager method)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.html#gensokyo.manager.TagManager">TagManager (class in gensokyo.manager)</a>
+  </dt>
+
+  </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.html#gensokyo.scene.SceneStack.top">top (gensokyo.scene.SceneStack attribute)</a>
@@ -394,16 +490,16 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.component.Hitbox.x">x (gensokyo.component.Hitbox attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.GraphicsObject.x">x (gensokyo.component.GraphicsObject attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="gensokyo.html#gensokyo.component.Position.x">(gensokyo.component.Position attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.Hitbox.x">(gensokyo.component.Hitbox attribute)</a>
   </dt>
 
         
-  <dt><a href="gensokyo.html#gensokyo.component.Sprite.x">(gensokyo.component.Sprite attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.Position.x">(gensokyo.component.Position attribute)</a>
   </dt>
 
       </dl></dd>
@@ -414,16 +510,16 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.html#gensokyo.component.Hitbox.y">y (gensokyo.component.Hitbox attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.GraphicsObject.y">y (gensokyo.component.GraphicsObject attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="gensokyo.html#gensokyo.component.Position.y">(gensokyo.component.Position attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.Hitbox.y">(gensokyo.component.Hitbox attribute)</a>
   </dt>
 
         
-  <dt><a href="gensokyo.html#gensokyo.component.Sprite.y">(gensokyo.component.Sprite attribute)</a>
+  <dt><a href="gensokyo.html#gensokyo.component.Position.y">(gensokyo.component.Position attribute)</a>
   </dt>
 
       </dl></dd>

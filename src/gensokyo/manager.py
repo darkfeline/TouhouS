@@ -66,7 +66,7 @@ class TagManager:
         self.items[key] = entity
 
 
-class SystemManager(event.EventManager):
+class SystemManager(event.EventDispatcher):
 
     def __init__(self):
         self.systems = set()

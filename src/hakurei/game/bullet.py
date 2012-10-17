@@ -51,9 +51,6 @@ class EnemyBullet(Bullet):
 
     sprite_group = 'enemy_bullet'
 
-    def __init__(self, x, y, velocity, hitbox):
-        super().__init__(x, y, velocity, hitbox)
-
 
 class RoundBullet(EnemyBullet):
 

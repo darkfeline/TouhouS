@@ -98,10 +98,23 @@ class EnemyAISystem(system.System):
 
     req_components = (game.EnemyAI,)
 
-    def sleep(self, entity, ai, time):
+    def goto(self, entity, ai, step=0):
+
+        """
+        :param entity: entity passed to call
+        :type entity: Entity
+        :param ai: AI component passed to call
+        :type entity: EnemyAI
+        :param step: index in script to jump to
+        :type step: int
 
         """
 
+        ai.step = step
+
+    def sleep(self, entity, ai, time):
+
+        """
         :param entity: entity passed to call
         :type entity: Entity
         :param ai: AI component passed to call

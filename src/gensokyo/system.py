@@ -36,7 +36,7 @@ class PhysicsSystem(System):
         applies ALL velocities to ALL positions
 
         """
-        for entity in locator.em.get_with(self.req_components):
+        for entity in self.get_with(self.req_components):
             vel, pos = entity.get(self.req_components)
             for v in vel:
                 for i in range(len(v)):
@@ -77,7 +77,7 @@ class CollisionSystem(System):
 
         """
         collided = []
-        entities = locator.em.get_with(self.req_components)
+        entities = self.get_with(self.req_components)
         for i, e1 in enumerate(entities):
             for e2 in enumerate(entities[i + 1:]):
                 for hb1 in e1.get(component.Hitbox):

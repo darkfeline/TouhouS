@@ -90,7 +90,7 @@ class GarbageCollectSystem(system.System):
             return False
 
     def update(self, dt):
-        entities = locator.em.get_with(self.req_components)
+        entities = self.get_with(self.req_components)
         for e1 in enumerate(entities):
             if self.check_bounds(e1):
                 locator.em.delete(e1)

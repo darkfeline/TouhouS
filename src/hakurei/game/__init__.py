@@ -18,6 +18,8 @@ class GameData:
 
 class Presence:
 
+    """Used for garbage collecting out-of-bounds entities"""
+
     def __init__(self, rect):
         self.rect = rect
 

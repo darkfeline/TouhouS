@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-from gensokyo.primitives import Circle
-from gensokyo.entity import Entity
+from gensokyo import entity
 from gensokyo import primitives
 from gensokyo import component
 
@@ -9,7 +8,7 @@ from hakurei import game
 from hakurei import resources
 
 
-class Bullet(Entity):
+class Bullet(entity.Entity):
 
     sprite_img = None
     sprite_group = None
@@ -57,5 +56,5 @@ class RoundBullet(EnemyBullet):
     sprite_img = resources.bullet['round']
 
     def __init__(self, x, y, velocity):
-        hb = Circle(x, y, 10)
+        hb = primitives.Circle(x, y, 10)
         super().__init__(x, y, velocity, hb)

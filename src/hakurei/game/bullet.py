@@ -1,37 +1,12 @@
 #!/usr/bin/env python3
 
 from gensokyo.primitives import Circle
-from gensokyo.object import CollisionComponent
-from gensokyo.object import DeathInterface
 from gensokyo.entity import Entity
+from gensokyo import primitives
 from gensokyo import component
 
-from hakurei.globals import GAME_AREA
-from hakurei.object.player import PlayerCollisionComponent
+from hakurei import game
 from hakurei import resources
-
-class BulletCollisionComponent(CollisionComponent, DeathInterface):
-
-    def __init__(self, x, y, w, h, hb):
-        super().__init__(x, y, w, h, hb)
-        self.handlers = {PlayerCollisionComponent:self.die}
-
-    def die(self, other):
-        super().die()
-
-    def check_bounds(self):
-        r = self.rect
-        if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
-                r.left > GAME_AREA.right or r.right < GAME_AREA.left):
-            self.die()
-
-    def on_dx(self, dx):
-        super().on_dx(dx)
-        self.check_bounds()
-
-    def on_dy(self, dy):
-        super().on_dy(dy)
-        self.check_bounds()
 
 
 class Bullet(Entity):
@@ -41,15 +16,35 @@ class Bullet(Entity):
 
     def __init__(self, x, y, velocity, hitbox):
 
+        """
+        :param x: x coordinate
+        :type x: int
+        :param y: y coordinate
+        :type y: int
+        :param velocity: physics vectors
+        :type velocity: list
+        :param hitbox: hitbox object
+        :type hitbox: shape
+
+        """
+
         super().__init__()
 
-        v = velocity
-        s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
         hb = component.Hitbox(hitbox)
-
-        self.add(v)
-        self.add(s)
+        hb.x, hb.y = x, y
         self.add(hb)
+
+        s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        self.add(s)
+
+        v = component.Velocity(velocity)
+        self.add(v)
+
+        r = primitives.Rect(0, 0, self.sprite_img.width,
+                            self.sprite_img.height)
+        r.center = x, y
+        p = game.Presence(r)
+        self.add(p)
 
 
 class EnemyBullet(Bullet):

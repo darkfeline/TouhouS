@@ -18,7 +18,7 @@ class FPSSystem(system.System):
     def update(self, dt):
         self.count += dt
         if self.count > 1:
-            entity = locator.model.tm['fps_display']
+            entity = self.get_tag('fps_display')
             labels = entity.get((component.Label,))[0]
             for l in labels:
                 l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
@@ -37,7 +37,7 @@ class DataSystem(system.System):
     def get(self, field):
         if field not in self.fields:
             raise TypeError
-        entity = locator.model.tm['data']
+        entity = self.get_tag('data')
         for comp in entity.get(game.GameData):
             return getattr(comp, field)
 
@@ -45,7 +45,7 @@ class DataSystem(system.System):
         if field not in self.fields:
             raise TypeError
         # set counter
-        entity = locator.tm[field]
+        entity = self.get_tag('data')
         entity.set_value(value)
         # set data
         entity = locator.model.tm['data']

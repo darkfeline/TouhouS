@@ -98,5 +98,45 @@ class EnemyAISystem(system.System):
 
     req_components = (game.EnemyAI,)
 
+    def sleep(self, entity, ai, time):
+
+        """
+        Call method with given name and pass it the given entity
+
+        :param entity: entity passed to call
+        :type entity: Entity
+        :param ai: AI component passed to call
+        :type entity: EnemyAI
+        :param time: time to sleep in seconds
+        :type time: int
+
+        """
+
+        ai.sleep = time
+
+    def call(self, entity, ai, method_name, *args, **kwargs):
+
+        """
+        Call method with given name and pass it the given entity
+
+        :param entity: entity passed to call
+        :type entity: Entity
+        :param ai: AI component passed to call
+        :type entity: EnemyAI
+        :param method_name: name of method
+        :type method_name: str
+
+        """
+
+        return getattr(self, method_name)(self, entity, *args, **kwargs)
+
     def update(self, dt):
         entities = self.get_with(self.req_components)
+        for e in entities:
+            for ai in e.get(game.EnemyAI):
+                if ai.sleep > 0:
+                    ai.sleep -= dt
+                else:
+                    if ai.step < len(ai.script):
+                        self.call(e, ai, *ai.script[ai.step])
+                        ai.step += 1

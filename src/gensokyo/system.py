@@ -25,6 +25,15 @@ class System:
         """
         return locator.em.get_with(types)
 
+    @staticmethod
+    def dispatch_event(event, *args):
+        """
+        :param event: event
+        :type event: str
+
+        """
+        locator.sm.dispatch_event(event, *args)
+
 
 class PhysicsSystem(System):
 

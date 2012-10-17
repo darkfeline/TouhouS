@@ -46,8 +46,10 @@ class CollisionSystem(System):
     @staticmethod
     def collide(hb1, hb2):
         """
-        :param t1, t2: hitboxes to compare
-        :type t1, t2: tuple of hitbox components
+        :param t1: hitboxes to compare
+        :param t2: hitboxes to compare
+        :type t1: tuple
+        :type t2: tuple
         :rtype: boolean
 
         """

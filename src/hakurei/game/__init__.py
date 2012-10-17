@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from gensokyo.entity import Entity
 from gensokyo import component
+from gensokyo import entity
 
 
-class GameData:
+class GameData(component.Component):
 
     def __init__(self, high_score=0, score=0, lives=3, bombs=3):
         self.high_score = high_score
@@ -13,7 +13,7 @@ class GameData:
         self.bombs = bombs
 
 
-class Presence:
+class Presence(component.Component):
 
     """Used for garbage collecting out-of-bounds entities"""
 
@@ -21,7 +21,14 @@ class Presence:
         self.rect = rect
 
 
-class Wrapper(Entity):
+class EnemyAI(component.Component):
+
+    def __init__(self, script):
+        self.script = script
+        self.step = 0
+
+
+class Wrapper(entity.Entity):
 
     def __init__(self, component):
         self.add(component)

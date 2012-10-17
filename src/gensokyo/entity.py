@@ -43,6 +43,15 @@ class Entity:
 
         Some tuples may be empty if the entity does not have those components.
 
+        When using the returned tuple, favor iterating over it with a `for`
+        loop instead of doing `entity.get(type)[0]`.  An entity may have more
+        than one of that component, in which case order is not guaranteed as
+        components are stored interally in sets.
+
+        :param types: component types to look for
+        :type types: tuple or type
+        :rtype: tuple
+
         """
         try:
             return tuple([tuple([

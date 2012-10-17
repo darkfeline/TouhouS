@@ -2,7 +2,6 @@
 
 import abc
 
-from pyglet.text import Label
 from gensokyo import component
 from gensokyo.entity import Entity
 
@@ -15,7 +14,7 @@ class UILabel(Entity):
 
     def __init__(self, *args, **kwargs):
         super.__init__()
-        self.add(Label(self.sprite_group, *args, **kwargs))
+        self.add(component.Label(self.sprite_group, *args, **kwargs))
 
 
 class FPSDisplay(UILabel):

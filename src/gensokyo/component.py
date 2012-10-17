@@ -138,8 +138,8 @@ class Velocity(Component):
 
     """
 
-    def __init__(self):
-        self.vectors = []
+    def __init__(self, vectors=[]):
+        self.vectors = vectors
 
     def __len__(self):
         return len(self.vectors)

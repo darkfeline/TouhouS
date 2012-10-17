@@ -94,3 +94,11 @@ class GarbageCollectSystem(system.System):
         for e1 in enumerate(entities):
             if self.check_bounds(e1):
                 locator.em.delete(e1)
+
+
+class EnemyAISystem(system.System):
+
+    req_components = (game.EnemyAI,)
+
+    def update(self, dt):
+        entities = self.get_with(self.req_components)

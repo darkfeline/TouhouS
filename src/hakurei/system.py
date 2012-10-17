@@ -101,7 +101,6 @@ class EnemyAISystem(system.System):
     def sleep(self, entity, ai, time):
 
         """
-        Call method with given name and pass it the given entity
 
         :param entity: entity passed to call
         :type entity: Entity

@@ -15,6 +15,7 @@ from hakurei import resources
 from hakurei import game
 
 # TODO finish this
+# TODO Enemy movement
 
 
 class Enemy(entity.Entity):

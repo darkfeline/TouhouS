@@ -29,6 +29,12 @@ class EnemyAI(component.Component):
         self.sleep = 0
 
 
+class Life(component.Component):
+
+    def __init__(self, life):
+        self.life = life
+
+
 class Wrapper(entity.Entity):
 
     def __init__(self, component):

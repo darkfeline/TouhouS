@@ -148,6 +148,10 @@ class EnemyAISystem(system.System):
 
         return getattr(self, method_name)(self, entity, ai, *args, **kwargs)
 
+    # TODO implement this
+    def move_to(self, entity, ai, dest):
+        pass
+
     def update(self, dt):
         entities = self.get_with(self.req_components)
         for e in entities:

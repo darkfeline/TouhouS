@@ -6,26 +6,12 @@ from gensokyo import primitives
 
 from gensokyo.primitives import Vector
 from gensokyo.object import Container
-from gensokyo.object import CollisionComponent
 from gensokyo.object import SpriteComponent
 from gensokyo.object import LifeComponent
 from gensokyo.physics import SmoothDestComp
 
 from hakurei.object import bullet
-from hakurei.object.player import PlayerBulletCollisionComponent
 from hakurei import resources
-
-class EnemyCollisionComponent(CollisionComponent):
-
-    def __init__(self, x, y, w, h, hb):
-        super().__init__(x, y, w, h, hb)
-
-    def hit(self, other):
-        self.dispatch_event('on_hit', other.dmg)
-
-    handlers = {PlayerBulletCollisionComponent:hit}
-
-EnemyCollisionComponent.register_event_type('on_hit')
 
 # TODO finish this
 

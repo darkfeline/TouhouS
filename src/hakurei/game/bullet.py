@@ -2,8 +2,8 @@
 
 from gensokyo import entity
 from gensokyo import primitives
-from gensokyo import component
 
+from hakurei import component
 from hakurei import game
 from hakurei import resources
 

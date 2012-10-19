@@ -2,9 +2,9 @@
 
 import abc
 
-from gensokyo import component
 from gensokyo.entity import Entity
 
+from hakurei import component
 from hakurei import resources
 
 

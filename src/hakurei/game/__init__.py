@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from gensokyo import component
 from gensokyo import entity
+
+from hakurei import component
 
 
 class GameData(component.Component):

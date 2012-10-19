@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from gensokyo import entity
-from gensokyo import component
 from gensokyo import primitives
 
 from gensokyo.primitives import Vector
@@ -10,6 +9,7 @@ from gensokyo.object import SpriteComponent
 from gensokyo.object import LifeComponent
 from gensokyo.physics import SmoothDestComp
 
+from hakurei import component
 from hakurei.object import bullet
 from hakurei import resources
 from hakurei import game

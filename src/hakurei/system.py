@@ -3,9 +3,9 @@
 from pyglet import clock
 
 from gensokyo import system
-from gensokyo import component
 from gensokyo import locator
 
+from hakurei import component
 from hakurei import game
 from hakurei.globals import GAME_AREA
 

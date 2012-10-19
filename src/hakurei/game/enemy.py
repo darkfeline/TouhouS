@@ -12,6 +12,7 @@ from gensokyo.physics import SmoothDestComp
 
 from hakurei.object import bullet
 from hakurei import resources
+from hakurei import game
 
 # TODO finish this
 
@@ -23,31 +24,26 @@ class Enemy(entity.Entity):
     hb = None
     init_life = 200
 
-    def __init__(self, x, y, velocity, hitbox):
+    def __init__(self, x, y, script):
 
         """
         :param x: x coordinate
         :type x: int
         :param y: y coordinate
         :type y: int
-        :param velocity: physics vectors
-        :type velocity: list
-        :param hitbox: hitbox object
-        :type hitbox: shape
 
         """
 
         super().__init__()
-
-        hb = component.Hitbox(hitbox)
+        hb = component.Hitbox(self.hitbox)
         hb.x, hb.y = x, y
         self.add(hb)
-
         s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
         self.add(s)
-
-        v = component.Velocity(velocity)
-        self.add(v)
+        ai = game.EnemyAI(script)
+        self.add(ai)
+        l = game.Life(self.init_life)
+        self.add(l)
 
 
 class Enemy(Container):

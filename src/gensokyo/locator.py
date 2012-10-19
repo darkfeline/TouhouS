@@ -27,4 +27,20 @@ class ServiceLocator:
     def model(self):
         return self.scene_stack.model
 
+    @property
+    def em(self):
+        return self.model.em
+
+    @property
+    def tm(self):
+        return self.model.tm
+
+    @property
+    def gm(self):
+        return self.model.gm
+
+    @property
+    def sm(self):
+        return self.model.sm
+
 sys.modules[__name__] = ServiceLocator()

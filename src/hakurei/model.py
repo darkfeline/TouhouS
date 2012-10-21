@@ -3,15 +3,15 @@
 from pyglet.event import EVENT_HANDLED
 from gensokyo.model import Model
 from gensokyo.scene import Scene
-from gensokyo import component
 from gensokyo import locator
 
-import hakurei
 from hakurei import game
-from hakurei.game import ui
+from hakurei import component
 from hakurei import view
-from hakurei.globals import DEF_PLAYER_XY as XY
-from hakurei.globals import HEIGHT
+from hakurei import entity
+from hakurei import resources
+from hakurei import system
+from hakurei import globals
 
 
 class GameModel(Model):
@@ -27,16 +27,16 @@ class GameModel(Model):
         bg = entity.Wrapper(component.Sprite('ui', self.ui_image))
         self.em.add(bg)
         # FPS
-        fps = ui.FPSDisplay(570, 2)
+        fps = game.ui.FPSDisplay(570, 2)
         self.em.add(fps)
         self.tm.tag('fps_display', fps)
 
         # Counters
         counters = {
-            'high_score': (ui.TextCounter, 430, 415, 'High score'),
-            'score': (ui.TextCounter, 430, 391, 'Score'),
-            'lives': (ui.IconCounter, 430, 361, 'Lives'),
-            'bombs': (ui.IconCounter, 430, 339, 'Bombs')}
+            'high_score': (game.ui.TextCounter, 430, 415, 'High score'),
+            'score': (game.ui.TextCounter, 430, 391, 'Score'),
+            'lives': (game.ui.IconCounter, 430, 361, 'Lives'),
+            'bombs': (game.ui.IconCounter, 430, 339, 'Bombs')}
         for tag, a in counters.items():
             c, x, y, tit = a
             counter = c(x, y, tit)
@@ -44,13 +44,13 @@ class GameModel(Model):
             self.tm.tag(tag, counter)
 
         # Data
-        data = hakurei.entity.Wrapper(hakurei.component.GameData())
+        data = entity.Wrapper(component.GameData())
         self.tm.tag('data', data)
 
         # Systems
-        fps = hakurei.system.FPSSystem()
+        fps = system.FPSSystem()
         self.sm.add(fps)
-        data = hakurei.system.DataSystem()
+        data = system.DataSystem()
         self.sm.add(data)
 
         # TODO finish this
@@ -58,7 +58,7 @@ class GameModel(Model):
     def __init__(self):
 
         self.ui = self.ui_class()
-        self.player = self.player_class(XY[0], XY[1])
+        self.player = self.player_class(globals.XY[0], globals.XY[1])
         self.stage = self.stage_class()
         self.stage.player = self.player
 
@@ -137,8 +137,9 @@ class GameModel(Model):
 class MenuModel(Model):
 
     def init(self):
-        self.title = component.Label(x=20, y=HEIGHT - 30, text="Welcome to
-                TouhouS", color=(255, 255, 255, 255))
+        self.title = component.Label(
+            x=20, y=globals.HEIGHT - 30, text="Welcome to TouhouS",
+            color=(255, 255, 255, 255))
 
     def on_key_press(self, symbol, modifiers):
         locator.scene_stack.push(Scene(GameModel(), view.GameView()))

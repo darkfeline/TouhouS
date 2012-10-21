@@ -12,7 +12,6 @@ from gensokyo.physics import SmoothDestComp
 from hakurei import component
 from hakurei.object import bullet
 from hakurei import resources
-from hakurei import game
 
 # TODO finish this
 # TODO Enemy movement
@@ -41,9 +40,9 @@ class Enemy(ces.Entity):
         self.add(hb)
         s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
         self.add(s)
-        ai = game.EnemyAI(script)
+        ai = component.EnemyAI(script)
         self.add(ai)
-        l = game.Life(self.init_life)
+        l = component.Life(self.init_life)
         self.add(l)
 
 
@@ -85,7 +84,7 @@ class Enemy(Container):
 class GenericEnemy(Enemy):
 
     sprite_img = resources.enemy['generic']
-    hb = Circle(0, 0, sprite_img.width)
+    hb = primitives.Circle(0, 0, sprite_img.width)
     init_life = 200
 
     def __init__(self, x, y):

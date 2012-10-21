@@ -61,7 +61,12 @@ class AISystem(ces.System):
 
         """
 
-        return getattr(self, method_name)(self, entity, ai, *args, **kwargs)
+        m = getattr(self, method_name)
+        if m in self.callable_methods:
+            return m(self, entity, ai, *args, **kwargs)
+        else:
+            raise TypeError(method_name + " is not a callable method")
+    callable_methods = set(goto, sleep)
 
     # TODO implement this
     def move_to(self, entity, ai, dest):

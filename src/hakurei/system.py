@@ -9,20 +9,6 @@ from hakurei import component
 from hakurei.globals import GAME_AREA
 
 
-class PhysicsSystem(ces.System):
-
-    req_components = (component.Physics, component.Position)
-
-    def update(self, dt):
-        for entity in self.get_with(self.req_components):
-            phys, pos = entity.get(self.req_components)
-            for phy in phys:
-                for p in pos:
-                    p.x += phy.vel.x
-                    p.y += phy.vel.y
-                phy.vel += phy.acc
-
-
 class CollisionSystem(ces.System):
 
     req_components = (component.Hitbox,)

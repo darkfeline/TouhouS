@@ -104,27 +104,6 @@ class Label(GraphicsObject):
         return self.sprite
 
 
-class Physics(ces.Component):
-
-    """
-    Physics component.
-
-    .. attribute: vel
-        velocity
-    .. attribute: acc
-        acceleration
-
-    """
-
-    def __init__(self):
-        self.vel = primitives.Vector(0, 0)
-        self.acc = primitives.Vector(0, 0)
-
-    @property
-    def speed(self):
-        return self.vel.length
-
-
 class GameData(ces.Component):
 
     def __init__(self, high_score=0, score=0, lives=3, bombs=3):

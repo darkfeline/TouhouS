@@ -5,38 +5,35 @@ from gensokyo.model import Model
 from gensokyo.scene import Scene
 from gensokyo import locator
 
-from hakurei import game
-from hakurei import component
+from hakurei import ces
 from hakurei import view
-from hakurei import entity
 from hakurei import resources
-from hakurei import system
 from hakurei import globals
 
 
 class GameModel(Model):
 
-    player_class = game.player.Reimu
-    stage_class = game.stage.StageOne
+    player_class = ces.player.Reimu
+    stage_class = ces.stage.StageOne
     ui_image = resources.ui_image
 
     def init(self):
 
         # Entities
         # UI image
-        bg = entity.Wrapper(component.Sprite('ui', self.ui_image))
+        bg = ces.Wrapper(ces.graphics.Sprite('ui', self.ui_image))
         self.em.add(bg)
         # FPS
-        fps = game.ui.FPSDisplay(570, 2)
+        fps = ces.ui.FPSDisplay(570, 2)
         self.em.add(fps)
         self.tm.tag('fps_display', fps)
 
         # Counters
         counters = {
-            'high_score': (game.ui.TextCounter, 430, 415, 'High score'),
-            'score': (game.ui.TextCounter, 430, 391, 'Score'),
-            'lives': (game.ui.IconCounter, 430, 361, 'Lives'),
-            'bombs': (game.ui.IconCounter, 430, 339, 'Bombs')}
+            'high_score': (ces.ui.TextCounter, 430, 415, 'High score'),
+            'score': (ces.ui.TextCounter, 430, 391, 'Score'),
+            'lives': (ces.ui.IconCounter, 430, 361, 'Lives'),
+            'bombs': (ces.ui.IconCounter, 430, 339, 'Bombs')}
         for tag, a in counters.items():
             c, x, y, tit = a
             counter = c(x, y, tit)
@@ -44,13 +41,13 @@ class GameModel(Model):
             self.tm.tag(tag, counter)
 
         # Data
-        data = entity.Wrapper(component.GameData())
+        data = ces.Wrapper(ces.gamedata.GameData())
         self.tm.tag('data', data)
 
         # Systems
-        fps = system.FPSSystem()
+        fps = ces.ui.FPSSystem()
         self.sm.add(fps)
-        data = system.DataSystem()
+        data = ces.gamedata.DataSystem()
         self.sm.add(data)
 
         # TODO finish this
@@ -137,7 +134,7 @@ class GameModel(Model):
 class MenuModel(Model):
 
     def init(self):
-        self.title = component.Label(
+        self.title = ces.graphics.Label(
             x=20, y=globals.HEIGHT - 30, text="Welcome to TouhouS",
             color=(255, 255, 255, 255))
 

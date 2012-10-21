@@ -3,7 +3,10 @@
 from gensokyo import ces
 from gensokyo import primitives
 
-from hakurei import component
+from hakurei.ces import collision
+from hakurei.ces import physics
+from hakurei.ces import graphics
+from hakurei.ces import gc
 from hakurei import resources
 
 
@@ -27,20 +30,20 @@ class Bullet(ces.Entity):
 
         super().__init__()
 
-        hb = component.Hitbox(self.hitbox)
+        hb = collision.Hitbox(self.hitbox)
         hb.x, hb.y = x, y
         self.add(hb)
 
-        s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        s = graphics.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
         self.add(s)
 
-        v = component.Velocity(velocity)
+        v = physics.Physics(velocity)
         self.add(v)
 
         r = primitives.Rect(0, 0, self.sprite_img.width,
                             self.sprite_img.height)
         r.center = x, y
-        p = component.Presence(r)
+        p = gc.Presence(r)
         self.add(p)
 
 

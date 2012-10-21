@@ -12,14 +12,6 @@ class GameData(ces.Component):
         self.bombs = bombs
 
 
-class Presence(ces.Component):
-
-    """Used for garbage collecting out-of-bounds entities"""
-
-    def __init__(self, rect):
-        self.rect = rect
-
-
 class EnemyAI(ces.Component):
 
     def __init__(self, script):

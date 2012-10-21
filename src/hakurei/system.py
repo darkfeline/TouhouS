@@ -3,10 +3,8 @@
 from pyglet import clock
 
 from gensokyo import ces
-from gensokyo import locator
 
 from hakurei import component
-from hakurei.globals import GAME_AREA
 
 
 class FPSSystem(ces.System):
@@ -68,29 +66,6 @@ class GameCollisionSystem(ces.CollisionSystem):
         e1, e2 = entities
         # TODO player + enemy bullet
         # TODO enemy + player bullet
-
-
-class GarbageCollectSystem(ces.System):
-
-    req_components = (component.Presence,)
-
-    @staticmethod
-    def check_bounds(entity):
-        """Return True if entity has a Presence component outside of bounds"""
-        c = entity.get(component.Presence)
-        if len(c) < 1:
-            raise NotImplementedError
-        for r in [a.hb for a in c]:
-            if (r.bottom > GAME_AREA.top or r.top < GAME_AREA.bottom or
-                    r.left > GAME_AREA.right or r.right < GAME_AREA.left):
-                return True
-        return False
-
-    def update(self, dt):
-        entities = self.get_with(self.req_components)
-        for e in entities:
-            if self.check_bounds(e):
-                locator.em.delete(e)
 
 
 class EnemyAISystem(ces.System):

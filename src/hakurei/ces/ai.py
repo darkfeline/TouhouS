@@ -12,6 +12,7 @@ class AI(ces.Component):
 class AISystem(ces.System):
 
     req_components = (AI,)
+    callable_methods = set()
 
     def goto(self, entity, ai, step=0):
 
@@ -26,6 +27,7 @@ class AISystem(ces.System):
         """
 
         ai.step = step
+    callable_methods.add(goto)
 
     def sleep(self, entity, ai, time):
 
@@ -40,6 +42,7 @@ class AISystem(ces.System):
         """
 
         ai.sleep = time
+    callable_methods.add(sleep)
 
     def call(self, entity, ai, method_name, *args, **kwargs):
 
@@ -66,7 +69,6 @@ class AISystem(ces.System):
             return m(self, entity, ai, *args, **kwargs)
         else:
             raise TypeError(method_name + " is not a callable method")
-    callable_methods = set(goto, sleep)
 
     # TODO implement this
     def move_to(self, entity, ai, dest):

@@ -6,6 +6,8 @@ from hakurei.object.enemy import EnemyGroup, GenericEnemy
 from hakurei.object.bullet import BulletGroup
 from hakurei.globals import GAME_AREA
 
+# TODO fix everything
+
 class Stage:
 
     def __init__(self):

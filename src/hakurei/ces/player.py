@@ -12,6 +12,8 @@ from hakurei.object.bullet import EnemyBulletCollisionComponent
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 
+# TODO fix everything
+
 class PlayerInputComponent(InputComponent):
 
     def update(self, dt):

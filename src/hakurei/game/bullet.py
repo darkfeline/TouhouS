@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from gensokyo import entity
+from gensokyo import ces
 from gensokyo import primitives
 
 from hakurei import component
@@ -8,7 +8,7 @@ from hakurei import game
 from hakurei import resources
 
 
-class Bullet(entity.Entity):
+class Bullet(ces.Entity):
 
     sprite_img = None
     sprite_group = None

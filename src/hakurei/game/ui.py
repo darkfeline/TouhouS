@@ -2,7 +2,7 @@
 
 import abc
 
-from gensokyo.entity import Entity
+from gensokyo.ces import Entity
 
 from hakurei import component
 from hakurei import resources

@@ -3,18 +3,18 @@
 from gensokyo import ces
 from gensokyo import primitives
 
-from gensokyo.primitives import Vector
-from gensokyo.object import Container
-from gensokyo.object import SpriteComponent
-from gensokyo.object import LifeComponent
-from gensokyo.physics import SmoothDestComp
-
-from hakurei import component
-from hakurei.object import bullet
-from hakurei import resources
+from hakurei.ces import collision
+from hakurei.ces import graphics
+from hakurei.ces import ai
 
 # TODO finish this
 # TODO Enemy movement
+
+
+class Life(ces.Component):
+
+    def __init__(self, life):
+        self.life = life
 
 
 class Enemy(ces.Entity):
@@ -35,14 +35,14 @@ class Enemy(ces.Entity):
         """
 
         super().__init__()
-        hb = component.Hitbox(self.hitbox)
+        hb = collision.Hitbox(self.hitbox)
         hb.x, hb.y = x, y
         self.add(hb)
-        s = component.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        s = graphics.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
         self.add(s)
-        ai = component.EnemyAI(script)
+        ai = ai.EnemyAI(script)
         self.add(ai)
-        l = component.Life(self.init_life)
+        l = Life(self.init_life)
         self.add(l)
 
 

@@ -4,7 +4,6 @@ import abc
 
 from pyglet import sprite, text
 from gensokyo import ces
-from gensokyo import primitives
 from gensokyo import locator
 
 
@@ -25,40 +24,6 @@ class Position(ces.Component):
     @abc.abstractproperty
     def y(self):
         raise NotImplementedError
-
-
-class Hitbox(Position):
-
-    def __init__(self, hb):
-        self.hb = hb
-
-    @property
-    def x(self):
-        if isinstance(self.hb, primitives.Circle):
-            return self.hb.x
-        elif isinstance(self.hb, primitives.Rect):
-            return self.hb.centerx
-
-    @x.setter
-    def x(self, value):
-        if isinstance(self.hb, primitives.Circle):
-            self.hb.x = value
-        elif isinstance(self.hb, primitives.Rect):
-            self.hb.centerx = value
-
-    @property
-    def y(self):
-        if isinstance(self.hb, primitives.Circle):
-            return self.hb.y
-        elif isinstance(self.hb, primitives.Rect):
-            return self.hb.centery
-
-    @y.setter
-    def y(self, value):
-        if isinstance(self.hb, primitives.Circle):
-            self.hb.y = value
-        elif isinstance(self.hb, primitives.Rect):
-            self.hb.centery = value
 
 
 class GraphicsObject(Position):

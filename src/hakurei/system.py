@@ -9,45 +9,6 @@ from hakurei import component
 from hakurei.globals import GAME_AREA
 
 
-class CollisionSystem(ces.System):
-
-    req_components = (component.Hitbox,)
-
-    @staticmethod
-    def collide(hb1, hb2):
-        """
-        :param t1: hitboxes to compare
-        :param t2: hitboxes to compare
-        :type t1: tuple
-        :type t2: tuple
-        :rtype: boolean
-
-        """
-        for i in range(len(hb1)):
-            for j in range(len(hb2)):
-                if hb1[i].collide(hb2[j]):
-                    return True
-        return False
-
-    def update(self, dt):
-        """
-        Compare ALL of the hitboxes of entities with a hitbox component.  If
-        any of them collide, have the SystemManager dispatch on_collide event
-        with a tuple containing the two entities as an argument.
-
-        """
-        collided = []
-        entities = self.get_with(self.req_components)
-        for i, e1 in enumerate(entities):
-            for e2 in enumerate(entities[i + 1:]):
-                for hb1 in e1.get(component.Hitbox):
-                    for hb2 in e2.get(component.Hitbox):
-                        if self.collide(hb1, hb2):
-                            collided.append((e1, e2))
-        for a in collided:
-            self.sm.dispatch_event('on_collide', a)
-
-
 class FPSSystem(ces.System):
 
     def __init__(self):

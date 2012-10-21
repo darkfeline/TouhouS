@@ -9,11 +9,11 @@ use_cython = 1
 if use_cython:
     from Cython.Distutils import build_ext
     ext_modules = [Extension("primitives",
-        ["src/gensokyo/cython/primitives.pyx"])]
+                             ["src/gensokyo/cython/primitives.pyx"])]
 else:
     class build_ext: pass
     ext_modules = [Extension("primitives",
-        ["src/gensokyo/cython/primitives.c"])]
+                             ["src/gensokyo/cython/primitives.c"])]
 
 
 def get_resources(dir):
@@ -21,9 +21,11 @@ def get_resources(dir):
     rget_resources(dir, l)
     return l
 
+
 def make_listing(dir):
     return (dir, [os.path.join(dir, x) for x in os.listdir(dir) if
-        os.path.isfile(os.path.join(dir, x))])
+            os.path.isfile(os.path.join(dir, x))])
+
 
 def rget_resources(dir, l):
     l.append(make_listing(dir))
@@ -31,14 +33,17 @@ def rget_resources(dir, l):
         if os.path.isdir(os.path.join(dir, d)):
             rget_resources(os.path.join(dir, d), l)
 
-p_py = re.compile(r'(.+)\.py')
+
 def get_modules(dir):
     return [p_py.match(x).group(1) for x in os.listdir(dir) if p_py.match(x)]
+p_py = re.compile(r'(.+)\.py')
+
 
 def get_packages(dir):
     l = []
     rget_packages(dir, '', l)
     return l
+
 
 def rget_packages(start, dir, l):
     ls = os.listdir(os.path.join(start, dir))
@@ -48,17 +53,17 @@ def rget_packages(start, dir, l):
         rget_packages(start, os.path.join(dir, x), l)
 
 setup(
-    name = 'TouhouS',
+    name='TouhouS',
     version='1.0',
     description='TouhouS game',
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
-    package_dir={'':'src'},
+    package_dir={'': 'src'},
     py_modules=get_modules('src'),
     packages=get_packages('src'),
-    cmdclass = {'build_ext': build_ext},
-    ext_package = 'gensokyo',
-    ext_modules = ext_modules,
+    cmdclass={'build_ext': build_ext},
+    ext_package='gensokyo',
+    ext_modules=ext_modules,
     scripts=['src/touhouS'],
     data_files=get_resources('resources')
 )

@@ -3,11 +3,12 @@
 import abc
 
 from pyglet import sprite, text
+from gensokyo import ces
+from gensokyo import primitives
+from gensokyo import locator
 
-from gensokyo.component import Component
 
-
-class Position(Component):
+class Position(ces.Component):
 
     """
     Abstract Interface for components who have a position, i.e. x, y
@@ -33,40 +34,39 @@ class Hitbox(Position):
 
     @property
     def x(self):
-        if isinstance(self.hb, Circle):
+        if isinstance(self.hb, primitives.Circle):
             return self.hb.x
-        elif isinstance(self.hb, Rect):
+        elif isinstance(self.hb, primitives.Rect):
             return self.hb.centerx
 
     @x.setter
     def x(self, value):
-        if isinstance(self.hb, Circle):
+        if isinstance(self.hb, primitives.Circle):
             self.hb.x = value
-        elif isinstance(self.hb, Rect):
+        elif isinstance(self.hb, primitives.Rect):
             self.hb.centerx = value
 
     @property
     def y(self):
-        if isinstance(self.hb, Circle):
+        if isinstance(self.hb, primitives.Circle):
             return self.hb.y
-        elif isinstance(self.hb, Rect):
+        elif isinstance(self.hb, primitives.Rect):
             return self.hb.centery
 
     @y.setter
     def y(self, value):
-        if isinstance(self.hb, Circle):
+        if isinstance(self.hb, primitives.Circle):
             self.hb.y = value
-        elif isinstance(self.hb, Rect):
+        elif isinstance(self.hb, primitives.Rect):
             self.hb.centery = value
 
 
 class GraphicsObject(Position):
 
     def __init__(self, type, group, *args, **kwargs):
-        sprite = type(*args, **kwargs)
-        self.sprite = sprite
+        self.sprite = type(*args, **kwargs)
         self.group = group
-        locator.view.add_sprite(sprite, group)
+        locator.view.add_sprite(self.sprite, group)
 
     @property
     def x(self):
@@ -104,7 +104,7 @@ class Label(GraphicsObject):
         return self.sprite
 
 
-class Velocity(Component):
+class Velocity(ces.Component):
 
     """
     Velocity Physics component.  It contains a list whose index is the degree
@@ -127,3 +127,34 @@ class Velocity(Component):
 
     def add(self, vector):
         self.vectors.append(vector)
+
+
+class GameData(ces.Component):
+
+    def __init__(self, high_score=0, score=0, lives=3, bombs=3):
+        self.high_score = high_score
+        self.score = score
+        self.lives = lives
+        self.bombs = bombs
+
+
+class Presence(ces.Component):
+
+    """Used for garbage collecting out-of-bounds entities"""
+
+    def __init__(self, rect):
+        self.rect = rect
+
+
+class EnemyAI(ces.Component):
+
+    def __init__(self, script):
+        self.script = script
+        self.step = 0
+        self.sleep = 0
+
+
+class Life(ces.Component):
+
+    def __init__(self, life):
+        self.life = life

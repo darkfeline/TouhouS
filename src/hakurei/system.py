@@ -2,15 +2,14 @@
 
 from pyglet import clock
 
-from gensokyo import system
+from gensokyo import ces
 from gensokyo import locator
 
 from hakurei import component
-from hakurei import game
 from hakurei.globals import GAME_AREA
 
 
-class PhysicsSystem(system.System):
+class PhysicsSystem(ces.System):
 
     req_components = (component.Velocity, component.Position)
 
@@ -33,7 +32,7 @@ class PhysicsSystem(system.System):
                         v[i - 1].y += v[i].y * dt
 
 
-class CollisionSystem(system.System):
+class CollisionSystem(ces.System):
 
     req_components = (component.Hitbox,)
 
@@ -72,7 +71,7 @@ class CollisionSystem(system.System):
             self.sm.dispatch_event('on_collide', a)
 
 
-class FPSSystem(system.System):
+class FPSSystem(ces.System):
 
     def __init__(self):
         self.count = 0
@@ -86,7 +85,7 @@ class FPSSystem(system.System):
             self.count = 0
 
 
-class DataSystem(system.System):
+class DataSystem(ces.System):
 
     """
     Superclass for systems that need to access game data
@@ -99,7 +98,7 @@ class DataSystem(system.System):
         if field not in self.fields:
             raise TypeError
         entity = self.get_tag('data')
-        for comp in entity.get(game.GameData):
+        for comp in entity.get(component.GameData):
             return getattr(comp, field)
 
     def set(self, field, value):
@@ -110,11 +109,11 @@ class DataSystem(system.System):
         entity.set_value(value)
         # set data
         entity = self.get_tag(field)
-        for comp in entity.get(game.GameData):
+        for comp in entity.get(component.GameData):
             setattr(comp, field, value)
 
 
-class GameCollisionSystem(system.CollisionSystem):
+class GameCollisionSystem(ces.CollisionSystem):
 
     @staticmethod
     def check_types(entities, types):
@@ -133,14 +132,14 @@ class GameCollisionSystem(system.CollisionSystem):
         # TODO enemy + player bullet
 
 
-class GarbageCollectSystem(system.System):
+class GarbageCollectSystem(ces.System):
 
-    req_components = (game.Presence,)
+    req_components = (component.Presence,)
 
     @staticmethod
     def check_bounds(entity):
         """Return True if entity has a Presence component outside of bounds"""
-        c = entity.get(game.Presence)
+        c = entity.get(component.Presence)
         if len(c) < 1:
             raise NotImplementedError
         for r in [a.hb for a in c]:
@@ -156,9 +155,9 @@ class GarbageCollectSystem(system.System):
                 locator.em.delete(e)
 
 
-class EnemyAISystem(system.System):
+class EnemyAISystem(ces.System):
 
-    req_components = (game.EnemyAI,)
+    req_components = (component.EnemyAI,)
 
     def goto(self, entity, ai, step=0):
 
@@ -217,7 +216,7 @@ class EnemyAISystem(system.System):
     def update(self, dt):
         entities = self.get_with(self.req_components)
         for e in entities:
-            for ai in e.get(game.EnemyAI):
+            for ai in e.get(component.EnemyAI):
                 if ai.sleep > 0:
                     ai.sleep -= dt
                 else:

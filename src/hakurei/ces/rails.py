@@ -5,7 +5,6 @@ exclusive with physics.
 """
 
 from gensokyo import ces
-from gensokyo import primitives
 
 from hakurei.ces import Position
 
@@ -33,24 +32,25 @@ class Rails(ces.Component):
 class RailSystem(ces.System):
 
     req_components = (Rails, Position)
+    callable_methods = set()
 
     def call(self, pos, method_name, *args, **kwargs):
         """
         :param pos: position
-        :type pos: Vector
+        :type pos: tuple
         :param method_name: name of method
         :type method_name: str
 
         """
         m = getattr(self, method_name)
         if m in self.callable_methods:
-            return m(self, *args, **kwargs)
+            return m(self, pos, *args, **kwargs)
         else:
             raise TypeError(method_name + " is not a callable method")
-    callable_methods = set()
 
     def update(self, dt):
         for entity in self.get_with(self.req_components):
             for r in entity.get(Rails):
                 for p in entity.get(Position):
-                    p.x, p.y = self.call(primitives.Vector(p.x, p.y), *r.rails)
+                    p.x, p.y = self.call((p.x, p.y), *r.current)
+                r.time += dt

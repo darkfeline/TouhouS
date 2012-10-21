@@ -4,7 +4,6 @@ from gensokyo import ces
 from gensokyo import primitives
 
 from hakurei import component
-from hakurei import game
 from hakurei import resources
 
 
@@ -41,7 +40,7 @@ class Bullet(ces.Entity):
         r = primitives.Rect(0, 0, self.sprite_img.width,
                             self.sprite_img.height)
         r.center = x, y
-        p = game.Presence(r)
+        p = component.Presence(r)
         self.add(p)
 
 

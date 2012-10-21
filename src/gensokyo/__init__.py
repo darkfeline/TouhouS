@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 Pyglet-based 2D game engine/wrapper
 

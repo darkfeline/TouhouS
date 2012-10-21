@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from pyglet.window import key
 from gensokyo.object import Container
 from gensokyo.object import CollisionComponent

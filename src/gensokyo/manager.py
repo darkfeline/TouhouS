@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from weakref import WeakValueDictionary
 
 from pyglet import event

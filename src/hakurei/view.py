@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from gensokyo.view import View
 
 class GameView(View):

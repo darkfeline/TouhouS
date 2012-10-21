@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from pyglet import sprite, text
 from gensokyo import locator
 

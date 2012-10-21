@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from pyglet import resource
 
 def centered_image(image):

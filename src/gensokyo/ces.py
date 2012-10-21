@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 This module contains the classes necessary for the Entity/Component/System
 design pattern.

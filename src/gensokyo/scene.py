@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 class SceneStack:
 
     def __init__(self):

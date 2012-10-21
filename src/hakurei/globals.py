@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from gensokyo.primitives import Rect
 
 FPS = 60

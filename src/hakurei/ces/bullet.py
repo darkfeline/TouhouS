@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from gensokyo import ces
 from gensokyo import primitives
 

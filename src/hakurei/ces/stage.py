@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from gensokyo.primitives import Vector
 
 from hakurei.object.enemy import EnemyGroup, GenericEnemy

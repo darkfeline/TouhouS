@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from pyglet.event import EVENT_HANDLED
 from gensokyo.model import Model
 from gensokyo.scene import Scene

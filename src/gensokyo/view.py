@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import abc
 
 from pyglet.graphics import OrderedGroup, Batch

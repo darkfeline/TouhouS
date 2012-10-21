@@ -1,32 +1,10 @@
 #!/usr/bin/env python3
 
-"""
-This module contains the components provided by gensokyo.
-
-In a component/system design, components hold only data.  Systems operate on
-entites which own components, and thus all logic are in systems.
-
-"""
-
 import abc
 
-from pyglet import sprite
-from pyglet import text
+from pyglet import sprite, text
 
-from gensokyo.primitives import Rect, Circle
-from gensokyo import locator
-
-
-class Component:
-
-    """
-    Abstract Base Class for components
-
-    Please subclass to avoid confusion
-
-    """
-
-    __metaclass__ = abc.ABCMeta
+from gensokyo.component import Component
 
 
 class Position(Component):

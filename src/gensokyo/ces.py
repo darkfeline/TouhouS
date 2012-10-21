@@ -1,5 +1,30 @@
 #!/usr/bin/env python3
 
+"""
+This module contains the classes necessary for the Entity/Component/System
+design pattern.
+
+In a component/system design, components hold only data.  Systems operate on
+entites which own components, and thus all logic are in systems.
+
+"""
+
+import abc
+
+from gensokyo import locator
+
+
+class Component:
+
+    """
+    Abstract Base Class for components
+
+    Please subclass to avoid confusion
+
+    """
+
+    __metaclass__ = abc.ABCMeta
+
 
 class Entity:
 
@@ -61,3 +86,42 @@ class Entity:
             return tuple([
                 component for component in self if isinstance(component, types)
                 ])
+
+
+class System:
+
+    """
+    Superclass for Systems
+
+    """
+
+    __metaclass__ = abc.ABCMeta
+
+    @staticmethod
+    def get_with(types):
+        """
+        :param types: component types to look for
+        :type types: tuple
+        :rtype: set
+
+        """
+        return locator.model.em.get_with(types)
+
+    @staticmethod
+    def get_tag(tag):
+        """
+        :param tag: tag to look for
+        :type tag: str
+        :rtype: Entity
+
+        """
+        return locator.model.tm[tag]
+
+    @staticmethod
+    def dispatch_event(event, *args):
+        """
+        :param event: event
+        :type event: str
+
+        """
+        locator.sm.dispatch_event(event, *args)

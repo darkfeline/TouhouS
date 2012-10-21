@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from gensokyo import component
-from gensokyo import entity
+from gensokyo import ces
+
+from hakurei import component
 
 
 class GameData(component.Component):
@@ -35,7 +36,7 @@ class Life(component.Component):
         self.life = life
 
 
-class Wrapper(entity.Entity):
+class Wrapper(ces.Entity):
 
     def __init__(self, component):
         self.add(component)

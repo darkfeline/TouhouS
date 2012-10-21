@@ -104,29 +104,25 @@ class Label(GraphicsObject):
         return self.sprite
 
 
-class Velocity(ces.Component):
+class Physics(ces.Component):
 
     """
-    Velocity Physics component.  It contains a list whose index is the degree
-    of the differential, i.e. 0 is velocity, 1 is acceleration, etc., and value
-    is the corresponding Vector.
+    Physics component.
 
-    .. attribute: vectors
-        list of Vectors
+    .. attribute: vel
+        velocity
+    .. attribute: acc
+        acceleration
 
     """
 
-    def __init__(self, vectors=[]):
-        self.vectors = vectors
+    def __init__(self):
+        self.vel = primitives.Vector(0, 0)
+        self.acc = primitives.Vector(0, 0)
 
-    def __len__(self):
-        return len(self.vectors)
-
-    def __getitem__(self, index):
-        return self.vectors[index]
-
-    def add(self, vector):
-        self.vectors.append(vector)
+    @property
+    def speed(self):
+        return self.vel.length
 
 
 class GameData(ces.Component):

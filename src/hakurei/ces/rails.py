@@ -34,17 +34,19 @@ class RailSystem(ces.System):
     req_components = (Rails, Position)
     callable_methods = set()
 
-    def call(self, pos, method_name, *args, **kwargs):
+    def call(self, pos, dt, method_name, *args, **kwargs):
         """
         :param pos: position
         :type pos: tuple
+        :param dt: delta time
+        :type dt: float
         :param method_name: name of method
         :type method_name: str
 
         """
         m = getattr(self, method_name)
         if m in self.callable_methods:
-            return m(self, pos, *args, **kwargs)
+            return m(self, pos, dt, *args, **kwargs)
         else:
             raise TypeError(method_name + " is not a callable method")
 
@@ -52,5 +54,5 @@ class RailSystem(ces.System):
         for entity in self.get_with(self.req_components):
             for r in entity.get(Rails):
                 for p in entity.get(Position):
-                    p.x, p.y = self.call((p.x, p.y), *r.current)
+                    p.x, p.y = self.call((p.x, p.y), dt, *r.current)
                 r.time += dt

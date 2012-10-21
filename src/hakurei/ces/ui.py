@@ -2,13 +2,17 @@
 
 import abc
 
-from gensokyo.ces import Entity
+from pyglet import clock
+from gensokyo import ces
 
 from hakurei import component
 from hakurei import resources
 
 
-class UILabel(Entity):
+###############################################################################
+# Labels
+###############################################################################
+class UILabel(ces.Entity):
 
     sprite_group = 'ui_element'
 
@@ -17,6 +21,9 @@ class UILabel(Entity):
         self.add(component.Label(self.sprite_group, *args, **kwargs))
 
 
+###############################################################################
+# FPS
+###############################################################################
 class FPSDisplay(UILabel):
 
     def __init__(self, x, y):
@@ -24,7 +31,24 @@ class FPSDisplay(UILabel):
                        font_size=10, color=(255, 255, 255, 255))
 
 
-class Counter(Entity):
+class FPSSystem(ces.System):
+
+    def __init__(self):
+        self.count = 0
+
+    def update(self, dt):
+        self.count += dt
+        if self.count > 1:
+            entity = self.get_tag('fps_display')
+            for l in entity.get(component.Label):
+                l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
+            self.count = 0
+
+
+###############################################################################
+# Counters
+###############################################################################
+class Counter(ces.Entity):
 
     __metaclass__ = abc.ABCMeta
     sprite_group = 'ui_element'

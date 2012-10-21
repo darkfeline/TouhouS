@@ -11,25 +11,16 @@ from hakurei.globals import GAME_AREA
 
 class PhysicsSystem(ces.System):
 
-    req_components = (component.Velocity, component.Position)
+    req_components = (component.Physics, component.Position)
 
     def update(self, dt):
-        """
-        For all entities with Velocity and Position components, PhysicsSystem
-        applies ALL velocities to ALL positions
-
-        """
         for entity in self.get_with(self.req_components):
-            vel, pos = entity.get(self.req_components)
-            for v in vel:
-                for i in range(len(v)):
-                    if i == 0:
-                        for p in pos:
-                            p.x += v[0].x * dt
-                            p.y += v[0].y * dt
-                    else:
-                        v[i - 1].x += v[i].x * dt
-                        v[i - 1].y += v[i].y * dt
+            phys, pos = entity.get(self.req_components)
+            for phy in phys:
+                for p in pos:
+                    p.x += phy.vel.x
+                    p.y += phy.vel.y
+                phy.vel += phy.acc
 
 
 class CollisionSystem(ces.System):

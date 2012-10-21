@@ -79,13 +79,11 @@ class Entity:
 
         """
         try:
-            return tuple([tuple([
-                component for component in self if isinstance(component, type)
-                ]) for type in types])
+            return tuple(tuple(component for component in self if
+                         isinstance(component, type)) for type in types)
         except TypeError:
-            return tuple([
-                component for component in self if isinstance(component, types)
-                ])
+            return tuple(component for component in self if
+                         isinstance(component, types))
 
 
 class System:

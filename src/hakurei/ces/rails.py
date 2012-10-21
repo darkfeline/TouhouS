@@ -5,6 +5,7 @@ exclusive with physics.
 """
 
 from gensokyo import ces
+from gensokyo import primitives
 
 from hakurei.ces import Position
 
@@ -33,6 +34,14 @@ class RailSystem(ces.System):
 
     req_components = (Rails, Position)
     callable_methods = set()
+
+    def linear(self, pos, dt, speed, vector):
+        pos = primitives.Vector(pos)
+        move = vector.get_unit_vector()  # make a copy
+        move.length = move.length * dt * speed
+        pos += move
+        return (pos.x, pos.y)
+    callable_methods.add(linear)
 
     def call(self, pos, dt, method_name, *args, **kwargs):
         """

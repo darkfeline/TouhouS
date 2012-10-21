@@ -21,34 +21,6 @@ class FPSSystem(ces.System):
             self.count = 0
 
 
-class DataSystem(ces.System):
-
-    """
-    Superclass for systems that need to access game data
-
-    """
-
-    fields = set('high_score', 'score', 'lives', 'bombs')
-
-    def get(self, field):
-        if field not in self.fields:
-            raise TypeError
-        entity = self.get_tag('data')
-        for comp in entity.get(component.GameData):
-            return getattr(comp, field)
-
-    def set(self, field, value):
-        if field not in self.fields:
-            raise TypeError
-        # set counter
-        entity = self.get_tag('data')
-        entity.set_value(value)
-        # set data
-        entity = self.get_tag(field)
-        for comp in entity.get(component.GameData):
-            setattr(comp, field, value)
-
-
 class EnemyAISystem(ces.System):
 
     req_components = (component.EnemyAI,)

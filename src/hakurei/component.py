@@ -3,15 +3,6 @@
 from gensokyo import ces
 
 
-class GameData(ces.Component):
-
-    def __init__(self, high_score=0, score=0, lives=3, bombs=3):
-        self.high_score = high_score
-        self.score = score
-        self.lives = lives
-        self.bombs = bombs
-
-
 class EnemyAI(ces.Component):
 
     def __init__(self, script):

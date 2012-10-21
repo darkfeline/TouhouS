@@ -16,8 +16,13 @@ class Physics(ces.Component):
 
     """
 
-    def __init__(self):
-        self.vel = primitives.Vector(0, 0)
+    def __init__(self, vel=None):
+        if vel is None:
+            self.vel = primitives.Vector(0, 0)
+        elif isinstance(vel, primitives.Vector):
+            self.vel = vel
+        else:
+            raise TypeError
         self.acc = primitives.Vector(0, 0)
 
     @property

@@ -43,6 +43,12 @@ class RailSystem(ces.System):
         return (pos.x, pos.y)
     callable_methods.add(linear)
 
+    def circle(self, pos, dt):
+        pass
+
+    def curve(self, pos, dt, speed, center):
+        pass
+
     def call(self, pos, dt, method_name, *args, **kwargs):
         """
         :param pos: position

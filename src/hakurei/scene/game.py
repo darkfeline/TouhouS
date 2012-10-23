@@ -12,6 +12,10 @@ class GameModel(scene.Model):
 
     def init(self):
 
+        # Groups
+        self.gm.make_group('bullets')
+        self.gm.make_group('enemies')
+
         # Entities
         # UI image
         bg = ces.Wrapper(ces.graphics.Sprite('ui', self.ui_image))

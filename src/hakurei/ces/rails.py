@@ -59,6 +59,17 @@ class RailSystem(ces.System):
         rails.sleep = time
     callable_methods.add(sleep)
 
+    def die(self, entity, rails):
+        """
+        :param entity: entity passed to call
+        :type entity: Entity
+        :param rails: Rails component passed to call
+        :type rails: Rails
+
+        """
+        locator.em.delete(entity)
+    callable_methods.add(die)
+
     def fire(self, entity, rails, bullet):
         """
         :param entity: entity passed to call

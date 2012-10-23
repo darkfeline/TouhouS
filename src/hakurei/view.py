@@ -1,5 +1,6 @@
 from gensokyo.view import View
 
+
 class GameView(View):
 
     _map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
@@ -9,3 +10,8 @@ class GameView(View):
 class MenuView(View):
 
     _map = ('bg', 'text')
+
+
+class GameView(View):
+
+    _map = ('fg', 'ui')

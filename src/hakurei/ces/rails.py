@@ -6,6 +6,7 @@ exclusive with physics.
 
 from gensokyo import ces
 from gensokyo import primitives
+from gensokyo import locator
 
 from hakurei.ces import Position
 
@@ -57,6 +58,20 @@ class RailSystem(ces.System):
 
         rails.sleep = time
     callable_methods.add(sleep)
+
+    def fire(self, entity, rails, bullet):
+        """
+        :param entity: entity passed to call
+        :type entity: Entity
+        :param rails: Rails component passed to call
+        :type rails: Rails
+        :param bullet: Bullet constructor
+        :type bullet: callable returning Bullet
+
+        """
+        b = bullet()
+        locator.gm.add_to(b)
+    callable_methods.add(fire)
 
     def call(self, entity, rails, method_name, *args, **kwargs):
 

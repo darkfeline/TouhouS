@@ -26,6 +26,7 @@ class RailSystem(ces.System):
 
     def track(self, entity, rails, *args):
         entity.track = args
+    callable_methods.add(track)
 
     def goto(self, entity, rails, step=0):
 

@@ -43,8 +43,13 @@ class RailSystem(ces.System):
         return (pos.x, pos.y)
     callable_methods.add(linear)
 
-    def circle(self, pos, dt):
-        pass
+    def circle(self, pos, dt, center, angular_vel):
+        pos = primitives.Vector(*pos)
+        a = (pos - center)
+        a.angle += angular_vel * dt
+        pos = center + a
+        return (pos.x, pos.y)
+    callable_methods.add(circle)
 
     def curve(self, pos, dt, speed, center):
         pass

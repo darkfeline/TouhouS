@@ -235,6 +235,12 @@ cdef class Vector:
         def __get__(self):
             return math.sqrt(self.x ** 2 + self.y ** 2)
 
+        def __set__(self, value):
+            v = self.get_unit_vector()
+            v = v * value
+            self.x, self.y = v.x, v.y
+
+
     property angle:
 
         def __get__(self):
@@ -248,6 +254,11 @@ cdef class Vector:
             else:
                 return math.fmod(math.atan2(self.y, self.x) + 2 * math.pi,
                         2 * math.pi)
+
+        def __set__(self, value):
+            l = self.length
+            self.x = l * math.cos(value)
+            self.y = l * math.sin(value)
 
     def get_unit_vector(self):
         try:

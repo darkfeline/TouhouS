@@ -4,12 +4,11 @@ import pyglet
 from pyglet.window.key import KeyStateHandler
 from pyglet import gl
 from gensokyo import locator
-from gensokyo.scene import SceneStack, Scene
+from gensokyo.scene import SceneStack
 
-from hakurei.globals import WIDTH, HEIGHT, FPS
 from hakurei import resources
-from hakurei import model
-from hakurei import view
+from hakurei.globals import WIDTH, HEIGHT, FPS
+from hakurei.scene import main_menu
 
 
 def main():
@@ -37,7 +36,7 @@ def main():
     pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
     pyglet.clock.set_fps_limit(FPS)
 
-    locator.game.push(Scene(model.MenuModel(), view.MenuView()))
+    locator.game.push(main_menu.get_scene())
 
     pyglet.app.run()
 

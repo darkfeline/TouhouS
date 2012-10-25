@@ -101,7 +101,7 @@ class System:
         :rtype: set
 
         """
-        return locator.model.em.get_with(types)
+        return locator.em.get_with(types)
 
     @staticmethod
     def get_tag(tag):
@@ -111,7 +111,7 @@ class System:
         :rtype: Entity
 
         """
-        return locator.model.tm[tag]
+        return locator.tm[tag]
 
     @staticmethod
     def dispatch_event(event, *args):

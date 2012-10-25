@@ -123,6 +123,16 @@ class Rails(ces.Component):
         self.rails = rails
         self.time = 0
 
+    def __getitem__(self, key):
+        step = 0
+        try:
+            while self.time >= self.rails[step][-1]:
+                step += 1
+        except IndexError:
+            raise IndexError(key + " is beyond end of rails")
+        else:
+            return self.rails[step]
+
 
 # TODO fix this
 class RailSystem(ces.System):

@@ -140,7 +140,7 @@ class RailSystem(ces.System):
     req_components = (Rails, Position)
     callable_methods = set()
 
-    def straight(self, pos, dt, vector):
+    def straight(self, pos, dt, time, vector):
         pos = primitives.Vector(*pos)
         move = vector.copy()
         move.length = move.length * dt
@@ -148,7 +148,7 @@ class RailSystem(ces.System):
         return (pos.x, pos.y)
     callable_methods.add(straight)
 
-    def pivot(self, pos, dt, center, angular_vel):
+    def pivot(self, pos, dt, time, center, angular_vel):
         pos = primitives.Vector(*pos)
         a = (pos - center)
         a.angle += angular_vel * dt
@@ -156,15 +156,17 @@ class RailSystem(ces.System):
         return (pos.x, pos.y)
     callable_methods.add(pivot)
 
-    def curve(self, pos, dt, speed, center):
+    def curve(self, pos, dt, time):
         pass
 
-    def call(self, pos, dt, method_name, *args, **kwargs):
+    def call(self, pos, dt, time, method_name, *args, **kwargs):
         """
         :param pos: position
         :type pos: tuple
         :param dt: delta time
         :type dt: float
+        :param time: elapsed time
+        :type time: float
         :param method_name: name of method
         :type method_name: str
 
@@ -178,5 +180,6 @@ class RailSystem(ces.System):
     def update(self, dt):
         for entity in self.get_with(self.req_components):
             for r in entity.get(Rails):
+                r.time += dt
                 for p in entity.get(Position):
-                    p.x, p.y = self.call((p.x, p.y), dt, *r.track)
+                    p.x, p.y = self.call((p.x, p.y), dt, r.time, *r[r.time])

@@ -121,6 +121,7 @@ class Rails(ces.Component):
 
     def __init__(self, rails):
         self.rails = rails
+        self.time = 0
 
 
 # TODO fix this

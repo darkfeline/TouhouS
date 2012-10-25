@@ -11,6 +11,7 @@ from gensokyo import locator
 from hakurei.ces import Position
 
 
+# TODO check this too
 class Script(ces.Component):
 
     def __init__(self, script):

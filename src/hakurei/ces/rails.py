@@ -128,10 +128,10 @@ class RailSystem(ces.System):
     req_components = (Rails, Position)
     callable_methods = set()
 
-    def straight(self, pos, dt, speed, vector):
+    def straight(self, pos, dt, vector):
         pos = primitives.Vector(*pos)
-        move = vector.get_unit_vector()  # make a copy
-        move.length = move.length * dt * speed
+        move = vector.copy()
+        move.length = move.length * dt
         pos += move
         return (pos.x, pos.y)
     callable_methods.add(straight)

@@ -4,6 +4,9 @@ exclusive with physics.
 
 """
 
+from functools import wraps
+import math
+
 from gensokyo import ces
 from gensokyo import primitives
 from gensokyo import locator
@@ -117,10 +120,19 @@ class ScriptSystem(ces.System):
                         script.step += 1
 
 
+def move_start(f, pos):
+    x, y = pos
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        a, b = f(*args, **kwargs)
+        return a + x, b + y
+    return wrapper
+
+
 class Rails(ces.Component):
 
     def __init__(self, rails):
-        self.rails = rails
+        self.rails = self.convert(rails)
         self.time = 0
 
     def __getitem__(self, key):
@@ -133,53 +145,57 @@ class Rails(ces.Component):
         else:
             return self.rails[step]
 
+    @staticmethod
+    def convert(rails, start_pos):
+        """
+        ('straight', dest, time)
+        ('pivot', center, arc, time)
+        ('curve', param, time)
 
-# TODO fix this
+        ('straight', vector, time)
+        ('pivot', center, angular_vel, time)
+        ('curve', param, time)
+
+        """
+        r = []
+        pos = start_pos
+        time = 0
+        for segment in rails:
+            dt = segment[-1] - time
+            assert dt > 0
+            if segment[0] == 'straight':
+                dx = segment[1][0] / dt
+                dy = segment[1][1] / dt
+                @move_start(pos)
+                def f(time):
+                    return dx * time, dy * time
+                pos = segment[1]
+            elif segment[0] == 'pivot':
+                arc, time = segment[2:]
+                alpha = math.atan(pos[1] / pos[0])
+                vel = arc / time
+                def f(time):
+                    beta = alpha + vel * time
+                    return math.cos(beta), math.sin(beta)
+                pos = f(time)
+            elif segment[0] == 'curve':
+                param = segment[1]
+                f = move_start(param, pos)
+                pos = param(pos)
+            time = segment[-1]
+            r.append((f, time))
+        return r
+
+
 class RailSystem(ces.System):
 
     req_components = (Rails, Position)
-    callable_methods = set()
-
-    def straight(self, pos, dt, time, vector):
-        pos = primitives.Vector(*pos)
-        move = vector.copy()
-        move.length = move.length * dt
-        pos += move
-        return (pos.x, pos.y)
-    callable_methods.add(straight)
-
-    def pivot(self, pos, dt, time, center, angular_vel):
-        pos = primitives.Vector(*pos)
-        a = (pos - center)
-        a.angle += angular_vel * dt
-        pos = center + a
-        return (pos.x, pos.y)
-    callable_methods.add(pivot)
-
-    def curve(self, pos, dt, time):
-        pass
-
-    def call(self, pos, dt, time, method_name, *args, **kwargs):
-        """
-        :param pos: position
-        :type pos: tuple
-        :param dt: delta time
-        :type dt: float
-        :param time: elapsed time
-        :type time: float
-        :param method_name: name of method
-        :type method_name: str
-
-        """
-        m = getattr(self, method_name)
-        if m in self.callable_methods:
-            return m(self, pos, dt, *args, **kwargs)
-        else:
-            raise TypeError(method_name + " is not a callable method")
 
     def update(self, dt):
         for entity in self.get_with(self.req_components):
             for r in entity.get(Rails):
                 r.time += dt
+                func = r[r.time][0]
+                pos = func(r.time)
                 for p in entity.get(Position):
-                    p.x, p.y = self.call((p.x, p.y), dt, r.time, *r[r.time])
+                    p.x, p.y = pos

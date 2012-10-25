@@ -127,6 +127,7 @@ class View(AbstractView):
             return
         sprite.batch = self.batch
 
+    # TODO cleanup?
     @staticmethod
     def set_label_group(label, group):
         label.top_group = TextLayoutGroup(group)

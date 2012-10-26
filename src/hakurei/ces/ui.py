@@ -2,6 +2,7 @@ import abc
 
 from pyglet import clock
 from gensokyo import ces
+from gensokyo import locator
 
 from hakurei.ces import graphics
 from hakurei import resources
@@ -37,7 +38,7 @@ class FPSSystem(ces.System):
     def update(self, dt):
         self.count += dt
         if self.count > 1:
-            entity = self.get_tag('fps_display')
+            entity = locator.tm.get_tag('fps_display')
             for l in entity.get(graphics.Label):
                 l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
             self.count = 0

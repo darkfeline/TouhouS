@@ -1,5 +1,6 @@
 from gensokyo import ces
 from gensokyo import primitives
+from gensokyo import locator
 
 
 class Physics(ces.Component):
@@ -33,7 +34,7 @@ class PhysicsSystem(ces.System):
     req_components = (Physics, ces.Position)
 
     def update(self, dt):
-        for entity in self.get_with(self.req_components):
+        for entity in locator.em.get_with(self.req_components):
             phys, pos = entity.get(self.req_components)
             for phy in phys:
                 for p in pos:

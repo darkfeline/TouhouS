@@ -116,7 +116,7 @@ class View(AbstractView):
 
     def _add_label(self, label, group):
         self.labels.add(label)
-        #View.set_label_group(label, self.groups[group])
+        #_set_label_group(label, self.groups[group])
         #label.batch = self.batch
         #label._own_batch = False
 
@@ -127,11 +127,10 @@ class View(AbstractView):
             return
         sprite.batch = self.batch
 
-    # TODO cleanup?
-    @staticmethod
-    def set_label_group(label, group):
-        label.top_group = TextLayoutGroup(group)
-        label.background_group = OrderedGroup(0, label.top_group)
-        label.foreground_group = TextLayoutForegroundGroup(1, label.top_group)
-        label.foreground_decoration_group = \
-            TextLayoutForegroundDecorationGroup(2, label.top_group)
+
+def _set_label_group(label, group):
+    label.top_group = TextLayoutGroup(group)
+    label.background_group = OrderedGroup(0, label.top_group)
+    label.foreground_group = TextLayoutForegroundGroup(1, label.top_group)
+    label.foreground_decoration_group = \
+        TextLayoutForegroundDecorationGroup(2, label.top_group)

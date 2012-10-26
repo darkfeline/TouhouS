@@ -1,4 +1,5 @@
 from gensokyo import ces
+from gensokyo import locator
 
 
 class GameData(ces.Component):
@@ -22,7 +23,7 @@ class DataSystem(ces.System):
     def get(self, field):
         if field not in self.fields:
             raise TypeError
-        entity = self.get_tag('data')
+        entity = locator.tm.get_tag('data')
         for comp in entity.get(GameData):
             return getattr(comp, field)
 
@@ -30,9 +31,9 @@ class DataSystem(ces.System):
         if field not in self.fields:
             raise TypeError
         # set counter
-        entity = self.get_tag('data')
+        entity = locator.tm.get_tag('data')
         entity.set_value(value)
         # set data
-        entity = self.get_tag(field)
+        entity = locator.tm.get_tag(field)
         for comp in entity.get(GameData):
             setattr(comp, field, value)

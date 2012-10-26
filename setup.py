@@ -8,12 +8,12 @@ import re
 use_cython = 1
 if use_cython:
     from Cython.Distutils import build_ext
-    ext_modules = [Extension("primitives",
-                             ["src/gensokyo/cython/primitives.pyx"])]
+    ext_modules = [Extension("gensokyo.primitives",
+                             ["src/gensokyo/primitives.pyx"])]
 else:
     class build_ext: pass
-    ext_modules = [Extension("primitives",
-                             ["src/gensokyo/cython/primitives.c"])]
+    ext_modules = [Extension("gensokyo.primitives",
+                             ["src/gensokyo/primitives.c"])]
 
 
 def get_resources(dir):
@@ -62,7 +62,6 @@ setup(
     py_modules=get_modules('src'),
     packages=get_packages('src'),
     cmdclass={'build_ext': build_ext},
-    ext_package='gensokyo',
     ext_modules=ext_modules,
     scripts=['src/touhouS'],
     data_files=get_resources('resources')

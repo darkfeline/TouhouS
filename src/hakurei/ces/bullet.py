@@ -1,3 +1,5 @@
+import numbers
+
 from gensokyo import ces
 from gensokyo import primitives
 
@@ -5,7 +7,38 @@ from hakurei.ces import collision
 from hakurei.ces import physics
 from hakurei.ces import graphics
 from hakurei.ces import gc
+from hakurei.ces import Position
 from hakurei import resources
+
+
+class BulletOrigin(Position):
+
+    def __init__(self, pos):
+        """
+        :param pos: position
+        :type pos: list
+
+        """
+        assert isinstance(pos, list)
+        self.pos = pos
+
+    @property
+    def x(self):
+        return self.pos[0]
+
+    @x.setter
+    def x(self, value):
+        assert isinstance(value, numbers.Real)
+        self.pos[0] = value
+
+    @property
+    def y(self):
+        return self.pos[1]
+
+    @y.setter
+    def y(self, value):
+        assert isinstance(value, numbers.Real)
+        self.pos[1] = value
 
 
 class Bullet(ces.Entity):

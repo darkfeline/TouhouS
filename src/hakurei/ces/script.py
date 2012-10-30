@@ -16,7 +16,6 @@ class ScriptSystem(ces.System):
     callable_methods = set()
 
     def goto(self, entity, script, step=0):
-
         """
         :param entity: entity passed to call
         :type entity: Entity
@@ -26,12 +25,10 @@ class ScriptSystem(ces.System):
         :type step: int
 
         """
-
         script.step = step - 1  # account for automated step in update()
     callable_methods.add(goto)
 
     def sleep(self, entity, script, time):
-
         """
         :param entity: entity passed to call
         :type entity: Entity
@@ -41,7 +38,6 @@ class ScriptSystem(ces.System):
         :type time: int
 
         """
-
         script.sleep = time
     callable_methods.add(sleep)
 

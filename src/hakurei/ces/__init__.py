@@ -17,6 +17,8 @@ class Position(ces.Component):
 
     """
 
+    # TODO change this to pos
+
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractproperty

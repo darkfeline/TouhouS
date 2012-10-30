@@ -22,11 +22,26 @@ class Component:
     __metaclass__ = abc.ABCMeta
 
 
+class ExclusiveComponent(Component):
+
+    """
+    ABC for exclusive components
+
+    .. attribute: exclusive_key
+        key used for exclusion
+
+    """
+
+    __metaclass__ = abc.ABCMeta
+
+
 class Entity:
 
     """
     An entity represents a game object and contains components which
-    encapsulate certain data.  It can have any combination of components.
+    encapsulate certain data.  It can have only one exclusive components with a
+    given key, but otherwise can have any combination of components.
+
     Generally an entity will only have one component per superclass, e.g., with
     A > C, it will usually have either one A or one C or neither, although in
     certain cases having more of the same component may make sense.  However,
@@ -36,15 +51,24 @@ class Entity:
 
     def __init__(self):
         self.components = set()
+        self.ex_keys = set()
 
     def __iter__(self):
         return iter(self.components)
 
     def add(self, component):
+        if isinstance(component, ExclusiveComponent):
+            if component.exclusive_key in self.ex_keys:
+                raise TypeError(component.__class__ + " already exists in " +
+                                self)
+            else:
+                self.ex_keys.add(component.exclusive_key)
         self.components.add(component)
 
     def delete(self, component):
         self.components.remove(component)
+        if isinstance(component, ExclusiveComponent):
+            self.ex_keys.remove(component.exclusive_key)
         if hasattr(component, 'delete'):
             component.delete()
 

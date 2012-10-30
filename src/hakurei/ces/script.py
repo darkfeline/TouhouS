@@ -1,6 +1,8 @@
 from gensokyo import ces
 from gensokyo import locator
 
+from hakurei.ces import bullet
+
 
 class Script(ces.Component):
 
@@ -52,7 +54,7 @@ class ScriptSystem(ces.System):
         locator.em.delete(entity)
     callable_methods.add(die)
 
-    def fire(self, entity, script, bullet):
+    def fire(self, entity, script, bullet, pos):
         """
         :param entity: entity passed to call
         :type entity: Entity
@@ -60,12 +62,18 @@ class ScriptSystem(ces.System):
         :type script: Script
         :param bullet: Bullet constructor
         :type bullet: callable returning Bullet
+        :param pos: bullet origin
+        :type pos: tuple or BulletOrigin
 
         """
-        # TODO Position?
-        b = bullet()
+        if isinstance(pos, bullet.BulletOrigin):
+            x, y = pos.x, pos.y
+        else:
+            assert len(pos) == 2
+            x, y = pos
+        b = bullet(x, y)
         locator.em.add(b)
-        locator.gm.add_to(b)
+        locator.gm.add_to('bullet', b)
     callable_methods.add(fire)
 
     def call(self, entity, script, method_name, *args, **kwargs):

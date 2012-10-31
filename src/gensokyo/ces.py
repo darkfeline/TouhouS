@@ -26,11 +26,22 @@ class Entity:
 
     """
     An entity represents a game object and contains components which
-    encapsulate certain data.  It can have any combination of components.
-    Generally an entity will only have one component per superclass, e.g., with
-    A > C, it will usually have either one A or one C or neither, although in
-    certain cases having more of the same component may make sense.  However,
-    it may be useful to make Interface superclasses.
+    encapsulate certain data.
+
+    An entity can have any combination of components.  Generally speaking, you
+    will only have one of most components of in a given entity, but this not
+    enforced in any way.  Feel free to::
+
+        entity.get(Component)[0]
+
+    or::
+
+        for component in entity.get(Component)
+
+    but you should use asserts in the former just in case.
+
+    At times, "Interface" Component superclasses (e.g., Position) may be
+    useful.
 
     """
 

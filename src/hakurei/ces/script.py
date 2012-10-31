@@ -1,7 +1,7 @@
 from gensokyo import ces
 from gensokyo import locator
 
-from hakurei.ces import bullet
+from hakurei.ces.bullet import BulletOrigin
 
 
 class Script(ces.Component):
@@ -66,7 +66,7 @@ class ScriptSystem(ces.System):
         :type pos: tuple or BulletOrigin
 
         """
-        if isinstance(pos, bullet.BulletOrigin):
+        if isinstance(pos, BulletOrigin):
             x, y = pos.x, pos.y
         else:
             assert len(pos) == 2

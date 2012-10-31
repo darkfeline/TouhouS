@@ -3,8 +3,8 @@ from gensokyo import primitives
 
 from hakurei.ces import collision
 from hakurei.ces import graphics
-from hakurei.ces import script
 from hakurei.ces import bullet
+from hakurei.ces.script import Script
 from hakurei import resources
 
 
@@ -40,7 +40,7 @@ class Enemy(ces.Entity):
         s = graphics.Sprite(self.sprite_group, self.sprite_img, x=x, y=y)
         self.add(s)
 
-        r = script.Script(script)
+        r = Script(script)
         self.add(r)
 
         l = Life(self.init_life)

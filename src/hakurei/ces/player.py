@@ -1,134 +1,66 @@
 from pyglet.window import key
-from gensokyo.object import Container
-from gensokyo.object import CollisionComponent
-from gensokyo.physics import MultiSplitPhysicsComp
-from gensokyo.primitives import Vector, Circle
+from gensokyo.primitives import Circle
+from gensokyo import ces
+from gensokyo import locator
 
 from hakurei.object.bullet import Bullet
-from hakurei.object.bullet import EnemyCollisionComponent
-from hakurei.object.bullet import EnemyBulletCollisionComponent
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 
-# TODO fix everything
 
-class PlayerInputComponent(InputComponent):
+class PlayerMoveComponent(ces.Component):
+    pass
 
-    def update(self, dt):
-        x = 0
-        if locator.key_state[key.LEFT]:
-            x = -1
-        if locator.key_state[key.RIGHT]:
-            x += 1
-        y = 0
-        if locator.key_state[key.DOWN]:
-            y = -1
-        if locator.key_state[key.UP]:
-            y += 1
-        v = Vector(x, y).get_unit_vector()
-        self.dispatch_event('on_set_vdir', v)
 
-    def key_press(self, symbol, modifiers):
+class PlayerMoveSystem(ces.Component):
+    pass
+
+
+class PlayerInvulnComponent(ces.Component):
+    pass
+
+
+class PlayerInputSystem(ces.System):
+
+    def __init__(self):
+        locator.window.push_handlers(self)
+
+    def delete(self):
+        locator.window.remove_handlers(self)
+
+    def on_key_press(self, symbol, modifiers):
         if symbol == key.LSHIFT:
+            locator.tm['player']
             self.dispatch_event('on_set_state', 1)
         elif symbol == key.Z:
             self.shooting = 1
 
-    def key_release(self, symbol, modifiers):
+    def on_key_release(self, symbol, modifiers):
         if symbol == key.LSHIFT:
             self.dispatch_event('on_set_state', 0)
         elif symbol == key.Z:
             self.shooting = 0
 
-PlayerInputComponent.register_event_type('on_set_state')
-PlayerInputComponent.register_event_type('on_set_vdir')
 
-
-class PlayerPhysicsComp(MultiSplitPhysicsComp):
-
-    speeds = (0, 0)
-
-    def on_set_vdir(self, vector):
-        self.vdir = vector
-
-    def on_set_state(self, state):
-        self.state = state
-
-
-class PlayerCollisionComponent(CollisionComponent):
-
-    def die(self):
-        self.dispatch_event('on_player_hit')
-
-    handlers = {EnemyBulletCollisionComponent:die,
-                EnemyCollisionComponent:die}
-
-PlayerCollisionComponent.register_event_type('on_player_hit')
-
-
-class Player(Container):
+# TODO fix everything
+class Player(ces.Entity):
 
     sprite_img = None
     sprite_group = 'player'
-    hb_img = None
-    hb_group = 'player_hb'
+    hb_sprite_img = None
+    hb_sprite_group = 'player_hb'
+    hb = None
     die_invuln = 3
+    speed_multiplier = 500
+    focus_multiplier = 0.5
+    shot_rate = 20
 
-    def __init__(self, x, y, hb=None):
+    shooting = 0
+    shot_state = 0
+    invuln = 0
 
+    def __init__(self, x, y):
         super().__init__()
-
-        p = PlayerPhysicsComp()
-        c = EnemyCollisionComponent(x, y, self.sprite_img.width,
-                self.sprite_img.height, self.hb)
-        g = SpriteComponent(self.sprite_group, img=self.sprite_img)
-
-        p.speed = 0
-        p.accel = 100
-        p.max_speed = 300
-
-        p.push_handlers(g)
-        p.push_handlers(c)
-        c.push_handlers(g)
-        c.push_handlers(self)
-
-        self.add(p)
-        self.add(c)
-        self.add(g)
-
-
-        super().__init__(x, y, hb=hb)
-        PlayerInputComponent.__init__(self)
-        self._focus = 0
-        self.speed_multiplier = 500
-        self.focus_multiplier = 0.5
-        self.shooting = 0
-        self.shot_rate = 20
-        self.shot_state = 0
-        self.bullets = BulletGroup()
-        self.invuln = 0
-        self.v = Vector(0, 0)
-        self.hbsprite = None
-
-    @property
-    def x(self):
-        return super().x
-
-    @x.setter
-    def x(self, value):
-        super(type(self), type(self)).x.fset(self, value)
-        if hasattr(self, 'hbsprite') and self.hbsprite is not None:
-            self.hbsprite.x = value
-
-    @property
-    def y(self):
-        return super().y
-
-    @y.setter
-    def y(self, value):
-        super(type(self), type(self)).y.fset(self, value)
-        if hasattr(self, 'hbsprite') and self.hbsprite is not None:
-            self.hbsprite.y = value
 
     @property
     def speed(self):
@@ -185,9 +117,6 @@ class Player(Container):
             self.update_fire(dt)
         # bullet update
         self.bullets.update(dt)
-
-    def update_fire(self, dt):
-        pass
 
 
 class ReimuShot(Bullet):

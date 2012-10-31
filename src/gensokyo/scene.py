@@ -1,5 +1,3 @@
-import abc
-
 from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
@@ -80,20 +78,8 @@ class Model:
         pass
 
 
-class AbstractView:
 
-    __metaclass__ = abc.ABCMeta
-
-    @abc.abstractmethod
-    def draw(self):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def add_sprite(self, sprite, group):
-        raise NotImplementedError
-
-
-class View(AbstractView):
+class View:
 
     map = tuple()
 

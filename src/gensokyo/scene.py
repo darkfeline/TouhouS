@@ -2,8 +2,10 @@ from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
+from pyglet.event import EVENT_HANDLED
 
 from gensokyo import manager
+from gensokyo import locator
 
 
 class SceneStack:
@@ -28,20 +30,12 @@ class SceneStack:
         self.top.init()
 
     def pop(self):
-        return self.stack.pop()
+        a = self.stack.pop()
+        a.delete()
 
     def update(self, dt):
         """Calls update on top of stack"""
         self.top.update(dt)
-
-    def on_draw(self):
-        self.top.view.draw()
-
-    def on_key_press(self, symbol, modifiers):
-        self.top.model.on_key_press(symbol, modifiers)
-
-    def on_key_release(self, symbol, modifiers):
-        self.top.model.on_key_release(symbol, modifiers)
 
 
 class Scene:
@@ -51,10 +45,16 @@ class Scene:
         self.view = view
 
     def init(self):
-        self.model.init()
+        if hasattr(self.model, 'init'):
+            self.model.init()
 
     def update(self, dt):
         self.model.update(dt)
+
+    def delete(self):
+        for a in (self.view, self.model):
+            if hasattr(a, 'delete'):
+                a.delete()
 
 
 class Model:
@@ -65,18 +65,11 @@ class Model:
         self.gm = manager.GroupManager()
         self.tm = manager.TagManager()
 
-    def init(self):
-        pass
-
     def update(self, dt):
         self.sm.update(dt)
 
-    def on_key_press(self, symbol, modifiers):
-        pass
-
-    def on_key_release(self, symbol, modifiers):
-        pass
-
+    def delete(self):
+        self.sm.delete()
 
 
 class View:
@@ -88,6 +81,14 @@ class View:
         o = (OrderedGroup(i) for i in range(len(self.map)))
         self.groups = dict((self.map[i], o[i]) for i in range(len(self.map)))
         self.labels = set()
+        locator.window.push_handlers(self)
+
+    def delete(self):
+        locator.window.remove_handlers(self)
+
+    def on_draw(self):
+        self.draw()
+        return EVENT_HANDLED
 
     def draw(self):
         self.batch.draw()

@@ -84,3 +84,8 @@ class SystemManager(event.EventDispatcher):
         for system in self.systems:
             if hasattr(system, 'update'):
                 system.update(dt)
+
+    def delete(self):
+        for a in self.systems:
+            if hasattr(a, 'delete'):
+                a.delete()

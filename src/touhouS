@@ -24,7 +24,6 @@ def main():
 
     # Scene stack
     scene_stack = SceneStack()
-    window.push_handlers(scene_stack)
     locator.scene_stack = scene_stack
 
     # key_state

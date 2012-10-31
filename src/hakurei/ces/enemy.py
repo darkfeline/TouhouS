@@ -19,7 +19,7 @@ class Enemy(ces.Entity):
     sprite_img = None
     sprite_group = 'enemy'
     hb = None
-    init_life = 200
+    init_life = 1
 
     def __init__(self, x, y, script):
 

@@ -41,25 +41,6 @@ class SceneStack:
 class Scene:
 
     def __init__(self, model, view):
-        self.model = model
-        self.view = view
-
-    def init(self):
-        if hasattr(self.model, 'init'):
-            self.model.init()
-
-    def update(self, dt):
-        self.model.update(dt)
-
-    def delete(self):
-        for a in (self.view, self.model):
-            if hasattr(a, 'delete'):
-                a.delete()
-
-
-class Model:
-
-    def __init__(self):
         self.em = manager.EntityManager()
         self.sm = manager.SystemManager()
         self.gm = manager.GroupManager()

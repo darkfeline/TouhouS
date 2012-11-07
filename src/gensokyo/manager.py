@@ -82,10 +82,14 @@ class SystemManager(event.EventDispatcher):
 
     def update(self, dt):
         for system in self.systems:
-            if hasattr(system, 'update'):
+            try:
                 system.update(dt)
+            except AttributeError:
+                pass
 
     def delete(self):
         for a in self.systems:
-            if hasattr(a, 'delete'):
+            try:
                 a.delete()
+            except AttributeError:
+                pass

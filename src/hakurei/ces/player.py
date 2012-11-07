@@ -30,16 +30,15 @@ class PlayerInputSystem(ces.System):
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.LSHIFT:
-            locator.tm['player']
-            self.dispatch_event('on_set_state', 1)
+            locator.tm['player'].focus_state = 1
         elif symbol == key.Z:
-            self.shooting = 1
+            locator.tm['player'].shooting_state = 1
 
     def on_key_release(self, symbol, modifiers):
         if symbol == key.LSHIFT:
-            self.dispatch_event('on_set_state', 0)
+            locator.tm['player'].focus_state = 0
         elif symbol == key.Z:
-            self.shooting = 0
+            locator.tm['player'].shooting_state = 0
 
 
 # TODO fix everything

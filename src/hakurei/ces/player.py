@@ -1,23 +1,75 @@
 from pyglet.window import key
-from gensokyo.primitives import Circle
+from gensokyo.primitives import Circle, Vector
 from gensokyo import ces
 from gensokyo import locator
 
 from hakurei.object.bullet import Bullet
 from hakurei.globals import GAME_AREA
 from hakurei import resources
+from hakurei.ces import Position
 
 
-class PlayerMoveComponent(ces.Component):
-    pass
+# TODO finish
+class PlayerState(ces.Component):
+
+    die_invuln = 3
+    speed_mult = 500
+    focus_mult = 0.5
+    shot_rate = 20
+    edge_bound = 25
+
+    def __init__(self):
+
+        self.focus_state = 0
+        self.shooting_state = 0
+        self.shot_state = 0
+        self.invuln_state = 0
+        self.move_state = Vector(0, 0)
 
 
-class PlayerMoveSystem(ces.Component):
-    pass
+# TODO finish
+class PlayerUpdateSystem(ces.System):
 
+    def update(self, dt):
 
-class PlayerInvulnComponent(ces.Component):
-    pass
+        player = locator.sm['player']
+        state = player.get(PlayerState)[0]
+
+        # movement
+        ps = player.get(Position)
+        p = ps[0]
+        cur = Vector(p.x, p.y)
+        v = state.move_state * state.speed_mult
+        if state.focus_state:
+            v *= state.focus_state
+        x, y = cur + v
+        # bound movement
+        left = GAME_AREA.left + state.edge_bound
+        right = GAME_AREA.right - state.edge_bound
+        if x < left:
+            x = left
+        elif x > right:
+            x = right
+        top = GAME_AREA.top + state.edge_bound
+        bottom = GAME_AREA.bottom - state.edge_bound
+        if y < bottom:
+            y = bottom
+        elif y > top:
+            y = top
+        # move stuff
+        for p in ps:
+            p.x, p.y = x, y
+
+        # TODO from here
+        # invuln
+        if self.invuln > 0:
+            self.invuln -= dt
+        # bullet generation
+        if self.shooting:
+            self.shot_state += dt
+            self.update_fire(dt)
+        # bullet update
+        self.bullets.update(dt)
 
 
 class PlayerInputSystem(ces.System):
@@ -70,9 +122,10 @@ class Player(ces.Entity):
     focus_multiplier = 0.5
     shot_rate = 20
 
-    shooting = 0
+    focus_state = 0
+    shooting_state = 0
     shot_state = 0
-    invuln = 0
+    invuln_state = 0
 
     def __init__(self, x, y):
         super().__init__()
@@ -83,10 +136,6 @@ class Player(ces.Entity):
             return self.speed_multiplier * self.focus_multiplier
         else:
             return self.speed_multiplier
-
-    @speed.setter
-    def speed(self, value):
-        self.speed_multiplier = value
 
     @property
     def focus(self):
@@ -134,6 +183,7 @@ class Player(ces.Entity):
         self.bullets.update(dt)
 
 
+# TODO fix
 class ReimuShot(Bullet):
 
     sprite_img = resources.player['reimu']['shot']
@@ -145,6 +195,7 @@ class ReimuShot(Bullet):
         self.hb = self.rect
 
 
+# TODO fix
 class Reimu(Player):
 
     sprite_img = resources.player['reimu']['player']

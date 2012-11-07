@@ -26,6 +26,10 @@ class Graphics(ces.System):
         self.draw()
         return EVENT_HANDLED
 
+    def on_add_sprite(self, sprite, group):
+        self.add_sprite(sprite, group)
+        return EVENT_HANDLED
+
     def draw(self):
         self.batch.draw()
         for l in self.labels:

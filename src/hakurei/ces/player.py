@@ -29,16 +29,32 @@ class PlayerInputSystem(ces.System):
         locator.window.remove_handlers(self)
 
     def on_key_press(self, symbol, modifiers):
+        state = locator.tm['player'].get(PlayerState)[0]
         if symbol == key.LSHIFT:
-            locator.tm['player'].focus_state = 1
+            state.focus_state = 1
         elif symbol == key.Z:
-            locator.tm['player'].shooting_state = 1
+            state.shooting_state = 1
 
     def on_key_release(self, symbol, modifiers):
+        state = locator.tm['player'].get(PlayerState)[0]
         if symbol == key.LSHIFT:
-            locator.tm['player'].focus_state = 0
+            state.focus_state = 0
         elif symbol == key.Z:
-            locator.tm['player'].shooting_state = 0
+            state.shooting_state = 0
+
+    def update(self, dt):
+        state = locator.tm['player'].get(PlayerState)[0]
+        x, y = 0, 0
+        if locator.key_state[key.LEFT]:
+            x = -1
+        if locator.key_state[key.RIGHT]:
+            x += 1
+        if locator.key_state[key.DOWN]:
+            y = -1
+        if locator.key_state[key.UP]:
+            y += 1
+        v = Vector(x, y).get_unit_vector()
+        state.move_state = v
 
 
 # TODO fix everything

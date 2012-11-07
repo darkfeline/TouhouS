@@ -80,6 +80,7 @@ class PlayerInputSystem(ces.System):
     def delete(self):
         locator.window.remove_handlers(self)
 
+    # TODO set/unset focus
     def on_key_press(self, symbol, modifiers):
         state = locator.tm['player'].get(PlayerState)[0]
         if symbol == key.LSHIFT:

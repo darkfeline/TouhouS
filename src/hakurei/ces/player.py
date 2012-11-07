@@ -27,6 +27,37 @@ class PlayerState(ces.Component):
         self.move_state = Vector(0, 0)
 
 
+class BulletGen(ces.Component):
+
+    shot_rate = 20
+
+    def __init__(self, bullet):
+        """
+        :param bullet: bullet constructor
+        :type bullet: callable returning bullet
+
+        """
+        self.bullet = bullet
+        self.shot_state = 0
+
+
+class PlayerBulletGenSystem(ces.System):
+
+    sprite_group = 'player_bullet'
+
+    def update(self, dt):
+        player = locator.sm['player']
+        state = player.get(PlayerState)[0]
+        if state.shooting_state:
+            p = player.get(Position)[0]
+            for gen in player.get(BulletGen):
+                gen.shot_state += dt
+                if gen.shot_state >= gen.shot_rate:
+                    b = gen.bullet(p.x, p.y)
+                    locator.sm.dispatch_event(
+                        'on_add_sprite', b, self.sprite_group)
+
+
 # TODO finish
 class PlayerUpdateSystem(ces.System):
 

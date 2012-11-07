@@ -271,7 +271,7 @@ cdef class Vector:
         return 2
 
     def __iter__(self):
-        return (self.x, self.y)
+        return iter((self.x, self.y))
 
     def __getitem__(self, key):
         if key == 0:

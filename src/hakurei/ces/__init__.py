@@ -15,6 +15,11 @@ class Position(ces.Component):
     Abstract Interface for components who have a position, i.e. x, y
     coordinates that need to be updated by physics
 
+    Not all Positions an Entity possesses necessarily has to be the same
+    position, e.g. an entity can have a sprite Position at (10, 10), and its
+    hitbox Position at (15, 15).  If so, however, expect things to break
+    horribly.  Debug thoroughly.
+
     """
 
     # TODO change this to tuple

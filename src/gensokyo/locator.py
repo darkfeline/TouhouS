@@ -18,27 +18,23 @@ class ServiceLocator:
         self.scene_stack = None
 
     @property
-    def view(self):
-        return self.scene_stack.view
-
-    @property
-    def model(self):
-        return self.scene_stack.model
+    def scene(self):
+        return self.scene_stack.top
 
     @property
     def em(self):
-        return self.model.em
+        return self.scene.em
 
     @property
     def tm(self):
-        return self.model.tm
+        return self.scene.tm
 
     @property
     def gm(self):
-        return self.model.gm
+        return self.scene.gm
 
     @property
     def sm(self):
-        return self.model.sm
+        return self.scene.sm
 
 sys.modules[__name__] = ServiceLocator()

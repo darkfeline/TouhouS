@@ -1,10 +1,11 @@
 from gensokyo import scene
+from gensokyo.ces import graphics
 
 from hakurei import ces
 from hakurei import resources
 
 
-class GameModel(scene.Model):
+class GameScene(scene.Scene):
 
     player_class = ces.player.Reimu
     stage_class = ces.stage.StageOne
@@ -42,6 +43,8 @@ class GameModel(scene.Model):
         self.tm.tag('data', data)
 
         # Systems
+        g = GameGraphics()
+        self.sm.add(g)
         fps = ces.ui.FPSSystem()
         self.sm.add(fps)
         data = ces.gamedata.DataSystem()
@@ -50,11 +53,7 @@ class GameModel(scene.Model):
         # TODO finish this
 
 
-class GameView(scene.View):
+class GameGraphics(graphics.Graphics):
 
     _map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
             'enemy_bullet', 'ui', 'ui_element')
-
-
-def get_scene():
-    return scene.Scene(GameModel(), GameView())

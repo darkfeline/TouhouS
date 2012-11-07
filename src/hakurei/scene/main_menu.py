@@ -1,11 +1,12 @@
 from gensokyo import scene
 from gensokyo import locator
+from gensokyo.ces import graphics
 
 from hakurei import ces
 from hakurei.scene import game
 
 
-class MenuModel(scene.Model):
+class MenuScene(scene.Scene):
 
     def init(self):
         self.title = ces.graphics.Label(
@@ -13,13 +14,9 @@ class MenuModel(scene.Model):
             color=(255, 255, 255, 255))
 
     def on_key_press(self, symbol, modifiers):
-        locator.scene_stack.push(game.get_scene())
+        locator.scene_stack.push(game.GameScene())
 
 
-class MenuView(scene.View):
+class MenuGraphics(graphics.Graphics):
 
     _map = ('bg', 'text')
-
-
-def get_scene():
-    return scene.Scene(MenuModel(), MenuView())

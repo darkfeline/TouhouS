@@ -1,9 +1,10 @@
 from gensokyo import scene
+from gensokyo.ces import graphics
 
 from hakurei import ces
 
 
-class RailTestModel(scene.Model):
+class RailTestScene(scene.Scene):
 
     def init(self):
 
@@ -14,16 +15,14 @@ class RailTestModel(scene.Model):
         self.tm.tag('fps_display', fps)
 
         # Systems
+        g = RailTestGraphics()
+        self.sm.add(g)
         fps = ces.ui.FPSSystem()
         self.sm.add(fps)
 
         # TODO finish this
 
 
-class RailTestView(scene.View):
+class RailTestGraphics(graphics.Graphics):
 
     _map = ('fg', 'ui')
-
-
-def get_scene():
-    return scene.Scene(RailTestModel(), RailTestView())

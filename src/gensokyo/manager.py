@@ -93,3 +93,5 @@ class SystemManager(event.EventDispatcher):
                 a.delete()
             except AttributeError:
                 pass
+SystemManager.register_event_type('on_draw')
+SystemManager.register_event_type('on_add_sprite')

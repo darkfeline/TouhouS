@@ -27,7 +27,10 @@ class SceneStack:
 
     def push(self, scene):
         self.stack.append(scene)
-        self.top.init()
+        try:
+            self.top.init()
+        except AttributeError:
+            pass
 
     def pop(self):
         a = self.stack.pop()

@@ -9,20 +9,17 @@ from hakurei import resources
 from hakurei.ces import Position
 
 
-# TODO finish
 class PlayerState(ces.Component):
 
     die_invuln = 3
     speed_mult = 500
     focus_mult = 0.5
-    shot_rate = 20
     edge_bound = 25
 
     def __init__(self):
 
         self.focus_state = 0
         self.shooting_state = 0
-        self.shot_state = 0
         self.invuln_state = 0
         self.move_state = Vector(0, 0)
 
@@ -70,7 +67,7 @@ class PlayerUpdateSystem(ces.System):
         ps = player.get(Position)
         p = ps[0]
         cur = Vector(p.x, p.y)
-        v = state.move_state * state.speed_mult
+        v = state.move_state * (state.speed_mult * dt)
         if state.focus_state:
             v *= state.focus_state
         x, y = cur + v
@@ -91,16 +88,9 @@ class PlayerUpdateSystem(ces.System):
         for p in ps:
             p.x, p.y = x, y
 
-        # TODO from here
         # invuln
-        if self.invuln > 0:
-            self.invuln -= dt
-        # bullet generation
-        if self.shooting:
-            self.shot_state += dt
-            self.update_fire(dt)
-        # bullet update
-        self.bullets.update(dt)
+        if state.invuln_state > 0:
+            state.invuln_state -= dt
 
 
 class PlayerInputSystem(ces.System):

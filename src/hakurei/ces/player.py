@@ -7,6 +7,7 @@ from hakurei.object.bullet import Bullet
 from hakurei.globals import GAME_AREA
 from hakurei import resources
 from hakurei.ces import Position
+from hakurei.ces.graphics import Sprite
 
 
 class PlayerState(ces.Component):
@@ -55,7 +56,6 @@ class PlayerBulletGenSystem(ces.System):
                         'on_add_sprite', b, self.sprite_group)
 
 
-# TODO finish
 class PlayerUpdateSystem(ces.System):
 
     def update(self, dt):
@@ -101,18 +101,27 @@ class PlayerInputSystem(ces.System):
     def delete(self):
         locator.window.remove_handlers(self)
 
-    # TODO set/unset focus
     def on_key_press(self, symbol, modifiers):
-        state = locator.tm['player'].get(PlayerState)[0]
+        player = locator.tm['player']
+        state = player.get(PlayerState)[0]
         if symbol == key.LSHIFT:
+            p = player.get(Position)[0]
             state.focus_state = 1
+            hb = Sprite(player.hb_sprite_img, p.x, p.y)
+            locator.sm.dispatch_event(
+                'on_add_sprite', hb, player.hb_sprite_group)
+            player.add(hb)
+            player.hb_sprite = hb
         elif symbol == key.Z:
             state.shooting_state = 1
 
     def on_key_release(self, symbol, modifiers):
-        state = locator.tm['player'].get(PlayerState)[0]
+        player = locator.tm['player']
+        state = player.get(PlayerState)[0]
         if symbol == key.LSHIFT:
             state.focus_state = 0
+            player.delete(player.hb_sprite)
+            del player.hb_sprite
         elif symbol == key.Z:
             state.shooting_state = 0
 
@@ -131,7 +140,6 @@ class PlayerInputSystem(ces.System):
         state.move_state = v
 
 
-# TODO fix everything
 class Player(ces.Entity):
 
     sprite_img = None
@@ -139,70 +147,19 @@ class Player(ces.Entity):
     hb_sprite_img = None
     hb_sprite_group = 'player_hb'
     hb = None
-    die_invuln = 3
-    speed_multiplier = 500
-    focus_multiplier = 0.5
-    shot_rate = 20
-
-    focus_state = 0
-    shooting_state = 0
-    shot_state = 0
-    invuln_state = 0
 
     def __init__(self, x, y):
         super().__init__()
 
-    @property
-    def speed(self):
-        if self.focus:
-            return self.speed_multiplier * self.focus_multiplier
-        else:
-            return self.speed_multiplier
+        # TODO components
 
-    @property
-    def focus(self):
-        return int(self._focus)
-
-    @focus.setter
-    def focus(self, value):
-        f = self.focus
-        v = bool(value)
-        if f != v:
-            self._focus = v
-            if v:
-                self.hbsprite = Sprite(self.hb_img, self.x, self.y)
-                self.add_sprite(self.hbsprite, self.hb_group)
-            else:
-                self.hbsprite.delete()
-                self.hbsprite = None
-
+    # TODO move this to... somewhere
     def die(self):
         if self.invuln > 0:
             return 1
         else:
             self.invuln += Player.die_invuln
             return 0
-
-    def update(self, dt):
-        super().update(dt)
-        # bound movement
-        if self.right > GAME_AREA.right:
-            self.right = GAME_AREA.right
-        elif self.left < GAME_AREA.left:
-            self.left = GAME_AREA.left
-        if self.bottom < GAME_AREA.bottom:
-            self.bottom = GAME_AREA.bottom
-        elif self.top > GAME_AREA.top:
-            self.top = GAME_AREA.top
-        # invuln
-        if self.invuln > 0:
-            self.invuln -= dt
-        # bullet generation
-        if self.shooting:
-            self.shot_state += dt
-            self.update_fire(dt)
-        # bullet update
-        self.bullets.update(dt)
 
 
 # TODO fix
@@ -221,7 +178,7 @@ class ReimuShot(Bullet):
 class Reimu(Player):
 
     sprite_img = resources.player['reimu']['player']
-    hb_img = resources.player['reimu']['hitbox']
+    hb_sprite_img = resources.player['reimu']['hitbox']
 
     def __init__(self, x, y, hb=None):
         super().__init__(x, y)

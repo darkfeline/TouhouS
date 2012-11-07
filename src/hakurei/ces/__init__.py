@@ -17,7 +17,7 @@ class Position(ces.Component):
 
     """
 
-    # TODO change this to pos
+    # TODO change this to tuple
 
     __metaclass__ = abc.ABCMeta
 

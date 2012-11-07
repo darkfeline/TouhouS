@@ -56,8 +56,10 @@ class Entity:
 
     def delete(self, component):
         self.components.remove(component)
-        if hasattr(component, 'delete'):
+        try:
             component.delete()
+        except AttributeError:
+            pass
 
     def get(self, types):
         """

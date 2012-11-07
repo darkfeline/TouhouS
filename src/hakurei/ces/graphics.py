@@ -9,7 +9,7 @@ class GraphicsObject(ces.Position):
     def __init__(self, type, group, *args, **kwargs):
         self.sprite = type(*args, **kwargs)
         self.group = group
-        locator.view.add_sprite(self.sprite, group)
+        locator.sm.dispatch_event('add_sprite', self.sprite, group)
 
     @property
     def x(self):

@@ -35,8 +35,8 @@ def _rget_resources(dir, l):
 
 
 def get_modules(dir):
-    return [p_py.match(x).group(1) for x in os.listdir(dir) if p_py.match(x)]
-p_py = re.compile(r'(.+)\.py')
+    return [_p_py.match(x).group(1) for x in os.listdir(dir) if _p_py.match(x)]
+_p_py = re.compile(r'(.+)\.py')
 
 
 def get_packages(dir):

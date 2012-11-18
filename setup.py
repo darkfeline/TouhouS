@@ -52,6 +52,22 @@ def _rget_packages(start, dir, l):
     for x in [x for x in ls if os.path.isdir(os.path.join(start, dir, x))]:
         _rget_packages(start, os.path.join(dir, x), l)
 
+
+def get_scripts(dir):
+    l = []
+    _rget_scripts(dir, l)
+    return l
+
+
+def _rget_scripts(dir, l):
+    for f in os.listdir(dir):
+        f = os.path.join(dir, f)
+        if os.path.isfile(f):
+            l.append(f)
+        elif os.path.sidir(f):
+            _rget_scripts(f, l)
+
+
 setup(
     name='TouhouS',
     version='1.0',
@@ -59,10 +75,9 @@ setup(
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
     package_dir={'': 'src'},
-    py_modules=get_modules('src'),
     packages=get_packages('src'),
     cmdclass={'build_ext': build_ext},
     ext_modules=ext_modules,
-    scripts=['src/touhouS'],
+    scripts=get_scripts('src/bin'),
     data_files=get_resources('resources')
 )

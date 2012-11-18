@@ -6,3 +6,4 @@ build/
 MANIFEST
 install/
 virt-env/
+virt-env-clean/

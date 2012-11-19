@@ -1,4 +1,8 @@
+import logging
+
 from gensokyo import manager
+
+logger = logging.getLogger(__name__)
 
 
 class SceneStack:
@@ -19,6 +23,7 @@ class SceneStack:
         return self.top.model
 
     def push(self, scene):
+        logger.debug("Push onto stack {}".format(scene))
         self.stack.append(scene)
         try:
             self.top.init()

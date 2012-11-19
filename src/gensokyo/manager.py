@@ -14,6 +14,7 @@ class EntityManager:
         self.entities = set()
 
     def add(self, entity):
+        logger.debug("Add entity {}".format(entity))
         self.entities.add(entity)
 
     def __iter__(self):
@@ -77,6 +78,7 @@ class SystemManager(event.EventDispatcher):
         self.systems = set()
 
     def add(self, system):
+        logger.debug("Add system {}".format(system))
         self.systems.add(system)
         self.push_handlers(system)
 

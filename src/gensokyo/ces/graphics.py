@@ -70,7 +70,7 @@ def _set_label_group(label, group):
 class GraphicsObject(ces.Position):
 
     def __init__(self, type, group, *args, **kwargs):
-        logger.debug('New Graphics Object: {}, {}, {}, {}'.format(
+        logger.debug('New GraphicsObject: {} {} {} {}'.format(
             type, group, args, kwargs))
         self.sprite = type(*args, **kwargs)
         self.group = group

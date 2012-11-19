@@ -14,6 +14,12 @@ class GameScene(scene.Scene):
     stage_class = stage.StageOne
     ui_image = resources.ui_image
 
+    def __init__(self):
+        super().__init__()
+        self.sm.add(GameGraphics())
+        self.sm.add(ui.FPSSystem())
+        self.sm.add(gamedata.DataSystem())
+
     def init(self):
 
         # Groups
@@ -44,14 +50,6 @@ class GameScene(scene.Scene):
         # Data
         data = ces.Wrapper(gamedata.GameData())
         self.tm.tag('data', data)
-
-        # Systems
-        g = GameGraphics()
-        self.sm.add(g)
-        fps = ui.FPSSystem()
-        self.sm.add(fps)
-        data = gamedata.DataSystem()
-        self.sm.add(data)
 
         # TODO finish this
 

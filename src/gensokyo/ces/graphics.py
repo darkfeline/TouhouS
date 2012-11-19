@@ -1,3 +1,5 @@
+import logging
+
 from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
@@ -6,6 +8,8 @@ from pyglet import sprite, text
 
 from gensokyo import locator
 from gensokyo import ces
+
+logger = logging.getLogger(__name__)
 
 
 class Graphics(ces.System):
@@ -66,9 +70,11 @@ def _set_label_group(label, group):
 class GraphicsObject(ces.Position):
 
     def __init__(self, type, group, *args, **kwargs):
+        logger.debug('New Graphics Object: {}, {}, {}, {}'.format(
+            type, group, args, kwargs))
         self.sprite = type(*args, **kwargs)
         self.group = group
-        locator.sm.dispatch_event('add_sprite', self.sprite, group)
+        locator.sm.dispatch_event('on_add_sprite', self.sprite, group)
 
     @property
     def x(self):

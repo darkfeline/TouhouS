@@ -2,8 +2,8 @@
 
 from distutils.core import setup, Extension
 
-from setup_utils import get_packages
 from setup_utils import get_resources
+from setup_utils import get_packages
 from setup_utils import get_scripts
 
 

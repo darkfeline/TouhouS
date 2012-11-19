@@ -1,4 +1,9 @@
+import logging
+import sys
+import os.path
+
 from pyglet import resource
+
 
 def centered_image(image):
     """Loads an image and centers it"""
@@ -6,12 +11,15 @@ def centered_image(image):
     center(image)
     return image
 
+
 def center(image):
     """Sets an image's anchor point to center"""
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
-resource.path = ['resources']
+logger = logging.getLogger(__name__)
+
+resource.path = [os.path.join(sys.prefix, 'resources')]
 resource.reindex()
 
 # UI

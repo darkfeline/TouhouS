@@ -2,6 +2,22 @@ import os.path
 import re
 
 
+def get_data(dir, drop):
+    l = []
+    _rget_data(dir, l)
+    for i in range(len(l)):
+        l[i] = l[i].replace(drop, '')
+    return l
+
+
+def _rget_data(dir, l):
+    l.append(os.path.join(dir, '*'))
+    for f in os.listdir(dir):
+        f = os.path.join(dir, f)
+        if os.path.isdir(f):
+            _rget_data(f, l)
+
+
 def get_resources(dir):
     l = []
     _rget_resources(dir, l)

@@ -1,8 +1,11 @@
 from weakref import WeakValueDictionary
+import logging
 
 from pyglet import event
 
 from gensokyo import ces
+
+logger = logging.getLogger(__name__)
 
 
 class EntityManager:
@@ -93,5 +96,10 @@ class SystemManager(event.EventDispatcher):
                 a.delete()
             except AttributeError:
                 pass
+
+    def dispatch_event(self, event, *args):
+        logger.debug('Dispatch event {} with {}'.format(event, args))
+        super().dispatch_event(event, *args)
+
 SystemManager.register_event_type('on_draw')
 SystemManager.register_event_type('on_add_sprite')

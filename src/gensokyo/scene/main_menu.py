@@ -12,6 +12,7 @@ class MenuScene(scene.Scene):
 
     def init(self):
         logger.info("Initializing MenuScene...")
+        super().__init__()
         self.title = graphics.Label(
             x=20, y=globals.HEIGHT - 30, text="Welcome to TouhouS",
             color=(255, 255, 255, 255))

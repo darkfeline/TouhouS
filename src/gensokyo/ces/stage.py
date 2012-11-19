@@ -1,7 +1,5 @@
 from gensokyo.primitives import Vector
-
-from gensokyo.object.enemy import EnemyGroup, GenericEnemy
-from gensokyo.object.bullet import BulletGroup
+from gensokyo.ces.enemy import GenericEnemy
 from gensokyo.globals import GAME_AREA
 
 
@@ -10,8 +8,6 @@ class Stage:
 
     def __init__(self):
         super().__init__()
-        self.bullets = BulletGroup()
-        self.enemies = EnemyGroup(self.bullets)
         self.player = None  # reference only
 
     def update(self, dt):
@@ -45,8 +41,8 @@ class StageOne(Stage):
         super().update(dt)
         self.state += dt
         while self.state > self.rate:
-            e = Enemy(GAME_AREA.right+30, 400, self.player)
-            e.dest = Vector(GAME_AREA.left-30, 300)
+            e = Enemy(GAME_AREA.right + 30, 400, self.player)
+            e.dest = Vector(GAME_AREA.left - 30, 300)
             self.enemies.add(e)
             self.state -= self.rate
         temp = []

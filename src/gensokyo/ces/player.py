@@ -1,12 +1,13 @@
 from pyglet.window import key
+
 from gensokyo.primitives import Circle, Vector
-from gensokyo import ces
 from gensokyo import locator
-from gensokyo.object.bullet import Bullet
+from gensokyo import ces
+from gensokyo.ces import Position
+from gensokyo.ces.bullet import Bullet
+from gensokyo.ces.graphics import Sprite
 from gensokyo.globals import GAME_AREA
 from gensokyo import resources
-from gensokyo.ces import Position
-from gensokyo.ces.graphics import Sprite
 
 
 class PlayerState(ces.Component):

@@ -18,7 +18,7 @@ class DataSystem(ces.System):
 
     """
 
-    fields = set('high_score', 'score', 'lives', 'bombs')
+    fields = set(['high_score', 'score', 'lives', 'bombs'])
 
     def get(self, field):
         if field not in self.fields:

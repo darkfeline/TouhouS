@@ -1,7 +1,6 @@
 from gensokyo import ces
 from gensokyo import locator
-
-from hakurei import globals
+from gensokyo import globals
 
 
 class Presence(ces.Component):

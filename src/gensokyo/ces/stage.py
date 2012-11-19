@@ -1,11 +1,11 @@
 from gensokyo.primitives import Vector
 
-from hakurei.object.enemy import EnemyGroup, GenericEnemy
-from hakurei.object.bullet import BulletGroup
-from hakurei.globals import GAME_AREA
+from gensokyo.object.enemy import EnemyGroup, GenericEnemy
+from gensokyo.object.bullet import BulletGroup
+from gensokyo.globals import GAME_AREA
+
 
 # TODO fix everything
-
 class Stage:
 
     def __init__(self):

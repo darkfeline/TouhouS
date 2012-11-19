@@ -3,12 +3,12 @@
 import pyglet
 from pyglet.window.key import KeyStateHandler
 from pyglet import gl
+
 from gensokyo import locator
 from gensokyo.scene import SceneStack
-
-from hakurei import resources
-from hakurei.globals import WIDTH, HEIGHT, FPS
-from hakurei.scene import main_menu
+from gensokyo import resources
+from gensokyo.globals import WIDTH, HEIGHT, FPS
+from gensokyo.scene import main_menu
 
 
 def main():

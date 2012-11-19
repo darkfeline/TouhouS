@@ -1,11 +1,10 @@
 from gensokyo import ces
 from gensokyo import primitives
-
-from hakurei.ces import collision
-from hakurei.ces import graphics
-from hakurei.ces import bullet
-from hakurei.ces.script import Script
-from hakurei import resources
+from gensokyo.ces import collision
+from gensokyo.ces import graphics
+from gensokyo.ces import bullet
+from gensokyo.ces.script import Script
+from gensokyo import resources
 
 
 class Life(ces.Component):

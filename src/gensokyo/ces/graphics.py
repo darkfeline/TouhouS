@@ -1,8 +1,8 @@
 from pyglet.graphics import OrderedGroup, Batch
-from pyglet.text import Label
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 from pyglet.event import EVENT_HANDLED
+from pyglet import sprite, text
 
 from gensokyo import locator
 from gensokyo import ces
@@ -36,7 +36,7 @@ class Graphics(ces.System):
             l.draw()
 
     def add_sprite(self, sprite, group):
-        if isinstance(sprite, Label):
+        if isinstance(sprite, text.Label):
             self._add_label(sprite, group)
         else:
             self._add_sprite(sprite, group)
@@ -61,3 +61,46 @@ def _set_label_group(label, group):
     label.foreground_group = TextLayoutForegroundGroup(1, label.top_group)
     label.foreground_decoration_group = \
         TextLayoutForegroundDecorationGroup(2, label.top_group)
+
+
+class GraphicsObject(ces.Position):
+
+    def __init__(self, type, group, *args, **kwargs):
+        self.sprite = type(*args, **kwargs)
+        self.group = group
+        locator.sm.dispatch_event('add_sprite', self.sprite, group)
+
+    @property
+    def x(self):
+        return self.sprite.x
+
+    @x.setter
+    def x(self, value):
+        self.sprite.x = value
+
+    @property
+    def y(self):
+        return self.sprite.y
+
+    @y.setter
+    def y(self, value):
+        self.sprite.y = value
+
+    def delete(self):
+        self.sprite.delete()
+
+
+class Sprite(GraphicsObject):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(sprite.Sprite, *args, **kwargs)
+
+
+class Label(GraphicsObject):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(text.Label, *args, **kwargs)
+
+    @property
+    def label(self):
+        return self.sprite

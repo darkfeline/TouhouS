@@ -1,14 +1,17 @@
 from gensokyo import scene
+from gensokyo import ces
+from gensokyo.ces import stage
 from gensokyo.ces import graphics
-
-from hakurei import ces
-from hakurei import resources
+from gensokyo.ces import player
+from gensokyo.ces import ui
+from gensokyo.ces import gamedata
+from gensokyo import resources
 
 
 class GameScene(scene.Scene):
 
-    player_class = ces.player.Reimu
-    stage_class = ces.stage.StageOne
+    player_class = player.Reimu
+    stage_class = stage.StageOne
     ui_image = resources.ui_image
 
     def init(self):
@@ -19,19 +22,19 @@ class GameScene(scene.Scene):
 
         # Entities
         # UI image
-        bg = ces.Wrapper(ces.graphics.Sprite('ui', self.ui_image))
+        bg = ces.Wrapper(graphics.Sprite('ui', self.ui_image))
         self.em.add(bg)
         # FPS
-        fps = ces.ui.FPSDisplay(570, 2)
+        fps = ui.FPSDisplay(570, 2)
         self.em.add(fps)
         self.tm.tag('fps_display', fps)
 
         # Counters
         counters = {
-            'high_score': (ces.ui.TextCounter, 430, 415, 'High score'),
-            'score': (ces.ui.TextCounter, 430, 391, 'Score'),
-            'lives': (ces.ui.IconCounter, 430, 361, 'Lives'),
-            'bombs': (ces.ui.IconCounter, 430, 339, 'Bombs')}
+            'high_score': (ui.TextCounter, 430, 415, 'High score'),
+            'score': (ui.TextCounter, 430, 391, 'Score'),
+            'lives': (ui.IconCounter, 430, 361, 'Lives'),
+            'bombs': (ui.IconCounter, 430, 339, 'Bombs')}
         for tag, a in counters.items():
             c, x, y, tit = a
             counter = c(x, y, tit)
@@ -39,15 +42,15 @@ class GameScene(scene.Scene):
             self.tm.tag(tag, counter)
 
         # Data
-        data = ces.Wrapper(ces.gamedata.GameData())
+        data = ces.Wrapper(gamedata.GameData())
         self.tm.tag('data', data)
 
         # Systems
         g = GameGraphics()
         self.sm.add(g)
-        fps = ces.ui.FPSSystem()
+        fps = ui.FPSSystem()
         self.sm.add(fps)
-        data = ces.gamedata.DataSystem()
+        data = gamedata.DataSystem()
         self.sm.add(data)
 
         # TODO finish this

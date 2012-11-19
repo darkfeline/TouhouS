@@ -2,7 +2,7 @@ from weakref import WeakValueDictionary
 
 from pyglet import event
 
-from gensokyo import component
+from gensokyo import ces
 
 
 class EntityManager:
@@ -18,7 +18,7 @@ class EntityManager:
 
     def delete(self, entity):
         self.entities.remove(entity)
-        for a in entity.get(component.Component):
+        for a in entity.get(ces.Component):
             entity.delete(a)
 
     def get_with(self, types):

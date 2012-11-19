@@ -3,9 +3,8 @@ import abc
 from pyglet import clock
 from gensokyo import ces
 from gensokyo import locator
-
-from hakurei.ces import graphics
-from hakurei import resources
+from gensokyo.ces import graphics
+from gensokyo import resources
 
 
 ###############################################################################

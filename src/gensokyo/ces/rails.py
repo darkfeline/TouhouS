@@ -10,8 +10,6 @@ import math
 from gensokyo import ces
 from gensokyo import locator
 
-from hakurei.ces import Position
-
 
 def _move_start(f, pos):
     x, y = pos
@@ -82,7 +80,7 @@ class Rails(ces.Component):
 
 class RailSystem(ces.System):
 
-    req_components = (Rails, Position)
+    req_components = (Rails, ces.Position)
 
     def update(self, dt):
         for entity in locator.em.get_with(self.req_components):
@@ -90,5 +88,5 @@ class RailSystem(ces.System):
                 r.time += dt
                 func = r[r.time][0]
                 pos = func(r.time)
-                for p in entity.get(Position):
+                for p in entity.get(ces.Position):
                     p.x, p.y = pos

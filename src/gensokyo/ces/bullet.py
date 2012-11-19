@@ -2,16 +2,14 @@ import numbers
 
 from gensokyo import ces
 from gensokyo import primitives
-
-from hakurei.ces import collision
-from hakurei.ces import physics
-from hakurei.ces import graphics
-from hakurei.ces import gc
-from hakurei.ces import Position
-from hakurei import resources
+from gensokyo.ces import collision
+from gensokyo.ces import physics
+from gensokyo.ces import graphics
+from gensokyo.ces import gc
+from gensokyo import resources
 
 
-class BulletOrigin(Position):
+class BulletOrigin(ces.Position):
 
     def __init__(self, pos):
         """

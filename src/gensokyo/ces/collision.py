@@ -1,7 +1,6 @@
 from gensokyo import primitives
 from gensokyo import locator
-
-from hakurei import ces
+from gensokyo import ces
 
 
 class Hitbox(ces.Position):

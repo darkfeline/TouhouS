@@ -1,7 +1,6 @@
 from gensokyo import ces
 from gensokyo import locator
-
-from hakurei.ces.bullet import BulletOrigin
+from gensokyo.ces.bullet import BulletOrigin
 
 
 class Script(ces.Component):

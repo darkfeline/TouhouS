@@ -65,7 +65,7 @@ def main():
     pyglet.clock.set_fps_limit(FPS)
 
     logger.info("Pushing menu onto stack...")
-    locator.game.push(main_menu.MenuScene())
+    locator.scene_stack.push(main_menu.MenuScene())
 
     logger.info("Finished init.")
     logger.info("Running...")

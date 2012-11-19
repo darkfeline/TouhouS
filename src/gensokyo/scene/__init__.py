@@ -36,7 +36,7 @@ class SceneStack:
 
 class Scene:
 
-    def __init__(self, model, view):
+    def __init__(self):
         self.em = manager.EntityManager()
         self.sm = manager.SystemManager()
         self.gm = manager.GroupManager()

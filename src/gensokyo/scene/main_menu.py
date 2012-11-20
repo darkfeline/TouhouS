@@ -2,6 +2,7 @@ import logging
 
 from gensokyo import locator
 from gensokyo import scene
+from gensokyo import globals
 from gensokyo.scene import game
 from gensokyo.ces import graphics
 

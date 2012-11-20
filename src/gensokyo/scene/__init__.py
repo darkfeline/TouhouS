@@ -25,10 +25,8 @@ class SceneStack:
     def push(self, scene):
         logger.debug("Push onto stack {}".format(scene))
         self.stack.append(scene)
-        try:
+        if hasattr(self.top, "init"):
             self.top.init()
-        except AttributeError:
-            pass
 
     def pop(self):
         a = self.stack.pop()

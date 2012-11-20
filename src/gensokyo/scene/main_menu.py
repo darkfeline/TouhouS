@@ -5,6 +5,7 @@ from gensokyo import scene
 from gensokyo import globals
 from gensokyo.scene import game
 from gensokyo.ces import graphics
+from gensokyo.ces import input
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ class MenuScene(scene.Scene):
     def __init__(self):
         super().__init__()
         self.sm.add(MenuGraphics())
+        self.sm.add(MenuInput())
 
     def init(self):
         logger.info("Initializing MenuScene...")
@@ -23,7 +25,7 @@ class MenuScene(scene.Scene):
             color=(255, 255, 255, 255))
         logger.info("Finished initializing MenuScene.")
 
-    def on_key_press(self, symbol, modifiers):
+    def start(self):
         logger.info("Adding GameScene...")
         locator.scene_stack.push(game.GameScene())
 
@@ -31,3 +33,9 @@ class MenuScene(scene.Scene):
 class MenuGraphics(graphics.Graphics):
 
     _map = ('bg', 'text')
+
+
+class MenuInput(input.BaseInput):
+
+    def on_key_press(self, symbol, modifiers):
+        locator.scene.start()

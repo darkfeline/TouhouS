@@ -15,3 +15,13 @@ class GameData(ces.Component):
         self.score = score
         self.lives = lives
         self.bombs = bombs
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        self.score = value
+        if value > self.high_score:
+            self.high_score = value

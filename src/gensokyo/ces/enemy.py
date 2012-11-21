@@ -49,7 +49,7 @@ class Enemy(ces.Entity):
 class GenericEnemy(Enemy):
 
     sprite_img = resources.enemy['generic']
-    hb = primitives.Circle(0, 0, sprite_img.width)
+    hb = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
     init_life = 200
 
     # TODO move to rails

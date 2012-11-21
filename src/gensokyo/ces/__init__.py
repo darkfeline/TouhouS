@@ -105,12 +105,6 @@ class System:
     __metaclass__ = abc.ABCMeta
 
 
-class Wrapper(Entity):
-
-    def __init__(self, component):
-        self.add(component)
-
-
 class Position(Component):
 
     """

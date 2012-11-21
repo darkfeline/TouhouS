@@ -4,7 +4,7 @@ from gensokyo.ces import stage
 from gensokyo.ces import graphics
 from gensokyo.ces import player
 from gensokyo.ces import ui
-from gensokyo.ces import gamedata
+from gensokyo.ces import game
 from gensokyo import resources
 
 
@@ -18,7 +18,6 @@ class GameScene(scene.Scene):
         super().__init__()
         self.sm.add(GameGraphics())
         self.sm.add(ui.FPSSystem())
-        self.sm.add(gamedata.DataSystem())
 
     def init(self):
 
@@ -47,9 +46,9 @@ class GameScene(scene.Scene):
             self.em.add(counter)
             self.tm.tag(tag, counter)
 
-        # Data
-        data = ces.Wrapper(gamedata.GameData())
-        self.tm.tag('data', data)
+        # Game
+        game_ = game.Game()
+        self.tm.tag('game', game_)
 
         # TODO finish this
 

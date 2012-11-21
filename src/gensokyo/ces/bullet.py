@@ -76,6 +76,7 @@ class Bullet(ces.Entity):
         self.add(p)
 
 
+# TODO move these somewhere
 class EnemyBullet(Bullet):
 
     sprite_group = 'enemy_bullet'

@@ -220,6 +220,9 @@ cdef class Circle:
         else:
             raise NotImplemented
 
+    def copy(self):
+        return self.__class__(self.x, self.y, self.r)
+
 
 cdef class Vector:
 
@@ -317,6 +320,9 @@ cdef class Vector:
         if not (isinstance(other, int) or isinstance(other, float)):
             raise NotImplemented
         return Vector(self.x * other, self.y * other)
+
+    def copy(self):
+        return self.__class__(self.x, self.y)
 
 
 class NoAngleError(Exception): pass

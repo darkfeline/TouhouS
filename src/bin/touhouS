@@ -7,69 +7,64 @@ import pyglet
 from pyglet.window.key import KeyStateHandler
 from pyglet import gl
 
+# parse arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--loglevel', action='store', default='debug')
+parser.add_argument('--logfile', action='store', default='')
+args = parser.parse_args()
+
+# setup root logger
+config = {'format': '%(asctime)s %(levelname)s %(name)s %(message)s'}
+try:
+    config['level'] = getattr(logging, args.loglevel.upper())
+except AttributeError:
+    raise ValueError('Invalid log level: {!s}'.format(args.loglevel))
+if args.logfile:
+    config['filename'] = args.logfile
+logging.basicConfig(**config)
+
+# setup module logger
+logger = logging.getLogger(__name__)
+
+# Now that logger is up, import stuff
 from gensokyo import locator
 from gensokyo.scene import SceneStack
 from gensokyo import resources
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo.scene import main_menu
 
+# window
+logger.info("Initializing window...")
+window = pyglet.window.Window(WIDTH, HEIGHT)
+window.set_caption('TouhouS')
+window.set_icon(resources.icon16, resources.icon32)
+locator.window = window
 
-def main():
+# Transparency
+logger.info("Set transparency...")
+gl.glEnable(gl.GL_BLEND)
+gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-    # parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--loglevel', action='store', default='debug')
-    parser.add_argument('--logfile', action='store', default='')
-    args = parser.parse_args()
+# Scene stack
+logger.info("Creating scene stack...")
+scene_stack = SceneStack()
+locator.scene_stack = scene_stack
 
-    # setup root logger
-    config = {'format': '%(asctime)s %(levelname)s %(name)s %(message)s'}
-    try:
-        config['level'] = getattr(logging, args.loglevel.upper())
-    except AttributeError:
-        raise ValueError('Invalid log level: {!s}'.format(args.loglevel))
-    if args.logfile:
-        config['filename'] = args.logfile
-    logging.basicConfig(**config)
+# key_state
+logger.info("Creating KeyState...")
+keys = KeyStateHandler()
+window.push_handlers(keys)
+locator.key_state = keys
 
-    # setup module logger
-    logger = logging.getLogger(__name__)
+# clock
+logger.info("Setting clock...")
+pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
+pyglet.clock.set_fps_limit(FPS)
 
-    # window
-    logger.info("Initializing window...")
-    window = pyglet.window.Window(WIDTH, HEIGHT)
-    window.set_caption('TouhouS')
-    window.set_icon(resources.icon16, resources.icon32)
-    locator.window = window
+logger.info("Pushing menu onto stack...")
+locator.scene_stack.push(main_menu.MenuScene())
 
-    # Transparency
-    logger.info("Set transparency...")
-    gl.glEnable(gl.GL_BLEND)
-    gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
-
-    # Scene stack
-    logger.info("Creating scene stack...")
-    scene_stack = SceneStack()
-    locator.scene_stack = scene_stack
-
-    # key_state
-    logger.info("Creating KeyState...")
-    keys = KeyStateHandler()
-    window.push_handlers(keys)
-    locator.key_state = keys
-
-    # clock
-    logger.info("Setting clock...")
-    pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
-    pyglet.clock.set_fps_limit(FPS)
-
-    logger.info("Pushing menu onto stack...")
-    locator.scene_stack.push(main_menu.MenuScene())
-
-    logger.info("Finished init.")
-    logger.info("Running...")
-    pyglet.app.run()
-    logger.info("Finished running.")
-
-if __name__ == "__main__":
-    main()
+logger.info("Finished init.")
+logger.info("Running...")
+pyglet.app.run()
+logger.info("Finished running.")

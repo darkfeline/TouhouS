@@ -6,7 +6,7 @@ from gensokyo import ces
 class Hitbox(ces.Position):
 
     def __init__(self, hb):
-        self.hb = hb
+        self.hb = hb.copy()
 
     @property
     def x(self):

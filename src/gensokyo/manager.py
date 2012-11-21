@@ -72,7 +72,7 @@ class TagManager:
         self.items[key] = entity
 
 
-class SystemManager(event.EventDispatcher):
+class BaseSystemManager(event.EventDispatcher):
 
     def __init__(self):
         self.systems = set()
@@ -103,5 +103,8 @@ class SystemManager(event.EventDispatcher):
         logger.debug('Dispatch event {} with {}'.format(event, args))
         super().dispatch_event(event, *args)
 
+
+class SystemManager(BaseSystemManager):
+    pass
 SystemManager.register_event_type('on_draw')
 SystemManager.register_event_type('on_add_sprite')

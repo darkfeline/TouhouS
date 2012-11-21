@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>scene Package &mdash; TouhouS 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="TouhouS 1.0 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="scene-package">
+<h1>scene Package<a class="headerlink" href="#scene-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">scene</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-gensokyo.scene"></span><dl class="class">
+<dt id="gensokyo.scene.Scene">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.</tt><tt class="descname">Scene</tt><a class="headerlink" href="#gensokyo.scene.Scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="function">
+<dt id="gensokyo.scene.Scene.delete">
+<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.Scene.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.scene.Scene.update">
+<tt class="descname">update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.scene.Scene.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.scene.SceneStack">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.</tt><tt class="descname">SceneStack</tt><a class="headerlink" href="#gensokyo.scene.SceneStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="attribute">
+<dt id="gensokyo.scene.SceneStack.model">
+<tt class="descname">model</tt><a class="headerlink" href="#gensokyo.scene.SceneStack.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.scene.SceneStack.pop">
+<tt class="descname">pop</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.scene.SceneStack.push">
+<tt class="descname">push</tt><big>(</big><em>self</em>, <em>scene</em><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.scene.SceneStack.top">
+<tt class="descname">top</tt><a class="headerlink" href="#gensokyo.scene.SceneStack.top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.scene.SceneStack.update">
+<tt class="descname">update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls update on top of stack</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.scene.SceneStack.view">
+<tt class="descname">view</tt><a class="headerlink" href="#gensokyo.scene.SceneStack.view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.scene.game">
+<span id="game-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">game</span></tt> Module<a class="headerlink" href="#module-gensokyo.scene.game" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.scene.game.GameGraphics">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">GameGraphics</tt><a class="headerlink" href="#gensokyo.scene.game.GameGraphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.graphics.Graphics" title="gensokyo.ces.graphics.Graphics"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Graphics</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.scene.game.GameScene">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">GameScene</tt><a class="headerlink" href="#gensokyo.scene.game.GameScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.scene.Scene" title="gensokyo.scene.Scene"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.scene.Scene</span></tt></a></p>
+<dl class="function">
+<dt id="gensokyo.scene.game.GameScene.init">
+<tt class="descname">init</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameScene.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.scene.game.GameScene.player_class">
+<tt class="descname">player_class</tt><a class="headerlink" href="#gensokyo.scene.game.GameScene.player_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Reimu</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.scene.game.GameScene.stage_class">
+<tt class="descname">stage_class</tt><a class="headerlink" href="#gensokyo.scene.game.GameScene.stage_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">StageOne</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.scene.game.GameScene.ui_image">
+<tt class="descname">ui_image</tt><em class="property"> = &lt;Texture 640x480&gt;</em><a class="headerlink" href="#gensokyo.scene.game.GameScene.ui_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.scene.main_menu">
+<span id="main-menu-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main_menu</span></tt> Module<a class="headerlink" href="#module-gensokyo.scene.main_menu" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.scene.main_menu.MenuGraphics">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.main_menu.</tt><tt class="descname">MenuGraphics</tt><a class="headerlink" href="#gensokyo.scene.main_menu.MenuGraphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.graphics.Graphics" title="gensokyo.ces.graphics.Graphics"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Graphics</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.scene.main_menu.MenuInput">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.main_menu.</tt><tt class="descname">MenuInput</tt><a class="headerlink" href="#gensokyo.scene.main_menu.MenuInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.input.BaseInput" title="gensokyo.ces.input.BaseInput"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.input.BaseInput</span></tt></a></p>
+<dl class="function">
+<dt id="gensokyo.scene.main_menu.MenuInput.on_key_press">
+<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuInput.on_key_press" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.scene.main_menu.MenuScene">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.main_menu.</tt><tt class="descname">MenuScene</tt><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.scene.Scene" title="gensokyo.scene.Scene"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.scene.Scene</span></tt></a></p>
+<dl class="function">
+<dt id="gensokyo.scene.main_menu.MenuScene.init">
+<tt class="descname">init</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.scene.main_menu.MenuScene.start">
+<tt class="descname">start</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.scene.rail_test">
+<span id="rail-test-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">rail_test</span></tt> Module<a class="headerlink" href="#module-gensokyo.scene.rail_test" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.scene.rail_test.RailTestGraphics">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.rail_test.</tt><tt class="descname">RailTestGraphics</tt><a class="headerlink" href="#gensokyo.scene.rail_test.RailTestGraphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.graphics.Graphics" title="gensokyo.ces.graphics.Graphics"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Graphics</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.scene.rail_test.RailTestScene">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.rail_test.</tt><tt class="descname">RailTestScene</tt><a class="headerlink" href="#gensokyo.scene.rail_test.RailTestScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.scene.Scene" title="gensokyo.scene.Scene"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.scene.Scene</span></tt></a></p>
+<dl class="function">
+<dt id="gensokyo.scene.rail_test.RailTestScene.init">
+<tt class="descname">init</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.rail_test.RailTestScene.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">scene Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">scene</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-gensokyo.scene.game"><tt class="docutils literal"><span class="pre">game</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.scene.main_menu"><tt class="docutils literal"><span class="pre">main_menu</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.scene.rail_test"><tt class="docutils literal"><span class="pre">rail_test</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gensokyo.scene.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Allen Li.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

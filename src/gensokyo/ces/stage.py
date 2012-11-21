@@ -1,20 +1,20 @@
 from gensokyo.primitives import Vector
 from gensokyo.ces.enemy import GenericEnemy
 from gensokyo.globals import GAME_AREA
+from gensokyo import ces
 
 
-# TODO fix everything
-class Stage:
+class Stage(ces.Component):
 
-    def __init__(self):
-        super().__init__()
-        self.player = None  # reference only
-
-    def update(self, dt):
-        self.enemies.update(dt)
-        self.bullets.update(dt)
+    def __init__(self, script):
+        self.script = script
 
 
+class StageSystem(ces.System):
+    pass
+
+
+# TODO move
 class Enemy(GenericEnemy):
 
     def __init__(self, x, y, player):
@@ -30,6 +30,7 @@ class Enemy(GenericEnemy):
             self.state -= .5
 
 
+# TODO move
 class StageOne(Stage):
 
     def __init__(self):

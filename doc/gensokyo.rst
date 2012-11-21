@@ -9,18 +9,10 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`component` Module
------------------------
+:mod:`globals` Module
+---------------------
 
-.. automodule:: gensokyo.component
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`entity` Module
---------------------
-
-.. automodule:: gensokyo.entity
+.. automodule:: gensokyo.globals
     :members:
     :undoc-members:
     :show-inheritance:
@@ -41,35 +33,19 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`model` Module
--------------------
+:mod:`resources` Module
+-----------------------
 
-.. automodule:: gensokyo.model
+.. automodule:: gensokyo.resources
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`scene` Module
--------------------
+Subpackages
+-----------
 
-.. automodule:: gensokyo.scene
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. toctree::
 
-:mod:`system` Module
---------------------
-
-.. automodule:: gensokyo.system
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`view` Module
-------------------
-
-.. automodule:: gensokyo.view
-    :members:
-    :undoc-members:
-    :show-inheritance:
+    gensokyo.ces
+    gensokyo.scene
 

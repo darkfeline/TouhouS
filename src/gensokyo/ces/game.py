@@ -1,10 +1,10 @@
 from gensokyo import ces
-from gensokyo import locator
 
 
 class Game(ces.Entity):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, stage, *args, **kwargs):
+        self.add(stage)
         self.add(GameData(*args, **kwargs))
 
 

@@ -16,34 +16,34 @@ and can also be used with `scene` scene management.
 Design Hierarchy
 ################
 
-Game
-    Controller
-    SceneStack
-        Scene
-            Model
-                EntityManager
-                    Entity
-                        Component
-                SystemManager
-                    System
-            View
+* Game
+    * Controller
+    * SceneStack
+        * Scene
+            * Model
+                * EntityManager
+                    * Entity
+                        * Component
+                * SystemManager
+                    * System
+            * View
 
 Update Hierarchy
 ################
 
-Update
-    SceneStack
-        Scene
-            Model
-                SystemManager
-                    System
+* Update
+    * SceneStack
+        * Scene
+            * Model
+                * SystemManager
+                    * System
 
 on_draw Hierarchy
 #################
 
-on_draw
-    SceneStack
-        Scene
-            View
+* on_draw
+    * SceneStack
+        * Scene
+            * View
 
 """

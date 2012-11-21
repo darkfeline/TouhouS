@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 import os.path
 
 from pyglet import resource
@@ -19,7 +20,10 @@ def _center(image):
 
 logger = logging.getLogger(__name__)
 
+logger.info("Initializing resources...")
+logger.debug("Working directory is {}".format(os.getcwd()))
 resource.path = [os.path.join(sys.prefix, 'resources')]
+logger.debug("Path is {}".format(resource.path))
 resource.reindex()
 
 # UI
@@ -47,3 +51,5 @@ enemy['generic'] = centered_image(a + '/generic.png')
 bullet = {}
 a = "bullets"
 bullet['round'] = centered_image(a + '/round.png')
+
+logger.info("Finished initializing resources.")

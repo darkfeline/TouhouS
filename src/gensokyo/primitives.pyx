@@ -270,9 +270,6 @@ cdef class Vector:
             return Vector(0, 0)
         return Vector(math.cos(t), math.sin(t))
 
-    def __len__(self):
-        return 2
-
     def __iter__(self):
         return iter((self.x, self.y))
 

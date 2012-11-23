@@ -3,6 +3,7 @@ import abc
 from gensokyo import primitives
 from gensokyo import locator
 from gensokyo import ces
+from gensokyo.ces import observer
 
 
 class Hitbox(ces.Position):
@@ -25,12 +26,12 @@ class Hitbox(ces.Position):
             self.hb.center = value
 
 
-class CollisionSystem(ces.System):
+class CollisionSystem(ces.System, observer.Updating):
 
     __meta__ = abc.ABCMeta
     req_components = (Hitbox,)
 
-    def update(self, dt):
+    def on_update(self, dt):
         """
         Compare ALL of the hitboxes of entities with a hitbox component.  If
         any of them collide, have the SystemManager dispatch on_collide event

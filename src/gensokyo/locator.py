@@ -16,6 +16,7 @@ class ServiceLocator:
         self.window = None
         self.key_state = None
         self.scene_stack = None
+        self.clock = None
 
     @property
     def scene(self):

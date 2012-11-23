@@ -5,7 +5,7 @@ from gensokyo import scene
 from gensokyo import globals
 from gensokyo.scene import game
 from gensokyo.ces import graphics
-from gensokyo.ces import input
+from gensokyo.ces import observer
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ class MenuGraphics(graphics.Graphics):
     _map = ('bg', 'text')
 
 
-class MenuInput(input.BaseInput):
+class MenuInput(observer.Input):
 
     def on_key_press(self, symbol, modifiers):
         locator.scene.start()

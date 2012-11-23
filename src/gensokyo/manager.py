@@ -1,8 +1,6 @@
 from weakref import WeakValueDictionary
 import logging
 
-from pyglet import event
-
 from gensokyo import ces
 
 logger = logging.getLogger(__name__)
@@ -72,7 +70,7 @@ class TagManager:
         self.items[key] = entity
 
 
-class BaseSystemManager(event.EventDispatcher):
+class SystemManager:
 
     def __init__(self):
         self.systems = set()
@@ -80,31 +78,11 @@ class BaseSystemManager(event.EventDispatcher):
     def add(self, system):
         logger.debug("Add system {}".format(system))
         self.systems.add(system)
-        self.push_handlers(system)
 
     def __iter__(self):
         return iter(self.systems)
 
-    def update(self, dt):
-        for system in self.systems:
-            try:
-                system.update(dt)
-            except AttributeError:
-                pass
-
     def delete(self):
         for a in self.systems:
-            try:
+            if hasattr(a, 'delete'):
                 a.delete()
-            except AttributeError:
-                pass
-
-    def dispatch_event(self, event, *args):
-        logger.debug('Dispatch event {} with {}'.format(event, args))
-        super().dispatch_event(event, *args)
-
-
-class SystemManager(BaseSystemManager):
-    pass
-SystemManager.register_event_type('on_draw')
-SystemManager.register_event_type('on_add_sprite')

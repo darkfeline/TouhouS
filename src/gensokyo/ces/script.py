@@ -40,6 +40,7 @@ The conditions in each scripting unit are exclusive, evaluated in order.
 import abc
 
 from gensokyo import ces
+from gensokyo.ces import observer
 from gensokyo import locator
 
 
@@ -76,17 +77,15 @@ class Script(ces.Component):
         self.units = units
 
 
-class ScriptSystem(ces.System):
+class ScriptSystem(ces.System, observer.Updating):
 
     req_components = (Script,)
 
-    def update(self, dt):
+    def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
             for script in entity.get(self.req_components[0]):
                 for unit in list(script.units):
                     for cond in unit:
-                        if hasattr(cond, "update"):
-                            cond.update(dt)
                         if cond.satisfied:
                             r = cond.run(entity)
                             if r:

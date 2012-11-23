@@ -11,6 +11,7 @@ from pyglet import clock
 from gensokyo import ces
 from gensokyo import locator
 from gensokyo.ces import graphics
+from gensokyo.ces import observer
 from gensokyo import resources
 
 
@@ -36,12 +37,12 @@ class FPSDisplay(UILabel):
                        font_size=10, color=(255, 255, 255, 255))
 
 
-class FPSSystem(ces.System):
+class FPSSystem(ces.System, observer.Updating):
 
     def __init__(self):
         self.count = 0
 
-    def update(self, dt):
+    def on_update(self, dt):
         self.count += dt
         if self.count > 1:
             entity = locator.tm.get_tag('fps_display')

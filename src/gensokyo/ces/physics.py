@@ -6,6 +6,7 @@ Physics module
 import abc
 
 from gensokyo import ces
+from gensokyo.ces import observer
 from gensokyo import primitives
 from gensokyo import locator
 
@@ -38,11 +39,11 @@ class PhysicsPosition(ces.Position):
     __meta__ = abc.ABCMeta
 
 
-class PhysicsSystem(ces.System):
+class PhysicsSystem(ces.System, observer.Updating):
 
     req_components = (Physics, PhysicsPosition)
 
-    def update(self, dt):
+    def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
             phys, pos = entity.get(self.req_components)
             for phy in phys:

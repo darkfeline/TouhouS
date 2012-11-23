@@ -5,11 +5,11 @@ from pyglet.window import key
 from gensokyo import locator
 from gensokyo import ces
 from gensokyo import primitives
-from gensokyo.ces import input
 from gensokyo.ces import script
 from gensokyo.ces import bullet
 from gensokyo.ces import graphics
 from gensokyo.ces import collision
+from gensokyo.ces import observer
 from gensokyo import resources
 
 
@@ -21,7 +21,7 @@ class Shifter(BaseShifter):
     pass
 
 
-class MasterShifter(BaseShifter, input.BaseInput):
+class MasterShifter(BaseShifter, observer.Input):
 
     speed_mult = 500
     focus_mult = 0.5
@@ -50,7 +50,7 @@ class MasterShifter(BaseShifter, input.BaseInput):
             self.focus = False
 
 
-class ShiftingSystem(ces.System):
+class ShiftingSystem(ces.System, observer.Updating):
 
     req_components = (MasterShifter,)
     opt_components = (Shifter,)
@@ -61,7 +61,7 @@ class ShiftingSystem(ces.System):
     def set_pos(self, entity):
         pass
 
-    def update(self, dt):
+    def on_update(self, dt):
 
         # Get current key state
         v = [0, 0]
@@ -116,11 +116,11 @@ class Shield(ces.Component):
             return False
 
 
-class ShieldDecay(ces.System):
+class ShieldDecay(ces.System, observer.Updating):
 
     req_components = (Shield,)
 
-    def update(self, dt):
+    def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
             for shield in entity.get(self.req_components[0]):
                 if shield:
@@ -129,7 +129,7 @@ class ShieldDecay(ces.System):
                     entity.delete(shield)
 
 
-class Player(ces.Entity, input.BaseInput):
+class Player(ces.Entity, observer.Input):
 
     sprite_img = None
     sprite_group = 'player'
@@ -171,7 +171,8 @@ class FiringUnit(script.Script):
     pass
 
 
-class LimitedLoopFiring(script.ConditionUnit, input.BaseInput, Shifter):
+class LimitedLoopFiring(script.ConditionUnit, observer.Input, Shifter,
+                        observer.Updating):
 
     def __init__(self, pos, rate, bullet):
         self.pos = pos
@@ -201,7 +202,7 @@ class LimitedLoopFiring(script.ConditionUnit, input.BaseInput, Shifter):
         if symbol == key.Z:
             self.is_firing = False
 
-    def update(self, dt):
+    def on_update(self, dt):
         if self.is_firing:
             self.state += dt
 

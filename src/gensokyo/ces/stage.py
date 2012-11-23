@@ -1,6 +1,7 @@
 from gensokyo import ces
 from gensokyo.ces import script
 from gensokyo.ces import rails
+from gensokyo.ces import observer
 from gensokyo.ces.enemy import GenericEnemy
 from gensokyo.globals import GAME_AREA
 from gensokyo import locator
@@ -21,7 +22,7 @@ class StageOne(Stage):
 
 
 # TODO generalize looping
-class LoopSpawnEnemy(script.ConditionUnit):
+class LoopSpawnEnemy(script.ConditionUnit, observer.Updating):
 
     def __init__(self, pos, rate):
         self.pos = pos
@@ -45,12 +46,12 @@ class LoopSpawnEnemy(script.ConditionUnit):
         locator.em.add(e)
         locator.gm.add_to(e, 'enemy')
 
-    def update(self, dt):
+    def on_update(self, dt):
         self.state += dt
 
 
 # TODO generalize this too
-class TimedSuicide(script.ConditionUnit):
+class TimedSuicide(script.ConditionUnit, observer.Updating):
 
     def __init__(self, time):
         self.time = 0
@@ -67,5 +68,5 @@ class TimedSuicide(script.ConditionUnit):
     def run(self, entity):
         locator.em.delete(entity)
 
-    def update(self, dt):
+    def on_update(self, dt):
         self.state += dt

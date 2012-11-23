@@ -58,6 +58,7 @@ from functools import wraps
 import math
 
 from gensokyo import ces
+from gensokyo.ces import observer
 from gensokyo import locator
 
 
@@ -135,11 +136,11 @@ class RailPosition(ces.Position):
     pass
 
 
-class RailSystem(ces.System):
+class RailSystem(ces.System, observer.Updating):
 
     req_components = (Rails, RailPosition)
 
-    def update(self, dt):
+    def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
             r = entity.get(Rails)[0]
             r.time += dt

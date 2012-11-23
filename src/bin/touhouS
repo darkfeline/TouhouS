@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 # Now that logger is up, import stuff
 from gensokyo import locator
+from gensokyo import clock
 from gensokyo.scene import SceneStack
 from gensokyo import resources
 from gensokyo.globals import WIDTH, HEIGHT, FPS
@@ -58,8 +59,9 @@ locator.key_state = keys
 
 # clock
 logger.info("Setting clock...")
-pyglet.clock.schedule_interval(locator.scene_stack.update, 1 / FPS)
 pyglet.clock.set_fps_limit(FPS)
+clock = clock.Clock()
+locator.clock = clock
 
 logger.info("Pushing menu onto stack...")
 locator.scene_stack.push(main_menu.MenuScene())

@@ -32,10 +32,6 @@ class SceneStack:
         a = self.stack.pop()
         a.delete()
 
-    def update(self, dt):
-        """Calls update on top of stack"""
-        self.top.update(dt)
-
 
 class Scene:
 
@@ -44,9 +40,6 @@ class Scene:
         self.sm = manager.SystemManager()
         self.gm = manager.GroupManager()
         self.tm = manager.TagManager()
-
-    def update(self, dt):
-        self.sm.update(dt)
 
     def delete(self):
         self.sm.delete()

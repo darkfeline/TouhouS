@@ -5,6 +5,7 @@ from gensokyo.ces import graphics
 from gensokyo.ces import bullet
 from gensokyo.ces import rails
 from gensokyo.ces import script
+from gensokyo.ces import observer
 from gensokyo import resources
 from gensokyo import locator
 
@@ -57,11 +58,11 @@ class EnemySprite(graphics.Sprite, rails.RailPosition):
     pass
 
 
-class GrimReaper(ces.System):
+class GrimReaper(ces.System, observer.Updating):
 
     req_components = (Life,)
 
-    def update(self, dt):
+    def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
             data = entity.get(self.req_components[0])[0]
             if data.life <= 0:
@@ -87,7 +88,8 @@ class GenericEnemy(Enemy):
         self.add(s)
 
 
-class LoopFireAtPlayer(script.ConditionUnit, rails.RailPosition):
+class LoopFireAtPlayer(script.ConditionUnit, rails.RailPosition,
+                       observer.Updating):
 
     def __init__(self, pos, rate):
         self.pos = pos
@@ -112,5 +114,5 @@ class LoopFireAtPlayer(script.ConditionUnit, rails.RailPosition):
         locator.em.add(b)
         locator.gm.add_to(b, 'enemy_bullet')
 
-    def update(self, dt):
+    def on_update(self, dt):
         self.state += dt

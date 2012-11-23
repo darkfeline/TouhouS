@@ -59,13 +59,12 @@ class Counter(ces.Entity):
     __metaclass__ = abc.ABCMeta
     sprite_group = 'ui_element'
 
-    @abc.abstractmethod
-    def set_title(self, value):
+    @abc.abstractproperty
+    def title(self):
         raise NotImplementedError
 
-    @abc.abstractmethod
-    def set_value(self, value):
-        raise NotImplementedError
+    @abc.abstractproperty
+    def value(self):
 
 
 class TextCounter(Counter):
@@ -85,10 +84,20 @@ class TextCounter(Counter):
 
         self.set_title(title)
 
-    def set_title(self, value):
+    @property
+    def title(self):
+        return self.title.text
+
+    @title.setter
+    def title(self, value):
         self.title.text = value
 
-    def set_value(self, value):
+    @property
+    def value(self):
+        return self.value.text
+
+    @value.setter
+    def value(self, value):
         self.number.text = value
 
 
@@ -115,13 +124,19 @@ class IconCounter(Counter):
         self.y = y
 
     @property
+    def title(self):
+        return self.title.text
+
+    @title.setter
+    def title(self, value):
+        self.title.text = value
+
+    @property
     def value(self):
         return len(self.icons)
 
-    def set_title(self, value):
-        self.title.text = value
-
-    def set_value(self, value):
+    @value.setter
+    def value(self, value):
         new = min(self.display_max, value)
         # number of icons to add
         delta = new - self.value

@@ -1,4 +1,5 @@
 import abc
+import logging
 
 from pyglet.event import EVENT_HANDLED
 
@@ -20,6 +21,8 @@ Scene level.
 
 """
 
+logger = logging.getLogger(__name__)
+
 
 class Observer:
 
@@ -35,11 +38,13 @@ class Observer:
     def expand_channels(cls):
         l = set()
         for class_ in cls.__mro__:
-            if isinstance(class_, Observer):
-                l += class_.channels
+            if issubclass(class_, Observer):
+                l |= class_.channels
         return l
 
     def __init__(self, *args, **kwargs):
+        logger.debug("Instantiating Observer {}".format(self))
+        logger.debug("Channels: {}".format(self.expand_channels()))
         for chan in self.expand_channels():
             locator.broadcast[chan].push_handlers(self)
 
@@ -51,7 +56,7 @@ class Observer:
 class Drawing(Observer):
 
     __meta__ = abc.ABCMeta
-    channels = set('window')
+    channels = set(['window'])
 
     def on_draw(self):
         pass
@@ -66,7 +71,7 @@ class DrawBlocker(Drawing):
 class Input(Observer):
 
     __meta__ = abc.ABCMeta
-    channels = set('window')
+    channels = set(['window'])
 
     def on_key_press(self, symbol, modifiers):
         pass
@@ -87,7 +92,7 @@ class InputBlocker(Input):
 class Updating(Observer):
 
     __meta__ = abc.ABCMeta
-    channels = set('clock')
+    channels = set(['clock'])
 
     def on_update(self, dt):
         pass

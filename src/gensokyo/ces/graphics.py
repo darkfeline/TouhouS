@@ -42,6 +42,7 @@ class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
             l.draw()
 
     def add_sprite(self, sprite, group):
+        logger.debug("Adding sprite {} {}".format(sprite, group))
         if isinstance(sprite, text.Label):
             self._add_label(sprite, group)
         else:

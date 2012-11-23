@@ -1,201 +1,248 @@
+import abc
+
 from pyglet.window import key
 
-from gensokyo.primitives import Circle, Vector
 from gensokyo import locator
 from gensokyo import ces
-from gensokyo.ces import Position
-from gensokyo.ces.bullet import Bullet
-from gensokyo.ces.graphics import Sprite
-from gensokyo.globals import GAME_AREA
+from gensokyo import primitives
+from gensokyo.ces import input
+from gensokyo.ces import script
+from gensokyo.ces import bullet
+from gensokyo.ces import graphics
+from gensokyo.ces import collision
 from gensokyo import resources
 
 
-class PlayerState(ces.Component):
+class BaseShifter(ces.Position):
+    pass
 
-    die_invuln = 3
+
+class Shifter(BaseShifter):
+    pass
+
+
+class MasterShifter(BaseShifter, input.BaseInput):
+
     speed_mult = 500
     focus_mult = 0.5
-    edge_bound = 25
+    rect = primitives.Rect(0, 0, 25, 35)
 
-    def __init__(self):
+    def __init__(self, pos):
 
-        self.focus_state = 0
-        self.shooting_state = 0
-        self.invuln_state = 0
-        self.move_state = Vector(0, 0)
+        self.focus = False
+        self.rect = self.rect.copy()
+        self.pos = pos
 
+    @property
+    def pos(self):
+        return self.rect.center
 
-class BulletGen(ces.Position):
-
-    shot_rate = 20
-
-    def __init__(self, bullet):
-        """
-        :param bullet: bullet constructor
-        :type bullet: callable returning bullet
-
-        """
-        self.bullet = bullet
-        self.shot_state = 0
-
-
-class PlayerBulletGenSystem(ces.System):
-
-    sprite_group = 'player_bullet'
-
-    def update(self, dt):
-        player = locator.sm['player']
-        state = player.get(PlayerState)[0]
-        if state.shooting_state:
-            p = player.get(Position)[0]
-            for gen in player.get(BulletGen):
-                gen.shot_state += dt
-                if gen.shot_state >= gen.shot_rate:
-                    b = gen.bullet(p.x, p.y)
-                    locator.sm.dispatch_event(
-                        'on_add_sprite', b, self.sprite_group)
-
-
-class PlayerUpdateSystem(ces.System):
-
-    def update(self, dt):
-
-        player = locator.sm['player']
-        state = player.get(PlayerState)[0]
-
-        # movement
-        ps = player.get(Position)
-        p = ps[0]
-        cur = Vector(p.x, p.y)
-        v = state.move_state * (state.speed_mult * dt)
-        if state.focus_state:
-            v *= state.focus_state
-        x, y = cur + v
-        # bound movement
-        left = GAME_AREA.left + state.edge_bound
-        right = GAME_AREA.right - state.edge_bound
-        if x < left:
-            x = left
-        elif x > right:
-            x = right
-        top = GAME_AREA.top + state.edge_bound
-        bottom = GAME_AREA.bottom - state.edge_bound
-        if y < bottom:
-            y = bottom
-        elif y > top:
-            y = top
-        # move stuff
-        for p in ps:
-            p.x, p.y = x, y
-
-        # invuln
-        if state.invuln_state > 0:
-            state.invuln_state -= dt
-
-
-class PlayerInputSystem(ces.System):
-
-    def __init__(self):
-        locator.window.push_handlers(self)
-
-    def delete(self):
-        locator.window.remove_handlers(self)
+    @pos.setter
+    def pos(self, value):
+        self.rect.center = value
 
     def on_key_press(self, symbol, modifiers):
-        player = locator.tm['player']
-        state = player.get(PlayerState)[0]
         if symbol == key.LSHIFT:
-            p = player.get(Position)[0]
-            state.focus_state = 1
-            hb = Sprite(player.hb_sprite_img, p.x, p.y)
-            locator.sm.dispatch_event(
-                'on_add_sprite', hb, player.hb_sprite_group)
-            player.add(hb)
-            player.hb_sprite = hb
-        elif symbol == key.Z:
-            state.shooting_state = 1
+            self.focus = True
 
     def on_key_release(self, symbol, modifiers):
-        player = locator.tm['player']
-        state = player.get(PlayerState)[0]
         if symbol == key.LSHIFT:
-            state.focus_state = 0
-            player.delete(player.hb_sprite)
-            del player.hb_sprite
-        elif symbol == key.Z:
-            state.shooting_state = 0
+            self.focus = False
+
+
+class ShiftingSystem(ces.System):
+
+    req_components = (MasterShifter,)
+    opt_components = (Shifter,)
+
+    def __init__(self, bounds):
+        self.bounds = bounds
+
+    def set_pos(self, entity):
+        pass
 
     def update(self, dt):
-        state = locator.tm['player'].get(PlayerState)[0]
-        x, y = 0, 0
-        if locator.key_state[key.LEFT]:
-            x = -1
-        if locator.key_state[key.RIGHT]:
-            x += 1
-        if locator.key_state[key.DOWN]:
-            y = -1
-        if locator.key_state[key.UP]:
-            y += 1
-        v = Vector(x, y).get_unit_vector()
-        state.move_state = v
+
+        # Get current key state
+        v = [0, 0]
+        if key[key.RIGHT]:
+            v[0] += 1
+        if key[key.LEFT]:
+            v[0] -= 1
+        if key[key.UP]:
+            v[1] += 1
+        if key[key.DOWN]:
+            v[1] -= 1
+        v = primitives.Vector(*v).get_unit_vector()
+
+        for entity in locator.em.get_with(self.req_components):
+            # Calculate movement
+            master = entity.get(self.req_components[0])[0]
+            start = master.pos
+            dpos = v * master.speed_mult
+            if master.focus:
+                dpos *= master.focus_mult
+            dpos = tuple(dpos)
+            # Move master
+            master.pos = tuple(start[i] + dpos[i] for i in [0, 1])
+            # Calculate bounds
+            if master.rect.left < self.bounds.left:
+                master.rect.left = self.bounds.left
+            elif master.rect.right > self.bounds.right:
+                master.rect.right = self.bounds.right
+            if master.rect.bottom < self.bounds.bottom:
+                master.rect.bottom = self.bounds.bottom
+            elif master.rect.top > self.bounds.top:
+                master.rect.top = self.bounds.top
+            end = master.pos
+            dpos = tuple(end[i] - start[i] for i in [0, 1])
+            # Do for slaves
+            for sh in entity.get(self.opt_components[0]):
+                sh.pos = tuple(sh.pos[i] + dpos[i] for i in [0, 1])
 
 
-class Player(ces.Entity):
+class Shield(ces.Component):
+
+    """Can have multiple"""
+
+    def __init__(self, dur):
+        self.dur = dur
+        self.state = 0
+
+    def __bool__(self):
+        if self.state > 0:
+            return True
+        else:
+            return False
+
+
+class ShieldDecay(ces.System):
+
+    req_components = (Shield,)
+
+    def update(self, dt):
+        for entity in locator.em.get_with(self.req_components):
+            for shield in entity.get(self.req_components[0]):
+                if shield:
+                    shield.state -= dt
+                else:
+                    entity.delete(shield)
+
+
+class Player(ces.Entity, input.BaseInput):
 
     sprite_img = None
     sprite_group = 'player'
     hb_sprite_img = None
     hb_sprite_group = 'player_hb'
     hb = None
+    shield_dur = 3
 
     def __init__(self, x, y):
+        """
+        Add FiringUnit to complete
+
+        """
         super().__init__()
 
-        # TODO components
+        hb = self.hb.copy()
+        hb.pos = x, y
+        hb = PlayerHitbox(hb)
+        self.add(hb)
 
-    # TODO move this to... somewhere
-    def die(self):
-        if self.invuln > 0:
-            return 1
+        s = PlayerSprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        self.add(s)
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            hb = self.get(PlayerHitbox)[0]
+            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
+            self.add(hb_sprite)
+            self.hb_sprite = hb_sprite
+
+    def on_key_release(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            self.delete(self.hb_sprite)
+            del self.hb_sprite
+
+
+# TODO do we need this?
+class FiringUnit(script.Script):
+    pass
+
+
+class LimitedLoopFiring(script.ConditionUnit, input.BaseInput, Shifter):
+
+    def __init__(self, pos, rate, bullet):
+        self.pos = pos
+        self.state = 0
+        self.limit = 1 / rate
+        self.bullet = bullet
+        self.is_firing = False
+
+    @property
+    def satisfied(self):
+        if self.state > self.limit:
+            return True
         else:
-            self.invuln += Player.die_invuln
-            return 0
+            return False
+
+    def run(self, entity):
+        self.state -= self.rate
+        b = self.bullet(*self.pos)
+        locator.em.add(b)
+        locator.gm.add_to(b, 'player_bullet')
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.Z:
+            self.is_firing = True
+
+    def on_key_release(self, symbol, modifiers):
+        if symbol == key.Z:
+            self.is_firing = False
+
+    def update(self, dt):
+        if self.is_firing:
+            self.state += dt
 
 
-# TODO fix
-class ReimuShot(Bullet):
+class PlayerHitbox(collision.Hitbox, MasterShifter):
+    pass
+
+
+class PlayerSprite(graphics.Sprite, Shifter):
+    pass
+
+
+class PlayerBullet(bullet.Bullet):
+
+    __meta__ = abc.ABCMeta
+    sprite_group = 'player_bullet'
+
+    @abc.abstractmethod
+    def __init__(self, x, y):
+        raise NotImplementedError
+
+
+class ReimuShot(PlayerBullet):
 
     sprite_img = resources.player['reimu']['shot']
+    speed = 1500
+    dmg = 20
+    hitbox = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
 
     def __init__(self, x, y):
-        super().__init__(x, y)
-        self.speed = 1500
-        self.dmg = 20
-        self.hb = self.rect
+        super().__init__(x, y, primitives.Vector((0, self.speed)))
 
 
-# TODO fix
 class Reimu(Player):
 
     sprite_img = resources.player['reimu']['player']
     hb_sprite_img = resources.player['reimu']['hitbox']
+    hb = primitives.Circle(0, 0, 3)
 
-    def __init__(self, x, y, hb=None):
+    def __init__(self, x, y):
         super().__init__(x, y)
-        self.hb = Circle(self.x, self.y, 3)
-        self.speed_multiplier = 500
-        self.focus_multiplier = .5
-        self.shot_rate = 20
-
-    def update_fire(self, dt):
-        period = 1 / self.shot_rate  # period of shot
-        i = 0
-        while self.shot_state > period:
-            shot = ReimuShot(x=self.x - 10, y=self.bottom)
-            shot.update(i)
-            self.bullets.add(shot)
-            shot = ReimuShot(x=self.x + 10, y=self.bottom)
-            shot.update(i)
-            self.bullets.add(shot)
-            self.shot_state -= period
-            i += period
+        f = FiringUnit((LimitedLoopFiring((x - 10, y), 20),
+                        LimitedLoopFiring((x + 10, y), 20)))
+        self.add(f)

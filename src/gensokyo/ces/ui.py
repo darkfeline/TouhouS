@@ -1,3 +1,10 @@
+"""
+UI module
+
+Contains various CES classes to use in UI
+
+"""
+
 import abc
 
 from pyglet import clock

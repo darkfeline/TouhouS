@@ -43,7 +43,7 @@ from gensokyo import ces
 from gensokyo import locator
 
 
-class ConditionComponent:
+class ConditionUnit:
 
     __meta__ = abc.ABCMeta
 

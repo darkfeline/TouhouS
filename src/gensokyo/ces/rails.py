@@ -26,7 +26,8 @@ indeterminate if there are multiple.
 However, writing such parametrizations can be tedious, so ``rails`` provides a
 convenience function ``convert_rails()``, which takes a *lazy rails tuple*.
 The first item is the starting position, and the following items are
-*parametrization designations*.
+*parametrization designations*.  For convenience, ``Rails``'s constructor takes
+a lazy tuple.
 
 The first item in a parametrization designation is the designation type, and
 the last is the ending time.
@@ -83,11 +84,14 @@ def convert_rails(rails):
     ('custom', param, time)
     -> Already parametrized
 
+    :param rails: lazy rails tuple
+    :type rails: tuple
+
     """
     r = []
-    pos = rails.pop(0)
+    pos = rails[0]
     time = 0
-    for segment in rails:
+    for segment in rails[1:]:
         dt = segment[-1] - time
         assert dt > 0
         if segment[0] == 'straight':

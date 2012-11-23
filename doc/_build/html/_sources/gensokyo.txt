@@ -17,6 +17,14 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`event` Module
+-------------------
+
+.. automodule:: gensokyo.event
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`globals` Module
 ---------------------
 

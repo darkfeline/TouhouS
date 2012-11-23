@@ -120,74 +120,6 @@ and can also be used with <cite>scene</cite> scene management.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="update-hierarchy">
-<h3>Update Hierarchy<a class="headerlink" href="#update-hierarchy" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><dl class="first docutils">
-<dt>Update</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>SceneStack</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>Scene</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>Model</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>SystemManager</dt>
-<dd><ul class="first last simple">
-<li>System</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div>
-<div class="section" id="on-draw-hierarchy">
-<h3>on_draw Hierarchy<a class="headerlink" href="#on-draw-hierarchy" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><dl class="first docutils">
-<dt>on_draw</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>SceneStack</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>Scene</dt>
-<dd><ul class="first last simple">
-<li>View</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div>
 </div>
 <div class="section" id="module-gensokyo.clock">
 <span id="clock-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">clock</span></tt> Module<a class="headerlink" href="#module-gensokyo.clock" title="Permalink to this headline">¶</a></h2>
@@ -195,14 +127,47 @@ and can also be used with <cite>scene</cite> scene management.</p>
 <dt id="gensokyo.clock.Clock">
 <em class="property">class </em><tt class="descclassname">gensokyo.clock.</tt><tt class="descname">Clock</tt><a class="headerlink" href="#gensokyo.clock.Clock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.clock.Clock.delete">
-<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.clock.Clock.delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.clock.Clock.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="gensokyo.clock.Clock.event_types">
 <tt class="descname">event_types</tt><em class="property"> = ['on_update']</em><a class="headerlink" href="#gensokyo.clock.Clock.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.event">
+<span id="event-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">event</span></tt> Module<a class="headerlink" href="#module-gensokyo.event" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.event.Broadcast">
+<em class="property">class </em><tt class="descclassname">gensokyo.event.</tt><tt class="descname">Broadcast</tt><a class="headerlink" href="#gensokyo.event.Broadcast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>Handles EventDispatcher instances.  Serves as a service locator.
+EventDispatchers are registered by opening channels.  If a channel is
+opened multiple times (e.g., by subsequent scenes), they are put onto the
+stack for that channel.  Closing a channel removes the top dispatcher.</p>
+<p>Scenes that need a local channel should open/close it properly.  Any global
+channels should be opened at the top level, or by preceding scenes.
+Channels can be referenced for listening/speaking like a dictionary.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyglet.event</span> <span class="kn">import</span> <span class="n">EventDispatcher</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Broadcast</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;channel&#39;</span><span class="p">,</span> <span class="n">EventDispatcher</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s">&#39;channel&#39;</span><span class="p">],</span> <span class="n">EventDispatcher</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="gensokyo.event.Broadcast.close">
+<tt class="descname">close</tt><big>(</big><em>self</em>, <em>channel</em><big>)</big><a class="headerlink" href="#gensokyo.event.Broadcast.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.event.Broadcast.open">
+<tt class="descname">open</tt><big>(</big><em>self</em>, <em>channel</em>, <em>dispatcher</em><big>)</big><a class="headerlink" href="#gensokyo.event.Broadcast.open" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -220,19 +185,19 @@ and can also be used with <cite>scene</cite> scene management.</p>
 <dt id="gensokyo.manager.EntityManager">
 <em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">EntityManager</tt><a class="headerlink" href="#gensokyo.manager.EntityManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.EntityManager.add">
-<tt class="descname">add</tt><big>(</big><em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.add" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.add" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.EntityManager.delete">
-<tt class="descname">delete</tt><big>(</big><em>entity=None</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete</tt><big>(</big><em>self</em>, <em>entity=None</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.EntityManager.get_with">
-<tt class="descname">get_with</tt><big>(</big><em>types</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.get_with" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_with</tt><big>(</big><em>self</em>, <em>types</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.get_with" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find all entities who have at least one component of each type and
 return a set of entities</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -253,14 +218,14 @@ return a set of entities</p>
 <dt id="gensokyo.manager.GroupManager">
 <em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">GroupManager</tt><a class="headerlink" href="#gensokyo.manager.GroupManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.GroupManager.add_to">
-<tt class="descname">add_to</tt><big>(</big><em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.GroupManager.add_to" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add_to</tt><big>(</big><em>self</em>, <em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.GroupManager.add_to" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.GroupManager.make_group">
-<tt class="descname">make_group</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#gensokyo.manager.GroupManager.make_group" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">make_group</tt><big>(</big><em>self</em>, <em>key</em><big>)</big><a class="headerlink" href="#gensokyo.manager.GroupManager.make_group" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -269,14 +234,14 @@ return a set of entities</p>
 <dt id="gensokyo.manager.SystemManager">
 <em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">SystemManager</tt><a class="headerlink" href="#gensokyo.manager.SystemManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.SystemManager.add">
-<tt class="descname">add</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gensokyo.manager.SystemManager.add" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add</tt><big>(</big><em>self</em>, <em>system</em><big>)</big><a class="headerlink" href="#gensokyo.manager.SystemManager.add" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.SystemManager.delete">
-<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.manager.SystemManager.delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.manager.SystemManager.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -285,9 +250,9 @@ return a set of entities</p>
 <dt id="gensokyo.manager.TagManager">
 <em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">TagManager</tt><a class="headerlink" href="#gensokyo.manager.TagManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="gensokyo.manager.TagManager.tag">
-<tt class="descname">tag</tt><big>(</big><em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.TagManager.tag" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">tag</tt><big>(</big><em>self</em>, <em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.TagManager.tag" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -356,11 +321,10 @@ return a set of entities</p>
 <li><a class="reference internal" href="#">gensokyo Package</a><ul>
 <li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">gensokyo</span></tt> Package</a><ul>
 <li><a class="reference internal" href="#design-hierarchy">Design Hierarchy</a></li>
-<li><a class="reference internal" href="#update-hierarchy">Update Hierarchy</a></li>
-<li><a class="reference internal" href="#on-draw-hierarchy">on_draw Hierarchy</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-gensokyo.clock"><tt class="docutils literal"><span class="pre">clock</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.event"><tt class="docutils literal"><span class="pre">event</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.globals"><tt class="docutils literal"><span class="pre">globals</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.locator"><tt class="docutils literal"><span class="pre">locator</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.manager"><tt class="docutils literal"><span class="pre">manager</span></tt> Module</a></li>

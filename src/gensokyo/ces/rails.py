@@ -1,6 +1,55 @@
 """
 rails provides a set "animation" movement for entities.  It is mutually
-exclusive with physics.
+exclusive with physics.  Therefore, do not subclass RailPosition and
+PhysicsPosition at the same time!
+
+Rails
+*****
+
+Rails is a wrapper component for the main representation of the *rails tuple*.
+The rails tuple is essentially a piece-wise parametrization of a continuous
+path::
+
+    (
+        (f, t),
+        (f, t)
+    )
+
+The parametrization starts at ``t = 0``, and finds the current location
+``f(t)``.  Each segment ``(f, t)`` gives the position with function ``f(t)``
+for all ``t`` up to the given ``t`` exclusively (i.e., up to but not
+including).
+
+Entities should only have ONE Rails.  (Think about it.)  Behavior is
+indeterminate if there are multiple.
+
+However, writing such parametrizations can be tedious, so ``rails`` provides a
+convenience function ``convert_rails()``, which takes a *lazy rails tuple*.
+The first item is the starting position, and the following items are
+*parametrization designations*.
+
+The first item in a parametrization designation is the designation type, and
+the last is the ending time.
+
+Rails instances also keep an internal ``time`` attribute.
+
+Designations
+============
+
+    ('straight', dest, time)
+        Designates a constant-speed, straight-line parametrization, given an
+        absolute destination.  Parametrizes by velocity and time
+
+    ('pivot', center, arc, time)
+        Designates a circle pivot around a center, traveling the given arc
+        distance by the given point in time.  Parametrizes by angular velocity
+        and time.
+
+    ('custom', param, time)
+        Designates a custom parametrization where ``param(t) == (0, 0)``.
+        Given a parametrization relative to the origin,  the parametrization is
+        shifted so its starting point is the ending position of the previous
+        step.
 
 """
 
@@ -11,50 +60,54 @@ from gensokyo import ces
 from gensokyo import locator
 
 
-def _move_start(f, pos):
-    x, y = pos
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        a, b = f(*args, **kwargs)
-        return a + x, b + y
+def _shift(pos):
+    def wrapper(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            a = f(*args, **kwargs)
+            return tuple(pos[i] + a[i] for i in [0, 1])
+        return wrapper
     return wrapper
 
 
-def convert_rails(rails, start_pos):
+def convert_rails(rails):
     """
-    ('straight', dest, time)
-    ('pivot', center, arc, time)
-    ('curve', param, time)
+    First item in given rails is starting position
 
-    ('straight', vector, time)
-    ('pivot', center, angular_vel, time)
-    ('curve', param, time)
+    ('straight', dest, time)
+    -> Parametrize by velocity and time
+
+    ('pivot', center, arc, time)
+    -> Parametrize by angular velocity and time
+
+    ('custom', param, time)
+    -> Already parametrized
 
     """
     r = []
-    pos = start_pos
+    pos = rails.pop(0)
     time = 0
     for segment in rails:
         dt = segment[-1] - time
         assert dt > 0
         if segment[0] == 'straight':
-            dx = segment[1][0] / dt
-            dy = segment[1][1] / dt
-            @_move_start(pos)
+            dpos = tuple(segment[1][i] / dt for i in [0, 1])
+            @_shift(pos)
             def f(time):
-                return dx * time, dy * time
+                return tuple(dpos[i] * time for i in [0, 1])
             pos = segment[1]
         elif segment[0] == 'pivot':
-            arc, time = segment[2:]
-            alpha = math.atan(pos[1] / pos[0])
+            center, arc, time = segment[1:]
+            alpha = math.atan((pos[1] - center[1]) / (pos[0] - center[0]))
             vel = arc / time
+            @_shift(pos)
             def f(time):
                 beta = alpha + vel * time
                 return math.cos(beta), math.sin(beta)
             pos = f(time)
-        elif segment[0] == 'curve':
+        elif segment[0] == 'custom':
             param = segment[1]
-            f = _move_start(param, pos)
+            f = _shift(param, pos)
             pos = param(pos)
         time = segment[-1]
         r.append((f, time))
@@ -63,30 +116,38 @@ def convert_rails(rails, start_pos):
 
 class Rails(ces.Component):
 
+    """
+    .. attribute:: rails
+    .. attribute:: time
+
+    """
+
     def __init__(self, rails):
         self.rails = convert_rails(rails)
         self.time = 0
 
-    def __getitem__(self, key):
-        step = 0
-        try:
-            while self.time >= self.rails[step][-1]:
-                step += 1
-        except IndexError:
-            raise IndexError(key + " is beyond end of rails")
-        else:
-            return self.rails[step]
+
+class RailPosition(ces.Position):
+    pass
 
 
 class RailSystem(ces.System):
 
-    req_components = (Rails, ces.Position)
+    req_components = (Rails, RailPosition)
 
     def update(self, dt):
         for entity in locator.em.get_with(self.req_components):
-            for r in entity.get(Rails):
-                r.time += dt
-                func = r[r.time][0]
+            r = entity.get(Rails)[0]
+            r.time += dt
+            step = 0
+            try:
+                while r.time >= r.rails[step][-1]:
+                    step += 1
+            except IndexError:
+                func, t = r.rails[-1]
+                pos = func(t)
+            else:
+                func = r.rails[step][0]
                 pos = func(r.time)
-                for p in entity.get(ces.Position):
-                    p.x, p.y = pos
+            for p in entity.get(ces.Position):
+                p.pos = pos

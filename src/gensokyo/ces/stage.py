@@ -1,55 +1,71 @@
-from gensokyo.primitives import Vector
+from gensokyo import ces
+from gensokyo.ces import script
+from gensokyo.ces import rails
 from gensokyo.ces.enemy import GenericEnemy
 from gensokyo.globals import GAME_AREA
-from gensokyo import ces
+from gensokyo import locator
 
 
-class Stage(ces.Component):
+class Stage(ces.Entity):
 
-    def __init__(self, script):
-        self.script = script
-
-
-class StageSystem(ces.System):
-    pass
+    def __init__(self, script_):
+        s = script.Script(script_)
+        self.add(s)
 
 
-# TODO move
-class Enemy(GenericEnemy):
-
-    def __init__(self, x, y, player):
-        super().__init__(x, y)
-        self.state = 0
-        self.player = player
-
-    def update(self, dt):
-        super().update(dt)
-        self.state += dt
-        while self.state > .5:
-            self.fire_at(self.player.center)
-            self.state -= .5
-
-
-# TODO move
+# TODO move everything below
 class StageOne(Stage):
 
     def __init__(self):
-        super().__init__()
+        super().__init__(LoopSpawnEnemy(GAME_AREA.right + 30, 400))
+
+
+# TODO generalize looping
+class LoopSpawnEnemy(script.ConditionUnit):
+
+    def __init__(self, pos, rate):
+        self.pos = pos
         self.state = 0
-        self.rate = 1
+        self.rate = rate
+
+    @property
+    def satisfied(self):
+        if self.state > self.rate:
+            return True
+        else:
+            return False
+
+    def run(self, entity):
+        self.state -= self.rate
+        e = GenericEnemy(*self.pos)
+        r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
+        e.add(r)
+        s = script.Script([TimedSuicide(6)])
+        e.add(s)
+        locator.em.add(e)
+        locator.gm.add_to(e, 'bullet')
 
     def update(self, dt):
-        super().update(dt)
         self.state += dt
-        while self.state > self.rate:
-            e = Enemy(GAME_AREA.right + 30, 400, self.player)
-            e.dest = Vector(GAME_AREA.left - 30, 300)
-            self.enemies.add(e)
-            self.state -= self.rate
-        temp = []
-        for e in self.enemies:
-            if e.right < GAME_AREA.left:
-                e.delete()
-            else:
-                temp.append(e)
-        self.enemies.enemies = temp
+
+
+# TODO generalize this too
+class TimedSuicide(script.ConditionUnit):
+
+    def __init__(self, time):
+        self.time = 0
+        self.limit = time
+        self.expire = True
+
+    @property
+    def satisfied(self):
+        if self.time > self.limit:
+            return True
+        else:
+            return False
+
+    def run(self, entity):
+        locator.em.delete(entity)
+
+    def update(self, dt):
+        self.state += dt

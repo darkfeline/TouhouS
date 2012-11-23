@@ -1,5 +1,7 @@
 import logging
 
+from pyglet.window import key
+
 from gensokyo import locator
 from gensokyo import scene
 from gensokyo import globals
@@ -48,10 +50,13 @@ class MenuScene(scene.Scene):
 
 class MenuGraphics(graphics.Graphics):
 
-    _map = ('bg', 'text')
+    map = ('bg', 'text')
 
 
 class MenuInput(observer.Input):
 
     def on_key_press(self, symbol, modifiers):
-        locator.scene.start()
+        if symbol == key.ESCAPE:
+            locator.scene_stack.pop()
+        else:
+            locator.scene.start()

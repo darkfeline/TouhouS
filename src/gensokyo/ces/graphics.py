@@ -26,8 +26,8 @@ class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
     def __init__(self):
         super().__init__()
         self.batch = Batch()
-        o = (OrderedGroup(i) for i in range(len(self.map)))
-        self.groups = dict((self.map[i], o[i]) for i in range(len(self.map)))
+        self.groups = dict(
+            (self.map[i], OrderedGroup(i)) for i in range(len(self.map)))
         self.labels = set()
 
     def on_draw(self):

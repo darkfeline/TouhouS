@@ -23,7 +23,7 @@ class UILabel(ces.Entity):
     sprite_group = 'ui_element'
 
     def __init__(self, *args, **kwargs):
-        super.__init__()
+        super().__init__()
         self.add(graphics.Label(self.sprite_group, *args, **kwargs))
 
 
@@ -33,7 +33,7 @@ class UILabel(ces.Entity):
 class FPSDisplay(UILabel):
 
     def __init__(self, x, y):
-        super.__init__(x=x, y=y, anchor_x='left', anchor_y='bottom',
+        super().__init__(x=x, y=y, anchor_x='left', anchor_y='bottom',
                        font_size=10, color=(255, 255, 255, 255))
 
 
@@ -72,6 +72,7 @@ class TextCounter(Counter):
 
     def __init__(self, x, y, title, value=0, width=190):
 
+        super().__init__()
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
@@ -98,10 +99,12 @@ class IconCounter(Counter):
 
     def __init__(self, x, y, title, value=0, width=190):
 
+        super().__init__()
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self.title = graphics.Label(x=x, y=y, anchor_x='left', **kwargs)
+        self.title = graphics.Label(
+            self.sprite_group, x=x, y=y, anchor_x='left', **kwargs)
         self.add(title)
 
         self.icons = []

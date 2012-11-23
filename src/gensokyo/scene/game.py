@@ -46,7 +46,8 @@ class GameScene(scene.Scene):
 
         # Entities
         # UI image
-        bg = ces.Wrapper(graphics.Sprite('ui', self.ui_image))
+        bg = ces.Entity()
+        bg.add(graphics.Sprite('ui', self.ui_image))
         self.em.add(bg)
         # FPS
         fps = ui.FPSDisplay(570, 2)
@@ -74,5 +75,5 @@ class GameScene(scene.Scene):
 
 class GameGraphics(graphics.Graphics):
 
-    _map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
+    map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
             'enemy_bullet', 'ui', 'ui_element')

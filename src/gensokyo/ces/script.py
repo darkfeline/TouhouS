@@ -68,6 +68,11 @@ class Script(ces.Component):
     """
 
     def __init__(self, units):
+        """
+        :param units: scripting units
+        :type units: list
+
+        """
         self.units = units
 
 

@@ -82,7 +82,7 @@ class GenericEnemy(Enemy):
 
         super().__init__(x, y)
 
-        s = script.Script((LoopFireAtPlayer((x, y), 0.5),))
+        s = script.Script([LoopFireAtPlayer((x, y), 0.5)])
         self.add(s)
 
 

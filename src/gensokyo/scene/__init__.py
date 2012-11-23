@@ -42,4 +42,5 @@ class Scene:
         self.tm = manager.TagManager()
 
     def delete(self):
+        self.em.delete()
         self.sm.delete()

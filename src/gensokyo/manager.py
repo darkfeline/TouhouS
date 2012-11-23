@@ -18,10 +18,14 @@ class EntityManager:
     def __iter__(self):
         return iter(self.entities)
 
-    def delete(self, entity):
-        self.entities.remove(entity)
-        for a in entity.get(ces.Component):
-            entity.delete(a)
+    def delete(self, entity=None):
+        if entity:
+            self.entities.remove(entity)
+            for a in entity.get(ces.Component):
+                entity.delete(a)
+        else:
+            for entity in list(self.entities):
+                self.delete(entity)
 
     def get_with(self, types):
         """

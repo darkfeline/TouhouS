@@ -5,7 +5,9 @@ from gensokyo.ces import graphics
 from gensokyo.ces import player
 from gensokyo.ces import ui
 from gensokyo.ces import game
+from gensokyo.ces import observer
 from gensokyo import resources
+from gensokyo import locator
 
 
 class GameScene(scene.Scene):
@@ -15,9 +17,25 @@ class GameScene(scene.Scene):
     ui_image = resources.ui_image
 
     def __init__(self):
+
         super().__init__()
-        self.sm.add(GameGraphics())
+
+        g = GameGraphics()
+        self.sm.add(g)
+        locator.broadcast.open('graphics', g)
         self.sm.add(ui.FPSSystem())
+
+        self.blockers = []
+        for b in (observer.InputBlocker, observer.DrawBlocker,
+                  observer.UpdateBLocker):
+            b = b()
+            self.blockers.append(b)
+
+    def delete(self):
+        super().delete()
+        locator.broadcast.close('graphics')
+        for b in self.blockers:
+            b.delete()
 
     def init(self):
 

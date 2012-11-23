@@ -29,17 +29,24 @@ logger = logging.getLogger(__name__)
 # Now that logger is up, import stuff
 from gensokyo import locator
 from gensokyo import clock
+from gensokyo import event
 from gensokyo.scene import SceneStack
-from gensokyo import resources
-from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo.scene import main_menu
+from gensokyo.globals import WIDTH, HEIGHT, FPS
+from gensokyo import resources
+
+# broadcast
+logger.info("Initializing broadcast...")
+broadcast = event.Broadcast()
+locator.broadcast = broadcast
 
 # window
 logger.info("Initializing window...")
 window = pyglet.window.Window(WIDTH, HEIGHT)
+broadcast.open('window', window)
+
 window.set_caption('TouhouS')
 window.set_icon(resources.icon16, resources.icon32)
-locator.window = window
 
 # Transparency
 logger.info("Set transparency...")
@@ -58,10 +65,10 @@ window.push_handlers(keys)
 locator.key_state = keys
 
 # clock
-logger.info("Setting clock...")
+logger.info("Initializing clock...")
 pyglet.clock.set_fps_limit(FPS)
 clock = clock.Clock()
-locator.clock = clock
+broadcast.open('clock', clock)
 
 logger.info("Pushing menu onto stack...")
 locator.scene_stack.push(main_menu.MenuScene())

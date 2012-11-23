@@ -2,29 +2,71 @@ import abc
 
 from pyglet.event import EVENT_HANDLED
 
-from gensokyo import ces
 from gensokyo import locator
+
+"""
+Defines event observer/listener superclasses.  Subclass to implement
+functionality.
+
+Observer subclasses define the ``channels`` attribute for which channels it
+needs to listen to.  Refer to gensokyo.event for details about channels.
+
+Make sure to properly delete afterward.
+
+This module also defines blockers that block events from propagating to lower
+handlers.  Simply instantiating them is fine.  Make sure to hold onto a
+reference so you can properly delete them.  Generally this will be done at the
+Scene level.
+
+"""
 
 
 class Observer:
 
-    __meta__ = abc.ABCMeta
+    """
+    Set the channels to listen to.
 
-    def delete(self, *args, **kwargs):
+    """
+
+    __meta__ = abc.ABCMeta
+    channels = set()
+
+    @classmethod
+    def expand_channels(cls):
+        l = set()
+        for class_ in cls.__mro__:
+            if isinstance(class_, Observer):
+                l += class_.channels
+        return l
+
+    def __init__(self, *args, **kwargs):
+        for chan in self.expand_channels():
+            locator.broadcast[chan].push_handlers(self)
+
+    def delete(self):
+        for chan in self.expand_channels():
+            locator.broadcast[chan].remove_handlers(self)
+
+
+class Drawing(Observer):
+
+    __meta__ = abc.ABCMeta
+    channels = set('window')
+
+    def on_draw(self):
         pass
+
+
+class DrawBlocker(Drawing):
+
+    def on_draw(self):
+        return EVENT_HANDLED
 
 
 class Input(Observer):
 
     __meta__ = abc.ABCMeta
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        locator.window.push_handlers(self)
-
-    def delete(self, *args, **kwargs):
-        super().delete(self, *args, **kwargs)
-        locator.window.remove_handlers(self)
+    channels = set('window')
 
     def on_key_press(self, symbol, modifiers):
         pass
@@ -33,7 +75,7 @@ class Input(Observer):
         pass
 
 
-class InputBlocker(ces.System, Input):
+class InputBlocker(Input):
 
     def on_key_press(self, symbol, modifiers):
         return EVENT_HANDLED
@@ -45,20 +87,13 @@ class InputBlocker(ces.System, Input):
 class Updating(Observer):
 
     __meta__ = abc.ABCMeta
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        locator.clock.push_handlers(self)
-
-    def delete(self, *args, **kwargs):
-        super().delete(self, *args, **kwargs)
-        locator.clock.remove_handlers(self)
+    channels = set('clock')
 
     def on_update(self, dt):
         pass
 
 
-class UpdateBlocker(ces.System, Updating):
+class UpdateBlocker(Updating):
 
     def on_update(self, dt):
         return EVENT_HANDLED

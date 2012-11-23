@@ -13,10 +13,9 @@ import sys
 class ServiceLocator:
 
     def __init__(self):
-        self.window = None
         self.key_state = None
         self.scene_stack = None
-        self.clock = None
+        self.broadcast = None
 
     @property
     def scene(self):

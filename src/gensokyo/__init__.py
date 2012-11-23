@@ -28,22 +28,4 @@ Design Hierarchy
                     * System
             * View
 
-Update Hierarchy
-################
-
-* Update
-    * SceneStack
-        * Scene
-            * Model
-                * SystemManager
-                    * System
-
-on_draw Hierarchy
-#################
-
-* on_draw
-    * SceneStack
-        * Scene
-            * View
-
 """

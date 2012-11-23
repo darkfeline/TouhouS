@@ -14,7 +14,9 @@ class MenuScene(scene.Scene):
 
     def __init__(self):
         super().__init__()
-        self.sm.add(MenuGraphics())
+        g = MenuGraphics()
+        self.sm.add(g)
+        locator.broadcast.open('graphics', g)
         self.sm.add(MenuInput())
 
     def init(self):

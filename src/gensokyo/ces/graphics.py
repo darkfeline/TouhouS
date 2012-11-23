@@ -3,36 +3,38 @@ import logging
 from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
-from pyglet.event import EVENT_HANDLED
 from pyglet import sprite, text
+from pyglet import event
 
 from gensokyo import locator
 from gensokyo import ces
+from gensokyo.ces import observer
 
 logger = logging.getLogger(__name__)
 
 
-class Graphics(ces.System):
+class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
+
+    """
+    Make sure to open the ``'graphics'`` channel with this when you
+    instantiate
+
+    """
 
     map = tuple()
 
     def __init__(self):
+        super().__init__()
         self.batch = Batch()
         o = (OrderedGroup(i) for i in range(len(self.map)))
         self.groups = dict((self.map[i], o[i]) for i in range(len(self.map)))
         self.labels = set()
-        locator.window.push_handlers(self)
-
-    def delete(self):
-        locator.window.remove_handlers(self)
 
     def on_draw(self):
         self.draw()
-        return EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
         self.add_sprite(sprite, group)
-        return EVENT_HANDLED
 
     def draw(self):
         self.batch.draw()
@@ -58,6 +60,8 @@ class Graphics(ces.System):
             return
         sprite.batch = self.batch
 
+Graphics.register_event_type('on_add_sprite')
+
 
 def _set_label_group(label, group):
     label.top_group = TextLayoutGroup(group)
@@ -74,7 +78,8 @@ class GraphicsObject(ces.Position):
             constructor, group, args, kwargs))
         self.sprite = constructor(*args, **kwargs)
         self.group = group
-        locator.sm.dispatch_event('on_add_sprite', self.sprite, group)
+        locator.broadcast['graphics'].dispatch_event(
+            'on_add_sprite', self.sprite, group)
 
     @property
     def pos(self):

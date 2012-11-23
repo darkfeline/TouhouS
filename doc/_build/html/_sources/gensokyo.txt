@@ -9,6 +9,14 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`clock` Module
+-------------------
+
+.. automodule:: gensokyo.clock
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`globals` Module
 ---------------------
 

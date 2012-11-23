@@ -1,112 +1,90 @@
+"""
+Scripting module
+
+Provides stuff for versatile scripting.
+
+Units
+*****
+
+The basic data structure is a *scripting unit*.  Scripting units are tuples
+containing *condition units*.  Condition units are also tuples like so::
+
+    (if, then, then, ...)
+
+``if`` is a function that returns Boolean.  It is followed by any number of
+functions (``then`` in the above example) which are called if the ``if`` is
+``True``.  If ``then`` returns a scripting unit, it will be added to the
+Script's list of active units.  Otherwise, ``then`` should return ``None``.  If
+it returns a list of scripting units, all of them will be added.  Newly added
+units will not be run until the next loop.
+
+If ``then`` is the constant ``EXPIRE``, the scripting unit will be expired.
+This is immediate, so make sure it is the last item in its condition unit.
+
+``if`` and ``then`` are passed their entity as their first argument.
+
+``if`` and ``then`` are example names; please do not use them (``if`` is a
+Python keyword).
+
+Scripts and ScriptSystem
+************************
+
+Script instances have a list of currently active scripting units.
+
+Entities can have multiple Scripts, but there is generally no need, except to
+split responsibilities, possibly.
+
+ScriptSystem instances iterate over Script objects and iterate over their
+active scripting units every update loop.  Scripting units function like
+datafied if/elses::
+
+    (
+        (if, then_do_this, and_this),
+        (else_if, do_this)
+    )
+
+The conditions in each scripting unit are exclusive, evaluated in order.
+
+.. data:: EXPIRE
+
+"""
+
 from gensokyo import ces
 from gensokyo import locator
-from gensokyo.ces.bullet import BulletOrigin
+
+EXPIRE = 'expire'
 
 
 class Script(ces.Component):
 
-    def __init__(self, script):
-        self.script = script
-        self.step = 0
-        self.sleep = 0
+    """
+    .. attribute:: units
+
+    """
+
+    def __init__(self, units):
+        self.units = units
 
 
 class ScriptSystem(ces.System):
 
     req_components = (Script,)
-    callable_methods = set()
-
-    def goto(self, entity, script, step=0):
-        """
-        :param entity: entity passed to call
-        :type entity: Entity
-        :param script: Script component passed to call
-        :type script: Script
-        :param step: index in script to jump to
-        :type step: int
-
-        """
-        script.step = step - 1  # account for automated step in update()
-    callable_methods.add(goto)
-
-    def sleep(self, entity, script, time):
-        """
-        :param entity: entity passed to call
-        :type entity: Entity
-        :param script: Script component passed to call
-        :type script: Script
-        :param time: time to sleep in seconds
-        :type time: int
-
-        """
-        script.sleep = time
-    callable_methods.add(sleep)
-
-    def die(self, entity, script):
-        """
-        :param entity: entity passed to call
-        :type entity: Entity
-        :param script: Script component passed to call
-        :type script: Script
-
-        """
-        locator.em.delete(entity)
-    callable_methods.add(die)
-
-    def fire(self, entity, script, bullet, pos):
-        """
-        :param entity: entity passed to call
-        :type entity: Entity
-        :param script: Script component passed to call
-        :type script: Script
-        :param bullet: Bullet constructor
-        :type bullet: callable returning Bullet
-        :param pos: bullet origin
-        :type pos: tuple or BulletOrigin
-
-        """
-        if isinstance(pos, BulletOrigin):
-            x, y = pos.x, pos.y
-        else:
-            assert len(pos) == 2
-            x, y = pos
-        b = bullet(x, y)
-        locator.em.add(b)
-        locator.gm.add_to('bullet', b)
-    callable_methods.add(fire)
-
-    def call(self, entity, script, method_name, *args, **kwargs):
-
-        """
-        Call method with given name and pass it the given entity
-
-        Valid methods for such calling have the type signature::
-
-            method_name(self, entity, script, *args, **kwargs)
-
-        `*args` and `**kwargs` are optional depending on method.
-
-        :param entity: entity passed to call
-        :type entity: Entity
-        :param script: Script component passed to call
-        :type script: Script
-        :param method_name: name of method
-        :type method_name: str
-
-        """
-
-        m = getattr(self, method_name)
-        if m in self.callable_methods:
-            return m(self, entity, script, *args, **kwargs)
-        else:
-            raise TypeError(method_name + " is not a callable method")
 
     def update(self, dt):
         for entity in locator.em.get_with(self.req_components):
-            for script in entity.get(Script):
-                if script.sleep > 0:
-                    script.sleep -= dt
-                else:
-                    if script.step < len(script.script):
-                        self.call(entity, script, *script.script[script.step])
-                        script.step += 1
+            for script in entity.get(self.req_components[0]):
+                for unit in list(script.units):
+                    for cond in unit:
+                        test, run = cond[0], cond[1:]
+                        if test(entity):
+                            for f in run:
+                                if f == EXPIRE:
+                                    script.units.remove(unit)
+                                else:
+                                    r = f(entity)
+                                    if r:
+                                        try:
+                                            script.units.extend(r)
+                                        except TypeError:
+                                            assert isinstance(r, tuple)
+                                            script.units.append(r)

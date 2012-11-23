@@ -43,7 +43,7 @@ class LoopSpawnEnemy(script.ConditionUnit):
         s = script.Script([TimedSuicide(6)])
         e.add(s)
         locator.em.add(e)
-        locator.gm.add_to(e, 'bullet')
+        locator.gm.add_to(e, 'enemy')
 
     def update(self, dt):
         self.state += dt

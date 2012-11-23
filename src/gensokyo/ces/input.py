@@ -1,5 +1,7 @@
 import abc
 
+from pyglet.event import EVENT_HANDLED
+
 from gensokyo import ces
 from gensokyo import locator
 
@@ -19,3 +21,12 @@ class BaseInput(ces.System):
 
     def on_key_release(self, symbol, modifiers):
         pass
+
+
+class InputBlocker(BaseInput):
+
+    def on_key_press(self, symbol, modifiers):
+        return EVENT_HANDLED
+
+    def on_key_release(self, symbol, modifiers):
+        return EVENT_HANDLED

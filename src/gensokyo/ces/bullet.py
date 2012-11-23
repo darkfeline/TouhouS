@@ -88,6 +88,7 @@ class BulletGenerator:
 # TODO probably move this too
 class EnemyBullet(Bullet):
 
+    __meta__ = abc.ABCMeta
     sprite_group = 'enemy_bullet'
 
 

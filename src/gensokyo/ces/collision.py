@@ -1,3 +1,5 @@
+import abc
+
 from gensokyo import primitives
 from gensokyo import locator
 from gensokyo import ces
@@ -9,36 +11,23 @@ class Hitbox(ces.Position):
         self.hb = hb.copy()
 
     @property
-    def x(self):
+    def pos(self):
         if isinstance(self.hb, primitives.Circle):
-            return self.hb.x
+            return self.hb.x, self.hb.y
         elif isinstance(self.hb, primitives.Rect):
-            return self.hb.centerx
+            return self.hb.center
 
-    @x.setter
-    def x(self, value):
+    @pos.setter
+    def pos(self, value):
         if isinstance(self.hb, primitives.Circle):
-            self.hb.x = value
+            self.hb.x, self.hb.y = value
         elif isinstance(self.hb, primitives.Rect):
-            self.hb.centerx = value
-
-    @property
-    def y(self):
-        if isinstance(self.hb, primitives.Circle):
-            return self.hb.y
-        elif isinstance(self.hb, primitives.Rect):
-            return self.hb.centery
-
-    @y.setter
-    def y(self, value):
-        if isinstance(self.hb, primitives.Circle):
-            self.hb.y = value
-        elif isinstance(self.hb, primitives.Rect):
-            self.hb.centery = value
+            self.hb.center = value
 
 
 class CollisionSystem(ces.System):
 
+    __meta__ = abc.ABCMeta
     req_components = (Hitbox,)
 
     def update(self, dt):
@@ -57,15 +46,11 @@ class CollisionSystem(ces.System):
                         if _collide(hb1, hb2):
                             collided.append((e1, e2))
         for a in collided:
-            locator.sm.dispatch_event('on_collide', a)
+            self.handle(*a)
 
-
-class GameCollisionSystem(CollisionSystem):
-
-    def on_collide(self, entities):
-        e1, e2 = entities
-        # TODO player + enemy bullet
-        # TODO enemy + player bullet
+    @abc.abstractclassmethod
+    def handle(a, b):
+        raise NotImplementedError
 
 
 def _collide(hb1, hb2):

@@ -77,23 +77,12 @@ class GraphicsObject(ces.Position):
         locator.sm.dispatch_event('on_add_sprite', self.sprite, group)
 
     @property
-    def x(self):
-        return self.sprite.x
+    def pos(self):
+        return (self.sprite.x, self.sprite.y)
 
-    @x.setter
-    def x(self, value):
-        self.sprite.x = value
-
-    @property
-    def y(self):
-        return self.sprite.y
-
-    @y.setter
-    def y(self, value):
-        self.sprite.y = value
-
-    def delete(self):
-        self.sprite.delete()
+    @pos.setter
+    def pos(self, value):
+        self.sprite.x, self.sprite.y = value
 
 
 class Sprite(GraphicsObject):

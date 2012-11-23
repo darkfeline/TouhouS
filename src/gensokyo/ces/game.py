@@ -1,4 +1,5 @@
 from gensokyo import ces
+from gensokyo.ces import collision
 
 
 class Game(ces.Entity):
@@ -25,3 +26,11 @@ class GameData(ces.Component):
         self.score = value
         if value > self.high_score:
             self.high_score = value
+
+
+class GameCollisionSystem(collision.CollisionSystem):
+
+    def handle(self, a, b):
+        # TODO player + enemy bullet
+        # TODO enemy + player bullet
+        pass

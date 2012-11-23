@@ -25,7 +25,7 @@ class PlayerState(ces.Component):
         self.move_state = Vector(0, 0)
 
 
-class BulletGen(ces.Component):
+class BulletGen(ces.Position):
 
     shot_rate = 20
 

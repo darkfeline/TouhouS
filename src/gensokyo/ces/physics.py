@@ -1,3 +1,10 @@
+"""
+Physics module
+
+"""
+
+import abc
+
 from gensokyo import ces
 from gensokyo import primitives
 from gensokyo import locator
@@ -6,11 +13,11 @@ from gensokyo import locator
 class Physics(ces.Component):
 
     """
-    Physics component.
+    Physics component.  Each Entity should only have one.
 
-    .. attribute: vel
+    .. attribute:: vel
         velocity
-    .. attribute: acc
+    .. attribute:: acc
         acceleration
 
     """
@@ -24,20 +31,20 @@ class Physics(ces.Component):
             raise TypeError
         self.acc = primitives.Vector(0, 0)
 
-    @property
-    def speed(self):
-        return self.vel.length
+
+class PhysicsPosition(ces.Position):
+
+    __meta__ = abc.ABCMeta
 
 
 class PhysicsSystem(ces.System):
 
-    req_components = (Physics, ces.Position)
+    req_components = (Physics, PhysicsPosition)
 
     def update(self, dt):
         for entity in locator.em.get_with(self.req_components):
             phys, pos = entity.get(self.req_components)
             for phy in phys:
                 for p in pos:
-                    p.x += phy.vel.x
-                    p.y += phy.vel.y
+                    p.pos = tuple(p.pos[i] + phy.vel[i] for i in [0, 1])
                 phy.vel += phy.acc

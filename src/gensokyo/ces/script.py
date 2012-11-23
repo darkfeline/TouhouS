@@ -26,8 +26,8 @@ Scripts and ScriptSystem
 
 Script instances have a list of currently active scripting units.
 
-Entities can have multiple Scripts, but there is generally no need, except to
-split responsibilities, possibly.
+Entities can have multiple Scripts!  Functionally there is no need, but it is
+damn useful.  Use it where it makes sense.
 
 ScriptSystem instances iterate over Script objects and iterate over their
 active scripting units every update loop.  Scripting units function like

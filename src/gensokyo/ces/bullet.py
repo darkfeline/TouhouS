@@ -29,11 +29,11 @@ class Bullet(ces.Entity):
 
         super().__init__()
 
-        hb = PhysicsHitbox(self.hitbox)
+        hb = BulletHitbox(self.hitbox)
         hb.pos = x, y
         self.add(hb)
 
-        s = PhysicsSprite(self.sprite_group, self.sprite_img, x=x, y=y)
+        s = BulletSprite(self.sprite_group, self.sprite_img, x=x, y=y)
         self.add(s)
 
         v = physics.Physics(velocity)
@@ -42,19 +42,19 @@ class Bullet(ces.Entity):
         r = primitives.Rect(
             0, 0, self.sprite_img.width, self.sprite_img.height)
         r.center = x, y
-        p = PhysicsPresence(r)
+        p = BulletPresence(r)
         self.add(p)
 
 
-class PhysicsHitbox(collision.Hitbox, physics.PhysicsPosition):
+class BulletHitbox(collision.Hitbox, physics.PhysicsPosition):
     pass
 
 
-class PhysicsSprite(graphics.Sprite, physics.PhysicsPosition):
+class BulletSprite(graphics.Sprite, physics.PhysicsPosition):
     pass
 
 
-class PhysicsPresence(gc.Presence, physics.PhysicsPosition):
+class BulletPresence(gc.Presence, physics.PhysicsPosition):
     pass
 
 

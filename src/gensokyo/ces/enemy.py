@@ -37,8 +37,9 @@ class Enemy(ces.Entity):
 
         super().__init__()
 
-        hb = EnemyHitbox(self.hitbox)
-        hb.x, hb.y = x, y
+        hb = self.hb.copy()
+        hb.pos = x, y
+        hb = EnemyHitbox(hb)
         self.add(hb)
 
         s = EnemySprite(self.sprite_group, self.sprite_img, x=x, y=y)

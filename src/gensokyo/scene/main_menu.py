@@ -13,11 +13,25 @@ logger = logging.getLogger(__name__)
 class MenuScene(scene.Scene):
 
     def __init__(self):
+
         super().__init__()
+
+        self.blockers = []
+        for b in (observer.InputBlocker, observer.DrawBlocker,
+                  observer.UpdateBlocker):
+            b = b()
+            self.blockers.append(b)
+
         g = MenuGraphics()
         self.sm.add(g)
         locator.broadcast.open('graphics', g)
         self.sm.add(MenuInput())
+
+    def delete(self):
+        super().delete()
+        locator.broadcast.close('graphics')
+        for b in self.blockers:
+            b.delete()
 
     def init(self):
         logger.info("Initializing MenuScene...")

@@ -20,16 +20,16 @@ class GameScene(scene.Scene):
 
         super().__init__()
 
+        self.blockers = []
+        for b in (observer.InputBlocker, observer.DrawBlocker,
+                  observer.UpdateBlocker):
+            b = b()
+            self.blockers.append(b)
+
         g = GameGraphics()
         self.sm.add(g)
         locator.broadcast.open('graphics', g)
         self.sm.add(ui.FPSSystem())
-
-        self.blockers = []
-        for b in (observer.InputBlocker, observer.DrawBlocker,
-                  observer.UpdateBLocker):
-            b = b()
-            self.blockers.append(b)
 
     def delete(self):
         super().delete()

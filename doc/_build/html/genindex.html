@@ -68,8 +68,6 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
- | <a href="#X"><strong>X</strong></a>
- | <a href="#Y"><strong>Y</strong></a>
  
 </div>
 <h2 id="B">B</h2>
@@ -121,20 +119,12 @@
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.BulletGen">BulletGen (class in gensokyo.ces.player)</a>
   </dt>
 
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.bullet.BulletOrigin">BulletOrigin (class in gensokyo.ces.bullet)</a>
-  </dt>
-
   </dl></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.callable_methods">callable_methods (gensokyo.ces.script.ScriptSystem attribute)</a>
-  </dt>
-
       
   <dt><a href="gensokyo.html#gensokyo.resources.centered_image">centered_image() (in module gensokyo.resources)</a>
   </dt>
@@ -251,6 +241,10 @@
   <dt><a href="gensokyo.html#gensokyo.manager.SystemManager.event_types">event_types (gensokyo.manager.SystemManager attribute)</a>
   </dt>
 
+      
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.EXPIRE">EXPIRE (in module gensokyo.ces.script)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -286,11 +280,11 @@
   </dt>
 
       
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.GameCollisionSystem">GameCollisionSystem (class in gensokyo.ces.collision)</a>
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.game.GameCollisionSystem">GameCollisionSystem (class in gensokyo.ces.game)</a>
   </dt>
 
       
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.GameCollisionSystem.on_collide">GameCollisionSystem.on_collide() (in module gensokyo.ces.collision)</a>
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.game.GameCollisionSystem.handle">GameCollisionSystem.handle() (in module gensokyo.ces.game)</a>
   </dt>
 
       
@@ -369,12 +363,12 @@
   <dt><a href="gensokyo.ces.html#module-gensokyo.ces.player">gensokyo.ces.player (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#module-gensokyo.ces.rails">gensokyo.ces.rails (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#module-gensokyo.ces.script">gensokyo.ces.script (module)</a>
   </dt>
@@ -448,10 +442,6 @@
   </dt>
 
       
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.graphics.GraphicsObject.delete">GraphicsObject.delete() (in module gensokyo.ces.graphics)</a>
-  </dt>
-
-      
   <dt><a href="gensokyo.html#gensokyo.manager.GroupManager">GroupManager (class in gensokyo.manager)</a>
   </dt>
 
@@ -470,6 +460,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.CollisionSystem.handle">handle() (gensokyo.ces.collision.CollisionSystem class method)</a>
+  </dt>
+
+      
   <dt><a href="gensokyo.ces.html#gensokyo.ces.enemy.Enemy.hb">hb (gensokyo.ces.enemy.Enemy attribute)</a>
   </dt>
 
@@ -487,6 +481,8 @@
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.Player.hb_sprite_group">hb_sprite_group (gensokyo.ces.player.Player attribute)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.Player.hb_sprite_img">hb_sprite_img (gensokyo.ces.player.Player attribute)</a>
   </dt>
@@ -497,8 +493,6 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.Hitbox">Hitbox (class in gensokyo.ces.collision)</a>
   </dt>
@@ -616,6 +610,22 @@
   </dt>
 
       
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.bullet.PhysicsHitbox">PhysicsHitbox (class in gensokyo.ces.bullet)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.physics.PhysicsPosition">PhysicsPosition (class in gensokyo.ces.physics)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.bullet.PhysicsPresence">PhysicsPresence (class in gensokyo.ces.bullet)</a>
+  </dt>
+
+      
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.bullet.PhysicsSprite">PhysicsSprite (class in gensokyo.ces.bullet)</a>
+  </dt>
+
+      
   <dt><a href="gensokyo.ces.html#gensokyo.ces.physics.PhysicsSystem">PhysicsSystem (class in gensokyo.ces.physics)</a>
   </dt>
 
@@ -643,12 +653,12 @@
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.PlayerBulletGenSystem.update">PlayerBulletGenSystem.update() (in module gensokyo.ces.player)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.PlayerInputSystem">PlayerInputSystem (class in gensokyo.ces.player)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.PlayerInputSystem.delete">PlayerInputSystem.delete() (in module gensokyo.ces.player)</a>
   </dt>
@@ -677,6 +687,24 @@
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.PlayerUpdateSystem.update">PlayerUpdateSystem.update() (in module gensokyo.ces.player)</a>
   </dt>
 
+      
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.Hitbox.pos">pos (gensokyo.ces.collision.Hitbox attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.Position.pos">(gensokyo.ces.Position attribute)</a>
+  </dt>
+
+        
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.gc.Presence.pos">(gensokyo.ces.gc.Presence attribute)</a>
+  </dt>
+
+        
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.graphics.GraphicsObject.pos">(gensokyo.ces.graphics.GraphicsObject attribute)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="gensokyo.ces.html#gensokyo.ces.Position">Position (class in gensokyo.ces)</a>
   </dt>
@@ -802,28 +830,6 @@
   </dt>
 
       
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.call">ScriptSystem.call() (in module gensokyo.ces.script)</a>
-  </dt>
-
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.die">ScriptSystem.die() (in module gensokyo.ces.script)</a>
-  </dt>
-
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.fire">ScriptSystem.fire() (in module gensokyo.ces.script)</a>
-  </dt>
-
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.goto">ScriptSystem.goto() (in module gensokyo.ces.script)</a>
-  </dt>
-
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.sleep">ScriptSystem.sleep() (in module gensokyo.ces.script)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
   <dt><a href="gensokyo.ces.html#gensokyo.ces.script.ScriptSystem.update">ScriptSystem.update() (in module gensokyo.ces.script)</a>
   </dt>
 
@@ -831,10 +837,8 @@
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.BulletGen.shot_rate">shot_rate (gensokyo.ces.player.BulletGen attribute)</a>
   </dt>
 
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.physics.Physics.speed">speed (gensokyo.ces.physics.Physics attribute)</a>
-  </dt>
-
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="gensokyo.ces.html#gensokyo.ces.player.PlayerState.speed_mult">speed_mult (gensokyo.ces.player.PlayerState attribute)</a>
   </dt>
@@ -973,10 +977,14 @@
   <dt><a href="gensokyo.scene.html#gensokyo.scene.game.GameScene.ui_image">ui_image (gensokyo.scene.game.GameScene attribute)</a>
   </dt>
 
+      
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.ui.UILabel">UILabel (class in gensokyo.ces.ui)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.ui.UILabel">UILabel (class in gensokyo.ces.ui)</a>
+  <dt><a href="gensokyo.ces.html#gensokyo.ces.script.Script.units">units (gensokyo.ces.script.Script attribute)</a>
   </dt>
 
   </dl></td>
@@ -995,54 +1003,6 @@
   <dt><a href="gensokyo.scene.html#gensokyo.scene.SceneStack.view">view (gensokyo.scene.SceneStack attribute)</a>
   </dt>
 
-  </dl></td>
-</tr></table>
-
-<h2 id="X">X</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.bullet.BulletOrigin.x">x (gensokyo.ces.bullet.BulletOrigin attribute)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.Position.x">(gensokyo.ces.Position attribute)</a>
-  </dt>
-
-        
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.Hitbox.x">(gensokyo.ces.collision.Hitbox attribute)</a>
-  </dt>
-
-        
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.graphics.GraphicsObject.x">(gensokyo.ces.graphics.GraphicsObject attribute)</a>
-  </dt>
-
-      </dl></dd>
-  </dl></td>
-</tr></table>
-
-<h2 id="Y">Y</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.bullet.BulletOrigin.y">y (gensokyo.ces.bullet.BulletOrigin attribute)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.Position.y">(gensokyo.ces.Position attribute)</a>
-  </dt>
-
-        
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.collision.Hitbox.y">(gensokyo.ces.collision.Hitbox attribute)</a>
-  </dt>
-
-        
-  <dt><a href="gensokyo.ces.html#gensokyo.ces.graphics.GraphicsObject.y">(gensokyo.ces.graphics.GraphicsObject attribute)</a>
-  </dt>
-
-      </dl></dd>
   </dl></td>
 </tr></table>
 

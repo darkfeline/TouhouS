@@ -69,10 +69,10 @@ def _set_label_group(label, group):
 
 class GraphicsObject(ces.Position):
 
-    def __init__(self, type, group, *args, **kwargs):
+    def __init__(self, constructor, group, *args, **kwargs):
         logger.debug('New GraphicsObject: {} {} {} {}'.format(
-            type, group, args, kwargs))
-        self.sprite = type(*args, **kwargs)
+            constructor, group, args, kwargs))
+        self.sprite = constructor(*args, **kwargs)
         self.group = group
         locator.sm.dispatch_event('on_add_sprite', self.sprite, group)
 

@@ -22,8 +22,9 @@ class GameScene(scene.Scene):
     def init(self):
 
         # Groups
-        self.gm.make_group('bullets')
-        self.gm.make_group('enemies')
+        self.gm.make_group('enemy_bullet')
+        self.gm.make_group('enemy')
+        self.gm.make_group('player_bullet')
 
         # Entities
         # UI image

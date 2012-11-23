@@ -109,7 +109,7 @@ class LoopFireAtPlayer(script.ConditionUnit, rails.RailPosition):
         v = dest - primitives.Vector(*self.pos)
         b = bullet.RoundBullet(*self.pos, vector=v)
         locator.em.add(b)
-        locator.gm.add_to(b, 'bullet')
+        locator.gm.add_to(b, 'enemy_bullet')
 
     def update(self, dt):
         self.state += dt

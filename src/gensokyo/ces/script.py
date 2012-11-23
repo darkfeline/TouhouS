@@ -26,6 +26,10 @@ This is immediate, so make sure it is the last item in its condition unit.
 ``if`` and ``then`` are example names; please do not use them (``if`` is a
 Python keyword).
 
+Scripting is functional; it evaluates only.  Thus, build the state checking
+into the functions (i.e., "currying").  If you need to store data, store it in
+the Script component.
+
 Scripts and ScriptSystem
 ************************
 

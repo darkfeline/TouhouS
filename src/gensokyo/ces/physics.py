@@ -10,6 +10,7 @@ from gensokyo import primitives
 from gensokyo import locator
 
 
+# TODO generalize this
 class Physics(ces.Component):
 
     """

@@ -10,6 +10,7 @@ from gensokyo import locator
 class Stage(ces.Entity):
 
     def __init__(self, script_):
+        super().__init__()
         s = script.Script(script_)
         self.add(s)
 
@@ -18,7 +19,7 @@ class Stage(ces.Entity):
 class StageOne(Stage):
 
     def __init__(self):
-        super().__init__(LoopSpawnEnemy(GAME_AREA.right + 30, 400))
+        super().__init__([(LoopSpawnEnemy(GAME_AREA.right + 30, 400),)])
 
 
 # TODO generalize looping

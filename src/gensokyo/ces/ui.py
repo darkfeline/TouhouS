@@ -65,6 +65,7 @@ class Counter(ces.Entity):
 
     @abc.abstractproperty
     def value(self):
+        raise NotImplementedError
 
 
 class TextCounter(Counter):
@@ -75,22 +76,23 @@ class TextCounter(Counter):
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self.title = graphics.Label(self.sprite_group, x=x, y=y,
+        self._title = graphics.Label(self.sprite_group, x=x, y=y,
                                     anchor_x='left', **kwargs)
-        self.add(self.title)
+        self.add(self._title)
         self.number = graphics.Label(self.sprite_group, x=x + width, y=y,
                                      anchor_x='right', **kwargs)
         self.add(self.number)
 
-        self.set_title(title)
+        self.title = title
+        self.value = value
 
     @property
     def title(self):
-        return self.title.text
+        return self._title.text
 
     @title.setter
     def title(self, value):
-        self.title.text = value
+        self._title.text = value
 
     @property
     def value(self):
@@ -112,24 +114,24 @@ class IconCounter(Counter):
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self.title = graphics.Label(
+        self._title = graphics.Label(
             self.sprite_group, x=x, y=y, anchor_x='left', **kwargs)
-        self.add(title)
+        self.add(self._title)
 
         self.icons = []
         self.width = width
-        self.set_title(title)
-        self.set_value(value)
+        self.title = title
+        self.value = value
         self.x = x
         self.y = y
 
     @property
     def title(self):
-        return self.title.text
+        return self._title.text
 
     @title.setter
     def title(self, value):
-        self.title.text = value
+        self._title.text = value
 
     @property
     def value(self):

@@ -30,6 +30,7 @@ class Bullet(ces.Entity):
     sprite_img = None
     sprite_group = None
     hitbox = None
+    dmg = 0
 
     def __init__(self, x, y, velocity):
 

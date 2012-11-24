@@ -99,9 +99,12 @@ class Position(Component):
 
     __meta__ = abc.ABCMeta
 
-    @abc.abstractproperty
-    def pos(self):
-        raise NotImplementedError
+    """
+    Position subclasses should have a ``pos`` attribute
+
+    .. attribute:: pos
+
+    """
 
 
 class System:

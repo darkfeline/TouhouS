@@ -146,8 +146,8 @@ class Player(ces.Entity, observer.Input):
         super().__init__()
 
         hb = self.hb.copy()
-        hb.pos = x, y
         hb = PlayerHitbox(hb)
+        hb.pos = x, y
         self.add(hb)
 
         s = PlayerSprite(self.sprite_group, self.sprite_img, x=x, y=y)
@@ -175,6 +175,7 @@ class LimitedLoopFiring(script.ConditionUnit, observer.Input, Shifter,
                         observer.Updating):
 
     def __init__(self, pos, rate, bullet):
+        super().__init__()
         self.pos = pos
         self.state = 0
         self.limit = 1 / rate
@@ -244,6 +245,6 @@ class Reimu(Player):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        f = FiringUnit((LimitedLoopFiring((x - 10, y), 20),
-                        LimitedLoopFiring((x + 10, y), 20)))
+        f = FiringUnit([(LimitedLoopFiring((x - 10, y), 20, ReimuShot),
+                        LimitedLoopFiring((x + 10, y), 20, ReimuShot))])
         self.add(f)

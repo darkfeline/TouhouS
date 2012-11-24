@@ -13,8 +13,16 @@ from gensokyo import locator
 # TODO move this and GrimReaper?
 class Life(ces.Component):
 
+    """
+    Can have multiple.  Entity dies when any of them hit 0.
+
+    """
+
     def __init__(self, life):
         self.life = life
+
+    def die(self, entity):
+        pass
 
 
 class Enemy(ces.Entity):
@@ -64,13 +72,10 @@ class GrimReaper(ces.System, observer.Updating):
 
     def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
-            data = entity.get(self.req_components[0])[0]
-            if data.life <= 0:
-                self.kill(entity)
-
-    @classmethod
-    def kill(enemy):
-        locator.em.delete(enemy)
+            life = entity.get(self.req_components[0])[0]
+            if life.life <= 0:
+                life.die(entity)
+                locator.em.delete(entity)
 
 
 # TODO move everything below

@@ -190,10 +190,10 @@ class LimitedLoopFiring(script.ConditionUnit, observer.Input, Shifter,
             return False
 
     def run(self, entity):
-        self.state -= self.rate
+        self.state -= self.limit
         b = self.bullet(*self.pos)
         locator.em.add(b)
-        locator.gm.add_to(b, 'player_bullet')
+        locator.gm.add_to('player_bullet', b)
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.Z:
@@ -221,10 +221,6 @@ class PlayerBullet(bullet.Bullet):
     __meta__ = abc.ABCMeta
     sprite_group = 'player_bullet'
 
-    @abc.abstractmethod
-    def __init__(self, x, y):
-        raise NotImplementedError
-
 
 class ReimuShot(PlayerBullet):
 
@@ -234,7 +230,7 @@ class ReimuShot(PlayerBullet):
     hitbox = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
 
     def __init__(self, x, y):
-        super().__init__(x, y, primitives.Vector((0, self.speed)))
+        super().__init__(x, y, primitives.Vector(0, self.speed))
 
 
 class Reimu(Player):

@@ -1,4 +1,5 @@
 from weakref import WeakValueDictionary
+from weakref import WeakSet
 import logging
 
 from gensokyo import ces
@@ -49,17 +50,17 @@ class EntityManager:
 class GroupManager:
 
     def __init__(self):
-        self.groups = WeakValueDictionary()
+        self.groups = {}
 
     def __getitem__(self, key):
         return self.groups[key]
 
     def make_group(self, key):
         if not key in self.groups.keys():
-            self.groups[key] = set()
+            self.groups[key] = WeakSet()
 
     def add_to(self, key, entity):
-        self.items[key].add(entity)
+        self.groups[key].add(entity)
 
 
 class TagManager:

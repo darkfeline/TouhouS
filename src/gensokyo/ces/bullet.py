@@ -49,8 +49,8 @@ class Bullet(ces.Entity):
         super().__init__()
 
         hb = self.hitbox.copy()
-        hb.pos = x, y
         hb = BulletHitbox(hb)
+        hb.pos = x, y
         self.add(hb)
 
         s = BulletSprite(self.sprite_group, self.sprite_img, x=x, y=y)

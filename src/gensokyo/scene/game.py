@@ -4,7 +4,6 @@ from gensokyo.ces import stage
 from gensokyo.ces import graphics
 from gensokyo.ces import player
 from gensokyo.ces import ui
-from gensokyo.ces import game
 from gensokyo.ces import observer
 from gensokyo import resources
 from gensokyo import locator
@@ -65,10 +64,6 @@ class GameScene(scene.Scene):
             counter = c(x, y, tit)
             self.em.add(counter)
             self.tm.tag(tag, counter)
-
-        # Game
-        game_ = game.Game()
-        self.tm.tag('game', game_)
 
         # TODO finish this
 

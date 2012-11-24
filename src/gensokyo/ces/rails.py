@@ -47,10 +47,9 @@ Designations
         and time.
 
     ('custom', param, time)
-        Designates a custom parametrization where ``param(t) == (0, 0)``.
-        Given a parametrization relative to the origin,  the parametrization is
-        shifted so its starting point is the ending position of the previous
-        step.
+        Designates a custom parametrization.  Given a parametrization relative
+        to the origin,  the parametrization is shifted so its starting point is
+        the ending position of the previous step.
 
 """
 

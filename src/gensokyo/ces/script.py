@@ -12,9 +12,9 @@ containing ConditionUnits.
 ConditionUnits have two main properties and one method.
 
 ``satisfied`` returns a Boolean.  ``run`` is a method which is called with the
-owning entity as an argument if ``satisfied`` is ``True``.  If ``then`` returns
+owning entity as an argument if ``satisfied`` is ``True``.  If ``run`` returns
 a scripting unit, it will be added to the Script's list of active units.
-Otherwise, ``then`` should return ``None``.  If it returns a list of scripting
+Otherwise, ``run`` should return ``None``.  If it returns a list of scripting
 units, all of them will be added.  Newly added units will not be run until the
 next loop.
 

@@ -54,9 +54,9 @@
 <dt id="gensokyo.scene.Scene">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.</tt><tt class="descname">Scene</tt><a class="headerlink" href="#gensokyo.scene.Scene" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.Scene.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.Scene.delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.Scene.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -70,14 +70,14 @@
 <tt class="descname">model</tt><a class="headerlink" href="#gensokyo.scene.SceneStack.model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.SceneStack.pop">
-<tt class="descname">pop</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.pop" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.pop" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.SceneStack.push">
-<tt class="descname">push</tt><big>(</big><em>self</em>, <em>scene</em><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.push" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">push</tt><big>(</big><em>scene</em><big>)</big><a class="headerlink" href="#gensokyo.scene.SceneStack.push" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -96,23 +96,39 @@
 <div class="section" id="module-gensokyo.scene.game">
 <span id="game-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">game</span></tt> Module<a class="headerlink" href="#module-gensokyo.scene.game" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="gensokyo.scene.game.GameCollisionSystem">
+<em class="property">class </em><tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">GameCollisionSystem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameCollisionSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.collision.CollisionSystem" title="gensokyo.ces.collision.CollisionSystem"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.collision.CollisionSystem</span></tt></a></p>
+<dl class="method">
+<dt id="gensokyo.scene.game.GameCollisionSystem.on_update">
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameCollisionSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="gensokyo.scene.game.GameGraphics">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">GameGraphics</tt><a class="headerlink" href="#gensokyo.scene.game.GameGraphics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.graphics.Graphics" title="gensokyo.ces.graphics.Graphics"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Graphics</span></tt></a></p>
+<dl class="attribute">
+<dt id="gensokyo.scene.game.GameGraphics.map">
+<tt class="descname">map</tt><em class="property"> = ('player', 'player_bullet', 'player_hb', 'enemy', 'item', 'enemy_bullet', 'ui', 'ui_element')</em><a class="headerlink" href="#gensokyo.scene.game.GameGraphics.map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="gensokyo.scene.game.GameScene">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">GameScene</tt><a class="headerlink" href="#gensokyo.scene.game.GameScene" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.scene.Scene" title="gensokyo.scene.Scene"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.scene.Scene</span></tt></a></p>
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.game.GameScene.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameScene.delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameScene.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.game.GameScene.init">
-<tt class="descname">init</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameScene.init" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">init</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.game.GameScene.init" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -134,6 +150,16 @@
 
 </dd></dl>
 
+<dl class="function">
+<dt id="gensokyo.scene.game.hit_life">
+<tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">hit_life</tt><big>(</big><em>entity</em>, <em>dmg</em><big>)</big><a class="headerlink" href="#gensokyo.scene.game.hit_life" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="gensokyo.scene.game.kill_player">
+<tt class="descclassname">gensokyo.scene.game.</tt><tt class="descname">kill_player</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.game.kill_player" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-gensokyo.scene.main_menu">
 <span id="main-menu-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">main_menu</span></tt> Module<a class="headerlink" href="#module-gensokyo.scene.main_menu" title="Permalink to this headline">¶</a></h2>
@@ -141,15 +167,20 @@
 <dt id="gensokyo.scene.main_menu.MenuGraphics">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.main_menu.</tt><tt class="descname">MenuGraphics</tt><a class="headerlink" href="#gensokyo.scene.main_menu.MenuGraphics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.graphics.Graphics" title="gensokyo.ces.graphics.Graphics"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Graphics</span></tt></a></p>
+<dl class="attribute">
+<dt id="gensokyo.scene.main_menu.MenuGraphics.map">
+<tt class="descname">map</tt><em class="property"> = ('bg', 'text')</em><a class="headerlink" href="#gensokyo.scene.main_menu.MenuGraphics.map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="gensokyo.scene.main_menu.MenuInput">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.main_menu.</tt><tt class="descname">MenuInput</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuInput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="gensokyo.ces.html#gensokyo.ces.observer.Input" title="gensokyo.ces.observer.Input"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Input</span></tt></a></p>
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.main_menu.MenuInput.on_key_press">
-<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuInput.on_key_press" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_key_press</tt><big>(</big><em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuInput.on_key_press" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -158,14 +189,19 @@
 <dt id="gensokyo.scene.main_menu.MenuScene">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.main_menu.</tt><tt class="descname">MenuScene</tt><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.scene.Scene" title="gensokyo.scene.Scene"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.scene.Scene</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.scene.main_menu.MenuScene.init">
-<tt class="descname">init</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.init" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="gensokyo.scene.main_menu.MenuScene.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
+<dt id="gensokyo.scene.main_menu.MenuScene.init">
+<tt class="descname">init</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="gensokyo.scene.main_menu.MenuScene.start">
-<tt class="descname">start</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.start" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">start</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.main_menu.MenuScene.start" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -183,9 +219,9 @@
 <dt id="gensokyo.scene.rail_test.RailTestScene">
 <em class="property">class </em><tt class="descclassname">gensokyo.scene.rail_test.</tt><tt class="descname">RailTestScene</tt><a class="headerlink" href="#gensokyo.scene.rail_test.RailTestScene" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.scene.Scene" title="gensokyo.scene.Scene"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.scene.Scene</span></tt></a></p>
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.scene.rail_test.RailTestScene.init">
-<tt class="descname">init</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.scene.rail_test.RailTestScene.init" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">init</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.scene.rail_test.RailTestScene.init" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

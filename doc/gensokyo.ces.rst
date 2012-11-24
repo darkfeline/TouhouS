@@ -33,14 +33,6 @@ ces Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`game` Module
-------------------
-
-.. automodule:: gensokyo.ces.game
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`gc` Module
 ----------------
 

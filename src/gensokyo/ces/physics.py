@@ -34,9 +34,8 @@ class Physics(ces.Component):
         self.acc = primitives.Vector(0, 0)
 
 
-class PhysicsPosition(ces.Position):
-
-    __meta__ = abc.ABCMeta
+class PhysicsPosition(ces.Position, metaclass=abc.ABCMeta):
+    pass
 
 
 class PhysicsSystem(ces.System, observer.Updating):

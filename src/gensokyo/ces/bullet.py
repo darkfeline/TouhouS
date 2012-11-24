@@ -24,9 +24,8 @@ from gensokyo.ces import gc
 from gensokyo import resources
 
 
-class Bullet(ces.Entity):
+class Bullet(ces.Entity, metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
     sprite_img = None
     sprite_group = None
     hitbox = None
@@ -78,9 +77,7 @@ class BulletPresence(gc.Presence, physics.PhysicsPosition):
     pass
 
 
-class BulletGenerator:
-
-    __meta__ = abc.ABCMeta
+class BulletGenerator(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def __call__(self, *args, **kwargs):
@@ -88,9 +85,8 @@ class BulletGenerator:
 
 
 # TODO probably move this too
-class EnemyBullet(Bullet):
+class EnemyBullet(Bullet, metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
     sprite_group = 'enemy_bullet'
 
 

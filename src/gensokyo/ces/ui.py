@@ -54,16 +54,17 @@ class FPSSystem(ces.System, observer.Updating):
 ###############################################################################
 # Counters
 ###############################################################################
-class Counter(ces.Entity):
+class Counter(ces.Entity, metaclass=abc.ABCMeta):
 
-    __metaclass__ = abc.ABCMeta
     sprite_group = 'ui_element'
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def title(self):
         raise NotImplementedError
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def value(self):
         raise NotImplementedError
 

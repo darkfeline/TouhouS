@@ -216,9 +216,8 @@ class PlayerSprite(graphics.Sprite, Shifter):
     pass
 
 
-class PlayerBullet(bullet.Bullet):
+class PlayerBullet(bullet.Bullet, metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
     sprite_group = 'player_bullet'
 
 

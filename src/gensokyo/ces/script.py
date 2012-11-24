@@ -44,11 +44,10 @@ from gensokyo.ces import observer
 from gensokyo import locator
 
 
-class ConditionUnit:
+class ConditionUnit(metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
-
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def satisfied(self):
         raise NotImplementedError
 

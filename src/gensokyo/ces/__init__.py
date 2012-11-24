@@ -10,7 +10,7 @@ entites which own components, and thus all logic are in systems.
 import abc
 
 
-class Component:
+class Component(metaclass=abc.ABCMeta):
 
     """
     Abstract Base Class for components
@@ -19,7 +19,7 @@ class Component:
 
     """
 
-    __metaclass__ = abc.ABCMeta
+    pass
 
 
 class Entity:
@@ -95,23 +95,28 @@ class Entity:
                          isinstance(component, types))
 
 
-class Position(Component):
-
-    __meta__ = abc.ABCMeta
+class Position(Component, metaclass=abc.ABCMeta):
 
     """
-    Position subclasses should have a ``pos`` attribute
-
-    .. attribute:: pos
+    Overwrite ``pos`` property if needed.  ``pos`` should be the position, a
+    tuple with the right dimensions.
 
     """
 
+    @property
+    def pos(self):
+        return self._pos
 
-class System:
+    @pos.setter
+    def pos(self, value):
+        self._pos = value
+
+
+class System(metaclass=abc.ABCMeta):
 
     """
     Superclass for Systems
 
     """
 
-    __metaclass__ = abc.ABCMeta
+    pass

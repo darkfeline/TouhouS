@@ -24,14 +24,13 @@ Scene level.
 logger = logging.getLogger(__name__)
 
 
-class Observer:
+class Observer(metaclass=abc.ABCMeta):
 
     """
     Set the channels to listen to.
 
     """
 
-    __meta__ = abc.ABCMeta
     channels = set()
 
     @classmethod
@@ -53,9 +52,8 @@ class Observer:
             locator.broadcast[chan].remove_handlers(self)
 
 
-class Drawing(Observer):
+class Drawing(Observer, metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
     channels = set(['window'])
 
     def on_draw(self):
@@ -68,9 +66,8 @@ class DrawBlocker(Drawing):
         return EVENT_HANDLED
 
 
-class Input(Observer):
+class Input(Observer, metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
     channels = set(['window'])
 
     def on_key_press(self, symbol, modifiers):
@@ -89,9 +86,8 @@ class InputBlocker(Input):
         return EVENT_HANDLED
 
 
-class Updating(Observer):
+class Updating(Observer, metaclass=abc.ABCMeta):
 
-    __meta__ = abc.ABCMeta
     channels = set(['clock'])
 
     def on_update(self, dt):

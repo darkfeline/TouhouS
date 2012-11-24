@@ -26,9 +26,7 @@ class Hitbox(ces.Position):
             self.hb.center = value
 
 
-class CollisionSystem(ces.System, observer.Updating):
-
-    __meta__ = abc.ABCMeta
+class CollisionSystem(ces.System, observer.Updating, metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def on_update(self, dt):

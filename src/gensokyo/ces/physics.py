@@ -4,11 +4,14 @@ Physics module
 """
 
 import abc
+import logging
 
 from gensokyo import ces
 from gensokyo.ces import observer
 from gensokyo import primitives
 from gensokyo import locator
+
+logger = logging.getLogger(__name__)
 
 
 # TODO generalize this

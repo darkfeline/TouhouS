@@ -1,4 +1,5 @@
 import abc
+import logging
 
 from pyglet.window import key
 
@@ -11,6 +12,8 @@ from gensokyo.ces import graphics
 from gensokyo.ces import collision
 from gensokyo.ces import observer
 from gensokyo import resources
+
+logger = logging.getLogger(__name__)
 
 
 class BaseShifter(ces.Position):
@@ -197,10 +200,12 @@ class LimitedLoopFiring(script.ConditionUnit, observer.Input, Shifter,
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.Z:
+            logger.debug("Z pressed")
             self.is_firing = True
 
     def on_key_release(self, symbol, modifiers):
         if symbol == key.Z:
+            logger.debug("Z released")
             self.is_firing = False
 
     def on_update(self, dt):

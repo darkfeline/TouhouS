@@ -13,6 +13,12 @@ from gensokyo.ces import observer
 logger = logging.getLogger(__name__)
 
 
+class ScreenClearer(ces.System, observer.Drawing):
+
+    def on_draw(self):
+        locator.window.clear()
+
+
 class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
 
     """

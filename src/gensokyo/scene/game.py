@@ -33,8 +33,9 @@ class GameScene(scene.Scene):
             self.blockers.append(b)
 
         g = GameGraphics()
-        self.sm.add(g)
         locator.broadcast.open('graphics', g)
+        self.sm.add(g)
+        self.sm.add(graphics.ScreenClearer())
         self.sm.add(ui.FPSSystem())
         self.sm.add(player.ShiftingSystem(globals.GAME_AREA))
         self.sm.add(player.ShieldDecay())

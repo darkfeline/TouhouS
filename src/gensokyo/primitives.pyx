@@ -318,6 +318,9 @@ cdef class Vector:
             raise NotImplemented
         return Vector(self.x * other, self.y * other)
 
+    def __str__(self):
+        return "Vector({}, {})".format(self.x, self.y)
+
     def copy(self):
         return self.__class__(self.x, self.y)
 

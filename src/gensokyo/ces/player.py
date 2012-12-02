@@ -229,7 +229,7 @@ class PlayerBullet(bullet.Bullet, metaclass=abc.ABCMeta):
 class ReimuShot(PlayerBullet):
 
     sprite_img = resources.player['reimu']['shot']
-    speed = 1500
+    speed = 50
     dmg = 20
     hitbox = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
 

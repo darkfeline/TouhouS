@@ -22,8 +22,6 @@ class Physics(ces.Component):
 
     .. attribute:: vel
         velocity
-    .. attribute:: acc
-        acceleration
 
     """
 
@@ -34,7 +32,6 @@ class Physics(ces.Component):
             self.vel = vel
         else:
             raise TypeError
-        self.acc = primitives.Vector(0, 0)
 
 
 class PhysicsPosition(ces.Position, metaclass=abc.ABCMeta):
@@ -47,8 +44,9 @@ class PhysicsSystem(ces.System, observer.Updating):
 
     def on_update(self, dt):
         for entity in locator.em.get_with(self.req_components):
-            phys, pos = entity.get(self.req_components)
-            for phy in phys:
-                for p in pos:
-                    p.pos = tuple(p.pos[i] + phy.vel[i] for i in [0, 1])
-                phy.vel += phy.acc
+            physics, pos = entity.get(self.req_components)
+            physics = physics[0]
+            logger.debug("Moving Entity {}".format(entity))
+            logger.debug("Physics {!s}".format(physics.vel))
+            for p in pos:
+                p.pos = tuple(p.pos[i] + physics.vel[i] for i in [0, 1])

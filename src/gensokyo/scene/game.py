@@ -9,6 +9,8 @@ from gensokyo.ces import script
 from gensokyo.ces import enemy
 from gensokyo.ces import rails
 from gensokyo.ces import collision
+from gensokyo.ces import gc
+from gensokyo.ces import physics
 from gensokyo import resources
 from gensokyo import locator
 from gensokyo import globals
@@ -39,6 +41,8 @@ class GameScene(scene.Scene):
         self.sm.add(script.ScriptSystem())
         self.sm.add(enemy.GrimReaper())
         self.sm.add(rails.RailSystem())
+        self.sm.add(physics.PhysicsSystem())
+        self.sm.add(gc.GarbageCollectSystem(globals.GAME_AREA))
 
     def delete(self):
         super().delete()

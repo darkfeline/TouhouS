@@ -5,6 +5,12 @@ design pattern.
 In a component/system design, components hold only data.  Systems operate on
 entites which own components, and thus all logic are in systems.
 
+The rationale is to properly separate functionality that may be shared in
+different ways between different entities.  An entity/component pattern
+addresses this problem.  However, different logic may need to access different
+components and data, so keeping logic separate in Systems removes the need for
+hard dependencies/events.
+
 """
 
 import abc

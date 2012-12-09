@@ -1,10 +1,13 @@
 import abc
 import functools
 from collections import namedtuple
+import logging
 
 from pyglet.event import EventDispatcher, EVENT_HANDLED
 
 from gensokyo import manager
+
+logger = logging.getLogger(__name__)
 
 
 class TreeNode:
@@ -88,6 +91,7 @@ class StateTree(TreeNode, EventDispatcher):
         self.state = state
 
     def on_transition(self, transition):
+        logging.debug("Handling transition %s", transition)
         if self.state is not None:
             if not transition.save:
                 self.remove(self.state)

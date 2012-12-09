@@ -13,34 +13,24 @@ from gensokyo.ces import observer
 logger = logging.getLogger(__name__)
 
 
-class ScreenClearer(ces.System, observer.Drawing):
-
-    def on_draw(self):
-        locator.window.clear()
-
-
-class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
-
-    """
-    Make sure to open the ``'graphics'`` channel with this when you
-    instantiate
-
-    """
+class GraphicsLevel:
 
     map = tuple()
 
     def __init__(self):
-        super().__init__()
         self.batch = Batch()
         self.groups = dict(
             (self.map[i], OrderedGroup(i)) for i in range(len(self.map)))
         self.labels = set()
 
     def on_draw(self):
+        locator.window.clear()
         self.draw()
+        return event.EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
         self.add_sprite(sprite, group)
+        return event.EVENT_HANDLED
 
     def draw(self):
         self.batch.draw()
@@ -61,13 +51,10 @@ class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
         #label._own_batch = False
 
     def _add_sprite(self, sprite, group):
-        try:
-            sprite.group = self.groups[group]
-        except AttributeError:  # sprite already deleted
-            return
+        sprite.group = self.groups[group]
         sprite.batch = self.batch
 
-Graphics.register_event_type('on_add_sprite')
+GraphicsLevel.register_event_type('on_add_sprite')
 
 
 def _set_label_group(label, group):
@@ -85,7 +72,7 @@ class GraphicsObject(ces.Position):
             constructor, group, args, kwargs))
         self.sprite = constructor(*args, **kwargs)
         self.group = group
-        locator.broadcast['graphics'].dispatch_event(
+        locator.graphics.dispatch_event(
             'on_add_sprite', self.sprite, group)
 
     @property

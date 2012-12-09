@@ -125,4 +125,5 @@ class System(metaclass=abc.ABCMeta):
 
     """
 
-    pass
+    def __init__(self, scene):
+        self.scene = scene

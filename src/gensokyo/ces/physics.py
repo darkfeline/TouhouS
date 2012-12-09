@@ -7,9 +7,7 @@ import abc
 import logging
 
 from gensokyo import ces
-from gensokyo.ces import observer
 from gensokyo import primitives
-from gensokyo import locator
 
 logger = logging.getLogger(__name__)
 
@@ -38,12 +36,12 @@ class PhysicsPosition(ces.Position, metaclass=abc.ABCMeta):
     pass
 
 
-class PhysicsSystem(ces.System, observer.Updating):
+class PhysicsSystem(ces.System):
 
     req_components = (Physics, PhysicsPosition)
 
     def on_update(self, dt):
-        for entity in locator.em.get_with(self.req_components):
+        for entity in self.scene.em.get_with(self.req_components):
             physics, pos = entity.get(self.req_components)
             physics = physics[0]
             logger.debug("Moving Entity {}".format(entity))

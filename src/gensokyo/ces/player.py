@@ -3,15 +3,14 @@ import logging
 
 from pyglet.window import key
 
-from gensokyo import locator
 from gensokyo import ces
 from gensokyo import primitives
 from gensokyo.ces import script
 from gensokyo.ces import bullet
 from gensokyo.ces import graphics
 from gensokyo.ces import collision
-from gensokyo.ces import observer
 from gensokyo import resources
+from gensokyo import locator
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +23,7 @@ class Shifter(BaseShifter):
     pass
 
 
-class MasterShifter(BaseShifter, observer.Input):
+class MasterShifter(BaseShifter):
 
     speed_mult = 500
     focus_mult = 0.5
@@ -44,21 +43,19 @@ class MasterShifter(BaseShifter, observer.Input):
     def pos(self, value):
         self.rect.center = value
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            self.focus = True
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            self.focus = False
+    @property
+    @staticmethod
+    def focus():
+        return locator.key_state[key.LSHIFT]
 
 
-class ShiftingSystem(ces.System, observer.Updating):
+class ShiftingSystem(ces.System):
 
     req_components = (MasterShifter,)
     opt_components = (Shifter,)
 
-    def __init__(self, bounds):
+    def __init__(self, scene, bounds):
+        super().__init__(scene)
         self.bounds = bounds
 
     def set_pos(self, entity):
@@ -78,7 +75,7 @@ class ShiftingSystem(ces.System, observer.Updating):
             v[1] -= 1
         v = primitives.Vector(*v).get_unit_vector()
 
-        for entity in locator.em.get_with(self.req_components):
+        for entity in self.scene.em.get_with(self.req_components):
             # Calculate movement
             master = entity.get(self.req_components[0])[0]
             start = master.pos
@@ -119,12 +116,12 @@ class Shield(ces.Component):
             return False
 
 
-class ShieldDecay(ces.System, observer.Updating):
+class ShieldDecay(ces.System):
 
     req_components = (Shield,)
 
     def on_update(self, dt):
-        for entity in locator.em.get_with(self.req_components):
+        for entity in self.scene.em.get_with(self.req_components):
             for shield in entity.get(self.req_components[0]):
                 if shield:
                     shield.state -= dt
@@ -132,7 +129,7 @@ class ShieldDecay(ces.System, observer.Updating):
                     entity.delete(shield)
 
 
-class Player(ces.Entity, observer.Input):
+class Player(ces.Entity):
 
     sprite_img = None
     sprite_group = 'player'
@@ -143,7 +140,7 @@ class Player(ces.Entity, observer.Input):
 
     def __init__(self, x, y):
         """
-        Add FiringUnit to complete
+        Add firing script to complete
 
         """
         super().__init__()
@@ -169,13 +166,7 @@ class Player(ces.Entity, observer.Input):
             del self.hb_sprite
 
 
-# TODO do we need this?
-class FiringUnit(script.Script):
-    pass
-
-
-class LimitedLoopFiring(script.ConditionUnit, observer.Input, Shifter,
-                        observer.Updating):
+class LimitedLoopFiring(script.ConditionUnit, Shifter):
 
     def __init__(self, pos, rate, bullet):
         super().__init__()
@@ -192,21 +183,16 @@ class LimitedLoopFiring(script.ConditionUnit, observer.Input, Shifter,
         else:
             return False
 
-    def run(self, entity):
+    def run(self, entity, scene):
         self.state -= self.limit
         b = self.bullet(*self.pos)
-        locator.em.add(b)
-        locator.gm.add_to('player_bullet', b)
+        scene.em.add(b)
+        scene.gm.add_to('player_bullet', b)
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.Z:
-            logger.debug("Z pressed")
-            self.is_firing = True
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == key.Z:
-            logger.debug("Z released")
-            self.is_firing = False
+    @property
+    @staticmethod
+    def is_firing():
+        return locator.key_state[key.Z]
 
     def on_update(self, dt):
         if self.is_firing:
@@ -245,6 +231,6 @@ class Reimu(Player):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        f = FiringUnit([(LimitedLoopFiring((x - 10, y), 20, ReimuShot),
-                        LimitedLoopFiring((x + 10, y), 20, ReimuShot))])
+        f = script.Script([(LimitedLoopFiring((x - 10, y), 20, ReimuShot),
+                            LimitedLoopFiring((x + 10, y), 20, ReimuShot))])
         self.add(f)

@@ -1,10 +1,8 @@
 from gensokyo import ces
 from gensokyo.ces import script
 from gensokyo.ces import rails
-from gensokyo.ces import observer
 from gensokyo.ces.enemy import GenericEnemy
 from gensokyo.globals import GAME_AREA
-from gensokyo import locator
 
 
 class Stage(ces.Entity):
@@ -23,7 +21,7 @@ class StageOne(Stage):
 
 
 # TODO generalize looping
-class LoopSpawnEnemy(script.ConditionUnit, observer.Updating):
+class LoopSpawnEnemy(script.ConditionUnit):
 
     def __init__(self, pos, rate):
         self.pos = pos
@@ -37,22 +35,22 @@ class LoopSpawnEnemy(script.ConditionUnit, observer.Updating):
         else:
             return False
 
-    def run(self, entity):
+    def run(self, entity, scene):
         self.state -= self.rate
         e = GenericEnemy(*self.pos)
         r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
         e.add(r)
         s = script.Script([TimedSuicide(6)])
         e.add(s)
-        locator.em.add(e)
-        locator.gm.add_to(e, 'enemy')
+        scene.em.add(e)
+        scene.gm.add_to(e, 'enemy')
 
     def on_update(self, dt):
         self.state += dt
 
 
 # TODO generalize this too
-class TimedSuicide(script.ConditionUnit, observer.Updating):
+class TimedSuicide(script.ConditionUnit):
 
     def __init__(self, time):
         self.time = 0
@@ -66,8 +64,8 @@ class TimedSuicide(script.ConditionUnit, observer.Updating):
         else:
             return False
 
-    def run(self, entity):
-        locator.em.delete(entity)
+    def run(self, entity, scene):
+        scene.em.delete(entity)
 
     def on_update(self, dt):
         self.state += dt

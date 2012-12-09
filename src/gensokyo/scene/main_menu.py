@@ -5,15 +5,15 @@ from pyglet.window import key
 
 from gensokyo import locator
 from gensokyo import state
+from gensokyo import scene
 from gensokyo import globals
-from gensokyo.state import Transition
-from gensokyo.state import game
+from gensokyo.scene import game
 from gensokyo.ces import graphics
 
 logger = logging.getLogger(__name__)
 
 
-class MenuScene(state.Scene):
+class MenuScene(scene.Scene):
 
     def __init__(self):
 
@@ -52,4 +52,4 @@ class MenuInput:
             sys.exit()
         else:
             locator.state_tree.dispatch_event(
-                "to_transition", Transition(game.GameScene(), False))
+                "to_transition", state.Transition(game.GameScene(), False))

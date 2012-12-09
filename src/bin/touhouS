@@ -37,7 +37,7 @@ from gensokyo import locator
 from gensokyo import state
 from gensokyo import clock
 from gensokyo.ces.graphics import Graphics
-from gensokyo.state import main_menu
+from gensokyo.scene import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
 

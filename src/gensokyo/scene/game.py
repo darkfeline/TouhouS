@@ -1,4 +1,4 @@
-from gensokyo import state
+from gensokyo import scene
 from gensokyo import ces
 from gensokyo.ces import stage
 from gensokyo.ces import graphics
@@ -17,7 +17,7 @@ from gensokyo import locator
 from gensokyo import globals
 
 
-class GameScene(state.Scene):
+class GameScene(scene.Scene):
 
     player_class = player.Reimu
     stage_class = stage.StageOne

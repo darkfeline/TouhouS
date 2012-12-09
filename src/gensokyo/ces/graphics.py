@@ -71,8 +71,6 @@ class GraphicsLevel:
         sprite.group = self.groups[group]
         sprite.batch = self.batch
 
-GraphicsLevel.register_event_type('on_add_sprite')
-
 
 def _set_label_group(label, group):
     label.top_group = TextLayoutGroup(group)

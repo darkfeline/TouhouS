@@ -65,13 +65,16 @@ window.push_handlers(keys)
 locator.key_state = keys
 
 # graphics
-locator.graphics = Graphics()
+graphics = Graphics()
+locator.graphics = graphics
+window.push_handlers(on_draw=functools.partial(
+    graphics.dispatch_event, 'on_draw'))
 
 # clock
 logger.debug("Initializing clock...")
 pyglet.clock.set_fps_limit(FPS)
 pyglet.clock.schedule(functools.partial(
-    state_tree.dispatch_event, state_tree, 'on_update'))
+    state_tree.dispatch_event, 'on_update'))
 
 # initial state
 logger.debug("Setting start state...")

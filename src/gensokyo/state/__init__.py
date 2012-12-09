@@ -37,6 +37,31 @@ Transition = namedtuple('Transition', ['to', 'save'])
 
 class StateTree(TreeNode, EventDispatcher):
 
+    """
+    A state machine crossed with a tree.
+
+    StateTree is the root node.  All children nodes are instances of StateNode,
+    which is a subclass of StateTree that are also states.  The root node
+    StateTree itself is not a state, but it can have a state (it is a state
+    machine).  Its children are states, but can also have children states.
+    Thus, a tree.
+
+    The state machine runs by dispatching events from the root.  The current
+    state is determined by the event handlers currently attached to the root.
+    The tree serves as data-keeping to keep track of this state.  Transitions
+    are made by dispatching the 'on_transition' event to the root.  The event
+    should be send with a ``Transition`` named tuple.
+
+    Transition tuples have two fields: a class object ``to`` of the state to
+    transition to, and a boolean ``save`` indicating whether the current state
+    should be left or "saved" on the tree.  The transition will traverse upward
+    from the current leaf until a node is found that can have the indicated
+    state.  If an instance of the state is still in the tree ("saved"), then it
+    will be restored.  Otherwise, a new instance of the class will be made,
+    added to the tree, and activated.
+
+    """
+
     valid_states = tuple()
 
     def __init__(self):

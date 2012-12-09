@@ -29,8 +29,9 @@ class GraphicsLevel:
         return event.EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
-        self.add_sprite(sprite, group)
-        return event.EVENT_HANDLED
+        if group in self.map:
+            self.add_sprite(sprite, group)
+            return event.EVENT_HANDLED
 
     def draw(self):
         self.batch.draw()

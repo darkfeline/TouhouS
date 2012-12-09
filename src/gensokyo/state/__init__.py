@@ -48,11 +48,13 @@ class StateTree(TreeNode, EventDispatcher):
     machine).  Its children are states, but can also have children states.
     Thus, a tree.
 
-    The state machine runs by dispatching events from the root.  The current
-    state is determined by the event handlers currently attached to the root.
-    The tree serves as data-keeping to keep track of this state.  Transitions
-    are made by dispatching the 'on_transition' event to the root.  The event
-    should be send with a ``Transition`` named tuple.
+    The current state of the state machine is determined by the handlers of its
+    states which are attached to e.g. global event dispatchers.  Thus, the
+    state machine itself doesn't do anything, merely coordinating which
+    listeners are subscribed and unsubscribed to which global events.  The tree
+    serves as data-keeping to keep track of this state.  Transitions are made
+    by dispatching the 'on_transition' event to the root.  The event should be
+    send with a ``Transition`` named tuple.
 
     Transition tuples have two fields: a class object ``to`` of the state to
     transition to, and a boolean ``save`` indicating whether the current state

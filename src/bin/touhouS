@@ -2,6 +2,7 @@
 
 import logging
 import argparse
+import functools
 
 import pyglet
 from pyglet.window.key import KeyStateHandler
@@ -33,22 +34,15 @@ logger.info("Initializing game...")
 
 # Now that logger is up, import stuff
 from gensokyo import locator
-from gensokyo import clock
-from gensokyo import event
-from gensokyo.scene import SceneStack
-from gensokyo.scene import main_menu
+from gensokyo import state
+from gensokyo.graphics import Graphics
+from gensokyo.state import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
-
-# broadcast
-logger.debug("Initializing broadcast...")
-broadcast = event.Broadcast()
-locator.broadcast = broadcast
 
 # window
 logger.debug("Initializing window...")
 window = pyglet.window.Window(WIDTH, HEIGHT)
-broadcast.open('window', window)
 locator.window = window
 
 window.set_caption('TouhouS')
@@ -59,10 +53,10 @@ logger.debug("Setting transparency...")
 gl.glEnable(gl.GL_BLEND)
 gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-# Scene stack
-logger.debug("Creating scene stack...")
-scene_stack = SceneStack()
-locator.scene_stack = scene_stack
+# State tree
+logger.debug("Creating state tree...")
+state_tree = state.StateTree()
+locator.state_tree = state_tree
 
 # key_state
 logger.debug("Creating KeyState...")
@@ -70,14 +64,19 @@ keys = KeyStateHandler()
 window.push_handlers(keys)
 locator.key_state = keys
 
+# graphics
+locator.graphics = Graphics()
+
 # clock
 logger.debug("Initializing clock...")
 pyglet.clock.set_fps_limit(FPS)
-clock = clock.Clock()
-broadcast.open('clock', clock)
+pyglet.clock.schedule(functools.partial(
+    state_tree.dispatch_event, state_tree, 'on_update'))
 
-logger.debug("Pushing menu onto stack...")
-locator.scene_stack.push(main_menu.MenuScene())
+# initial state
+logger.debug("Setting start state...")
+state_tree.dispatch_event(
+    'on_transition', state.Transition(main_menu.MenuScene, False))
 
 logger.info("Finished init.")
 logger.info("Running...")

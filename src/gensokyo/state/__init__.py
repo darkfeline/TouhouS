@@ -4,6 +4,8 @@ from collections import namedtuple
 
 from pyglet.event import EventDispatcher, EVENT_HANDLED
 
+from gensokyo import manager
+
 
 class TreeNode:
 
@@ -117,3 +119,28 @@ class State(metaclass=abc.ABCMeta):
 
 class StateNode(StateTree, State):
     pass
+
+
+###############################################################################
+# Implementations
+###############################################################################
+class Scene(StateNode):
+
+    def __init__(self):
+        self.em = manager.EntityManager()
+        self.sm = manager.SystemManager()
+        self.gm = manager.GroupManager()
+        self.tm = manager.TagManager()
+
+    def delete(self):
+        self.em.delete()
+        self.sm.delete()
+
+
+class NullState(StateNode):
+
+    def enter(self, root):
+        pass
+
+    def exit(self, root):
+        pass

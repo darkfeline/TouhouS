@@ -27,13 +27,6 @@ class TreeNode:
         else:
             return self
 
-
-def trace(tree, pre=''):
-    a = pre + str(tree) + '\n'
-    for child in tree.children:
-        a = ''.join([a, trace(child, pre + '    ')])
-    return a
-
 """
 class State to transition to
 boolean Save current state

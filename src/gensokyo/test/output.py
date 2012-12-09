@@ -15,7 +15,7 @@ class Output:
     def __init__(self):
         self.clear()
 
-    def write(self, a, end=' '):
+    def write(self, a, end='\n'):
         self.text += a + end
 
     def clear(self):

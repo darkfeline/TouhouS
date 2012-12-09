@@ -4,6 +4,13 @@ from gensokyo import state
 from gensokyo.test import output
 
 
+def trace(tree, pre=''):
+    a = pre + str(tree) + '\n'
+    for child in tree.children:
+        a = ''.join([a, trace(child, pre + '    ')])
+    return a
+
+
 class Tester:
 
     def __init__(self, text):
@@ -16,41 +23,53 @@ class Tester:
 class TestNode(state.StateNode):
 
     def enter(self, machine):
-        print('enter ' + self.tester.text)
+        output.write('enter ' + str(self))
         machine.push_handlers(self.tester)
 
     def exit(self, machine):
-        print('exit ' + self.tester.text)
+        output.write('exit ' + str(self))
         machine.remove_handlers(self.tester)
+
+    def __str__(self):
+        return self.text
+
 
 TestNode.register_event_type('on_test')
 
 
 class TestNodeA(TestNode):
 
+    text = 'nodeA'
     tester = Tester('nodeA')
 
 
 class TestNodeB(TestNode):
 
+    text = 'nodeB'
     tester = Tester('nodeB')
 
 
 class TestNodeC(TestNode):
 
+    text = 'nodeC'
     tester = Tester('nodeC')
 
 
 class TestTree(state.StateTree):
 
+    text = 'root'
+
     def on_test(self):
-        output.write('root')
+        output.write(self.text)
 
     def test(self):
         self.dispatch_event('on_test')
 
     def go(self, to, save):
         self.dispatch_event('on_transition', state.Transition(to, save))
+
+    def __str__(self):
+        return self.text
 
 TestTree.register_event_type('on_test')
 
@@ -62,36 +81,103 @@ class TestState(unittest.TestCase):
 
     def test_state(self):
 
-        def test():
+        def test(a):
             root.test()
+            output.write('')
+            output.write(trace(root))
             print(output.text)
-            print(state.trace(root))
-            print('-' * 20)
+            self.assertEqual(output.text, a)
+            print('-' * 40)
             output.clear()
 
         root = TestTree()
-        test()
+        test('''root
+
+root
+
+''')
 
         root.go(TestNodeA, False)
-        test()
+        test('''enter nodeA
+nodeA
+root
+
+root
+    nodeA
+
+''')
 
         root.go(TestNodeB, False)
-        test()
+        test('''exit nodeA
+enter nodeB
+nodeB
+root
+
+root
+    nodeB
+
+''')
 
         root.go(TestNodeC, False)
-        test()
+        test('''enter nodeC
+nodeC
+nodeB
+root
+
+root
+    nodeB
+        nodeC
+
+''')
 
         root.go(TestNodeA, False)
-        test()
+        test('''exit nodeC
+exit nodeB
+enter nodeA
+nodeA
+root
+
+root
+    nodeA
+
+''')
 
         root.go(TestNodeB, False)
-        test()
+        test('''exit nodeA
+enter nodeB
+nodeB
+root
+
+root
+    nodeB
+
+''')
 
         root.go(TestNodeC, False)
-        test()
+        test('''enter nodeC
+nodeC
+nodeB
+root
+
+root
+    nodeB
+        nodeC
+
+''')
 
         root.go(TestNodeA, True)
-        test()
+        test('''exit nodeC
+exit nodeB
+enter nodeA
+nodeA
+root
+
+root
+    nodeB
+        nodeC
+    nodeA
+
+''')
 
 if __name__ == '__main__':
     unittest.main()

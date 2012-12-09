@@ -60,6 +60,11 @@ class StateTree(TreeNode, EventDispatcher):
     will be restored.  Otherwise, a new instance of the class will be made,
     added to the tree, and activated.
 
+    Nodes start off with their state set to ``None``.  Nodes which will not
+    have their own states should leave it ``None`` and leave ``valid_states``
+    empty.  Others should set both.  You cannot return to ``None`` state; if
+    you need that functionality, use a dummy state instead.
+
     """
 
     valid_states = tuple()
@@ -99,7 +104,7 @@ class StateTree(TreeNode, EventDispatcher):
 StateTree.register_event_type('on_transition')
 
 
-class StateNode(StateTree, metaclass=abc.ABCMeta):
+class State(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def enter(self, root):
@@ -108,3 +113,7 @@ class StateNode(StateTree, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def exit(self, root):
         raise NotImplementedError
+
+
+class StateNode(StateTree, State):
+    pass

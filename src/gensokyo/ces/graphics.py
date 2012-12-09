@@ -16,8 +16,20 @@ class Graphics(event.EventDispatcher):
 
     def __init__(self):
         self.levels = []
+        self._sprites_cache = []
+
+    def on_add_sprite(self, *args):
+        self._sprites_cache.append(args)
+
+    def _add_cached(self):
+        a = self._sprites_cache
+        self._sprites_cache = []
+        for args in a:
+            self.dispatch_event('on_add_sprite', *args)
 
     def push(self, level):
+        if self._sprites_cache:
+            self._add_cached()
         self.levels.append(level)
         self.push_handlers(level)
 

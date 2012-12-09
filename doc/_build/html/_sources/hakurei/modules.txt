@@ -1,7 +1,0 @@
-hakurei
-=======
-
-.. toctree::
-   :maxdepth: 4
-
-   hakurei

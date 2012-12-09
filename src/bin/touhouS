@@ -76,7 +76,7 @@ logger.debug("Initializing clock...")
 clock= clock.Clock()
 locator.clock = clock
 pyglet.clock.set_fps_limit(FPS)
-pyglet.clock.schedule(clock.tick, 1 / FPS)
+pyglet.clock.schedule(clock.tick)
 
 # initial state
 logger.debug("Setting start state...")

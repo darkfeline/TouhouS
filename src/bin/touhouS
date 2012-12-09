@@ -37,6 +37,7 @@ from gensokyo import locator
 from gensokyo import state
 from gensokyo import clock
 from gensokyo.ces.graphics import Graphics
+from gensokyo.scene import root
 from gensokyo.scene import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
@@ -56,7 +57,7 @@ gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
 # State tree
 logger.debug("Creating state tree...")
-state_tree = state.StateTree()
+state_tree = root.RootTree()
 locator.state_tree = state_tree
 
 # key_state

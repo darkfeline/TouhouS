@@ -29,10 +29,12 @@ class MenuScene(scene.Scene):
             color=(255, 255, 255, 255))
 
     def enter(self, root):
+        logger.info("Entering MenuScene...")
         locator.window.push_handlers(self.input)
         locator.graphics.push(self.graphics)
 
     def exit(self, root):
+        logger.info("Exiting MenuScene...")
         locator.window.remove_handlers(self.input)
         locator.graphics.pop(self.graphics)
 

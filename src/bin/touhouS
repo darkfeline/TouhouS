@@ -35,6 +35,7 @@ logger.info("Initializing game...")
 # Now that logger is up, import stuff
 from gensokyo import locator
 from gensokyo import state
+from gensokyo import clock
 from gensokyo.graphics import Graphics
 from gensokyo.state import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
@@ -72,9 +73,10 @@ window.push_handlers(on_draw=functools.partial(
 
 # clock
 logger.debug("Initializing clock...")
+clock= clock.Clock()
+locator.clock = clock
 pyglet.clock.set_fps_limit(FPS)
-pyglet.clock.schedule(functools.partial(
-    state_tree.dispatch_event, 'on_update'))
+pyglet.clock.schedule(clock.tick, 1 / FPS)
 
 # initial state
 logger.debug("Setting start state...")

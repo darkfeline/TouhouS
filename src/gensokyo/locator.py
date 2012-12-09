@@ -17,5 +17,6 @@ class ServiceLocator:
         self.state_tree = None
         self.window = None
         self.graphics = None
+        self.clock = None
 
 sys.modules[__name__] = ServiceLocator()

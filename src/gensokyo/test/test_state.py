@@ -22,13 +22,13 @@ class Tester:
 
 class TestNode(state.StateNode):
 
-    def enter(self, machine):
+    def enter(self, root):
         output.write('enter ' + str(self))
-        machine.push_handlers(self.tester)
+        root.push_handlers(self.tester)
 
-    def exit(self, machine):
+    def exit(self, root):
         output.write('exit ' + str(self))
-        machine.remove_handlers(self.tester)
+        root.remove_handlers(self.tester)
 
     def __str__(self):
         return self.text

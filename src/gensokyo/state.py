@@ -121,30 +121,3 @@ class State(metaclass=abc.ABCMeta):
 
 class StateNode(StateTree, State):
     pass
-
-
-###############################################################################
-# Implementations
-###############################################################################
-class Scene(StateNode):
-
-    def __init__(self):
-        self.em = manager.EntityManager()
-        self.sm = manager.SystemManager()
-        self.gm = manager.GroupManager()
-        self.tm = manager.TagManager()
-        self.graphics = None
-        self.updater = None
-
-    def delete(self):
-        self.em.delete()
-        self.sm.delete()
-
-
-class NullState(StateNode):
-
-    def enter(self, root):
-        pass
-
-    def exit(self, root):
-        pass

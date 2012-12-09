@@ -133,6 +133,8 @@ class Scene(StateNode):
         self.sm = manager.SystemManager()
         self.gm = manager.GroupManager()
         self.tm = manager.TagManager()
+        self.graphics = None
+        self.updater = None
 
     def delete(self):
         self.em.delete()

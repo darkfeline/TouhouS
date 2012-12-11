@@ -81,22 +81,23 @@ class StateTree(TreeNode, EventDispatcher):
         self.state = None
 
     def _leave(self):
-        self.state.exit(self.root)
+        self.state.exit()
         self.remove_handlers(self.state)
         self.state = None
 
     def _transition(self, state):
-        state.enter(self.root)
+        state.enter()
         self.root.push_handlers(state)
         self.state = state
 
     def on_transition(self, transition):
-        logging.debug("Handling transition %s", transition)
         if self.state is not None:
+            logging.debug("Leaving state %s", self.state)
             if not transition.save:
                 self.remove(self.state)
             self._leave()
         if transition.to in self.valid_states:
+            logging.debug("Handling transition %s", transition)
             for child in list(self.children):
                 if isinstance(child, transition.to):
                     a = child
@@ -115,11 +116,11 @@ StateTree.register_event_type('on_transition')
 class State(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def enter(self, root):
+    def enter(self):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def exit(self, root):
+    def exit(self):
         raise NotImplementedError
 
 

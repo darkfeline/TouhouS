@@ -1,7 +1,7 @@
 import unittest
 
 from gensokyo import state
-from gensokyo.test import output
+from gensokyo.test import locator
 
 
 def trace(tree, pre=''):
@@ -17,18 +17,18 @@ class Tester:
         self.text = text
 
     def on_test(self):
-        output.write(self.text)
+        locator.output.write(self.text)
 
 
 class TestNode(state.StateNode):
 
-    def enter(self, root):
-        output.write('enter ' + str(self))
-        root.push_handlers(self.tester)
+    def enter(self):
+        locator.output.write('enter ' + str(self))
+        locator.testhub.push_handlers(self.tester)
 
-    def exit(self, root):
-        output.write('exit ' + str(self))
-        root.remove_handlers(self.tester)
+    def exit(self):
+        locator.output.write('exit ' + str(self))
+        locator.testhub.remove_handlers(self.tester)
 
     def __str__(self):
         return self.text
@@ -60,10 +60,7 @@ class TestTree(state.StateTree):
     text = 'root'
 
     def on_test(self):
-        output.write(self.text)
-
-    def test(self):
-        self.dispatch_event('on_test')
+        locator.output.write(self.text)
 
     def go(self, to, save):
         self.dispatch_event('on_transition', state.Transition(to, save))
@@ -71,7 +68,6 @@ class TestTree(state.StateTree):
     def __str__(self):
         return self.text
 
-TestTree.register_event_type('on_test')
 
 TestTree.valid_states = (TestNodeA, TestNodeB)
 TestNodeB.valid_states = (TestNodeC,)
@@ -82,15 +78,16 @@ class TestState(unittest.TestCase):
     def test_state(self):
 
         def test(a):
-            root.test()
-            output.write('')
-            output.write(trace(root))
-            print(output.text)
-            self.assertEqual(output.text, a)
+            locator.testhub.test()
+            locator.output.write('')
+            locator.output.write(trace(root))
+            print(locator.output.text)
+            self.assertEqual(locator.output.text, a)
             print('-' * 40)
-            output.clear()
+            locator.output.clear()
 
         root = TestTree()
+        locator.testhub.push_handlers(root)
         test('''root
 
 root

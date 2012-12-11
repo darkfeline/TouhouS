@@ -74,11 +74,11 @@ class GameScene(scene.Scene):
         self.em.add(player)
         self.tm.tag('player', player)
 
-    def enter(self, root):
+    def enter(self):
         locator.clock.push_handlers(self.updater)
         locator.graphics.push(self.graphics)
 
-    def exit(self, root):
+    def exit(self):
         locator.clock.remove_handlers(self.updater)
         locator.graphics.pop(self.graphics)
 

@@ -9,6 +9,15 @@ You can call the module as a global instance of ServiceLocator.
 
 import sys
 
+from pyglet.event import EventDispatcher
+
+
+class Locator:
+
+    def __init__(self):
+        self.output = Output()
+        self.testhub = TestHub()
+
 
 class Output:
 
@@ -21,4 +30,12 @@ class Output:
     def clear(self):
         self.text = ''
 
-sys.modules[__name__] = Output()
+
+class TestHub(EventDispatcher):
+
+    def test(self):
+        self.dispatch_event('on_test')
+
+TestHub.register_event_type('on_test')
+
+sys.modules[__name__] = Locator()

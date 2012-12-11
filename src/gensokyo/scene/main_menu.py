@@ -28,12 +28,12 @@ class MenuScene(scene.Scene):
             'text', x=20, y=globals.HEIGHT - 30, text="Welcome to TouhouS",
             color=(255, 255, 255, 255))
 
-    def enter(self, root):
+    def enter(self):
         logger.info("Entering MenuScene...")
         locator.window.push_handlers(self.input)
         locator.graphics.push(self.graphics)
 
-    def exit(self, root):
+    def exit(self):
         logger.info("Exiting MenuScene...")
         locator.window.remove_handlers(self.input)
         locator.graphics.pop(self.graphics)

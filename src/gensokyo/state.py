@@ -12,6 +12,11 @@ logger = logging.getLogger(__name__)
 
 class TreeNode:
 
+    """
+    Be careful using this externally; ``root`` property is memoized
+
+    """
+
     def __init__(self):
         self.parent = None
         self.children = set()
@@ -67,10 +72,9 @@ class StateTree(TreeNode, EventDispatcher):
     will be restored.  Otherwise, a new instance of the class will be made,
     added to the tree, and activated.
 
-    Nodes start off with their state set to ``None``.  Nodes which will not
-    have their own states should leave it ``None`` and leave ``valid_states``
-    empty.  Others should set both.  You cannot return to ``None`` state; if
-    you need that functionality, use a dummy state instead.
+    Nodes start off with their state set to ``None``.  You can navigate to a
+    sub-state by adding it to the valid_states tuple and transitioning to it.
+    You can exit sub-states by transitioning back to the node itself.
 
     """
 

@@ -80,7 +80,7 @@ class GameScene(scene.Scene):
 
     def exit(self):
         locator.clock.remove_handlers(self.updater)
-        locator.graphics.pop(self.graphics)
+        locator.graphics.pop()
 
     def delete(self):
         super().delete()

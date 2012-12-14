@@ -34,7 +34,7 @@ class MenuScene(scene.Scene):
     def exit(self):
         logger.info("Exiting MenuScene...")
         locator.window.remove_handlers(self.input)
-        locator.graphics.pop(self.graphics)
+        locator.graphics.pop()
 
     def delete(self):
         super().delete()
@@ -50,7 +50,7 @@ class MenuInput:
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
             locator.state_tree.dispatch_event(
-                "to_transition", state.Transition('null', False))
+                "on_transition", state.Transition('null', False))
         else:
             locator.state_tree.dispatch_event(
-                "to_transition", state.Transition('game', False))
+                "on_transition", state.Transition('game', False))

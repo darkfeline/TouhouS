@@ -29,10 +29,10 @@ class Graphics(event.EventDispatcher):
 
     def push(self, level):
         logger.debug('Added level %s', level)
-        if self._sprites_cache:
-            self._add_cached()
         self.levels.append(level)
         self.push_handlers(level)
+        if self._sprites_cache:
+            self._add_cached()
 
     def pop(self):
         level = self.levels.pop()

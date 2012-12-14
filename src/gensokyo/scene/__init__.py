@@ -5,6 +5,7 @@ from gensokyo import state
 class Scene(state.StateNode):
 
     def __init__(self):
+        super().__init__()
         self.em = manager.EntityManager()
         self.sm = manager.SystemManager()
         self.gm = manager.GroupManager()

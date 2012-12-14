@@ -62,7 +62,7 @@ class StateTree(TreeNode, EventDispatcher):
     listeners are subscribed and unsubscribed to which global events.  The tree
     serves as data-keeping to keep track of this state.  Transitions are made
     by dispatching the 'on_transition' event to the root.  The event should be
-    send with a ``Transition`` named tuple.
+    sent with a ``Transition`` named tuple.
 
     Transition tuples have two fields: a class object ``to`` of the state to
     transition to, and a boolean ``save`` indicating whether the current state

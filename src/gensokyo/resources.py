@@ -21,9 +21,9 @@ def _center(image):
 logger = logging.getLogger(__name__)
 
 logger.info("Initializing resources...")
-logger.debug("Working directory is {}".format(os.getcwd()))
+logger.debug("Working directory is %s", os.getcwd())
 resource.path = [os.path.join(sys.prefix, 'resources')]
-logger.debug("Path is {}".format(resource.path))
+logger.debug("Path is %s", resource.path)
 resource.reindex()
 
 # UI

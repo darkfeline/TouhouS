@@ -44,7 +44,7 @@ class PhysicsSystem(ces.System):
         for entity in self.scene.em.get_with(self.req_components):
             physics, pos = entity.get(self.req_components)
             physics = physics[0]
-            logger.debug("Moving Entity {}".format(entity))
-            logger.debug("Physics {!s}".format(physics.vel))
+            logger.debug("Moving Entity %s", entity)
+            logger.debug("Physics %s", physics.vel)
             for p in pos:
                 p.pos = tuple(p.pos[i] + physics.vel[i] for i in [0, 1])

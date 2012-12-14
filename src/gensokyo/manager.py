@@ -13,7 +13,7 @@ class EntityManager:
         self.entities = set()
 
     def add(self, entity):
-        logger.debug("Add entity {}".format(entity))
+        logger.debug("Add entity %s", entity)
         self.entities.add(entity)
 
     def __iter__(self):
@@ -81,7 +81,7 @@ class SystemManager:
         self.systems = set()
 
     def add(self, system):
-        logger.debug("Add system {}".format(system))
+        logger.debug("Add system %s", system)
         self.systems.add(system)
 
     def __iter__(self):

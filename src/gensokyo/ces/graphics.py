@@ -28,6 +28,7 @@ class Graphics(event.EventDispatcher):
             self.dispatch_event('on_add_sprite', *args)
 
     def push(self, level):
+        logger.debug('Added level %s', level)
         if self._sprites_cache:
             self._add_cached()
         self.levels.append(level)
@@ -67,7 +68,7 @@ class GraphicsLevel:
             l.draw()
 
     def add_sprite(self, sprite, group):
-        logger.debug("Adding sprite {} {}".format(sprite, group))
+        logger.debug("Adding sprite %s %s", sprite, group)
         if isinstance(sprite, text.Label):
             self._add_label(sprite, group)
         else:
@@ -95,8 +96,8 @@ def _set_label_group(label, group):
 class GraphicsObject(ces.Position):
 
     def __init__(self, constructor, group, *args, **kwargs):
-        logger.debug('New GraphicsObject: {} {} {} {}'.format(
-            constructor, group, args, kwargs))
+        logger.debug('New GraphicsObject: %s %s %s %s', constructor, group,
+                args, kwargs)
         self.sprite = constructor(*args, **kwargs)
         self.group = group
         locator.graphics.dispatch_event(

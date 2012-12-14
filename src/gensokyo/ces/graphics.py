@@ -28,13 +28,14 @@ class Graphics(event.EventDispatcher):
             self.dispatch_event('on_add_sprite', *args)
 
     def push(self, level):
-        logger.debug('Added level %s', level)
+        logger.debug('Pushing level %s', level)
         self.levels.append(level)
         self.push_handlers(level)
         if self._sprites_cache:
             self._add_cached()
 
     def pop(self):
+        logger.debug('Popping level')
         level = self.levels.pop()
         self.remove_handlers(level)
 

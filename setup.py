@@ -1,21 +1,34 @@
 #!/usr/bin/env python3
 
+import os
 from distutils.core import setup, Extension
 
-from setup_utils import get_resources
-from setup_utils import get_packages
-from setup_utils import get_scripts
-
-
 use_cython = 1
+
+
+def get_resources(dir, l=None):
+    if l is None:
+        l = []
+    l.append(_make_listing(dir))
+    for d in os.listdir(dir):
+        if os.path.isdir(os.path.join(dir, d)):
+            get_resources(os.path.join(dir, d), l)
+    return l
+
+
+def _make_listing(dir):
+    return (dir, [os.path.join(dir, x) for x in os.listdir(dir) if
+            os.path.isfile(os.path.join(dir, x))])
+
 if use_cython:
     from Cython.Distutils import build_ext
-    ext_modules = [Extension("gensokyo.primitives",
-                             ["src/gensokyo/primitives.pyx"])]
+    cmdclass = {'build_ext': build_ext}
+    ext_modules = [Extension(
+        "gensokyo.primitives", ["src/gensokyo/primitives.pyx"])]
 else:
-    class build_ext: pass
-    ext_modules = [Extension("gensokyo.primitives",
-                             ["src/gensokyo/primitives.c"])]
+    cmdclass = {}
+    ext_modules = [Extension(
+        "gensokyo.primitives", ["src/gensokyo/primitives.c"])]
 
 setup(
     name='TouhouS',
@@ -24,9 +37,12 @@ setup(
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
     package_dir={'': 'src'},
-    packages=get_packages('src'),
-    cmdclass={'build_ext': build_ext},
+    packages=['gensokyo',
+              'gensokyo.ces',
+              'gensokyo.scene',
+              'gensokyo.test'],
     ext_modules=ext_modules,
-    scripts=get_scripts('src/bin'),
+    cmdclass=cmdclass,
+    scripts=['src/bin/touhouS'],
     data_files=get_resources('resources')
 )

@@ -38,7 +38,6 @@ from gensokyo import state
 from gensokyo import clock
 from gensokyo.ces.graphics import Graphics
 from gensokyo.scene import root
-from gensokyo.scene import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
 
@@ -82,7 +81,7 @@ pyglet.clock.schedule(clock.tick)
 # initial state
 logger.debug("Setting start state...")
 state_tree.dispatch_event(
-    'on_transition', state.Transition(main_menu.MenuScene, False))
+    'on_transition', state.Transition('menu', False))
 
 logger.info("Finished init.")
 logger.info("Running...")

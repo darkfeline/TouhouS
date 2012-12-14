@@ -1,5 +1,4 @@
 import logging
-import sys
 
 from pyglet.window import key
 
@@ -7,7 +6,6 @@ from gensokyo import locator
 from gensokyo import state
 from gensokyo import scene
 from gensokyo import globals
-from gensokyo.scene import game
 from gensokyo.ces import graphics
 
 logger = logging.getLogger(__name__)
@@ -51,7 +49,8 @@ class MenuInput:
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
-            sys.exit()
+            locator.state_tree.dispatch_event(
+                "to_transition", state.Transition('null', False))
         else:
             locator.state_tree.dispatch_event(
-                "to_transition", state.Transition(game.GameScene(), False))
+                "to_transition", state.Transition('game', False))

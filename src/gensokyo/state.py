@@ -64,21 +64,25 @@ class StateTree(TreeNode, EventDispatcher):
     by dispatching the 'on_transition' event to the root.  The event should be
     sent with a ``Transition`` named tuple.
 
-    Transition tuples have two fields: a class object ``to`` of the state to
-    transition to, and a boolean ``save`` indicating whether the current state
-    should be left or "saved" on the tree.  The transition will traverse upward
-    from the current leaf until a node is found that can have the indicated
-    state.  If an instance of the state is still in the tree ("saved"), then it
-    will be restored.  Otherwise, a new instance of the class will be made,
-    added to the tree, and activated.
+    Transition tuples have two fields: a string ``to`` state to transition to,
+    and a boolean ``save`` indicating whether the current state should be left
+    or "saved" on the tree.  The transition will traverse upward from the
+    current leaf until a node is found that can have the indicated state.  Each
+    traversed state will be left, and removed if ``save`` is ``False``, and
+    kept in the tree if ``save`` is ``True``.  If an instance of the state is
+    still in the tree ("saved"), then it will be restored.  Otherwise, a new
+    instance of the class will be made, added to the tree, and activated.
 
     Nodes start off with their state set to ``None``.  You can navigate to a
     sub-state by adding it to the valid_states tuple and transitioning to it.
     You can exit sub-states by transitioning back to the node itself.
 
+    .. attribute: valid_states
+        A dict that maps string state names to StateNode class objects
+
     """
 
-    valid_states = tuple()
+    valid_states = {}
 
     def __init__(self):
         super().__init__()
@@ -102,14 +106,15 @@ class StateTree(TreeNode, EventDispatcher):
             self._leave()
         if transition.to in self.valid_states:
             logging.debug("Handling transition %s", transition)
+            state = self.valid_states[transition.to]
             for child in list(self.children):
-                if isinstance(child, transition.to):
+                if isinstance(child, state):
                     a = child
                     break
             try:
                 self._transition(a)
             except NameError:
-                a = transition.to()
+                a = state()
                 self.add(a)
                 self._transition(a)
             return EVENT_HANDLED

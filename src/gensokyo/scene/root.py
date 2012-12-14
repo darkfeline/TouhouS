@@ -5,4 +5,4 @@ from gensokyo.scene import game
 
 class RootTree(state.StateTree):
 
-    valid_states = (main_menu.MenuScene, game.GameScene)
+    valid_states = {'menu': main_menu.MenuScene, 'game': game.GameScene}

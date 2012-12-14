@@ -98,7 +98,7 @@ class GraphicsObject(ces.Position):
 
     def __init__(self, constructor, group, *args, **kwargs):
         logger.debug('New GraphicsObject: %s %s %s %s', constructor, group,
-                args, kwargs)
+                     args, kwargs)
         self.sprite = constructor(*args, **kwargs)
         self.group = group
         locator.graphics.dispatch_event(

@@ -15,7 +15,7 @@ parser.add_argument('--logfile', action='store', default='')
 parser.add_argument('--logfilter', action='store', default='')
 args = parser.parse_args()
 
-# setup root logger
+# setup logging
 logger = logging.getLogger()
 if args.logfile:
     handler = logging.FileHandler(args.logfile)

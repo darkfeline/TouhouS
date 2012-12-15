@@ -103,7 +103,7 @@ class GameCollisionSystem(collision.CollisionSystem):
                     break
 
 
-class GameGraphics(graphics.Graphics):
+class GameGraphics(graphics.GraphicsLevel):
 
     map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
            'enemy_bullet', 'ui', 'ui_element')

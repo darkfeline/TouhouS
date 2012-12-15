@@ -29,6 +29,7 @@ class Graphics(event.EventDispatcher):
 
     def push(self, level):
         logger.debug('Pushing level %s', level)
+        assert isinstance(level, GraphicsLevel)
         self.levels.append(level)
         self.push_handlers(level)
         if self._sprites_cache:
@@ -62,7 +63,7 @@ class GraphicsLevel:
 
     def on_add_sprite(self, sprite, group):
         if group in self.map:
-            logger.debug('%s adding sprite %s', self, sprite)
+            logger.debug('%s adding sprite %s %s', self, sprite, group)
             self.add_sprite(sprite, group)
             return event.EVENT_HANDLED
 
@@ -116,7 +117,7 @@ class GraphicsObject(ces.Position):
         self.sprite.x, self.sprite.y = value
 
     def __del__(self):
-        logger.debug("sprite deleted %s", self)
+        logger.debug("deleting sprite %s", self)
         self.sprite.delete()
 
 

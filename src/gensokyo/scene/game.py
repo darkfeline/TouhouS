@@ -6,6 +6,7 @@ from gensokyo.ces import stage
 from gensokyo.ces import graphics
 from gensokyo.ces import player
 from gensokyo.ces import ui
+from gensokyo.ces import update
 from gensokyo.ces import script
 from gensokyo.ces import enemy
 from gensokyo.ces import rails
@@ -30,6 +31,7 @@ class GameScene(scene.Scene):
         super().__init__()
 
         self.graphics = GameGraphics()
+        self.updater = update.Updater()
 
         # Systems
         self.sm.add(ui.FPSSystem(self))
@@ -77,13 +79,11 @@ class GameScene(scene.Scene):
 
     def enter(self):
         logger.debug("Entering game")
-        super().enter()
         locator.clock.push_handlers(self.updater)
         locator.graphics.push(self.graphics)
 
     def exit(self):
         logger.debug("Exiting game")
-        super().exit()
         locator.clock.remove_handlers(self.updater)
         locator.graphics.pop()
 

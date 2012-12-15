@@ -35,15 +35,15 @@ class LoopSpawnEnemy(script.ConditionUnit):
         else:
             return False
 
-    def run(self, entity, scene):
+    def run(self, entity, env):
         self.state -= self.rate
         e = GenericEnemy(*self.pos)
         r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
         e.add(r)
         s = script.Script([TimedSuicide(6)])
         e.add(s)
-        scene.em.add(e)
-        scene.gm.add_to(e, 'enemy')
+        env.em.add(e)
+        env.gm.add_to(e, 'enemy')
 
     def on_update(self, dt):
         self.state += dt
@@ -64,8 +64,8 @@ class TimedSuicide(script.ConditionUnit):
         else:
             return False
 
-    def run(self, entity, scene):
-        scene.em.delete(entity)
+    def run(self, entity, env):
+        env.em.delete(entity)
 
     def on_update(self, dt):
         self.state += dt

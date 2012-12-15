@@ -19,7 +19,7 @@ units, all of them will be added.  Newly added units will not be run until the
 next loop.
 
 ``run`` is passed first the entitiy the component belongs to and second the
-scene which the system belongs to.
+environment which the system belongs to.
 
 If ``expire`` is ``True`` (False by default), the scripting unit will be
 expired.  This is immediate; following ConditionUnits will not be processed.
@@ -53,7 +53,7 @@ class ConditionUnit(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def run(self, entity, scene):
+    def run(self, entity, env):
         raise NotImplementedError
 
     @property
@@ -82,12 +82,12 @@ class ScriptSystem(ces.System):
     req_components = (Script,)
 
     def on_update(self, dt):
-        for entity in self.scene.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             for script in entity.get(self.req_components[0]):
                 for unit in list(script.units):
                     for cond in unit:
                         if cond.satisfied:
-                            r = cond.run(entity, self.scene)
+                            r = cond.run(entity, self.env)
                             if r:
                                 try:
                                     script.units.extend(r)

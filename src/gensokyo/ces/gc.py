@@ -32,8 +32,8 @@ class GarbageCollectSystem(ces.System):
 
     req_components = (Presence,)
 
-    def __init__(self, scene, area):
-        super().__init__(scene)
+    def __init__(self, env, area):
+        super().__init__(env)
         self.area = area
 
     def _check_bounds(self, entity):
@@ -53,4 +53,4 @@ class GarbageCollectSystem(ces.System):
         entities = self.get_with(self.req_components)
         for e in entities:
             if self._check_bounds(e):
-                self.scene.em.delete(e)
+                self.env.em.delete(e)

@@ -131,8 +131,8 @@ class System(metaclass=abc.ABCMeta):
 
     """
 
-    def __init__(self, scene):
-        self.scene = scene
+    def __init__(self, env):
+        self.env = env
 
 
 ###############################################################################

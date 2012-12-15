@@ -69,11 +69,11 @@ class GrimReaper(ces.System):
     req_components = (Life,)
 
     def on_update(self, dt):
-        for entity in self.scene.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             life = entity.get(self.req_components[0])[0]
             if life.life <= 0:
                 life.die(entity)
-                self.scene.em.delete(entity)
+                self.env.em.delete(entity)
 
 
 # TODO move everything below
@@ -105,16 +105,16 @@ class LoopFireAtPlayer(script.ConditionUnit, rails.RailPosition):
         else:
             return False
 
-    def run(self, entity, scene):
+    def run(self, entity, env):
         self.state -= self.rate
-        player = scene.tm['player']
+        player = env.tm['player']
         hb = player.get(collision.Hitbox)
         dest = hb.pos
         dest = primitives.Vector(dest[0], dest[1])
         v = dest - primitives.Vector(*self.pos)
         b = bullet.RoundBullet(*self.pos, vector=v)
-        scene.em.add(b)
-        scene.gm.add_to(b, 'enemy_bullet')
+        env.em.add(b)
+        env.gm.add_to(b, 'enemy_bullet')
 
     def on_update(self, dt):
         self.state += dt

@@ -41,7 +41,7 @@ class PhysicsSystem(ces.System):
     req_components = (Physics, PhysicsPosition)
 
     def on_update(self, dt):
-        for entity in self.scene.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             physics, pos = entity.get(self.req_components)
             physics = physics[0]
             logger.debug("Moving Entity %s", entity)

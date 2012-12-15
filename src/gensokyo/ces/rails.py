@@ -138,7 +138,7 @@ class RailSystem(ces.System):
     req_components = (Rails, RailPosition)
 
     def on_update(self, dt):
-        for entity in self.scene.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             r = entity.get(Rails)[0]
             r.time += dt
             step = 0

@@ -54,8 +54,8 @@ class ShiftingSystem(ces.System):
     req_components = (MasterShifter,)
     opt_components = (Shifter,)
 
-    def __init__(self, scene, bounds):
-        super().__init__(scene)
+    def __init__(self, env, bounds):
+        super().__init__(env)
         self.bounds = bounds
 
     def set_pos(self, entity):
@@ -75,7 +75,7 @@ class ShiftingSystem(ces.System):
             v[1] -= 1
         v = primitives.Vector(*v).get_unit_vector()
 
-        for entity in self.scene.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             # Calculate movement
             master = entity.get(self.req_components[0])[0]
             start = master.pos
@@ -121,7 +121,7 @@ class ShieldDecay(ces.System):
     req_components = (Shield,)
 
     def on_update(self, dt):
-        for entity in self.scene.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             for shield in entity.get(self.req_components[0]):
                 if shield:
                     shield.state -= dt
@@ -183,11 +183,11 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
         else:
             return False
 
-    def run(self, entity, scene):
+    def run(self, entity, env):
         self.state -= self.limit
         b = self.bullet(*self.pos)
-        scene.em.add(b)
-        scene.gm.add_to('player_bullet', b)
+        env.em.add(b)
+        env.gm.add_to('player_bullet', b)
 
     @property
     @staticmethod

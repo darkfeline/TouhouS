@@ -11,7 +11,6 @@ from gensokyo.ces import rails
 from gensokyo.ces import collision
 from gensokyo.ces import gc
 from gensokyo.ces import physics
-from gensokyo.ces import input
 from gensokyo import resources
 from gensokyo import locator
 from gensokyo import globals

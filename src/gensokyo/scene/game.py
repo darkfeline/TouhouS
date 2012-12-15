@@ -31,13 +31,13 @@ class GameScene(scene.Scene):
         self.updater = update.Updater()
 
         # Systems
-        self.sm.add(player.ShiftingSystem(globals.GAME_AREA))
-        self.sm.add(player.ShieldDecay())
-        self.sm.add(script.ScriptSystem())
-        self.sm.add(enemy.GrimReaper())
-        self.sm.add(rails.RailSystem())
-        self.sm.add(physics.PhysicsSystem())
-        self.sm.add(gc.GarbageCollectSystem(globals.GAME_AREA))
+        self.sm.add(player.ShiftingSystem(self, globals.GAME_AREA))
+        self.sm.add(player.ShieldDecay(self))
+        self.sm.add(script.ScriptSystem(self))
+        self.sm.add(enemy.GrimReaper(self))
+        self.sm.add(rails.RailSystem(self))
+        self.sm.add(physics.PhysicsSystem(self))
+        self.sm.add(gc.GarbageCollectSystem(self, globals.GAME_AREA))
 
         # Groups
         self.gm.make_group('enemy_bullet')

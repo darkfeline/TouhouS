@@ -53,6 +53,7 @@ class GameScene(scene.Scene):
         # FPS
         fps = ui.FPSDisplay(570, 2)
         self.em.add(fps)
+        self.updater.push_handlers(fps)
         # Counters
         counters = {
             'high_score': (ui.TextCounter, 430, 415, 'High score'),

@@ -31,7 +31,6 @@ class MasterShifter(BaseShifter):
 
     def __init__(self, pos):
 
-        self.focus = False
         self.rect = self.rect.copy()
         self.pos = pos
 
@@ -174,7 +173,6 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
         self.state = 0
         self.limit = 1 / rate
         self.bullet = bullet
-        self.is_firing = False
 
     @property
     def satisfied(self):

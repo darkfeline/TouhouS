@@ -11,6 +11,31 @@ addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.
 
+System
+    Performs logic by iterating over Entities
+
+Entity
+    Contains Components
+
+Component
+    Holds data
+
+Environment
+    Provides a CES environment, i.e. the four managers
+
+EntityManager
+    Holds references to Entities
+
+GroupManager
+    Holds references to groups of Entities
+
+TagManager
+    Holds references to specific Entities
+
+SystemManager
+    Holds references to Systems
+
+
 """
 
 import abc

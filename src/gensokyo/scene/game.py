@@ -1,3 +1,5 @@
+import logging
+
 from gensokyo import scene
 from gensokyo import ces
 from gensokyo.ces import stage
@@ -13,6 +15,8 @@ from gensokyo.ces import physics
 from gensokyo import resources
 from gensokyo import locator
 from gensokyo import globals
+
+logger = logging.getLogger(__name__)
 
 
 class GameScene(scene.Scene):
@@ -72,11 +76,13 @@ class GameScene(scene.Scene):
         self.tm.tag('player', player_)
 
     def enter(self):
+        logger.debug("Entering game")
         super().enter()
         locator.clock.push_handlers(self.updater)
         locator.graphics.push(self.graphics)
 
     def exit(self):
+        logger.debug("Exiting game")
         super().exit()
         locator.clock.remove_handlers(self.updater)
         locator.graphics.pop()

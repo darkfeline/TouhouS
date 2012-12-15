@@ -39,6 +39,7 @@ class FPSSystem(ces.System):
 
     def __init__(self, env):
         super().__init__(env)
+        env.clock.push_handlers(self)
         self.count = 0
 
     def on_update(self, dt):

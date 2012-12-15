@@ -18,6 +18,8 @@ from weakref import WeakValueDictionary
 from weakref import WeakSet
 import logging
 
+logger = logging.getLogger(__name__)
+
 
 ###############################################################################
 # Component, Entity, System

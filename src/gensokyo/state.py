@@ -5,8 +5,6 @@ import logging
 
 from pyglet.event import EventDispatcher, EVENT_HANDLED
 
-from gensokyo import manager
-
 logger = logging.getLogger(__name__)
 
 
@@ -18,6 +16,7 @@ class TreeNode:
     """
 
     def __init__(self):
+        super().__init__()
         self.parent = None
         self.children = set()
 

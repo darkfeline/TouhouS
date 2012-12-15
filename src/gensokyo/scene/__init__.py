@@ -1,19 +1,11 @@
-from gensokyo import manager
 from gensokyo import state
+from gensokyo import ces
 
 
-class Scene(state.StateNode):
+class Scene(state.StateNode, ces.Environment):
 
     def __init__(self):
         super().__init__()
-        self.em = manager.EntityManager()
-        self.sm = manager.SystemManager()
-        self.gm = manager.GroupManager()
-        self.tm = manager.TagManager()
         self.graphics = None
         self.updater = None
         self.input = None
-
-    def delete(self):
-        self.em.delete()
-        self.sm.delete()

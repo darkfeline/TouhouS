@@ -99,10 +99,6 @@ class Entity:
 
     def delete(self, component):
         self.components.remove(component)
-        try:
-            component.delete()
-        except AttributeError:
-            pass
 
     def get(self, types):
         """
@@ -185,8 +181,6 @@ class EntityManager:
     def delete(self, entity=None):
         if entity:
             self.entities.remove(entity)
-            for a in entity.get(Component):
-                entity.delete(a)
         else:
             for entity in list(self.entities):
                 self.delete(entity)
@@ -249,11 +243,6 @@ class SystemManager:
 
     def __iter__(self):
         return iter(self.systems)
-
-    def delete(self):
-        for a in self.systems:
-            if hasattr(a, 'delete'):
-                a.delete()
 
 
 class Environment:

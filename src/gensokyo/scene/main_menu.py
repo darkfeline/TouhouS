@@ -36,9 +36,6 @@ class MenuScene(scene.Scene):
         locator.window.remove_handlers(self.input)
         locator.graphics.pop()
 
-    def delete(self):
-        super().delete()
-
 
 class MenuGraphics(graphics.GraphicsLevel):
 

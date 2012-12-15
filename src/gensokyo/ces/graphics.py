@@ -115,6 +115,10 @@ class GraphicsObject(ces.Position):
     def pos(self, value):
         self.sprite.x, self.sprite.y = value
 
+    def __del__(self):
+        logger.debug("sprite deleted %s", self)
+        self.sprite.delete()
+
 
 class Sprite(GraphicsObject):
 

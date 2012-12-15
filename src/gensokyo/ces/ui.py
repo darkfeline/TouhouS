@@ -156,8 +156,7 @@ class IconCounter(Counter):
             delta -= 1
         # remove icons
         while delta < 0:
-            sprite = self.icons.pop()
-            sprite.delete()
+            self.icons.pop()
             i += 1
             delta += 1
 

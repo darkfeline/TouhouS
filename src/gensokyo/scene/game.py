@@ -87,9 +87,6 @@ class GameScene(scene.Scene):
         locator.clock.remove_handlers(on_update=self.clock.tick)
         locator.graphics.pop()
 
-    def delete(self):
-        super().delete()
-
 
 class GameCollisionSystem(collision.CollisionSystem):
 

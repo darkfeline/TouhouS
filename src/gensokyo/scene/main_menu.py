@@ -28,11 +28,13 @@ class MenuScene(scene.Scene):
 
     def enter(self):
         logger.info("Entering MenuScene...")
+        super().enter()
         locator.window.push_handlers(self.input)
         locator.graphics.push(self.graphics)
 
     def exit(self):
         logger.info("Exiting MenuScene...")
+        super().exit()
         locator.window.remove_handlers(self.input)
         locator.graphics.pop()
 

@@ -99,9 +99,10 @@ class StateTree(TreeNode, EventDispatcher):
 
     def on_transition(self, transition):
         if self.state is not None:
-            logging.debug("Leaving state %s", self.state)
             if not transition.save:
+                logging.debug("Removing state %s", self.state)
                 self.remove(self.state)
+            logging.debug("Leaving state %s", self.state)
             self._leave()
         if transition.to in self.valid_states:
             logging.debug("Handling transition %s", transition)

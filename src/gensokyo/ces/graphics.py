@@ -32,6 +32,7 @@ class Graphics(event.EventDispatcher):
         self.levels.append(level)
         self.push_handlers(level)
         if self._sprites_cache:
+            logger.debug('Adding cached sprites')
             self._add_cached()
 
     def pop(self):
@@ -55,11 +56,13 @@ class GraphicsLevel:
 
     def on_draw(self):
         locator.window.clear()
+        logger.debug('%s drawing', self)
         self.draw()
         return event.EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
         if group in self.map:
+            logger.debug('%s adding sprite %s', self, sprite)
             self.add_sprite(sprite, group)
             return event.EVENT_HANDLED
 

@@ -32,20 +32,13 @@ class FPSDisplay(UILabel):
 
     def __init__(self, x, y):
         super().__init__(x=x, y=y, anchor_x='left', anchor_y='bottom',
-                       font_size=10, color=(255, 255, 255, 255))
-
-
-class FPSSystem(ces.System):
-
-    def __init__(self, env):
-        super().__init__(env)
+                         font_size=10, color=(255, 255, 255, 255))
         self.count = 0
 
     def on_update(self, dt):
         self.count += dt
         if self.count > 1:
-            entity = self.env.tm.get_tag('fps_display')
-            for l in entity.get(graphics.Label):
+            for l in self.get(graphics.Label):
                 l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
             self.count = 0
 

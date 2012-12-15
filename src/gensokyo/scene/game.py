@@ -31,7 +31,6 @@ class GameScene(scene.Scene):
         self.updater = update.Updater()
 
         # Systems
-        self.sm.add(ui.FPSSystem())
         self.sm.add(player.ShiftingSystem(globals.GAME_AREA))
         self.sm.add(player.ShieldDecay())
         self.sm.add(script.ScriptSystem())
@@ -55,7 +54,6 @@ class GameScene(scene.Scene):
         # FPS
         fps = ui.FPSDisplay(570, 2)
         self.em.add(fps)
-        self.tm.tag('fps_display', fps)
         # Counters
         counters = {
             'high_score': (ui.TextCounter, 430, 415, 'High score'),

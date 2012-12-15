@@ -45,7 +45,7 @@ class FPSSystem(ces.System):
     def on_update(self, dt):
         self.count += dt
         if self.count > 1:
-            entity = self.env.tm.get_tag('fps_display')
+            entity = self.env.tm['fps_display']
             for l in entity.get(graphics.Label):
                 l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
             self.count = 0

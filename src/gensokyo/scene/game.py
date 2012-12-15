@@ -34,14 +34,14 @@ class GameScene(scene.Scene):
         self.clock = clock.Clock()
 
         # Systems
-        self.sm.add(ui.FPSSystem(self))
-        self.sm.add(player.ShiftingSystem(self, globals.GAME_AREA))
-        self.sm.add(player.ShieldDecay(self))
-        self.sm.add(script.ScriptSystem(self))
-        self.sm.add(enemy.GrimReaper(self))
-        self.sm.add(rails.RailSystem(self))
-        self.sm.add(physics.PhysicsSystem(self))
-        self.sm.add(gc.GarbageCollectSystem(self, globals.GAME_AREA))
+        ui.FPSSystem(self)
+        player.ShiftingSystem(self, globals.GAME_AREA)
+        player.ShieldDecay(self)
+        script.ScriptSystem(self)
+        enemy.GrimReaper(self)
+        rails.RailSystem(self)
+        physics.PhysicsSystem(self)
+        gc.GarbageCollectSystem(self, globals.GAME_AREA)
 
         # Groups
         self.gm.make_group('enemy_bullet')

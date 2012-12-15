@@ -11,6 +11,10 @@ addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.
 
+You do not need to explicitly add a System to a SystemManager; its ``__init__``
+takes its environment as a parameter and will add itself.  Make sure to call
+``super().__init__()``.
+
 System
     Performs logic by iterating over Entities
 
@@ -160,6 +164,7 @@ class System(metaclass=abc.ABCMeta):
 
     def __init__(self, env):
         self.env = env
+        env.sm.add(self)
 
 
 ###############################################################################

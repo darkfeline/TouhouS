@@ -67,9 +67,9 @@ class GameScene(scene.Scene):
         # Stage
         self.em.add(self.stage_class())
         # Player
-        player = self.player_class(*globals.DEF_PLAYER_XY)
-        self.em.add(player)
-        self.tm.tag('player', player)
+        player_ = self.player_class(*globals.DEF_PLAYER_XY)
+        self.em.add(player_)
+        self.tm.tag('player', player_)
 
     def enter(self):
         locator.clock.push_handlers(self.updater)

@@ -70,7 +70,6 @@ class ShiftingSystem(ces.System):
             dpos = tuple(dpos)
             # Move master
             master.pos = tuple(start[i] + dpos[i] for i in [0, 1])
-            logger.debug('Master moved to %s', master.pos)
             # Calculate bounds
             if master.left < self.bounds.left:
                 master.left = self.bounds.left
@@ -80,6 +79,7 @@ class ShiftingSystem(ces.System):
                 master.bottom = self.bounds.bottom
             elif master.top > self.bounds.top:
                 master.top = self.bounds.top
+            logger.debug('Master moved to %s', master.pos)
             end = master.pos
             dpos = tuple(end[i] - start[i] for i in [0, 1])
             # Do for slaves

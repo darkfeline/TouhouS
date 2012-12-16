@@ -6,59 +6,44 @@ Provides stuff for versatile scripting.
 Units
 *****
 
-The basic data structure is a *scripting unit*.  Scripting units are tuples
-containing ConditionUnits.
+The basic data structure is a ``ScriptingUnit``.
 
-ConditionUnits have two main properties and one method.
+ScriptingUnit has the ``run`` method.
 
-``satisfied`` returns a Boolean.  ``run`` is a method which is called with the
-owning entity as an argument if ``satisfied`` is ``True``.  If ``run`` returns
-a scripting unit, it will be added to the Script's list of active units.
-Otherwise, ``run`` should return ``None``.  If it returns a list of scripting
-units, all of them will be added.  Newly added units will not be run until the
-next loop.
+``run`` is a method which is called on every tick.  It returns a ``Result``
+``namedtuple`` with two fields.  If the ``expire`` field is true, the
+``ScriptingUnit`` will be removed from the ``Script``.  If ``new`` is a
+``ScriptingUnit``, it will be added to the ``Script``.
 
-``run`` is passed first the entitiy the component belongs to and second the
-environment which the system belongs to.
-
-If ``expire`` is ``True`` (False by default), the scripting unit will be
-expired.  This is immediate; following ConditionUnits will not be processed.
+``run`` is passed the entitiy the component belongs to, the
+environment which the system belongs to, and the time since the last tick.
 
 Scripts and ScriptSystem
 ************************
 
-Script instances have a list of currently active scripting units.
+Script instances have a list of currently active ``ScriptingUnit``s.
 
 Entities can have multiple Scripts!  Functionally there is no need, but it is
 damn useful.  Use it where it makes sense.
 
 ScriptSystem instances iterate over Script objects and iterate over their
-active scripting units every update loop.  Scripting units function like
+active ``ScriptingUnit``s every tick.  ``ScriptingUnit``s function like
 datafied if/elses.
-
-The conditions in each scripting unit are exclusive, evaluated in order.
 
 """
 
 import abc
+from collections import namedtuple
 
 from gensokyo import ces
 
+Result = namedtuple('Result', ['expire', 'new'])
 
-class ConditionUnit(metaclass=abc.ABCMeta):
-
-    @property
-    @abc.abstractmethod
-    def satisfied(self):
-        raise NotImplementedError
+class ScriptingUnit(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def run(self, entity, env):
+    def run(self, entity, env, dt):
         raise NotImplementedError
-
-    @property
-    def expire(self):
-        return False
 
 
 class Script(ces.Component):
@@ -81,19 +66,17 @@ class ScriptSystem(ces.System):
 
     req_components = (Script,)
 
+    def __init__(self, env):
+        super().__init__(env)
+        env.clock.push_handlers(self)
+
     def on_update(self, dt):
         for entity in self.env.em.get_with(self.req_components):
             for script in entity.get(self.req_components[0]):
                 for unit in list(script.units):
-                    for cond in unit:
-                        if cond.satisfied:
-                            r = cond.run(entity, self.env)
-                            if r:
-                                try:
-                                    script.units.extend(r)
-                                except TypeError:
-                                    assert isinstance(r, tuple)
-                                    script.units.append(r)
-                            if cond.expire:
-                                script.units.remove(unit)
-                                break
+                    r = unit.run(entity, self.env, dt)
+                    assert isinstance(r, Result)
+                    if r.new:
+                        script.units.append(r.new)
+                    if r.expire:
+                        script.units.remove(unit)

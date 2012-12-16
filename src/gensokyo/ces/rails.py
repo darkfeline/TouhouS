@@ -57,8 +57,6 @@ from functools import wraps
 import math
 
 from gensokyo import ces
-from gensokyo.ces import observer
-from gensokyo import locator
 
 
 def _shift(pos):
@@ -135,12 +133,12 @@ class RailPosition(ces.Position):
     pass
 
 
-class RailSystem(ces.System, observer.Updating):
+class RailSystem(ces.System):
 
     req_components = (Rails, RailPosition)
 
     def on_update(self, dt):
-        for entity in locator.em.get_with(self.req_components):
+        for entity in self.env.em.get_with(self.req_components):
             r = entity.get(Rails)[0]
             r.time += dt
             step = 0

@@ -8,39 +8,64 @@ from pyglet import event
 
 from gensokyo import locator
 from gensokyo import ces
-from gensokyo.ces import observer
 
 logger = logging.getLogger(__name__)
 
 
-class ScreenClearer(ces.System, observer.Drawing):
+class Graphics(event.EventDispatcher):
 
-    def on_draw(self):
-        locator.window.clear()
+    def __init__(self):
+        self.levels = []
+        self._sprites_cache = []
+
+    def on_add_sprite(self, *args):
+        self._sprites_cache.append(args)
+
+    def _add_cached(self):
+        a = self._sprites_cache
+        self._sprites_cache = []
+        for args in a:
+            self.dispatch_event('on_add_sprite', *args)
+
+    def push(self, level):
+        logger.debug('Pushing level %s', level)
+        assert isinstance(level, GraphicsLevel)
+        self.levels.append(level)
+        self.push_handlers(level)
+        if self._sprites_cache:
+            logger.debug('Adding cached sprites')
+            self._add_cached()
+
+    def pop(self):
+        logger.debug('Popping level')
+        level = self.levels.pop()
+        self.remove_handlers(level)
+
+Graphics.register_event_type('on_add_sprite')
+Graphics.register_event_type('on_draw')
 
 
-class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
-
-    """
-    Make sure to open the ``'graphics'`` channel with this when you
-    instantiate
-
-    """
+class GraphicsLevel:
 
     map = tuple()
 
     def __init__(self):
-        super().__init__()
         self.batch = Batch()
         self.groups = dict(
             (self.map[i], OrderedGroup(i)) for i in range(len(self.map)))
         self.labels = set()
 
     def on_draw(self):
+        locator.window.clear()
+        logger.debug('%s drawing', self)
         self.draw()
+        return event.EVENT_HANDLED
 
     def on_add_sprite(self, sprite, group):
-        self.add_sprite(sprite, group)
+        if group in self.map:
+            logger.debug('%s adding sprite %s %s', self, sprite, group)
+            self.add_sprite(sprite, group)
+            return event.EVENT_HANDLED
 
     def draw(self):
         self.batch.draw()
@@ -48,7 +73,7 @@ class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
             l.draw()
 
     def add_sprite(self, sprite, group):
-        logger.debug("Adding sprite {} {}".format(sprite, group))
+        logger.debug("Adding sprite %s %s", sprite, group)
         if isinstance(sprite, text.Label):
             self._add_label(sprite, group)
         else:
@@ -61,13 +86,8 @@ class Graphics(ces.System, event.EventDispatcher, observer.Drawing):
         #label._own_batch = False
 
     def _add_sprite(self, sprite, group):
-        try:
-            sprite.group = self.groups[group]
-        except AttributeError:  # sprite already deleted
-            return
+        sprite.group = self.groups[group]
         sprite.batch = self.batch
-
-Graphics.register_event_type('on_add_sprite')
 
 
 def _set_label_group(label, group):
@@ -81,11 +101,11 @@ def _set_label_group(label, group):
 class GraphicsObject(ces.Position):
 
     def __init__(self, constructor, group, *args, **kwargs):
-        logger.debug('New GraphicsObject: {} {} {} {}'.format(
-            constructor, group, args, kwargs))
+        logger.debug('New GraphicsObject: %s %s %s %s', constructor, group,
+                     args, kwargs)
         self.sprite = constructor(*args, **kwargs)
         self.group = group
-        locator.broadcast['graphics'].dispatch_event(
+        locator.graphics.dispatch_event(
             'on_add_sprite', self.sprite, group)
 
     @property
@@ -95,6 +115,10 @@ class GraphicsObject(ces.Position):
     @pos.setter
     def pos(self, value):
         self.sprite.x, self.sprite.y = value
+
+    def __del__(self):
+        logger.debug("deleting sprite %s", self)
+        self.sprite.delete()
 
 
 class Sprite(GraphicsObject):

@@ -10,8 +10,6 @@ will be used to determine if the entity has completely exited the boundaries.
 """
 
 from gensokyo import ces
-from gensokyo.ces import observer
-from gensokyo import locator
 
 
 class Presence(ces.Position):
@@ -30,11 +28,12 @@ class Presence(ces.Position):
         self.rect.center = value
 
 
-class GarbageCollectSystem(ces.System, observer.Updating):
+class GarbageCollectSystem(ces.System):
 
     req_components = (Presence,)
 
-    def __init__(self, area):
+    def __init__(self, env, area):
+        super().__init__(env)
         self.area = area
 
     def _check_bounds(self, entity):
@@ -53,5 +52,5 @@ class GarbageCollectSystem(ces.System, observer.Updating):
     def on_update(self, dt):
         entities = self.get_with(self.req_components)
         for e in entities:
-            if _check_bounds(e):
-                locator.em.delete(e)
+            if self._check_bounds(e):
+                self.env.em.delete(e)

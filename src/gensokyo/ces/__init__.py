@@ -11,11 +11,48 @@ addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.
 
+You do not need to explicitly add a System to a SystemManager; its ``__init__``
+takes its environment as a parameter and will add itself.  Make sure to call
+``super().__init__()``.
+
+System
+    Performs logic by iterating over Entities
+
+Entity
+    Contains Components
+
+Component
+    Holds data
+
+Environment
+    Provides a CES environment, i.e. the four managers
+
+EntityManager
+    Holds references to Entities
+
+GroupManager
+    Holds references to groups of Entities
+
+TagManager
+    Holds references to specific Entities
+
+SystemManager
+    Holds references to Systems
+
+
 """
 
 import abc
+from weakref import WeakValueDictionary
+from weakref import WeakSet
+import logging
+
+logger = logging.getLogger(__name__)
 
 
+###############################################################################
+# Component, Entity, System
+###############################################################################
 class Component(metaclass=abc.ABCMeta):
 
     """
@@ -62,10 +99,6 @@ class Entity:
 
     def delete(self, component):
         self.components.remove(component)
-        try:
-            component.delete()
-        except AttributeError:
-            pass
 
     def get(self, types):
         """
@@ -125,4 +158,101 @@ class System(metaclass=abc.ABCMeta):
 
     """
 
-    pass
+    def __init__(self, env):
+        self.env = env
+        env.sm.add(self)
+
+
+###############################################################################
+# Managers and Environment
+###############################################################################
+class EntityManager:
+
+    def __init__(self):
+        self.entities = set()
+
+    def add(self, entity):
+        logger.debug("Add entity %s", entity)
+        self.entities.add(entity)
+
+    def __iter__(self):
+        return iter(self.entities)
+
+    def delete(self, entity=None):
+        if entity:
+            self.entities.remove(entity)
+        else:
+            for entity in list(self.entities):
+                self.delete(entity)
+
+    def get_with(self, types):
+        """
+        Find all entities who have at least one component of each type and
+        return a set of entities
+
+        :param types: component types to look for
+        :type types: tuple
+        :rtype: set
+
+        """
+        good = set()
+        for entity in self.entities:
+            components = entity.get(types)
+            # Check if all slots in components are filled
+            if len([a for a in components if len(a) == 0]) == 0:
+                good.add(entity)
+        return good
+
+
+class GroupManager:
+
+    def __init__(self):
+        self.groups = {}
+
+    def __getitem__(self, key):
+        return self.groups[key]
+
+    def make_group(self, key):
+        if not key in self.groups.keys():
+            self.groups[key] = WeakSet()
+
+    def add_to(self, key, entity):
+        self.groups[key].add(entity)
+
+
+class TagManager:
+
+    def __init__(self):
+        self.items = WeakValueDictionary()
+
+    def __getitem__(self, key):
+        return self.items[key]
+
+    def tag(self, key, entity):
+        self.items[key] = entity
+
+
+class SystemManager:
+
+    def __init__(self):
+        self.systems = set()
+
+    def add(self, system):
+        logger.debug("Add system %s", system)
+        self.systems.add(system)
+
+    def __iter__(self):
+        return iter(self.systems)
+
+
+class Environment:
+
+    def __init__(self):
+        self.em = EntityManager()
+        self.sm = SystemManager()
+        self.gm = GroupManager()
+        self.tm = TagManager()
+
+    def delete(self):
+        self.em.delete()
+        self.sm.delete()

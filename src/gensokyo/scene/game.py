@@ -1,10 +1,12 @@
+import logging
+
 from gensokyo import scene
+from gensokyo import clock
 from gensokyo import ces
 from gensokyo.ces import stage
 from gensokyo.ces import graphics
 from gensokyo.ces import player
 from gensokyo.ces import ui
-from gensokyo.ces import observer
 from gensokyo.ces import script
 from gensokyo.ces import enemy
 from gensokyo.ces import rails
@@ -14,6 +16,8 @@ from gensokyo.ces import physics
 from gensokyo import resources
 from gensokyo import locator
 from gensokyo import globals
+
+logger = logging.getLogger(__name__)
 
 
 class GameScene(scene.Scene):
@@ -26,40 +30,27 @@ class GameScene(scene.Scene):
 
         super().__init__()
 
-        self.blockers = []
-        for b in (observer.InputBlocker, observer.DrawBlocker,
-                  observer.UpdateBlocker):
-            b = b()
-            self.blockers.append(b)
+        self.graphics = GameGraphics()
+        self.clock = clock.Clock()
 
-        g = GameGraphics()
-        locator.broadcast.open('graphics', g)
-        self.sm.add(g)
-        self.sm.add(graphics.ScreenClearer())
-        self.sm.add(ui.FPSSystem())
-        self.sm.add(player.ShiftingSystem(globals.GAME_AREA))
-        self.sm.add(player.ShieldDecay())
-        self.sm.add(script.ScriptSystem())
-        self.sm.add(enemy.GrimReaper())
-        self.sm.add(rails.RailSystem())
-        self.sm.add(physics.PhysicsSystem())
-        self.sm.add(gc.GarbageCollectSystem(globals.GAME_AREA))
-
-    def delete(self):
-        super().delete()
-        locator.broadcast.close('graphics')
-        for b in self.blockers:
-            b.delete()
-
-    def init(self):
+        # Systems
+        ui.FPSSystem(self)
+        player.ShiftingSystem(self, globals.GAME_AREA)
+        player.ShieldDecay(self)
+        script.ScriptSystem(self)
+        enemy.GrimReaper(self)
+        rails.RailSystem(self)
+        physics.PhysicsSystem(self)
+        gc.GarbageCollectSystem(self, globals.GAME_AREA)
 
         # Groups
         self.gm.make_group('enemy_bullet')
         self.gm.make_group('enemy')
         self.gm.make_group('player_bullet')
 
+        #######################################################################
         # Entities
-
+        #######################################################################
         # UI image
         bg = ces.Entity()
         bg.add(graphics.Sprite('ui', self.ui_image))
@@ -79,11 +70,22 @@ class GameScene(scene.Scene):
             counter = c(x, y, tit)
             self.em.add(counter)
             self.tm.tag(tag, counter)
-
+        # Stage
         self.em.add(self.stage_class())
-        player = self.player_class(*globals.DEF_PLAYER_XY)
-        self.em.add(player)
-        self.tm.tag('player', player)
+        # Player
+        player_ = self.player_class(*globals.DEF_PLAYER_XY)
+        self.em.add(player_)
+        self.tm.tag('player', player_)
+
+    def enter(self):
+        logger.debug("Entering game")
+        locator.clock.push_handlers(on_update=self.clock.tick)
+        locator.graphics.push(self.graphics)
+
+    def exit(self):
+        logger.debug("Exiting game")
+        locator.clock.remove_handlers(on_update=self.clock.tick)
+        locator.graphics.pop()
 
 
 class GameCollisionSystem(collision.CollisionSystem):
@@ -101,7 +103,7 @@ class GameCollisionSystem(collision.CollisionSystem):
                     break
 
 
-class GameGraphics(graphics.Graphics):
+class GameGraphics(graphics.GraphicsLevel):
 
     map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
            'enemy_bullet', 'ui', 'ui_element')

@@ -1,2 +1,3 @@
-recursive-include bin/ *.sh *.py
-graft doc/
+recursive-include src *.pyx *.c
+graft doc
+graft resources

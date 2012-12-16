@@ -62,6 +62,7 @@ class ShiftingSystem(ces.System):
 
     def on_update(self, dt):
 
+        logger.debug('Shift system update')
         # Get current key state
         v = [0, 0]
         if key[key.RIGHT]:
@@ -84,6 +85,7 @@ class ShiftingSystem(ces.System):
             dpos = tuple(dpos)
             # Move master
             master.pos = tuple(start[i] + dpos[i] for i in [0, 1])
+            logger.debug('Master moved to %s', master.pos)
             # Calculate bounds
             if master.rect.left < self.bounds.left:
                 master.rect.left = self.bounds.left

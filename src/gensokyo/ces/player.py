@@ -95,9 +95,6 @@ class ShiftingSystem(ces.System):
         env.clock.push_handlers(self)
         self.bounds = bounds
 
-    def set_pos(self, entity):
-        pass
-
     def on_update(self, dt):
 
         logger.debug('Shift system update')

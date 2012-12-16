@@ -23,66 +23,16 @@ class Shifter(BaseShifter):
     pass
 
 
-class MasterShifter(BaseShifter):
+class MasterShifter(BaseShifter, metaclass=abc.ABCMeta):
 
-    speed_mult = 25
-    focus_mult = 0.5
-    rect = primitives.Rect(0, 0, 25, 35)
+    """
+    .. attribute:: speed_mult
+    .. attribute:: focus_mult
+    .. attribute:: rect
 
-    def __init__(self, pos):
+    """
 
-        self.rect = self.rect.copy()
-        self.pos = pos
-
-    @property
-    def pos(self):
-        return self.rect.center
-
-    @pos.setter
-    def pos(self, value):
-        self.rect.center = value
-        self.pos = self.rect.center
-
-    @property
-    def top(self):
-        return self.rect.top
-
-    @top.setter
-    def top(self, value):
-        self.rect.top = value
-        self.pos = self.rect.center
-
-    @property
-    def bottom(self):
-        return self.rect.bottom
-
-    @bottom.setter
-    def bottom(self, value):
-        self.rect.bottom = value
-        self.pos = self.rect.center
-
-    @property
-    def left(self):
-        return self.rect.left
-
-    @left.setter
-    def left(self, value):
-        self.rect.left = value
-        self.pos = self.rect.center
-
-    @property
-    def right(self):
-        return self.rect.right
-
-    @right.setter
-    def right(self, value):
-        self.rect.right = value
-        self.pos = self.rect.center
-
-    @staticmethod
-    @property
-    def focus():
-        return locator.key_state[key.LSHIFT]
+    pass
 
 
 class ShiftingSystem(ces.System):
@@ -234,11 +184,73 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
             self.state += dt
 
 
-class PlayerHitbox(collision.Hitbox, MasterShifter):
-    pass
+class PlayerHitbox(MasterShifter, collision.Hitbox):
+
+    speed_mult = 25
+    focus_mult = 0.5
+    rect = primitives.Rect(0, 0, 25, 35)
+
+    def __init__(self, hb):
+        if isinstance(hb, primitives.Circle):
+            pos = (hb.x, hb.y)
+        elif isinstance(hb, primitives.Rect):
+            pos = hb.center
+        super().__init__(pos)
+        self.rect = self.rect.copy()
+        self.pos = pos
+
+    @property
+    def pos(self):
+        return self.rect.center
+
+    @pos.setter
+    def pos(self, value):
+        self.rect.center = value
+        super(self.__class__, self.__class__).pos.fset(self, value)
+
+    @property
+    def top(self):
+        return self.rect.top
+
+    @top.setter
+    def top(self, value):
+        self.rect.top = value
+        self.pos = self.rect.center
+
+    @property
+    def bottom(self):
+        return self.rect.bottom
+
+    @bottom.setter
+    def bottom(self, value):
+        self.rect.bottom = value
+        self.pos = self.rect.center
+
+    @property
+    def left(self):
+        return self.rect.left
+
+    @left.setter
+    def left(self, value):
+        self.rect.left = value
+        self.pos = self.rect.center
+
+    @property
+    def right(self):
+        return self.rect.right
+
+    @right.setter
+    def right(self, value):
+        self.rect.right = value
+        self.pos = self.rect.center
+
+    @staticmethod
+    @property
+    def focus():
+        return locator.key_state[key.LSHIFT]
 
 
-class PlayerSprite(graphics.Sprite, Shifter):
+class PlayerSprite(Shifter, graphics.Sprite):
     pass
 
 

@@ -41,6 +41,43 @@ class MasterShifter(BaseShifter):
     @pos.setter
     def pos(self, value):
         self.rect.center = value
+        self.pos = self.rect.center
+
+    @property
+    def top(self):
+        return self.rect.top
+
+    @top.setter
+    def top(self, value):
+        self.rect.top = value
+        self.pos = self.rect.center
+
+    @property
+    def bottom(self):
+        return self.rect.bottom
+
+    @bottom.setter
+    def bottom(self, value):
+        self.rect.bottom = value
+        self.pos = self.rect.center
+
+    @property
+    def left(self):
+        return self.rect.left
+
+    @left.setter
+    def left(self, value):
+        self.rect.left = value
+        self.pos = self.rect.center
+
+    @property
+    def right(self):
+        return self.rect.right
+
+    @right.setter
+    def right(self, value):
+        self.rect.right = value
+        self.pos = self.rect.center
 
     @staticmethod
     @property
@@ -88,14 +125,14 @@ class ShiftingSystem(ces.System):
             master.pos = tuple(start[i] + dpos[i] for i in [0, 1])
             logger.debug('Master moved to %s', master.pos)
             # Calculate bounds
-            if master.rect.left < self.bounds.left:
-                master.rect.left = self.bounds.left
-            elif master.rect.right > self.bounds.right:
-                master.rect.right = self.bounds.right
-            if master.rect.bottom < self.bounds.bottom:
-                master.rect.bottom = self.bounds.bottom
-            elif master.rect.top > self.bounds.top:
-                master.rect.top = self.bounds.top
+            if master.left < self.bounds.left:
+                master.left = self.bounds.left
+            elif master.right > self.bounds.right:
+                master.right = self.bounds.right
+            if master.bottom < self.bounds.bottom:
+                master.bottom = self.bounds.bottom
+            elif master.top > self.bounds.top:
+                master.top = self.bounds.top
             end = master.pos
             dpos = tuple(end[i] - start[i] for i in [0, 1])
             # Do for slaves

@@ -186,7 +186,7 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
 
 class PlayerHitbox(MasterShifter, collision.Hitbox):
 
-    speed_mult = 25
+    speed_mult = 10
     focus_mult = 0.5
     rect = primitives.Rect(0, 0, 25, 35)
 

@@ -55,6 +55,7 @@ class ShiftingSystem(ces.System):
 
     def __init__(self, env, bounds):
         super().__init__(env)
+        env.clock.push_handlers(self)
         self.bounds = bounds
 
     def set_pos(self, entity):

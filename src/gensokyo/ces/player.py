@@ -65,7 +65,7 @@ class ShiftingSystem(ces.System):
             master = entity.get(self.req_components[0])[0]
             start = master.pos
             dpos = v * master.speed_mult
-            if master.focus:
+            if master.is_focus():
                 dpos *= master.focus_mult
             dpos = tuple(dpos)
             # Move master
@@ -175,12 +175,11 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
         env.gm.add_to('player_bullet', b)
 
     @staticmethod
-    @property
     def is_firing():
         return locator.key_state[key.Z]
 
     def on_update(self, dt):
-        if self.is_firing:
+        if self.is_firing():
             self.state += dt
 
 
@@ -245,8 +244,7 @@ class PlayerHitbox(MasterShifter, collision.Hitbox):
         self.pos = self.rect.center
 
     @staticmethod
-    @property
-    def focus():
+    def is_focus():
         return locator.key_state[key.LSHIFT]
 
 

@@ -42,8 +42,8 @@ class MasterShifter(BaseShifter):
     def pos(self, value):
         self.rect.center = value
 
-    @property
     @staticmethod
+    @property
     def focus():
         return locator.key_state[key.LSHIFT]
 
@@ -187,8 +187,8 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
         env.em.add(b)
         env.gm.add_to('player_bullet', b)
 
-    @property
     @staticmethod
+    @property
     def is_firing():
         return locator.key_state[key.Z]
 

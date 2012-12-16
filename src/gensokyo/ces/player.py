@@ -25,7 +25,7 @@ class Shifter(BaseShifter):
 
 class MasterShifter(BaseShifter):
 
-    speed_mult = 500
+    speed_mult = 25
     focus_mult = 0.5
     rect = primitives.Rect(0, 0, 25, 35)
 

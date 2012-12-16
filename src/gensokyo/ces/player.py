@@ -65,13 +65,13 @@ class ShiftingSystem(ces.System):
         logger.debug('Shift system update')
         # Get current key state
         v = [0, 0]
-        if key[key.RIGHT]:
+        if locator.key_state[key.RIGHT]:
             v[0] += 1
-        if key[key.LEFT]:
+        if locator.key_state[key.LEFT]:
             v[0] -= 1
-        if key[key.UP]:
+        if locator.key_state[key.UP]:
             v[1] += 1
-        if key[key.DOWN]:
+        if locator.key_state[key.DOWN]:
             v[1] -= 1
         v = primitives.Vector(*v).get_unit_vector()
 

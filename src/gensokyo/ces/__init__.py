@@ -47,6 +47,8 @@ from weakref import WeakValueDictionary
 from weakref import WeakSet
 import logging
 
+from pyglet.event import EventDispatcher
+
 logger = logging.getLogger(__name__)
 
 
@@ -166,6 +168,14 @@ class System(metaclass=abc.ABCMeta):
 ###############################################################################
 # Managers and Environment
 ###############################################################################
+class Clock(EventDispatcher):
+
+    def tick(self, dt):
+        self.dispatch_event('on_update', dt)
+
+Clock.register_event_type('on_update')
+
+
 class EntityManager:
 
     def __init__(self):
@@ -252,6 +262,7 @@ class Environment:
         self.sm = SystemManager()
         self.gm = GroupManager()
         self.tm = TagManager()
+        self.clock = Clock()
 
     def delete(self):
         self.em.delete()

@@ -76,8 +76,8 @@ class ScriptSystem(ces.System):
             for script in entity.get(self.req_components[0]):
                 for unit in list(script.units):
                     r = unit.run(entity, self.env, dt)
-                    assert isinstance(r, Result)
-                    if r.new:
-                        script.units.append(r.new)
-                    if r.expire:
-                        script.units.remove(unit)
+                    if isinstance(r, Result):
+                        if r.new:
+                            script.units.append(r.new)
+                        if r.expire:
+                            script.units.remove(unit)

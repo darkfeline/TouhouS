@@ -17,55 +17,39 @@ class Stage(ces.Entity):
 class StageOne(Stage):
 
     def __init__(self):
-        super().__init__([(LoopSpawnEnemy(GAME_AREA.right + 30, 400),)])
+        super().__init__([LoopSpawnEnemy(GAME_AREA.right + 30, 400)])
 
 
 # TODO generalize looping
-class LoopSpawnEnemy(script.ConditionUnit):
+class LoopSpawnEnemy(script.ScriptingUnit):
 
     def __init__(self, pos, rate):
         self.pos = pos
         self.state = 0
         self.rate = rate
 
-    @property
-    def satisfied(self):
-        if self.state > self.rate:
-            return True
-        else:
-            return False
-
-    def run(self, entity, env):
-        self.state -= self.rate
-        e = GenericEnemy(*self.pos)
-        r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
-        e.add(r)
-        s = script.Script([TimedSuicide(6)])
-        e.add(s)
-        env.em.add(e)
-        env.gm.add_to(e, 'enemy')
-
-    def on_update(self, dt):
+    def run(self, entity, env, dt):
         self.state += dt
+        if self.state >= self.rate:
+            self.state -= self.rate
+            e = GenericEnemy(*self.pos)
+            r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
+            e.add(r)
+            s = script.Script([TimedSuicide(6)])
+            e.add(s)
+            env.em.add(e)
+            env.gm.add_to(e, 'enemy')
 
 
 # TODO generalize this too
-class TimedSuicide(script.ConditionUnit):
+class TimedSuicide(script.ScriptingUnit):
 
     def __init__(self, time):
         self.time = 0
         self.limit = time
         self.expire = True
 
-    @property
-    def satisfied(self):
-        if self.time > self.limit:
-            return True
-        else:
-            return False
-
-    def run(self, entity, env):
-        env.em.delete(entity)
-
-    def on_update(self, dt):
+    def run(self, entity, env, dt):
         self.state += dt
+        if self.time > self.limit:
+            env.em.delete(entity)

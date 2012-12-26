@@ -152,7 +152,7 @@ class Player(ces.Entity):
             del self.hb_sprite
 
 
-class LimitedLoopFiring(script.ConditionUnit, Shifter):
+class LimitedLoopFiring(script.ScriptingUnit, Shifter):
 
     def __init__(self, pos, rate, bullet):
         super().__init__()
@@ -161,26 +161,18 @@ class LimitedLoopFiring(script.ConditionUnit, Shifter):
         self.limit = 1 / rate
         self.bullet = bullet
 
-    @property
-    def satisfied(self):
-        if self.state > self.limit:
-            return True
-        else:
-            return False
-
-    def run(self, entity, env):
-        self.state -= self.limit
-        b = self.bullet(*self.pos)
-        env.em.add(b)
-        env.gm.add_to('player_bullet', b)
+    def run(self, entity, env, dt):
+        if self.is_firing():
+            self.state += dt
+        if self.state >= self.limit:
+            self.state -= self.limit
+            b = self.bullet(*self.pos)
+            env.em.add(b)
+            env.gm.add_to('player_bullet', b)
 
     @staticmethod
     def is_firing():
         return locator.key_state[key.Z]
-
-    def on_update(self, dt):
-        if self.is_firing():
-            self.state += dt
 
 
 class PlayerHitbox(MasterShifter, collision.Hitbox):
@@ -276,6 +268,6 @@ class Reimu(Player):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        f = script.Script([(LimitedLoopFiring((x - 10, y), 20, ReimuShot),
-                            LimitedLoopFiring((x + 10, y), 20, ReimuShot))])
+        f = script.Script([LimitedLoopFiring((x - 10, y), 20, ReimuShot),
+                           LimitedLoopFiring((x + 10, y), 20, ReimuShot)])
         self.add(f)

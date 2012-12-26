@@ -11,7 +11,7 @@ The basic data structure is a ``ScriptingUnit``.
 ScriptingUnit has the ``run`` method.
 
 ``run`` is a method which is called on every tick.  It returns a ``Result``
-``namedtuple`` with two fields.  If the ``expire`` field is true, the
+(a ``namedtuple``) with two fields.  If the ``expire`` field is true, the
 ``ScriptingUnit`` will be removed from the ``Script``.  If ``new`` is a
 ``ScriptingUnit``, it will be added to the ``Script``.
 
@@ -39,6 +39,7 @@ from gensokyo import ces
 
 Result = namedtuple('Result', ['expire', 'new'])
 
+
 class ScriptingUnit(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
@@ -56,10 +57,10 @@ class Script(ces.Component):
     def __init__(self, units):
         """
         :param units: scripting units
-        :type units: list
+        :type units: iterable
 
         """
-        self.units = units
+        self.units = list(units)
 
 
 class ScriptSystem(ces.System):

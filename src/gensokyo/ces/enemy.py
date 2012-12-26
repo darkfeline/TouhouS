@@ -91,30 +91,22 @@ class GenericEnemy(Enemy):
         self.add(s)
 
 
-class LoopFireAtPlayer(script.ConditionUnit, rails.RailPosition):
+class LoopFireAtPlayer(script.ScriptingUnit, rails.RailPosition):
 
     def __init__(self, pos, rate):
         self.pos = pos
         self.state = 0
         self.rate = rate
 
-    @property
-    def satisfied(self):
-        if self.state > self.rate:
-            return True
-        else:
-            return False
-
-    def run(self, entity, env):
-        self.state -= self.rate
-        player = env.tm['player']
-        hb = player.get(collision.Hitbox)
-        dest = hb.pos
-        dest = primitives.Vector(dest[0], dest[1])
-        v = dest - primitives.Vector(*self.pos)
-        b = bullet.RoundBullet(*self.pos, vector=v)
-        env.em.add(b)
-        env.gm.add_to(b, 'enemy_bullet')
-
-    def on_update(self, dt):
+    def run(self, entity, env, dt):
         self.state += dt
+        if self.state >= self.rate:
+            self.state -= self.rate
+            player = env.tm['player']
+            hb = player.get(collision.Hitbox)
+            dest = hb.pos
+            dest = primitives.Vector(dest[0], dest[1])
+            v = dest - primitives.Vector(*self.pos)
+            b = bullet.RoundBullet(*self.pos, vector=v)
+            env.em.add(b)
+            env.gm.add_to(b, 'enemy_bullet')

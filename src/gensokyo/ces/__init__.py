@@ -136,23 +136,6 @@ class Entity:
                          isinstance(component, types))
 
 
-class Position(Component, metaclass=abc.ABCMeta):
-
-    """
-    Overwrite ``pos`` property if needed.  ``pos`` should be the position, a
-    tuple with the right dimensions.
-
-    """
-
-    @property
-    def pos(self):
-        return self._pos
-
-    @pos.setter
-    def pos(self, value):
-        self._pos = value
-
-
 class System(metaclass=abc.ABCMeta):
 
     """
@@ -267,3 +250,23 @@ class Environment:
     def delete(self):
         self.em.delete()
         self.sm.delete()
+
+
+###############################################################################
+# Others
+###############################################################################
+class Position(Component, metaclass=abc.ABCMeta):
+
+    """
+    Overwrite ``pos`` property if needed.  ``pos`` should be the position, a
+    tuple with the right dimensions.
+
+    """
+
+    @property
+    def pos(self):
+        return self._pos
+
+    @pos.setter
+    def pos(self, value):
+        self._pos = value

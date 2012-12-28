@@ -1,18 +1,3 @@
-"""
-It's best to instead of thinking of classes, objects, and such, to think of
-callable Bullet generators.
-
-The most basic generator, the Bullet class, creates an instance of a Bullet.
-You probably won't use this much at all.
-
-Instead, define generator functions which create Bullets according to some
-pattern and instantiates them correctly (adding them to the entity manager,
-etc.).  The next step are complex generators which have internal state.
-``bullet`` provides an abstract BaseGenerator class, whose instances are
-themselves are callable, i.e., like functions with state.
-
-"""
-
 import abc
 
 from gensokyo import ces
@@ -75,13 +60,6 @@ class BulletSprite(graphics.Sprite, physics.PhysicsPosition):
 
 class BulletPresence(gc.Presence, physics.PhysicsPosition):
     pass
-
-
-class BulletGenerator(metaclass=abc.ABCMeta):
-
-    @abc.abstractmethod
-    def __call__(self, *args, **kwargs):
-        raise NotImplementedError
 
 
 # TODO probably move this too

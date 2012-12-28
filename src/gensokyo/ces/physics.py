@@ -40,6 +40,10 @@ class PhysicsSystem(ces.System):
 
     req_components = (Physics, PhysicsPosition)
 
+    def __init__(self, env):
+        super().__init__(env)
+        env.clock.push_handlers(self)
+
     def on_update(self, dt):
         for entity in self.env.em.get_with(self.req_components):
             physics, pos = entity.get(self.req_components)

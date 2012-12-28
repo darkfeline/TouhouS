@@ -152,7 +152,7 @@ class Player(ces.Entity):
             del self.hb_sprite
 
 
-class LimitedLoopFiring(script.ScriptingUnit, Shifter):
+class LimitedLoopFiring(script.Script, Shifter):
 
     def __init__(self, pos, rate, bullet):
         super().__init__()
@@ -268,6 +268,5 @@ class Reimu(Player):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        f = script.Script([LimitedLoopFiring((x - 10, y), 20, ReimuShot),
-                           LimitedLoopFiring((x + 10, y), 20, ReimuShot)])
-        self.add(f)
+        self.add(LimitedLoopFiring((x - 10, y), 20, ReimuShot))
+        self.add(LimitedLoopFiring((x + 10, y), 20, ReimuShot))

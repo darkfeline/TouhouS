@@ -7,10 +7,15 @@ from gensokyo.globals import GAME_AREA
 
 class Stage(ces.Entity):
 
-    def __init__(self, script_):
+    def __init__(self, scripts_):
+        """
+        :param scripts_: scripts
+        :type scripts_: iterable
+
+        """
         super().__init__()
-        s = script.Script(script_)
-        self.add(s)
+        for s in scripts_:
+            self.add(s)
 
 
 # TODO move everything below
@@ -21,7 +26,7 @@ class StageOne(Stage):
 
 
 # TODO generalize looping
-class LoopSpawnEnemy(script.ScriptingUnit):
+class LoopSpawnEnemy(script.Script):
 
     def __init__(self, pos, rate):
         self.pos = pos
@@ -35,19 +40,18 @@ class LoopSpawnEnemy(script.ScriptingUnit):
             e = GenericEnemy(*self.pos)
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
             e.add(r)
-            s = script.Script([TimedSuicide(6)])
+            s = TimedSuicide(6)
             e.add(s)
             env.em.add(e)
             env.gm.add_to(e, 'enemy')
 
 
 # TODO generalize this too
-class TimedSuicide(script.ScriptingUnit):
+class TimedSuicide(script.Script):
 
     def __init__(self, time):
         self.time = 0
         self.limit = time
-        self.expire = True
 
     def run(self, entity, env, dt):
         self.state += dt

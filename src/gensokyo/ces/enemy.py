@@ -87,11 +87,11 @@ class GenericEnemy(Enemy):
 
         super().__init__(x, y)
 
-        s = script.Script([LoopFireAtPlayer((x, y), 0.5)])
+        s = LoopFireAtPlayer((x, y), 0.5)
         self.add(s)
 
 
-class LoopFireAtPlayer(script.ScriptingUnit, rails.RailPosition):
+class LoopFireAtPlayer(script.Script, rails.RailPosition):
 
     def __init__(self, pos, rate):
         self.pos = pos

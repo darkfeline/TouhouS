@@ -55,7 +55,7 @@ class GarbageCollectSystem(ces.System):
         return False
 
     def on_update(self, dt):
-        entities = self.get_with(self.req_components)
+        entities = self.env.em.get_with(self.req_components)
         logger.debug('gc found %s', entities)
         for e in entities:
             if self._check_bounds(e):

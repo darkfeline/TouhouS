@@ -91,5 +91,6 @@ state_tree.dispatch_event(
     'on_transition', state.Transition('menu', False))
 
 logger.info("Finished init.")
+
 logger.info("Running...")
 pyglet.app.run()

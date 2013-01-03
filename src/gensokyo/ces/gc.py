@@ -38,6 +38,7 @@ class GarbageCollectSystem(ces.System):
 
     def __init__(self, env, area):
         super().__init__(env)
+        env.clock.push_handlers(self)
         self.area = area
 
     def _check_bounds(self, entity):

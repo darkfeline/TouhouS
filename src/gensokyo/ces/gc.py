@@ -9,7 +9,11 @@ will be used to determine if the entity has completely exited the boundaries.
 
 """
 
+import logging
+
 from gensokyo import ces
+
+logger = logging.getLogger(__name__)
 
 
 class Presence(ces.Position):
@@ -51,6 +55,8 @@ class GarbageCollectSystem(ces.System):
 
     def on_update(self, dt):
         entities = self.get_with(self.req_components)
+        logger.debug('gc found %s', entities)
         for e in entities:
             if self._check_bounds(e):
+                logger.debug('deleting %s', e)
                 self.env.em.delete(e)

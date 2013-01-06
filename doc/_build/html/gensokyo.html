@@ -25,7 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="TouhouS 1.0 documentation" href="index.html" /> 
+    <link rel="top" title="TouhouS 1.0 documentation" href="index.html" />
+    <link rel="up" title="gensokyo" href="modules.html" />
+    <link rel="next" title="ces Package" href="gensokyo.ces.html" />
+    <link rel="prev" title="gensokyo" href="modules.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,7 +40,14 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="gensokyo.ces.html" title="ces Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="gensokyo"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">gensokyo</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -121,109 +131,11 @@ and can also be used with <cite>scene</cite> scene management.</p>
 </ul>
 </div>
 </div>
-<div class="section" id="module-gensokyo.clock">
-<span id="clock-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">clock</span></tt> Module<a class="headerlink" href="#module-gensokyo.clock" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="gensokyo.clock.Clock">
-<em class="property">class </em><tt class="descclassname">gensokyo.clock.</tt><tt class="descname">Clock</tt><a class="headerlink" href="#gensokyo.clock.Clock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
-<dl class="function">
-<dt id="gensokyo.clock.Clock.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.clock.Clock.delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.clock.Clock.event_types">
-<tt class="descname">event_types</tt><em class="property"> = ['on_update']</em><a class="headerlink" href="#gensokyo.clock.Clock.event_types" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-gensokyo.globals">
 <span id="globals-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">globals</span></tt> Module<a class="headerlink" href="#module-gensokyo.globals" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-gensokyo.locator">
 <span id="locator-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">locator</span></tt> Module<a class="headerlink" href="#module-gensokyo.locator" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-gensokyo.manager">
-<span id="manager-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">manager</span></tt> Module<a class="headerlink" href="#module-gensokyo.manager" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="gensokyo.manager.EntityManager">
-<em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">EntityManager</tt><a class="headerlink" href="#gensokyo.manager.EntityManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="function">
-<dt id="gensokyo.manager.EntityManager.add">
-<tt class="descname">add</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.manager.EntityManager.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em>, <em>entity=None</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.manager.EntityManager.get_with">
-<tt class="descname">get_with</tt><big>(</big><em>self</em>, <em>types</em><big>)</big><a class="headerlink" href="#gensokyo.manager.EntityManager.get_with" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find all entities who have at least one component of each type and
-return a set of entities</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>types</strong> (<em>tuple</em>) &#8211; component types to look for</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">set</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.manager.GroupManager">
-<em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">GroupManager</tt><a class="headerlink" href="#gensokyo.manager.GroupManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="function">
-<dt id="gensokyo.manager.GroupManager.add_to">
-<tt class="descname">add_to</tt><big>(</big><em>self</em>, <em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.GroupManager.add_to" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.manager.GroupManager.make_group">
-<tt class="descname">make_group</tt><big>(</big><em>self</em>, <em>key</em><big>)</big><a class="headerlink" href="#gensokyo.manager.GroupManager.make_group" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.manager.SystemManager">
-<em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">SystemManager</tt><a class="headerlink" href="#gensokyo.manager.SystemManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="function">
-<dt id="gensokyo.manager.SystemManager.add">
-<tt class="descname">add</tt><big>(</big><em>self</em>, <em>system</em><big>)</big><a class="headerlink" href="#gensokyo.manager.SystemManager.add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.manager.SystemManager.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.manager.SystemManager.delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.manager.TagManager">
-<em class="property">class </em><tt class="descclassname">gensokyo.manager.</tt><tt class="descname">TagManager</tt><a class="headerlink" href="#gensokyo.manager.TagManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="function">
-<dt id="gensokyo.manager.TagManager.tag">
-<tt class="descname">tag</tt><big>(</big><em>self</em>, <em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.manager.TagManager.tag" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-gensokyo.resources">
 <span id="resources-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">resources</span></tt> Module<a class="headerlink" href="#module-gensokyo.resources" title="Permalink to this headline">¶</a></h2>
@@ -231,6 +143,117 @@ return a set of entities</p>
 <dt id="gensokyo.resources.centered_image">
 <tt class="descclassname">gensokyo.resources.</tt><tt class="descname">centered_image</tt><big>(</big><em>image</em><big>)</big><a class="headerlink" href="#gensokyo.resources.centered_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads an image and centers it</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gensokyo.state">
+<span id="state-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">state</span></tt> Module<a class="headerlink" href="#module-gensokyo.state" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gensokyo.state.State">
+<em class="property">class </em><tt class="descclassname">gensokyo.state.</tt><tt class="descname">State</tt><a class="headerlink" href="#gensokyo.state.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.state.State.enter">
+<tt class="descname">enter</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.state.State.enter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.state.State.exit">
+<tt class="descname">exit</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.state.State.exit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.state.StateNode">
+<em class="property">class </em><tt class="descclassname">gensokyo.state.</tt><tt class="descname">StateNode</tt><a class="headerlink" href="#gensokyo.state.StateNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.state.StateTree" title="gensokyo.state.StateTree"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.state.StateTree</span></tt></a>, <a class="reference internal" href="#gensokyo.state.State" title="gensokyo.state.State"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.state.State</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.state.StateTree">
+<em class="property">class </em><tt class="descclassname">gensokyo.state.</tt><tt class="descname">StateTree</tt><a class="headerlink" href="#gensokyo.state.StateTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.state.TreeNode" title="gensokyo.state.TreeNode"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.state.TreeNode</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<p>A state machine crossed with a tree.</p>
+<p>StateTree is the root node.  All children nodes are instances of StateNode,
+which is a subclass of StateTree that are also states.  The root node
+StateTree itself is not a state, but it can have a state (it is a state
+machine).  Its children are states, but can also have children states.
+Thus, a tree.</p>
+<p>The current state of the state machine is determined by the handlers of its
+states which are attached to e.g. global event dispatchers.  Thus, the
+state machine itself doesn&#8217;t do anything, merely coordinating which
+listeners are subscribed and unsubscribed to which global events.  The tree
+serves as data-keeping to keep track of this state.  Transitions are made
+by dispatching the &#8216;on_transition&#8217; event to the root.  The event should be
+sent with a <tt class="docutils literal"><span class="pre">Transition</span></tt> named tuple.</p>
+<p>Transition tuples have two fields: a string <tt class="docutils literal"><span class="pre">to</span></tt> state to transition to,
+and a boolean <tt class="docutils literal"><span class="pre">save</span></tt> indicating whether the current state should be left
+or &#8220;saved&#8221; on the tree.  The transition will traverse upward from the
+current leaf until a node is found that can have the indicated state.  Each
+traversed state will be left, and removed if <tt class="docutils literal"><span class="pre">save</span></tt> is <tt class="docutils literal"><span class="pre">False</span></tt>, and
+kept in the tree if <tt class="docutils literal"><span class="pre">save</span></tt> is <tt class="docutils literal"><span class="pre">True</span></tt>.  If an instance of the state is
+still in the tree (&#8220;saved&#8221;), then it will be restored.  Otherwise, a new
+instance of the class will be made, added to the tree, and activated.</p>
+<p>Nodes start off with their state set to <tt class="docutils literal"><span class="pre">None</span></tt>.  You can navigate to a
+sub-state by adding it to the valid_states tuple and transitioning to it.
+You can exit sub-states by transitioning back to the node itself.</p>
+<dl class="attribute">
+<dt id="gensokyo.state.StateTree.event_types">
+<tt class="descname">event_types</tt><em class="property"> = ['on_transition']</em><a class="headerlink" href="#gensokyo.state.StateTree.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.state.StateTree.on_transition">
+<tt class="descname">on_transition</tt><big>(</big><em>transition</em><big>)</big><a class="headerlink" href="#gensokyo.state.StateTree.on_transition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.state.StateTree.valid_states">
+<tt class="descname">valid_states</tt><em class="property"> = {}</em><a class="headerlink" href="#gensokyo.state.StateTree.valid_states" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.state.Transition">
+<em class="property">class </em><tt class="descclassname">gensokyo.state.</tt><tt class="descname">Transition</tt><a class="headerlink" href="#gensokyo.state.Transition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.tuple</span></tt></p>
+<p>Transition(to, save)</p>
+<dl class="attribute">
+<dt id="gensokyo.state.Transition.save">
+<tt class="descname">save</tt><a class="headerlink" href="#gensokyo.state.Transition.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.state.Transition.to">
+<tt class="descname">to</tt><a class="headerlink" href="#gensokyo.state.Transition.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.state.TreeNode">
+<em class="property">class </em><tt class="descclassname">gensokyo.state.</tt><tt class="descname">TreeNode</tt><a class="headerlink" href="#gensokyo.state.TreeNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>Be careful using this externally; <tt class="docutils literal"><span class="pre">root</span></tt> property is memoized</p>
+<dl class="method">
+<dt id="gensokyo.state.TreeNode.add">
+<tt class="descname">add</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#gensokyo.state.TreeNode.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.state.TreeNode.remove">
+<tt class="descname">remove</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#gensokyo.state.TreeNode.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.state.TreeNode.root">
+<tt class="descname">root</tt><a class="headerlink" href="#gensokyo.state.TreeNode.root" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -245,7 +268,7 @@ return a set of entities</p>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.enemy"><tt class="docutils literal"><span class="pre">enemy</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.gc"><tt class="docutils literal"><span class="pre">gc</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.graphics"><tt class="docutils literal"><span class="pre">graphics</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.observer"><tt class="docutils literal"><span class="pre">observer</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.input"><tt class="docutils literal"><span class="pre">input</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.physics"><tt class="docutils literal"><span class="pre">physics</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.player"><tt class="docutils literal"><span class="pre">player</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.rails"><tt class="docutils literal"><span class="pre">rails</span></tt> Module</a><ul>
@@ -256,8 +279,8 @@ return a set of entities</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.script"><tt class="docutils literal"><span class="pre">script</span></tt> Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="gensokyo.ces.html#units">Units</a></li>
-<li class="toctree-l3"><a class="reference internal" href="gensokyo.ces.html#scripts-and-scriptsystem">Scripts and ScriptSystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gensokyo.ces.html#scripts">Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gensokyo.ces.html#scriptsystem">ScriptSystem</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.ces.html#module-gensokyo.ces.stage"><tt class="docutils literal"><span class="pre">stage</span></tt> Module</a></li>
@@ -268,15 +291,11 @@ return a set of entities</p>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.scene.html#id1"><tt class="docutils literal"><span class="pre">scene</span></tt> Package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.scene.html#module-gensokyo.scene.game"><tt class="docutils literal"><span class="pre">game</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.scene.html#module-gensokyo.scene.main_menu"><tt class="docutils literal"><span class="pre">main_menu</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gensokyo.scene.html#module-gensokyo.scene.rail_test"><tt class="docutils literal"><span class="pre">rail_test</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gensokyo.state.html">state Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gensokyo.state.html#id1"><tt class="docutils literal"><span class="pre">state</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gensokyo.scene.html#module-gensokyo.scene.root"><tt class="docutils literal"><span class="pre">root</span></tt> Module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gensokyo.test.html">test Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gensokyo.test.html#module-gensokyo.test.output"><tt class="docutils literal"><span class="pre">output</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gensokyo.test.html#module-gensokyo.test.locator"><tt class="docutils literal"><span class="pre">locator</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gensokyo.test.html#module-gensokyo.test.test_state"><tt class="docutils literal"><span class="pre">test_state</span></tt> Module</a></li>
 </ul>
 </li>
@@ -298,11 +317,10 @@ return a set of entities</p>
 <li><a class="reference internal" href="#design-hierarchy">Design Hierarchy</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-gensokyo.clock"><tt class="docutils literal"><span class="pre">clock</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.globals"><tt class="docutils literal"><span class="pre">globals</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.locator"><tt class="docutils literal"><span class="pre">locator</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-gensokyo.manager"><tt class="docutils literal"><span class="pre">manager</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.resources"><tt class="docutils literal"><span class="pre">resources</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.state"><tt class="docutils literal"><span class="pre">state</span></tt> Module</a></li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 </ul>
 </li>
@@ -310,6 +328,12 @@ return a set of entities</p>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">gensokyo</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gensokyo.ces.html"
+                        title="next chapter">ces Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/gensokyo.txt"
@@ -341,7 +365,14 @@ return a set of entities</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="gensokyo.ces.html" title="ces Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="gensokyo"
+             >previous</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >gensokyo</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

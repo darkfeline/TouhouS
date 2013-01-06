@@ -49,10 +49,10 @@ ces Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`observer` Module
-----------------------
+:mod:`input` Module
+-------------------
 
-.. automodule:: gensokyo.ces.observer
+.. automodule:: gensokyo.ces.input
     :members:
     :undoc-members:
     :show-inheritance:

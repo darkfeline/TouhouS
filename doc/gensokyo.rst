@@ -9,14 +9,6 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`clock` Module
--------------------
-
-.. automodule:: gensokyo.clock
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`globals` Module
 ---------------------
 
@@ -33,18 +25,18 @@ gensokyo Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`manager` Module
----------------------
-
-.. automodule:: gensokyo.manager
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`resources` Module
 -----------------------
 
 .. automodule:: gensokyo.resources
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`state` Module
+-------------------
+
+.. automodule:: gensokyo.state
     :members:
     :undoc-members:
     :show-inheritance:
@@ -56,6 +48,5 @@ Subpackages
 
     gensokyo.ces
     gensokyo.scene
-    gensokyo.state
     gensokyo.test
 

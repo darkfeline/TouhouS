@@ -25,7 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="TouhouS 1.0 documentation" href="index.html" /> 
+    <link rel="top" title="TouhouS 1.0 documentation" href="index.html" />
+    <link rel="up" title="gensokyo Package" href="gensokyo.html" />
+    <link rel="next" title="scene Package" href="gensokyo.scene.html" />
+    <link rel="prev" title="gensokyo Package" href="gensokyo.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,7 +40,15 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="gensokyo.scene.html" title="scene Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gensokyo.html" title="gensokyo Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >gensokyo</a> &raquo;</li>
+          <li><a href="gensokyo.html" accesskey="U">gensokyo Package</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -59,6 +70,43 @@ different ways between different entities.  An entity/component pattern
 addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.</p>
+<p>You do not need to explicitly add a System to a SystemManager; its <tt class="docutils literal"><span class="pre">__init__</span></tt>
+takes its environment as a parameter and will add itself.  Make sure to call
+<tt class="docutils literal"><span class="pre">super().__init__()</span></tt>.</p>
+<dl class="docutils">
+<dt>System</dt>
+<dd>Performs logic by iterating over Entities</dd>
+<dt>Entity</dt>
+<dd>Contains Components</dd>
+<dt>Component</dt>
+<dd>Holds data</dd>
+<dt>Environment</dt>
+<dd>Provides a CES environment, i.e. the four managers</dd>
+<dt>EntityManager</dt>
+<dd>Holds references to Entities</dd>
+<dt>GroupManager</dt>
+<dd>Holds references to groups of Entities</dd>
+<dt>TagManager</dt>
+<dd>Holds references to specific Entities</dd>
+<dt>SystemManager</dt>
+<dd>Holds references to Systems</dd>
+</dl>
+<dl class="class">
+<dt id="gensokyo.ces.Clock">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">Clock</tt><a class="headerlink" href="#gensokyo.ces.Clock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
+<dl class="attribute">
+<dt id="gensokyo.ces.Clock.event_types">
+<tt class="descname">event_types</tt><em class="property"> = ['on_update']</em><a class="headerlink" href="#gensokyo.ces.Clock.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.Clock.tick">
+<tt class="descname">tick</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Clock.tick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="class">
 <dt id="gensokyo.ces.Component">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">Component</tt><a class="headerlink" href="#gensokyo.ces.Component" title="Permalink to this definition">¶</a></dt>
@@ -85,19 +133,19 @@ enforced in any way.  Feel free to:</p>
 <p>but you should use asserts in the former just in case.</p>
 <p>At times, &#8220;Interface&#8221; Component superclasses (e.g., Position) may be
 useful.</p>
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.Entity.add">
-<tt class="descname">add</tt><big>(</big><em>self</em>, <em>component</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Entity.add" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Entity.add" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.Entity.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em>, <em>component</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Entity.delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Entity.delete" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.Entity.get">
-<tt class="descname">get</tt><big>(</big><em>self</em>, <em>types</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Entity.get" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get</tt><big>(</big><em>types</em><big>)</big><a class="headerlink" href="#gensokyo.ces.Entity.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>If types is a single type, return a tuple of components who are an
 instance of type or a subclass of type.  If types is a list of types,
 return a tuple of all components of the given types with the following
@@ -129,6 +177,66 @@ components are stored interally in sets.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="gensokyo.ces.EntityManager">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">EntityManager</tt><a class="headerlink" href="#gensokyo.ces.EntityManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.EntityManager.add">
+<tt class="descname">add</tt><big>(</big><em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.EntityManager.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.EntityManager.delete">
+<tt class="descname">delete</tt><big>(</big><em>entity=None</em><big>)</big><a class="headerlink" href="#gensokyo.ces.EntityManager.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.EntityManager.get_with">
+<tt class="descname">get_with</tt><big>(</big><em>types</em><big>)</big><a class="headerlink" href="#gensokyo.ces.EntityManager.get_with" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all entities who have at least one component of each type and
+return a set of entities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>types</strong> (<em>tuple</em>) &#8211; component types to look for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">set</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.ces.Environment">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">Environment</tt><a class="headerlink" href="#gensokyo.ces.Environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.Environment.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.Environment.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.ces.GroupManager">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">GroupManager</tt><a class="headerlink" href="#gensokyo.ces.GroupManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.GroupManager.add_to">
+<tt class="descname">add_to</tt><big>(</big><em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.GroupManager.add_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.GroupManager.make_group">
+<tt class="descname">make_group</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#gensokyo.ces.GroupManager.make_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="gensokyo.ces.Position">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">Position</tt><a class="headerlink" href="#gensokyo.ces.Position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.Component" title="gensokyo.ces.Component"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.Component</span></tt></a></p>
@@ -143,23 +251,36 @@ tuple with the right dimensions.</p>
 
 <dl class="class">
 <dt id="gensokyo.ces.System">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">System</tt><a class="headerlink" href="#gensokyo.ces.System" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">System</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.System" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>Superclass for Systems</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.ces.SystemManager">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">SystemManager</tt><a class="headerlink" href="#gensokyo.ces.SystemManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.SystemManager.add">
+<tt class="descname">add</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gensokyo.ces.SystemManager.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.ces.TagManager">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.</tt><tt class="descname">TagManager</tt><a class="headerlink" href="#gensokyo.ces.TagManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.TagManager.tag">
+<tt class="descname">tag</tt><big>(</big><em>key</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.TagManager.tag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
 <div class="section" id="module-gensokyo.ces.bullet">
 <span id="bullet-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bullet</span></tt> Module<a class="headerlink" href="#module-gensokyo.ces.bullet" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s best to instead of thinking of classes, objects, and such, to think of
-callable Bullet generators.</p>
-<p>The most basic generator, the Bullet class, creates an instance of a Bullet.
-You probably won&#8217;t use this much at all.</p>
-<p>Instead, define generator functions which create Bullets according to some
-pattern and instantiates them correctly (adding them to the entity manager,
-etc.).  The next step are complex generators which have internal state.
-<tt class="docutils literal"><span class="pre">bullet</span></tt> provides an abstract BaseGenerator class, whose instances are
-themselves are callable, i.e., like functions with state.</p>
 <dl class="class">
 <dt id="gensokyo.ces.bullet.Bullet">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.bullet.</tt><tt class="descname">Bullet</tt><big>(</big><em>x</em>, <em>y</em>, <em>velocity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.bullet.Bullet" title="Permalink to this definition">¶</a></dt>
@@ -184,12 +305,6 @@ themselves are callable, i.e., like functions with state.</p>
 <tt class="descname">sprite_img</tt><em class="property"> = None</em><a class="headerlink" href="#gensokyo.ces.bullet.Bullet.sprite_img" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.bullet.BulletGenerator">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.bullet.</tt><tt class="descname">BulletGenerator</tt><a class="headerlink" href="#gensokyo.ces.bullet.BulletGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 </dd></dl>
 
 <dl class="class">
@@ -237,11 +352,11 @@ themselves are callable, i.e., like functions with state.</p>
 <span id="collision-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">collision</span></tt> Module<a class="headerlink" href="#module-gensokyo.ces.collision" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="gensokyo.ces.collision.CollisionSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.collision.</tt><tt class="descname">CollisionSystem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.collision.CollisionSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.collision.</tt><tt class="descname">CollisionSystem</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.collision.CollisionSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.collision.CollisionSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.collision.CollisionSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.collision.CollisionSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -324,7 +439,7 @@ themselves are callable, i.e., like functions with state.</p>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.enemy.Enemy" title="gensokyo.ces.enemy.Enemy"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.enemy.Enemy</span></tt></a></p>
 <dl class="attribute">
 <dt id="gensokyo.ces.enemy.GenericEnemy.hb">
-<tt class="descname">hb</tt><em class="property"> = &lt;gensokyo.primitives.Rect object at 0x7f1ccc817198&gt;</em><a class="headerlink" href="#gensokyo.ces.enemy.GenericEnemy.hb" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">hb</tt><em class="property"> = &lt;gensokyo.primitives.Rect object at 0x7f84fabe5da0&gt;</em><a class="headerlink" href="#gensokyo.ces.enemy.GenericEnemy.hb" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -341,11 +456,11 @@ themselves are callable, i.e., like functions with state.</p>
 
 <dl class="class">
 <dt id="gensokyo.ces.enemy.GrimReaper">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.enemy.</tt><tt class="descname">GrimReaper</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.GrimReaper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.enemy.</tt><tt class="descname">GrimReaper</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.GrimReaper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.enemy.GrimReaper.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.GrimReaper.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.GrimReaper.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -360,9 +475,9 @@ themselves are callable, i.e., like functions with state.</p>
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.enemy.</tt><tt class="descname">Life</tt><big>(</big><em>life</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.Life" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.Component" title="gensokyo.ces.Component"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.Component</span></tt></a></p>
 <p>Can have multiple.  Entity dies when any of them hit 0.</p>
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.enemy.Life.die">
-<tt class="descname">die</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.Life.die" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">die</tt><big>(</big><em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.Life.die" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -370,20 +485,10 @@ themselves are callable, i.e., like functions with state.</p>
 <dl class="class">
 <dt id="gensokyo.ces.enemy.LoopFireAtPlayer">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.enemy.</tt><tt class="descname">LoopFireAtPlayer</tt><big>(</big><em>pos</em>, <em>rate</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.LoopFireAtPlayer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.ConditionUnit" title="gensokyo.ces.script.ConditionUnit"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.ConditionUnit</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.rails.RailPosition" title="gensokyo.ces.rails.RailPosition"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.rails.RailPosition</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.enemy.LoopFireAtPlayer.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.LoopFireAtPlayer.on_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.Script" title="gensokyo.ces.script.Script"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.Script</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.rails.RailPosition" title="gensokyo.ces.rails.RailPosition"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.rails.RailPosition</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.enemy.LoopFireAtPlayer.run">
-<tt class="descname">run</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.LoopFireAtPlayer.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.ces.enemy.LoopFireAtPlayer.satisfied">
-<tt class="descname">satisfied</tt><a class="headerlink" href="#gensokyo.ces.enemy.LoopFireAtPlayer.satisfied" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">run</tt><big>(</big><em>entity</em>, <em>env</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.enemy.LoopFireAtPlayer.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -398,11 +503,11 @@ bullets.  When these entities move out of bounds, they will be deleted.</p>
 will be used to determine if the entity has completely exited the boundaries.</p>
 <dl class="class">
 <dt id="gensokyo.ces.gc.GarbageCollectSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.gc.</tt><tt class="descname">GarbageCollectSystem</tt><big>(</big><em>area</em><big>)</big><a class="headerlink" href="#gensokyo.ces.gc.GarbageCollectSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.gc.</tt><tt class="descname">GarbageCollectSystem</tt><big>(</big><em>env</em>, <em>area</em><big>)</big><a class="headerlink" href="#gensokyo.ces.gc.GarbageCollectSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.gc.GarbageCollectSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.gc.GarbageCollectSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.gc.GarbageCollectSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -430,37 +535,56 @@ will be used to determine if the entity has completely exited the boundaries.</p
 <dl class="class">
 <dt id="gensokyo.ces.graphics.Graphics">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.graphics.</tt><tt class="descname">Graphics</tt><a class="headerlink" href="#gensokyo.ces.graphics.Graphics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt>, <a class="reference internal" href="#gensokyo.ces.observer.Drawing" title="gensokyo.ces.observer.Drawing"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Drawing</span></tt></a></p>
-<p>Make sure to open the <tt class="docutils literal"><span class="pre">'graphics'</span></tt> channel with this when you
-instantiate</p>
-<dl class="function">
-<dt id="gensokyo.ces.graphics.Graphics.add_sprite">
-<tt class="descname">add_sprite</tt><big>(</big><em>self</em>, <em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.add_sprite" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.graphics.Graphics.draw">
-<tt class="descname">draw</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
 <dl class="attribute">
 <dt id="gensokyo.ces.graphics.Graphics.event_types">
-<tt class="descname">event_types</tt><em class="property"> = ['on_add_sprite']</em><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.event_types" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">event_types</tt><em class="property"> = ['on_add_sprite', 'on_draw']</em><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.event_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.graphics.Graphics.on_add_sprite">
+<tt class="descname">on_add_sprite</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.on_add_sprite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.graphics.Graphics.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.graphics.Graphics.push">
+<tt class="descname">push</tt><big>(</big><em>level</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gensokyo.ces.graphics.GraphicsLevel">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.graphics.</tt><tt class="descname">GraphicsLevel</tt><a class="headerlink" href="#gensokyo.ces.graphics.GraphicsLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.graphics.GraphicsLevel.add_sprite">
+<tt class="descname">add_sprite</tt><big>(</big><em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.GraphicsLevel.add_sprite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gensokyo.ces.graphics.GraphicsLevel.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.GraphicsLevel.draw" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="gensokyo.ces.graphics.Graphics.map">
-<tt class="descname">map</tt><em class="property"> = ()</em><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.map" title="Permalink to this definition">¶</a></dt>
+<dt id="gensokyo.ces.graphics.GraphicsLevel.map">
+<tt class="descname">map</tt><em class="property"> = ()</em><a class="headerlink" href="#gensokyo.ces.graphics.GraphicsLevel.map" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="gensokyo.ces.graphics.Graphics.on_add_sprite">
-<tt class="descname">on_add_sprite</tt><big>(</big><em>self</em>, <em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.on_add_sprite" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="gensokyo.ces.graphics.GraphicsLevel.on_add_sprite">
+<tt class="descname">on_add_sprite</tt><big>(</big><em>sprite</em>, <em>group</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.GraphicsLevel.on_add_sprite" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="gensokyo.ces.graphics.Graphics.on_draw">
-<tt class="descname">on_draw</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Graphics.on_draw" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="gensokyo.ces.graphics.GraphicsLevel.on_draw">
+<tt class="descname">on_draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.GraphicsLevel.on_draw" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -488,134 +612,21 @@ instantiate</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="gensokyo.ces.graphics.ScreenClearer">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.graphics.</tt><tt class="descname">ScreenClearer</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.ScreenClearer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Drawing" title="gensokyo.ces.observer.Drawing"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Drawing</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.graphics.ScreenClearer.on_draw">
-<tt class="descname">on_draw</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.ScreenClearer.on_draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="gensokyo.ces.graphics.Sprite">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.graphics.</tt><tt class="descname">Sprite</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.graphics.Sprite" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.graphics.GraphicsObject" title="gensokyo.ces.graphics.GraphicsObject"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.GraphicsObject</span></tt></a></p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-gensokyo.ces.observer">
-<span id="observer-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">observer</span></tt> Module<a class="headerlink" href="#module-gensokyo.ces.observer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-gensokyo.ces.input">
+<span id="input-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">input</span></tt> Module<a class="headerlink" href="#module-gensokyo.ces.input" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="gensokyo.ces.observer.DrawBlocker">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">DrawBlocker</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.DrawBlocker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.observer.Drawing" title="gensokyo.ces.observer.Drawing"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Drawing</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.observer.DrawBlocker.on_draw">
-<tt class="descname">on_draw</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.DrawBlocker.on_draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.observer.Drawing">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">Drawing</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Drawing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.observer.Observer" title="gensokyo.ces.observer.Observer"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Observer</span></tt></a></p>
+<dt id="gensokyo.ces.input.Input">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.input.</tt><tt class="descname">Input</tt><a class="headerlink" href="#gensokyo.ces.input.Input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">pyglet.event.EventDispatcher</span></tt></p>
 <dl class="attribute">
-<dt id="gensokyo.ces.observer.Drawing.channels">
-<tt class="descname">channels</tt><em class="property"> = {'window'}</em><a class="headerlink" href="#gensokyo.ces.observer.Drawing.channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.observer.Drawing.on_draw">
-<tt class="descname">on_draw</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Drawing.on_draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.observer.Input">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">Input</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.observer.Observer" title="gensokyo.ces.observer.Observer"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Observer</span></tt></a></p>
-<dl class="attribute">
-<dt id="gensokyo.ces.observer.Input.channels">
-<tt class="descname">channels</tt><em class="property"> = {'window'}</em><a class="headerlink" href="#gensokyo.ces.observer.Input.channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.observer.Input.on_key_press">
-<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Input.on_key_press" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.observer.Input.on_key_release">
-<tt class="descname">on_key_release</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Input.on_key_release" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.observer.InputBlocker">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">InputBlocker</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.InputBlocker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.observer.Input" title="gensokyo.ces.observer.Input"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Input</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.observer.InputBlocker.on_key_press">
-<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.InputBlocker.on_key_press" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.observer.InputBlocker.on_key_release">
-<tt class="descname">on_key_release</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.InputBlocker.on_key_release" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.observer.Observer">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">Observer</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Observer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<p>Set the channels to listen to.</p>
-<dl class="attribute">
-<dt id="gensokyo.ces.observer.Observer.channels">
-<tt class="descname">channels</tt><em class="property"> = set()</em><a class="headerlink" href="#gensokyo.ces.observer.Observer.channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.observer.Observer.delete">
-<tt class="descname">delete</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Observer.delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="gensokyo.ces.observer.Observer.expand_channels">
-<em class="property">classmethod </em><tt class="descname">expand_channels</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Observer.expand_channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.observer.UpdateBlocker">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">UpdateBlocker</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.UpdateBlocker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.observer.UpdateBlocker.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.UpdateBlocker.on_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="gensokyo.ces.observer.Updating">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.observer.</tt><tt class="descname">Updating</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Updating" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.observer.Observer" title="gensokyo.ces.observer.Observer"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Observer</span></tt></a></p>
-<dl class="attribute">
-<dt id="gensokyo.ces.observer.Updating.channels">
-<tt class="descname">channels</tt><em class="property"> = {'clock'}</em><a class="headerlink" href="#gensokyo.ces.observer.Updating.channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.observer.Updating.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.observer.Updating.on_update" title="Permalink to this definition">¶</a></dt>
+<dt id="gensokyo.ces.input.Input.event_types">
+<tt class="descname">event_types</tt><em class="property"> = ['on_key_press', 'on_key_release']</em><a class="headerlink" href="#gensokyo.ces.input.Input.event_types" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -646,11 +657,11 @@ instantiate</p>
 
 <dl class="class">
 <dt id="gensokyo.ces.physics.PhysicsSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.physics.</tt><tt class="descname">PhysicsSystem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.physics.PhysicsSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.physics.</tt><tt class="descname">PhysicsSystem</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.physics.PhysicsSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.physics.PhysicsSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.physics.PhysicsSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.physics.PhysicsSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -670,74 +681,38 @@ instantiate</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="gensokyo.ces.player.FiringUnit">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">FiringUnit</tt><big>(</big><em>units</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.FiringUnit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.Script" title="gensokyo.ces.script.Script"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.Script</span></tt></a></p>
-</dd></dl>
-
-<dl class="class">
 <dt id="gensokyo.ces.player.LimitedLoopFiring">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">LimitedLoopFiring</tt><big>(</big><em>pos</em>, <em>rate</em>, <em>bullet</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.ConditionUnit" title="gensokyo.ces.script.ConditionUnit"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.ConditionUnit</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Input" title="gensokyo.ces.observer.Input"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Input</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.player.Shifter" title="gensokyo.ces.player.Shifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.Shifter</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.player.LimitedLoopFiring.on_key_press">
-<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.on_key_press" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.Script" title="gensokyo.ces.script.Script"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.Script</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.player.Shifter" title="gensokyo.ces.player.Shifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.Shifter</span></tt></a></p>
+<dl class="staticmethod">
+<dt id="gensokyo.ces.player.LimitedLoopFiring.is_firing">
+<em class="property">static </em><tt class="descname">is_firing</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.is_firing" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="gensokyo.ces.player.LimitedLoopFiring.on_key_release">
-<tt class="descname">on_key_release</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.on_key_release" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.player.LimitedLoopFiring.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.on_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.player.LimitedLoopFiring.run">
-<tt class="descname">run</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.ces.player.LimitedLoopFiring.satisfied">
-<tt class="descname">satisfied</tt><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.satisfied" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">run</tt><big>(</big><em>entity</em>, <em>env</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.LimitedLoopFiring.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="gensokyo.ces.player.MasterShifter">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">MasterShifter</tt><big>(</big><em>pos</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.MasterShifter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.player.BaseShifter" title="gensokyo.ces.player.BaseShifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.BaseShifter</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Input" title="gensokyo.ces.observer.Input"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Input</span></tt></a></p>
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">MasterShifter</tt><a class="headerlink" href="#gensokyo.ces.player.MasterShifter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.player.BaseShifter" title="gensokyo.ces.player.BaseShifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.BaseShifter</span></tt></a></p>
 <dl class="attribute">
-<dt id="gensokyo.ces.player.MasterShifter.focus_mult">
-<tt class="descname">focus_mult</tt><em class="property"> = 0.5</em><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.focus_mult" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.player.MasterShifter.on_key_press">
-<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.on_key_press" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.player.MasterShifter.on_key_release">
-<tt class="descname">on_key_release</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.on_key_release" title="Permalink to this definition">¶</a></dt>
+<dt id="gensokyo.ces.player.MasterShifter.speed_mult">
+<tt class="descname">speed_mult</tt><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.speed_mult" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="gensokyo.ces.player.MasterShifter.pos">
-<tt class="descname">pos</tt><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.pos" title="Permalink to this definition">¶</a></dt>
+<dt id="gensokyo.ces.player.MasterShifter.focus_mult">
+<tt class="descname">focus_mult</tt><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.focus_mult" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="gensokyo.ces.player.MasterShifter.rect">
-<tt class="descname">rect</tt><em class="property"> = &lt;gensokyo.primitives.Rect object at 0x7f1ccc4dd698&gt;</em><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.rect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.ces.player.MasterShifter.speed_mult">
-<tt class="descname">speed_mult</tt><em class="property"> = 500</em><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.speed_mult" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">rect</tt><a class="headerlink" href="#gensokyo.ces.player.MasterShifter.rect" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -745,7 +720,7 @@ instantiate</p>
 <dl class="class">
 <dt id="gensokyo.ces.player.Player">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">Player</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.Player" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.Entity" title="gensokyo.ces.Entity"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.Entity</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Input" title="gensokyo.ces.observer.Input"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Input</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.Entity" title="gensokyo.ces.Entity"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.Entity</span></tt></a></p>
 <dl class="attribute">
 <dt id="gensokyo.ces.player.Player.hb">
 <tt class="descname">hb</tt><em class="property"> = None</em><a class="headerlink" href="#gensokyo.ces.player.Player.hb" title="Permalink to this definition">¶</a></dt>
@@ -761,14 +736,14 @@ instantiate</p>
 <tt class="descname">hb_sprite_img</tt><em class="property"> = None</em><a class="headerlink" href="#gensokyo.ces.player.Player.hb_sprite_img" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.player.Player.on_key_press">
-<tt class="descname">on_key_press</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.Player.on_key_press" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_key_press</tt><big>(</big><em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.Player.on_key_press" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="gensokyo.ces.player.Player.on_key_release">
-<tt class="descname">on_key_release</tt><big>(</big><em>self</em>, <em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.Player.on_key_release" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_key_release</tt><big>(</big><em>symbol</em>, <em>modifiers</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.Player.on_key_release" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -802,13 +777,58 @@ instantiate</p>
 <dl class="class">
 <dt id="gensokyo.ces.player.PlayerHitbox">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">PlayerHitbox</tt><big>(</big><em>hb</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.collision.Hitbox" title="gensokyo.ces.collision.Hitbox"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.collision.Hitbox</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.player.MasterShifter" title="gensokyo.ces.player.MasterShifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.MasterShifter</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.player.MasterShifter" title="gensokyo.ces.player.MasterShifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.MasterShifter</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.collision.Hitbox" title="gensokyo.ces.collision.Hitbox"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.collision.Hitbox</span></tt></a></p>
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.bottom">
+<tt class="descname">bottom</tt><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.bottom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.focus_mult">
+<tt class="descname">focus_mult</tt><em class="property"> = 0.5</em><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.focus_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="gensokyo.ces.player.PlayerHitbox.is_focus">
+<em class="property">static </em><tt class="descname">is_focus</tt><big>(</big><big>)</big><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.is_focus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.left">
+<tt class="descname">left</tt><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.pos">
+<tt class="descname">pos</tt><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.rect">
+<tt class="descname">rect</tt><em class="property"> = &lt;gensokyo.primitives.Rect object at 0x7f84faa9a800&gt;</em><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.rect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.right">
+<tt class="descname">right</tt><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.right" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.speed_mult">
+<tt class="descname">speed_mult</tt><em class="property"> = 10</em><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.speed_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gensokyo.ces.player.PlayerHitbox.top">
+<tt class="descname">top</tt><a class="headerlink" href="#gensokyo.ces.player.PlayerHitbox.top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="gensokyo.ces.player.PlayerSprite">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">PlayerSprite</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.PlayerSprite" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.graphics.Sprite" title="gensokyo.ces.graphics.Sprite"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Sprite</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.player.Shifter" title="gensokyo.ces.player.Shifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.Shifter</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.player.Shifter" title="gensokyo.ces.player.Shifter"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.Shifter</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.graphics.Sprite" title="gensokyo.ces.graphics.Sprite"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.graphics.Sprite</span></tt></a></p>
 </dd></dl>
 
 <dl class="class">
@@ -817,7 +837,7 @@ instantiate</p>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.player.Player" title="gensokyo.ces.player.Player"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.player.Player</span></tt></a></p>
 <dl class="attribute">
 <dt id="gensokyo.ces.player.Reimu.hb">
-<tt class="descname">hb</tt><em class="property"> = &lt;gensokyo.primitives.Circle object at 0x7f1cd3aa19b0&gt;</em><a class="headerlink" href="#gensokyo.ces.player.Reimu.hb" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">hb</tt><em class="property"> = &lt;gensokyo.primitives.Circle object at 0x7f850213ce10&gt;</em><a class="headerlink" href="#gensokyo.ces.player.Reimu.hb" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -843,7 +863,7 @@ instantiate</p>
 
 <dl class="attribute">
 <dt id="gensokyo.ces.player.ReimuShot.hitbox">
-<tt class="descname">hitbox</tt><em class="property"> = &lt;gensokyo.primitives.Rect object at 0x7f1ccc4dd6c0&gt;</em><a class="headerlink" href="#gensokyo.ces.player.ReimuShot.hitbox" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">hitbox</tt><em class="property"> = &lt;gensokyo.primitives.Rect object at 0x7f84faa9a828&gt;</em><a class="headerlink" href="#gensokyo.ces.player.ReimuShot.hitbox" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -867,11 +887,11 @@ instantiate</p>
 
 <dl class="class">
 <dt id="gensokyo.ces.player.ShieldDecay">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">ShieldDecay</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShieldDecay" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">ShieldDecay</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShieldDecay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.player.ShieldDecay.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShieldDecay.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShieldDecay.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -889,11 +909,11 @@ instantiate</p>
 
 <dl class="class">
 <dt id="gensokyo.ces.player.ShiftingSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">ShiftingSystem</tt><big>(</big><em>bounds</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShiftingSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.player.</tt><tt class="descname">ShiftingSystem</tt><big>(</big><em>env</em>, <em>bounds</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShiftingSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.player.ShiftingSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShiftingSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShiftingSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -904,11 +924,6 @@ instantiate</p>
 <dl class="attribute">
 <dt id="gensokyo.ces.player.ShiftingSystem.req_components">
 <tt class="descname">req_components</tt><em class="property"> = (&lt;class 'gensokyo.ces.player.MasterShifter'&gt;,)</em><a class="headerlink" href="#gensokyo.ces.player.ShiftingSystem.req_components" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.player.ShiftingSystem.set_pos">
-<tt class="descname">set_pos</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.player.ShiftingSystem.set_pos" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -969,11 +984,11 @@ the ending position of the previous step.</dd>
 
 <dl class="class">
 <dt id="gensokyo.ces.rails.RailSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.rails.</tt><tt class="descname">RailSystem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.rails.RailSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.rails.</tt><tt class="descname">RailSystem</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.rails.RailSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.rails.RailSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.rails.RailSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.rails.RailSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1026,68 +1041,36 @@ the ending position of the previous step.</dd>
 <span id="script-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">script</span></tt> Module<a class="headerlink" href="#module-gensokyo.ces.script" title="Permalink to this headline">¶</a></h2>
 <p>Scripting module</p>
 <p>Provides stuff for versatile scripting.</p>
-<div class="section" id="units">
-<h3>Units<a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h3>
-<p>The basic data structure is a <em>scripting unit</em>.  Scripting units are tuples
-containing ConditionUnits.</p>
-<p>ConditionUnits have two main properties and one method.</p>
-<p><tt class="docutils literal"><span class="pre">satisfied</span></tt> returns a Boolean.  <tt class="docutils literal"><span class="pre">run</span></tt> is a method which is called with the
-owning entity as an argument if <tt class="docutils literal"><span class="pre">satisfied</span></tt> is <tt class="docutils literal"><span class="pre">True</span></tt>.  If <tt class="docutils literal"><span class="pre">run</span></tt> returns
-a scripting unit, it will be added to the Script&#8217;s list of active units.
-Otherwise, <tt class="docutils literal"><span class="pre">run</span></tt> should return <tt class="docutils literal"><span class="pre">None</span></tt>.  If it returns a list of scripting
-units, all of them will be added.  Newly added units will not be run until the
-next loop.</p>
-<p>If <tt class="docutils literal"><span class="pre">expire</span></tt> is <tt class="docutils literal"><span class="pre">True</span></tt> (False by default), the scripting unit will be
-expired.  This is immediate; following ConditionUnits will not be processed.</p>
+<div class="section" id="scripts">
+<h3>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h3>
+<p>The basic data structure is a <tt class="docutils literal"><span class="pre">Script</span></tt>.</p>
+<p>Scripts have the <tt class="docutils literal"><span class="pre">run</span></tt> method.</p>
+<p><tt class="docutils literal"><span class="pre">run</span></tt> is a method which is called on every tick.  It should return a Boolen;
+if it is true, the Script is removed from the entity.</p>
+<p><tt class="docutils literal"><span class="pre">run</span></tt> is passed the entitiy the component belongs to, the
+environment which the system belongs to, and the time since the last tick.</p>
 </div>
-<div class="section" id="scripts-and-scriptsystem">
-<h3>Scripts and ScriptSystem<a class="headerlink" href="#scripts-and-scriptsystem" title="Permalink to this headline">¶</a></h3>
-<p>Script instances have a list of currently active scripting units.</p>
-<p>Entities can have multiple Scripts!  Functionally there is no need, but it is
-damn useful.  Use it where it makes sense.</p>
-<p>ScriptSystem instances iterate over Script objects and iterate over their
-active scripting units every update loop.  Scripting units function like
-datafied if/elses.</p>
-<p>The conditions in each scripting unit are exclusive, evaluated in order.</p>
-<dl class="class">
-<dt id="gensokyo.ces.script.ConditionUnit">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.script.</tt><tt class="descname">ConditionUnit</tt><a class="headerlink" href="#gensokyo.ces.script.ConditionUnit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="attribute">
-<dt id="gensokyo.ces.script.ConditionUnit.expire">
-<tt class="descname">expire</tt><a class="headerlink" href="#gensokyo.ces.script.ConditionUnit.expire" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="gensokyo.ces.script.ConditionUnit.run">
-<tt class="descname">run</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.ConditionUnit.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.ces.script.ConditionUnit.satisfied">
-<tt class="descname">satisfied</tt><a class="headerlink" href="#gensokyo.ces.script.ConditionUnit.satisfied" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="scriptsystem">
+<h3>ScriptSystem<a class="headerlink" href="#scriptsystem" title="Permalink to this headline">¶</a></h3>
+<p>ScriptSystem instances iterate over Script objects every tick.</p>
 <dl class="class">
 <dt id="gensokyo.ces.script.Script">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.script.</tt><tt class="descname">Script</tt><big>(</big><em>units</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.Script" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.Component" title="gensokyo.ces.Component"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.Component</span></tt></a></p>
-<dl class="attribute">
-<dt id="gensokyo.ces.script.Script.units">
-<tt class="descname">units</tt><a class="headerlink" href="#gensokyo.ces.script.Script.units" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.script.</tt><tt class="descname">Script</tt><a class="headerlink" href="#gensokyo.ces.script.Script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="gensokyo.ces.script.Script.run">
+<tt class="descname">run</tt><big>(</big><em>entity</em>, <em>env</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.Script.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="gensokyo.ces.script.ScriptSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.script.</tt><tt class="descname">ScriptSystem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.ScriptSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.script.</tt><tt class="descname">ScriptSystem</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.ScriptSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.script.ScriptSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.ScriptSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.script.ScriptSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1104,27 +1087,17 @@ datafied if/elses.</p>
 <dl class="class">
 <dt id="gensokyo.ces.stage.LoopSpawnEnemy">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.stage.</tt><tt class="descname">LoopSpawnEnemy</tt><big>(</big><em>pos</em>, <em>rate</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.LoopSpawnEnemy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.ConditionUnit" title="gensokyo.ces.script.ConditionUnit"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.ConditionUnit</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.stage.LoopSpawnEnemy.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.LoopSpawnEnemy.on_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.Script" title="gensokyo.ces.script.Script"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.Script</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.stage.LoopSpawnEnemy.run">
-<tt class="descname">run</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.LoopSpawnEnemy.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.ces.stage.LoopSpawnEnemy.satisfied">
-<tt class="descname">satisfied</tt><a class="headerlink" href="#gensokyo.ces.stage.LoopSpawnEnemy.satisfied" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">run</tt><big>(</big><em>entity</em>, <em>env</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.LoopSpawnEnemy.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="gensokyo.ces.stage.Stage">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.stage.</tt><tt class="descname">Stage</tt><big>(</big><em>script_</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.Stage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.stage.</tt><tt class="descname">Stage</tt><big>(</big><em>scripts_</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.Stage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.Entity" title="gensokyo.ces.Entity"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.Entity</span></tt></a></p>
 </dd></dl>
 
@@ -1137,20 +1110,10 @@ datafied if/elses.</p>
 <dl class="class">
 <dt id="gensokyo.ces.stage.TimedSuicide">
 <em class="property">class </em><tt class="descclassname">gensokyo.ces.stage.</tt><tt class="descname">TimedSuicide</tt><big>(</big><em>time</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.TimedSuicide" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.ConditionUnit" title="gensokyo.ces.script.ConditionUnit"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.ConditionUnit</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
-<dt id="gensokyo.ces.stage.TimedSuicide.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.TimedSuicide.on_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.script.Script" title="gensokyo.ces.script.Script"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.script.Script</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.stage.TimedSuicide.run">
-<tt class="descname">run</tt><big>(</big><em>self</em>, <em>entity</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.TimedSuicide.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="gensokyo.ces.stage.TimedSuicide.satisfied">
-<tt class="descname">satisfied</tt><a class="headerlink" href="#gensokyo.ces.stage.TimedSuicide.satisfied" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">run</tt><big>(</big><em>entity</em>, <em>env</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.stage.TimedSuicide.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1189,11 +1152,11 @@ datafied if/elses.</p>
 
 <dl class="class">
 <dt id="gensokyo.ces.ui.FPSSystem">
-<em class="property">class </em><tt class="descclassname">gensokyo.ces.ui.</tt><tt class="descname">FPSSystem</tt><a class="headerlink" href="#gensokyo.ces.ui.FPSSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a>, <a class="reference internal" href="#gensokyo.ces.observer.Updating" title="gensokyo.ces.observer.Updating"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.observer.Updating</span></tt></a></p>
-<dl class="function">
+<em class="property">class </em><tt class="descclassname">gensokyo.ces.ui.</tt><tt class="descname">FPSSystem</tt><big>(</big><em>env</em><big>)</big><a class="headerlink" href="#gensokyo.ces.ui.FPSSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gensokyo.ces.System" title="gensokyo.ces.System"><tt class="xref py py-class docutils literal"><span class="pre">gensokyo.ces.System</span></tt></a></p>
+<dl class="method">
 <dt id="gensokyo.ces.ui.FPSSystem.on_update">
-<tt class="descname">on_update</tt><big>(</big><em>self</em>, <em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.ui.FPSSystem.on_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_update</tt><big>(</big><em>dt</em><big>)</big><a class="headerlink" href="#gensokyo.ces.ui.FPSSystem.on_update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1274,7 +1237,7 @@ datafied if/elses.</p>
 <li><a class="reference internal" href="#module-gensokyo.ces.enemy"><tt class="docutils literal"><span class="pre">enemy</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.ces.gc"><tt class="docutils literal"><span class="pre">gc</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.ces.graphics"><tt class="docutils literal"><span class="pre">graphics</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-gensokyo.ces.observer"><tt class="docutils literal"><span class="pre">observer</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-gensokyo.ces.input"><tt class="docutils literal"><span class="pre">input</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.ces.physics"><tt class="docutils literal"><span class="pre">physics</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.ces.player"><tt class="docutils literal"><span class="pre">player</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-gensokyo.ces.rails"><tt class="docutils literal"><span class="pre">rails</span></tt> Module</a><ul>
@@ -1285,8 +1248,8 @@ datafied if/elses.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-gensokyo.ces.script"><tt class="docutils literal"><span class="pre">script</span></tt> Module</a><ul>
-<li><a class="reference internal" href="#units">Units</a></li>
-<li><a class="reference internal" href="#scripts-and-scriptsystem">Scripts and ScriptSystem</a></li>
+<li><a class="reference internal" href="#scripts">Scripts</a></li>
+<li><a class="reference internal" href="#scriptsystem">ScriptSystem</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-gensokyo.ces.stage"><tt class="docutils literal"><span class="pre">stage</span></tt> Module</a></li>
@@ -1295,6 +1258,12 @@ datafied if/elses.</p>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gensokyo.html"
+                        title="previous chapter">gensokyo Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gensokyo.scene.html"
+                        title="next chapter">scene Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/gensokyo.ces.txt"
@@ -1326,7 +1295,15 @@ datafied if/elses.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="gensokyo.scene.html" title="scene Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gensokyo.html" title="gensokyo Package"
+             >previous</a> |</li>
+        <li><a href="index.html">TouhouS 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >gensokyo</a> &raquo;</li>
+          <li><a href="gensokyo.html" >gensokyo Package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

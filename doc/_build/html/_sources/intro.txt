@@ -1,0 +1,4 @@
+Intro
+=====
+
+TouhouS is a shmup game engine written in Python 3 and Pyglet.

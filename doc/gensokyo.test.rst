@@ -1,10 +1,10 @@
 test Package
 ============
 
-:mod:`output` Module
---------------------
+:mod:`locator` Module
+---------------------
 
-.. automodule:: gensokyo.test.output
+.. automodule:: gensokyo.test.locator
     :members:
     :undoc-members:
     :show-inheritance:

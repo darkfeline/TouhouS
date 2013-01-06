@@ -1,0 +1,6 @@
+Dependencies
+============
+
+* Python 3
+* Pyglet 1.4alpha1
+* Sphinx 1.1.3 to generate documentation

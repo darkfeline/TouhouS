@@ -25,10 +25,10 @@ scene Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`rail_test` Module
------------------------
+:mod:`root` Module
+------------------
 
-.. automodule:: gensokyo.scene.rail_test
+.. automodule:: gensokyo.scene.root
     :members:
     :undoc-members:
     :show-inheritance:

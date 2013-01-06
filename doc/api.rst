@@ -6,3 +6,4 @@ API Reference
     gensokyo
     gensokyo.state
     gensokyo.locator
+    gensokyo.ces

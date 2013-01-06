@@ -15,28 +15,28 @@ You do not need to explicitly add a System to a SystemManager; its ``__init__``
 takes its environment as a parameter and will add itself.  Make sure to call
 ``super().__init__()``.
 
-System
+:mod:`System`
     Performs logic by iterating over Entities
 
-Entity
+:mod:`Entity`
     Contains Components
 
-Component
+:mod:`Component`
     Holds data
 
-Environment
+:mod:`Environment`
     Provides a CES environment, i.e. the four managers
 
-EntityManager
+:mod:`EntityManager`
     Holds references to Entities
 
-GroupManager
+:mod:`GroupManager`
     Holds references to groups of Entities
 
-TagManager
+:mod:`TagManager`
     Holds references to specific Entities
 
-SystemManager
+:mod:`SystemManager`
     Holds references to Systems
 
 

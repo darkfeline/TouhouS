@@ -32,7 +32,7 @@ else:
 
 setup(
     name='TouhouS',
-    version='1.0',
+    version='0.1',
     description='TouhouS game',
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',

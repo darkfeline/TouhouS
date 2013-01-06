@@ -1,3 +1,19 @@
+"""
+.. autoclass:: gensokyo.state.StateTree
+
+.. class:: Transition(to, save)
+
+    ``to`` is the resultant state and should be a :class:`State`.  ``save`` is
+    a Boolean and indicates whether or not to save the current state
+
+.. autoclass:: gensokyo.state.State
+
+.. class:: StateNode()
+
+    Literally just a cross between :class:`State` and :class:`StateTree`
+
+"""
+
 import abc
 import functools
 from collections import namedtuple
@@ -36,11 +52,6 @@ class TreeNode:
         else:
             return self
 
-"""
-class State to transition to
-boolean Save current state
-
-"""
 Transition = namedtuple('Transition', ['to', 'save'])
 
 
@@ -124,12 +135,23 @@ StateTree.register_event_type('on_transition')
 
 class State(metaclass=abc.ABCMeta):
 
+    """
+    A meta class for States.  Has two abstract methods, :meth:`enter` and
+    :meth:`exit`
+
+    .. automethod:: enter
+    .. automethod:: exit
+
+    """
+
     @abc.abstractmethod
     def enter(self):
+        """This method is called when entering a state"""
         raise NotImplementedError
 
     @abc.abstractmethod
     def exit(self):
+        """This method is called when exiting a state"""
         raise NotImplementedError
 
 

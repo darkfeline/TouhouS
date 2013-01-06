@@ -1,5 +1,5 @@
-Welcome to TouhouS's documentation!
-===================================
+TouhouS Documentation
+=====================
 
 Intro
 -----
@@ -7,16 +7,16 @@ Intro
 TouhouS is a shmup game engine written in Python 3 and Pyglet.
 
 Dependencies
-------------
+^^^^^^^^^^^^
 
 Required
-^^^^^^^^
+""""""""
 
 * Python 3
 * Pyglet 1.2alpha1
 
 Optional
-^^^^^^^^
+""""""""
 
 * Cython 0.17.4 for building extensions
 * Sphinx 1.1.3 for generating documentation
@@ -40,10 +40,10 @@ Generating documentation
 If for some reason you would like to generate this documentation yourself, make
 sure Sphinx is installed, `cd` into `doc`, and run `make html`.
 
-API
-===
+Reference
+---------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 4
 
-    modules
+    api

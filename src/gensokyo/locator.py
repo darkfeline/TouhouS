@@ -1,16 +1,18 @@
-"""
-Resource locator
-
-Defines a ServiceLocator class and creates a module level instance.
-
-You can call the module as a global instance of ServiceLocator.
-
-"""
-
 import sys
 
 
 class ServiceLocator:
+
+    """
+    Service locator
+
+    .. attribute:: key_state
+    .. attribute:: state_tree
+    .. attribute:: window
+    .. attribute:: graphics
+    .. attribute:: clock
+
+    """
 
     def __init__(self):
         self.key_state = None

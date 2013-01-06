@@ -1,5 +1,5 @@
 """
-This module contains the classes necessary for the Entity/Component/System
+This package contains the classes necessary for the Entity/Component/System
 design pattern.
 
 In a component/system design, components hold only data.  Systems operate on

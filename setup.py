@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 from distutils.core import setup, Extension
-
-use_cython = 1
 
 
 def get_resources(dir, l=None):
@@ -20,7 +19,8 @@ def _make_listing(dir):
     return (dir, [os.path.join(dir, x) for x in os.listdir(dir) if
             os.path.isfile(os.path.join(dir, x))])
 
-if use_cython:
+if sys.argv[1] == 'c':
+    del sys.argv[1]
     from Cython.Distutils import build_ext
     cmdclass = {'build_ext': build_ext}
     ext_modules = [Extension(

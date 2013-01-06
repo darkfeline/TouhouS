@@ -1,7 +1,6 @@
 import logging
 
 from gensokyo import scene
-from gensokyo import clock
 from gensokyo import ces
 from gensokyo.ces import stage
 from gensokyo.ces import graphics
@@ -31,7 +30,6 @@ class GameScene(scene.Scene):
         super().__init__()
 
         self.graphics = GameGraphics()
-        self.clock = clock.Clock()
 
         # Systems
         ui.FPSSystem(self)

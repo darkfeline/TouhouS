@@ -36,6 +36,7 @@ setup(
     description='TouhouS game',
     author='Allen Li',
     author_email='darkfeline@abagofapples.com',
+    requires=['pyglet'],
     url='http://abagofapples.com/',
     package_dir={'': 'src'},
     packages=['gensokyo',

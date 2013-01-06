@@ -2,10 +2,11 @@
 *.swp
 __pycache__
 *.py[co]
-
 build/
 dist/
 MANIFEST
 install/
+
 virt-env/
 resources-work/
+bugs.otl

@@ -15,6 +15,11 @@ Required
 * Python 3
 * Pyglet 1.2alpha1
 
+.. note::
+
+    Pyglet 1.2alpha1 has a bug where the entire screen is shifted down halfway.
+    Use the latest mercurial build instead.
+
 Optional
 """"""""
 

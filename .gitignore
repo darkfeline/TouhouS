@@ -1,12 +1,14 @@
 .ropeproject
-*.swp
+*.sw[po]
 __pycache__
 *.py[co]
-build/
-dist/
-MANIFEST
-install/
 
-virt-env/
-resources-work/
-bugs.otl
+/build/
+/dist/
+/MANIFEST
+/install/
+
+/virt-env/
+/bugs.otl
+
+/resources-work/

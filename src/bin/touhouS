@@ -11,9 +11,7 @@ parser.add_argument('--logfilter', action='store', default='')
 args = parser.parse_args()
 
 # setup logging
-# get root logger
 logger = logging.getLogger()
-# setup handler
 if args.logfile:
     handler = logging.FileHandler(args.logfile)
 else:
@@ -21,14 +19,7 @@ else:
 logger.addHandler(handler)
 handler.setFormatter(logging.Formatter(
     '%(asctime)s %(levelname)s @%(name)s %(message)s'))
-# set log level
-try:
-    a = getattr(logging, args.loglevel.upper())
-except AttributeError:
-    raise ValueError('Invalid log level: {!s}'.format(args.loglevel))
-else:
-    logger.setLevel(a)
-# add filter
+logger.setLevel(args.loglevel.upper())
 if args.logfilter:
     handler.addFilter(logging.Filter(args.logfilter))
 

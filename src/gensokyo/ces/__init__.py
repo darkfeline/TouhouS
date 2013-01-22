@@ -15,28 +15,28 @@ You do not need to explicitly add a System to a SystemManager; its ``__init__``
 takes its environment as a parameter and will add itself.  Make sure to call
 ``super().__init__()``.
 
-:mod:`System`
+:class:`System`
     Performs logic by iterating over Entities
 
-:mod:`Entity`
+:class:`Entity`
     Contains Components
 
-:mod:`Component`
+:class:`Component`
     Holds data
 
-:mod:`Environment`
+:class:`Environment`
     Provides a CES environment, i.e. the four managers
 
-:mod:`EntityManager`
+:class:`EntityManager`
     Holds references to Entities
 
-:mod:`GroupManager`
+:class:`GroupManager`
     Holds references to groups of Entities
 
-:mod:`TagManager`
+:class:`TagManager`
     Holds references to specific Entities
 
-:mod:`SystemManager`
+:class:`SystemManager`
     Holds references to Systems
 
 
@@ -99,9 +99,6 @@ class Entity:
     def add(self, component):
         self.components.add(component)
 
-    def delete(self, component):
-        self.components.remove(component)
-
     def get(self, types):
         """
         If types is a single type, return a tuple of components who are an
@@ -124,7 +121,7 @@ class Entity:
         components are stored interally in sets.
 
         :param types: component types to look for
-        :type types: tuple or type
+        :type types: iterable or type
         :rtype: tuple
 
         """
@@ -163,12 +160,8 @@ class EntityManager:
     def __iter__(self):
         return iter(self.entities)
 
-    def delete(self, entity=None):
-        if entity:
-            self.entities.remove(entity)
-        else:
-            for entity in list(self.entities):
-                self.delete(entity)
+    def remove(self, entity):
+        self.entities.remove(entity)
 
     def get_with(self, types):
         """
@@ -176,7 +169,7 @@ class EntityManager:
         return a set of entities
 
         :param types: component types to look for
-        :type types: tuple
+        :type types: iterable
         :rtype: set
 
         """
@@ -238,10 +231,6 @@ class Environment:
         self.gm = GroupManager()
         self.tm = TagManager()
         self.clock = Clock()
-
-    def delete(self):
-        self.em.delete()
-        self.sm.delete()
 
 
 ###############################################################################

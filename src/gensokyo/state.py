@@ -1,78 +1,45 @@
 """
-.. autoclass:: gensokyo.state.StateTree
+Everything is event-driven.  Thus there is no main loop.  The state machine is
+in charge of adding and removing event handlers.  States have their own data,
+and expose two methods for activation and deactivation, managing its event
+handlers.
 
-.. class:: Transition(to, save)
-
-    `to` is the resultant state and should be a :class:`State`.  `save` is
-    a Boolean and indicates whether or not to save the current state
-
-.. autoclass:: gensokyo.state.State
-
-.. class:: StateNode()
-
-    Literally just a cross between :class:`State` and :class:`StateTree`
+.. autoclass:: StateMachine
+.. autoclass:: Transition(to, save)
+.. autoclass:: StateNode
 
 """
 
 import abc
-import functools
 from collections import namedtuple
 import logging
 
-from pyglet.event import EventDispatcher, EVENT_HANDLED
+from pyglet.event import EventDispatcher
 
 logger = logging.getLogger(__name__)
 
-
-class TreeNode:
-
-    """
-    Be careful using this externally; ``root`` property is memoized
-
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.parent = None
-        self.children = set()
-
-    def add(self, child):
-        self.children.add(child)
-        child.parent = self
-
-    def remove(self, child):
-        self.children.remove(child)
-        child.parent = None
-
-    @property
-    @functools.lru_cache()
-    def root(self):
-        if self.parent:
-            return self.parent.root
-        else:
-            return self
-
 Transition = namedtuple('Transition', ['to', 'save'])
+"""
+`to` is the resultant state and should be a :class:`State`.  `save` is a
+Boolean and indicates whether or not to save the current state
+
+"""
 
 
-class StateTree(TreeNode, EventDispatcher):
+class StateMachine(EventDispatcher):
 
     """
-    A state machine crossed with a tree.
+    A state machine that works with a tree of states.
 
-    StateTree is the root node.  All children nodes are instances of StateNode,
-    which is a subclass of StateTree that are also states.  The root node
-    StateTree itself is not a state, but it can have a state (it is a state
-    machine).  Its children are states, but can also have children states.
-    Thus, a tree.
+    States are tree nodes.
 
     The current state of the state machine is determined by the handlers of its
-    states which are attached to e.g. global event dispatchers.  Thus, the
-    state machine itself doesn't do anything, merely coordinating which
-    listeners are subscribed and unsubscribed to which global events.  The tree
-    serves as data-keeping to keep track of this state.  Transitions are made
-    by dispatching the 'on_transition' event to the root.  The event should be
-    sent with a :class:`Transition` named tuple.
+    states which are attached to global event dispatchers, the root
+    environment.  Thus, the state machine itself doesn't do anything, merely
+    coordinating event handlers.  The tree serves as data-keeping to keep track
+    of this state.  Transitions are made by dispatching the 'on_transition'
+    event to the root.  The event should be sent with a :class:`Transition`
+    named tuple.
 
     Transition tuples have two fields: a string `to` state to transition to,
     and a boolean `save` indicating whether the current state should be left
@@ -83,77 +50,74 @@ class StateTree(TreeNode, EventDispatcher):
     still in the tree ("saved"), then it will be restored.  Otherwise, a new
     instance of the class will be made, added to the tree, and activated.
 
-    Nodes start off with their state set to ``None``.  You can navigate to a
-    sub-state by adding it to the valid_states tuple and transitioning to it.
-    You can exit sub-states by transitioning back to the node itself.
+    :class:`StateMachine` subclasses pyglet's
+    :class:`pyglet.event.EventDispatcher`.  Of note is its
+    :meth:`dispatch_event` method.
 
-    .. attribute: valid_states
-        A dict that maps string state names to StateNode class objects
+    .. automethod:: init
+
+    .. method:: dispatch_event(event_type, *args)
+
+        Dispatches event `event_type` to attached event handlers.
+        :class:`StateMachine` handles the 'on_transition' event.
 
     """
 
-    valid_states = {}
-
     def __init__(self):
         super().__init__()
-        self.state = None
 
-    def _leave(self):
-        self.state.exit()
-        self.remove_handlers(self.state)
-        self.state = None
-
-    def _transition(self, state):
-        state.enter()
-        self.root.push_handlers(state)
+    def init(self, state, rootenv):
+        """Initialize state machine"""
+        self.tree = state
         self.state = state
+        self.rootenv = rootenv
+        state.enter(rootenv)
 
     def on_transition(self, transition):
-        if self.state is not None:
+        assert isinstance(transition, Transition)
+        while transition.to not in self.state.valid_states:
             if not transition.save:
-                logging.debug("Removing state %s", self.state)
-                self.remove(self.state)
-            logging.debug("Leaving state %s", self.state)
-            self._leave()
-        if transition.to in self.valid_states:
-            logging.debug("Handling transition %s", transition)
-            state = self.valid_states[transition.to]
-            for child in list(self.children):
-                if isinstance(child, state):
-                    a = child
-                    break
-            try:
-                self._transition(a)
-            except NameError:
-                a = state()
-                self.add(a)
-                self._transition(a)
-            return EVENT_HANDLED
+                self.state.parent[type(self.state)] = None
+            self.state.exit(self.rootenv)
+            self.state = self.state.parent
+            if self.state is None:
+                return
+        a = self.state[transition.to]
+        if a is None:
+            a = transition.to()
+            self.state[transition.to] = a
+        self.state = a
+        a.enter()
 
-StateTree.register_event_type('on_transition')
+StateMachine.register_event_type('on_transition')
 
 
-class State(metaclass=abc.ABCMeta):
+class StateNode(metaclass=abc.ABCMeta):
 
     """
     A meta class for States.  Has two abstract methods, :meth:`enter` and
     :meth:`exit`
 
+    .. autoattribute:: valid_states
     .. automethod:: enter
     .. automethod:: exit
 
     """
 
+    valid_states = {}
+    """Maps strings to states"""
+
+    def __init__(self, parent):
+        self.states = dict(
+            (self.valid_states[key], None) for key in self.valid_states)
+        self.parent = parent
+
     @abc.abstractmethod
-    def enter(self):
+    def enter(self, rootenv):
         """This method is called when entering a state"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def exit(self):
+    def exit(self, rootenv):
         """This method is called when exiting a state"""
         raise NotImplementedError
-
-
-class StateNode(StateTree, State):
-    pass

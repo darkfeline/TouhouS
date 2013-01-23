@@ -28,9 +28,9 @@ class Physics(ces.Component):
 class PhysicsSystem(ces.System):
 
     def on_update(self, dt):
-        entities = ces.intersect(self.env, pos.Position, Physics)
-        p = self.env.cm[pos.Position]
-        v = self.env.cm[Physics]
+        entities = ces.intersect(self.world, pos.Position, Physics)
+        p = self.world.cm[pos.Position]
+        v = self.world.cm[Physics]
         for e in entities:
             p[e].pos = tuple(p[e].pos[i] + v[e].v[0][i] for i in (0, 1))
             for i, a in enumerate(v[e].v[1:]):

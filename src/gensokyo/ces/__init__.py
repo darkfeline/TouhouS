@@ -20,8 +20,8 @@ hard dependencies/events.
 :class:`Component`
     Holds data
 
-:class:`Environment`
-    Provides a CES environment
+:class:`World`
+    Provides a CES world
 
 
 """
@@ -51,12 +51,12 @@ class System(metaclass=abc.ABCMeta):
 
     """
 
-    def __init__(self, env):
-        self.env = env
-        env.add_system(self)
+    def __init__(self, world):
+        self.world = world
+        world.add_system(self)
 
 
-class Environment:
+class World:
 
     def __init__(self):
         self.em = dict()
@@ -80,8 +80,8 @@ class Environment:
         self.sm.add(system)
 
 
-def intersect(env, *args):
-    entities = set(x for x in env.cm[args.pop()])
+def intersect(world, *args):
+    entities = set(x for x in world.cm[args.pop()])
     while args:
-        entities &= set(x for x in env.cm[args.pop()])
+        entities &= set(x for x in world.cm[args.pop()])
     return entities

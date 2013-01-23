@@ -20,9 +20,6 @@ The parametrization starts at ``t = 0``, and finds the current location
 for all ``t`` up to the given ``t`` exclusively (i.e., up to but not
 including).
 
-Entities should only have ONE Rails.  (Think about it.)  Behavior is
-indeterminate if there are multiple.
-
 However, writing such parametrizations can be tedious, so ``rails`` provides a
 convenience function ``convert_rails()``, which takes a *lazy rails tuple*.
 The first item is the starting position, and the following items are
@@ -57,6 +54,7 @@ from functools import wraps
 import math
 
 from gensokyo import ces
+from gensokyo.ces.pos import Position
 
 
 def _shift(pos):
@@ -127,29 +125,22 @@ class Rails(ces.Component):
     def __init__(self, rails):
         self.rails = convert_rails(rails)
         self.time = 0
-
-
-class RailPosition(ces.Position):
-    pass
+        self.step = 0
 
 
 class RailSystem(ces.System):
 
-    req_components = (Rails, RailPosition)
-
     def on_update(self, dt):
-        for entity in self.env.em.get_with(self.req_components):
-            r = entity.get(Rails)[0]
-            r.time += dt
-            step = 0
+        entities = ces.intersect(self.world, Position, Rails)
+        p = self.world.cm[Position]
+        r = self.world.cm[Rails]
+        for e in entities:
+            r[e].time += dt
             try:
-                while r.time >= r.rails[step][-1]:
-                    step += 1
+                while r[e].time >= r[e].rails[r[e].step][1]:
+                    r[e].step += 1
             except IndexError:
                 func, t = r.rails[-1]
-                pos = func(t)
             else:
-                func = r.rails[step][0]
-                pos = func(r.time)
-            for p in entity.get(ces.Position):
-                p.pos = pos
+                func, t = r[e].rails[r[e].step]
+            p[e].pos = func(t)

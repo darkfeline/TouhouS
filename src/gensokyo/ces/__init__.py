@@ -27,7 +27,7 @@ hard dependencies/events.
 """
 
 import abc
-from weakref import WeakKeyDictionary
+from weakref import WeakValueDictionary
 import weakref
 import logging
 from collections import defaultdict
@@ -61,7 +61,7 @@ class World:
 
     def __init__(self):
         self.em = dict()
-        self.cm = defaultdict(WeakKeyDictionary)
+        self.cm = defaultdict(WeakValueDictionary)
         self.sm = set()
         self.clock = Clock()
 

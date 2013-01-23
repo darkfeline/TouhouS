@@ -1,4 +1,5 @@
 import logging
+import weakref
 
 from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
@@ -6,57 +7,25 @@ from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 from pyglet import sprite, text
 from pyglet import event
 
-from gensokyo import locator
 from gensokyo import ces
 
+__all__ = ['Graphics']
 logger = logging.getLogger(__name__)
 
 
-class Graphics(event.EventDispatcher):
-
-    def __init__(self):
-        self.levels = []
-        self._sprites_cache = []
-
-    def on_add_sprite(self, *args):
-        self._sprites_cache.append(args)
-
-    def _add_cached(self):
-        a = self._sprites_cache
-        self._sprites_cache = []
-        for args in a:
-            self.dispatch_event('on_add_sprite', *args)
-
-    def push(self, level):
-        logger.debug('Pushing level %s', level)
-        assert isinstance(level, GraphicsLevel)
-        self.levels.append(level)
-        self.push_handlers(level)
-        if self._sprites_cache:
-            logger.debug('Adding cached sprites')
-            self._add_cached()
-
-    def pop(self):
-        logger.debug('Popping level')
-        level = self.levels.pop()
-        self.remove_handlers(level)
-
-Graphics.register_event_type('on_add_sprite')
-Graphics.register_event_type('on_draw')
-
-
-class GraphicsLevel:
+class Graphics:
 
     map = tuple()
 
-    def __init__(self):
+    def __init__(self, window):
         self.batch = Batch()
         self.groups = dict(
             (self.map[i], OrderedGroup(i)) for i in range(len(self.map)))
         self.labels = set()
+        self.window = weakref.ref(window)
 
     def on_draw(self):
-        locator.window.clear()
+        self.window.clear()
         logger.debug('%s drawing', self)
         self.draw()
         return event.EVENT_HANDLED
@@ -100,13 +69,12 @@ def _set_label_group(label, group):
 
 class GraphicsObject(ces.Position):
 
-    def __init__(self, constructor, group, *args, **kwargs):
+    def __init__(self, graphics, constructor, group, *args, **kwargs):
         logger.debug('New GraphicsObject: %s %s %s %s', constructor, group,
                      args, kwargs)
         self.sprite = constructor(*args, **kwargs)
         self.group = group
-        locator.graphics.dispatch_event(
-            'on_add_sprite', self.sprite, group)
+        graphics.dispatch_event('on_add_sprite', self.sprite, group)
 
     @property
     def pos(self):

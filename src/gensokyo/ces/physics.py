@@ -27,9 +27,6 @@ class Physics(ces.Component):
 
 class PhysicsSystem(ces.System):
 
-    def __init__(self, env):
-        super().__init__(env)
-
     def on_update(self, dt):
         entities = ces.intersect(self.env, pos.Position, Physics)
         p = self.env.cm[pos.Position]

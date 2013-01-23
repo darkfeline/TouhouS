@@ -3,52 +3,39 @@ Physics module
 
 """
 
-import abc
 import logging
 
 from gensokyo import ces
-from gensokyo import primitives
+from gensokyo.ces import pos
 
 logger = logging.getLogger(__name__)
 
 
-# TODO generalize this
 class Physics(ces.Component):
 
     """
-    Physics component.  Each Entity should only have one.
+    Physics component
 
     .. attribute:: vel
         velocity
 
     """
 
-    def __init__(self, vel=None):
-        if vel is None:
-            self.vel = primitives.Vector(0, 0)
-        elif isinstance(vel, primitives.Vector):
-            self.vel = vel
-        else:
-            raise TypeError
-
-
-class PhysicsPosition(ces.Position, metaclass=abc.ABCMeta):
-    pass
+    def __init__(self, vectors):
+        self.v = vectors
 
 
 class PhysicsSystem(ces.System):
 
-    req_components = (Physics, PhysicsPosition)
-
     def __init__(self, env):
         super().__init__(env)
-        env.clock.push_handlers(self)
 
     def on_update(self, dt):
-        for entity in self.env.em.get_with(self.req_components):
-            physics, pos = entity.get(self.req_components)
-            physics = physics[0]
-            logger.debug("Moving Entity %s", entity)
-            logger.debug("Physics %s", physics.vel)
-            for p in pos:
-                p.pos = tuple(p.pos[i] + physics.vel[i] for i in [0, 1])
+        entities = ces.intersect(self.env, pos.Position, Physics)
+        p = self.env.cm[pos.Position]
+        v = self.env.cm[Physics]
+        for e in entities:
+            p[e].pos = tuple(p[e].pos[i] + v[e].v[0][i] for i in (0, 1))
+            for i, a in enumerate(v[e].v[1:]):
+                v[e].v[i - 1] = tuple(
+                    v[e].v[i - 1][j] + v[e].v[i][j] for j in (0, 1))

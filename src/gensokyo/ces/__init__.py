@@ -28,6 +28,7 @@ hard dependencies/events.
 
 import abc
 from weakref import WeakKeyDictionary
+import weakref
 import logging
 from collections import defaultdict
 
@@ -52,7 +53,7 @@ class System(metaclass=abc.ABCMeta):
     """
 
     def __init__(self, world):
-        self.world = world
+        self.world = weakref.ref(world)
         world.add_system(self)
 
 

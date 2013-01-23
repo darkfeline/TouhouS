@@ -11,10 +11,6 @@ addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.
 
-You do not need to explicitly add a System to a SystemManager; its ``__init__``
-takes its environment as a parameter and will add itself.  Make sure to call
-``super().__init__()``.
-
 :class:`System`
     Performs logic by iterating over Entities
 
@@ -25,19 +21,7 @@ takes its environment as a parameter and will add itself.  Make sure to call
     Holds data
 
 :class:`Environment`
-    Provides a CES environment, i.e. the four managers
-
-:class:`EntityManager`
-    Holds references to Entities
-
-:class:`GroupManager`
-    Holds references to groups of Entities
-
-:class:`TagManager`
-    Holds references to specific Entities
-
-:class:`SystemManager`
-    Holds references to Systems
+    Provides a CES environment
 
 
 """

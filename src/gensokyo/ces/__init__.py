@@ -94,3 +94,10 @@ class Environment:
 
     def add_system(self, system):
         self.sm.add(system)
+
+
+def intersect(env, *args):
+    entities = set(x for x in env.cm[args.pop()])
+    while args:
+        entities &= set(x for x in env.cm[args.pop()])
+    return entities

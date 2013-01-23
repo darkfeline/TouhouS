@@ -31,6 +31,7 @@ from collections import defaultdict
 
 from gensokyo.clock import Clock
 
+__all__ = ['Component', 'System', 'World', 'intersect']
 logger = logging.getLogger(__name__)
 
 

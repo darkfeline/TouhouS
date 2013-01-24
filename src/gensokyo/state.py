@@ -4,10 +4,6 @@ in charge of adding and removing event handlers.  States have their own data,
 and expose two methods for activation and deactivation, managing its event
 handlers.
 
-.. autoclass:: StateMachine
-.. autoclass:: Transition(to, save)
-.. autoclass:: StateNode
-
 """
 
 import abc
@@ -16,6 +12,7 @@ import logging
 
 from pyglet.event import EventDispatcher
 
+__all__ = ['Transition', 'StateMachine', 'StateNode']
 logger = logging.getLogger(__name__)
 
 Transition = namedtuple('Transition', ['to', 'save'])

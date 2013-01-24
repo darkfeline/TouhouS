@@ -56,6 +56,8 @@ import math
 from gensokyo import ces
 from gensokyo.ces.pos import Position
 
+__all__ = ['Rails', 'RailSystem']
+
 
 def _shift(pos):
     def wrapper(f):

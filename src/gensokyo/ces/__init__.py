@@ -44,11 +44,19 @@ class System(metaclass=abc.ABCMeta):
     """
     Superclass for Systems
 
+    Provides a useful default :meth:`__init__` that you should probably call
+    with ``super()``.
+
     """
 
     def __init__(self, world):
+        """Create a weak reference to `world` and add self to `world"""
         self.world = weakref.ref(world)
         world.add_system(self)
+
+    @abc.abstractmethod
+    def on_update(self, dt):
+        raise NotImplementedError
 
 
 class World:
@@ -74,6 +82,7 @@ class World:
         self._idgen.free(entity)
 
     def add_system(self, system):
+        self.clock.push_handlers(system)
         self.sm.add(system)
 
 

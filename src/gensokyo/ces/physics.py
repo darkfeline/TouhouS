@@ -11,7 +11,7 @@ from gensokyo.ces import pos
 logger = logging.getLogger(__name__)
 
 
-class Physics(ces.Component):
+class Velocity(ces.Component):
 
     """
     Physics component
@@ -21,18 +21,15 @@ class Physics(ces.Component):
 
     """
 
-    def __init__(self, vectors):
-        self.v = vectors
+    def __init__(self, vel):
+        self.vel = vel
 
 
 class PhysicsSystem(ces.System):
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, pos.Position, Physics)
+        entities = ces.intersect(self.world, pos.Position, Velocity)
         p = self.world.cm[pos.Position]
-        v = self.world.cm[Physics]
+        v = self.world.cm[Velocity]
         for e in entities:
-            p[e].pos = tuple(p[e].pos[i] + v[e].v[0][i] for i in (0, 1))
-            for i, a in enumerate(v[e].v[1:]):
-                v[e].v[i - 1] = tuple(
-                    v[e].v[i - 1][j] + v[e].v[i][j] for j in (0, 1))
+            p[e].pos = tuple(p[e].pos[i] + v[e].vel[0][i] for i in (0, 1))

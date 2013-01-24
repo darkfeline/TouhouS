@@ -1,7 +1,7 @@
 """
 Scripting module
 
-Provides stuff for versatile scripting.
+Provides stuff for generic scripting.
 
 Scripts
 *******
@@ -10,8 +10,7 @@ The basic data structure is a ``Script``.
 
 Scripts have the ``run`` method.
 
-``run`` is a method which is called on every tick.  It should return a Boolen;
-if it is true, the Script is removed from the entity.
+``run`` is a method which is called on every tick.
 
 ``run`` is passed the entitiy the component belongs to, the
 environment which the system belongs to, and the time since the last tick.
@@ -28,24 +27,19 @@ import abc
 from gensokyo import ces
 
 
-class Script(metaclass=abc.ABCMeta):
+class Script(ces.Component):
 
     @abc.abstractmethod
-    def run(self, entity, env, dt):
+    def run(self, entity, world, dt):
         raise NotImplementedError
 
 
 class ScriptSystem(ces.System):
 
-    req_components = (Script,)
-
-    def __init__(self, env):
-        super().__init__(env)
-        env.clock.push_handlers(self)
+    def __init__(self, world):
+        super().__init__(world)
 
     def on_update(self, dt):
-        for entity in self.env.em.get_with(self.req_components):
-            for script in entity.get(self.req_components[0]):
-                    r = script.run(entity, self.env, dt)
-                    if r:
-                        entity.delete(script)
+        for e in ces.intersect(self.world, Script):
+            s = self.world.cm[Script]
+            s[e].run(e, self.world, dt)

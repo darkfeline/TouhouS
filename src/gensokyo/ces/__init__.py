@@ -66,10 +66,9 @@ class World:
         self.cm = defaultdict(WeakValueDictionary)
         self.sm = set()
         self.clock = Clock()
-        self._idgen = IdGen()
 
     def make_entity(self):
-        e = self._idgen.next()
+        e = Entity()
         self.em[e] = set()
         return e
 
@@ -79,29 +78,14 @@ class World:
 
     def remove_entity(self, entity):
         del self.em[entity]
-        self._idgen.free(entity)
 
     def add_system(self, system):
         self.clock.push_handlers(system)
         self.sm.add(system)
 
 
-class IdGen:
-
-    def __init__(self):
-        self._next = 1
-        self._free = []
-
-    def next(self):
-        if self._free:
-            return self._free.pop(0)
-        else:
-            a = self._next
-            self._next += 1
-            return a
-
-    def free(self, value):
-        self._free.append(value)
+class Entity:
+    pass
 
 
 def intersect(world, *args):

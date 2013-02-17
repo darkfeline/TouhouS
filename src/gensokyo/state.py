@@ -7,10 +7,6 @@ there is no main loop.  A clock somewhere controls "tick" events, and that
 controls the execution.  What defines a state is which event handlers are
 attached.
 
-.. autoclass:: StateMachine
-.. autoclass:: Transition(to, save)
-.. autoclass:: StateNode
-
 """
 
 import abc

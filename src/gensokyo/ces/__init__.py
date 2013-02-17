@@ -65,6 +65,7 @@ class World:
         self.em = dict()
         self.cm = defaultdict(WeakValueDictionary)
         self.sm = set()
+        self.tm = WeakValueDictionary()
         self.clock = Clock()
 
     def make_entity(self):

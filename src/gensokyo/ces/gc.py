@@ -9,12 +9,12 @@ bullets.  When these entities move out of bounds, they will be deleted.
 import logging
 
 from gensokyo import ces
-from gensokyo.ces.pos import Position
+from gensokyo.ces import pos
 
 logger = logging.getLogger(__name__)
 
 
-class Presence(ces.Component):
+class Presence(pos.SlavePosition):
 
     """Used for garbage collecting out-of-bounds entities"""
 
@@ -42,12 +42,12 @@ class GarbageCollectSystem(ces.System):
         return False
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, Position, Presence)
+        entities = ces.intersect(self.world, pos.Position, Presence)
         logger.debug('gc found %s', entities)
-        pos = self.world.cm[Position]
+        pos_ = self.world.cm[pos.Position]
         pres = self.world.cm[Presence]
         for e in entities:
-            pres[e].setpos(pos[e].pos)
+            pres[e].setpos(pos_[e].pos)
             if self._check_bounds(pres[e].rect):
                 logger.debug('deleting %s', e)
                 self.world.remove_entity(e)

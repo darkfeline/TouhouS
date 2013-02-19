@@ -62,7 +62,9 @@ class World:
 
     def __init__(self):
         self.em = dict()
-        self.cm = defaultdict(dict)
+        self.cm = defaultdict(WeakKeyDictionary)
+        self.tm = WeakValueDictionary()
+        self.gm = defaultdict(WeakSet)
         self.sm = set()
         self.clock = Clock()
 

@@ -11,7 +11,7 @@ from gensokyo import resources
 
 __all__ = ["Bullet", "EnemyBullet", "RoundBullet", "make_bullet"]
 Bullet = namedtuple("Bullet", ['img', 'group', 'hitbox', 'dmg'])
-EnemyBullet = partial(Bullet, group='enemy_bullet')
+EnemyBullet = partial(Bullet, group='enemy_bullet', dmg=1)
 RoundBullet = partial(
     EnemyBullet, img=resources.bullet['round'],
     hitbox=primitives.Circle(0, 0, 10))

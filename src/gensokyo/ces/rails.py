@@ -60,6 +60,7 @@ __all__ = ['Rails', 'RailSystem']
 
 
 def _shift(pos):
+    """Return a function decorator that shifts position"""
     def wrapper(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
@@ -70,7 +71,8 @@ def _shift(pos):
 
 
 def convert_rails(rails):
-    """
+    """Parametrize rail designations
+
     First item in given rails is starting position
 
     ('straight', dest, time)
@@ -145,4 +147,4 @@ class RailSystem(ces.System):
                 func, t = r.rails[-1]
             else:
                 func, t = r[e].rails[r[e].step]
-            p[e].pos = func(t)
+            p[e].pos = func(min(t, r[e].time))

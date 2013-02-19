@@ -8,6 +8,7 @@ from gensokyo.ces import graphics
 from gensokyo.ces import gc
 from gensokyo import resources
 
+__all__ = ["Bullet", "EnemyBullet", "RoundBullet", "make_bullet"]
 Bullet = namedtuple("Bullet", ['img', 'group', 'hitbox', 'dmg'])
 EnemyBullet = partial(Bullet, group='enemy_bullet')
 RoundBullet = partial(
@@ -19,7 +20,7 @@ def make_bullet(world, bullet, x, y, v):
 
     e = world.make_entity()
 
-    hb = BulletHitbox(bullet.hitbox.copy())
+    hb = collision.Hitbox(bullet.hitbox.copy())
     hb.setpos((x, y))
     world.add_component(e, hb)
 
@@ -35,7 +36,3 @@ def make_bullet(world, bullet, x, y, v):
     world.add_component(e, p)
 
     return e
-
-
-class BulletHitbox(collision.Hitbox):
-    pass

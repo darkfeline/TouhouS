@@ -2,15 +2,15 @@ import logging
 
 from pyglet import sprite, text
 
-from gensokyo import ces
+from gensokyo.ces import pos
 
 logger = logging.getLogger(__name__)
 
 
-class GraphicsObject(ces.Position):
+class BaseSprite(pos.SlavePosition):
 
     def __init__(self, graphics, constructor, group, *args, **kwargs):
-        logger.debug('New GraphicsObject: %s %s %s %s', constructor, group,
+        logger.debug('New BaseSprite: %s %s %s %s', constructor, group,
                      args, kwargs)
         self.sprite = constructor(*args, **kwargs)
         self.group = group
@@ -20,22 +20,21 @@ class GraphicsObject(ces.Position):
     def pos(self):
         return (self.sprite.x, self.sprite.y)
 
-    @pos.setter
-    def pos(self, value):
-        self.sprite.x, self.sprite.y = value
+    def setpos(self, pos):
+        self.sprite.x, self.sprite.y = pos
 
     def __del__(self):
-        logger.debug("deleting sprite %s", self)
+        logger.debug("garbage collecting sprite %s", self)
         self.sprite.delete()
 
 
-class Sprite(GraphicsObject):
+class Sprite(BaseSprite):
 
     def __init__(self, *args, **kwargs):
         super().__init__(sprite.Sprite, *args, **kwargs)
 
 
-class Label(GraphicsObject):
+class Label(BaseSprite):
 
     def __init__(self, *args, **kwargs):
         super().__init__(text.Label, *args, **kwargs)

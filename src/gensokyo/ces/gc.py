@@ -32,6 +32,7 @@ class GarbageCollectSystem(ces.System):
         self.area = area
 
     def _check_bounds(self, rect):
+        """Check if out of bounds"""
         assert len(rect) == 2
         if (rect.bottom > self.area.top or
                 rect.top < self.area.bottom or

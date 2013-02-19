@@ -2,9 +2,6 @@
 The :mod:`gensokyo` engine is heavily event/observer driven.  It currently uses
 pyglet's :class:`EventDispatcher` for its event needs.
 
-.. autoclass:: RootEnv(window, clock, state_tree, key_state)
-.. autoclass:: Engine
-
 """
 
 from collections import namedtuple
@@ -22,7 +19,9 @@ from gensokyo import resources
 
 logger = logging.getLogger(__name__)
 
-RootEnv = namedtuple("RootEnv", ['window', 'clock', 'state_tree', 'key_state'])
+RootEnv = namedtuple(
+    "RootEnv",
+    ['window', 'clock', 'state_tree', 'key_state', 'graphics'])
 
 
 class Engine:

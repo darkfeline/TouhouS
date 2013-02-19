@@ -8,12 +8,10 @@ Scripts
 
 The basic data structure is a ``Script``.
 
-Scripts have the ``run`` method.
-
-``run`` is a method which is called on every tick.
+Scripts have the ``run`` method, which is called on every tick.
 
 ``run`` is passed the entitiy the component belongs to, the
-environment which the system belongs to, and the time since the last tick.
+world which the system belongs to, and the time since the last tick.
 
 ScriptSystem
 ************
@@ -27,7 +25,7 @@ import abc
 from gensokyo import ces
 
 
-class Script(ces.Component):
+class Script(ces.Component, metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def run(self, entity, world, dt):
@@ -35,9 +33,6 @@ class Script(ces.Component):
 
 
 class ScriptSystem(ces.System):
-
-    def __init__(self, world):
-        super().__init__(world)
 
     def on_update(self, dt):
         for e in ces.intersect(self.world, Script):

@@ -25,6 +25,7 @@ hard dependencies/events.
 
 import abc
 import weakref
+from weakref import WeakKeyDictionary, WeakValueDictionary, WeakSet
 import logging
 from collections import defaultdict
 
@@ -78,8 +79,6 @@ class World:
         self.cm[type(component)][entity] = component
 
     def remove_entity(self, entity):
-        for component in self.em[entity]:
-            del self.cm[type(component)][entity]
         del self.em[entity]
 
     def add_system(self, system):

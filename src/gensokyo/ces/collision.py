@@ -5,7 +5,7 @@ from gensokyo import ces
 from gensokyo.ces import pos
 
 
-class Hitbox(ces.Component):
+class Hitbox(pos.SlavePosition):
 
     def __init__(self, hb):
         self.hb = hb

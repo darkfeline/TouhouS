@@ -70,10 +70,8 @@ def _shift(pos):
     return wrapper
 
 
-def convert_rails(rails):
+def convert_rails(rails, start):
     """Parametrize rail designations
-
-    First item in given rails is starting position
 
     ('straight', dest, time)
     -> Parametrize by velocity and time
@@ -84,14 +82,15 @@ def convert_rails(rails):
     ('custom', param, time)
     -> Already parametrized
 
-    :param rails: lazy rails tuple
+    :param rails: rails designations
     :type rails: tuple
 
     """
     r = []
-    pos = rails[0]
+    assert len(start) == 2
+    pos = start
     time = 0
-    for segment in rails[1:]:
+    for segment in rails:
         dt = segment[-1] - time
         assert dt > 0
         if segment[0] == 'straight':
@@ -126,8 +125,8 @@ class Rails(ces.Component):
 
     """
 
-    def __init__(self, rails):
-        self.rails = convert_rails(rails)
+    def __init__(self, rails, start):
+        self.rails = convert_rails(rails, start)
         self.time = 0
         self.step = 0
 

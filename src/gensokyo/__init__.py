@@ -2,9 +2,6 @@
 The :mod:`gensokyo` engine is heavily event/observer driven.  It currently uses
 pyglet's :class:`EventDispatcher` for its event needs.
 
-.. autoclass:: RootEnv(window, clock, state_tree, key_state)
-.. autoclass:: Engine
-
 """
 
 from collections import namedtuple
@@ -22,7 +19,9 @@ from gensokyo import resources
 
 logger = logging.getLogger(__name__)
 
-RootEnv = namedtuple("RootEnv", ['window', 'clock', 'state_tree', 'key_state'])
+RootEnv = namedtuple(
+    "RootEnv",
+    ['window', 'clock', 'state', 'key_state', 'graphics'])
 
 
 class Engine:
@@ -40,9 +39,9 @@ class Engine:
         gl.glEnable(gl.GL_BLEND)
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-        # State tree
-        logger.debug("Creating state tree...")
-        state_tree = state.StateMachine()
+        # State machine
+        logger.debug("Creating state machine...")
+        statem = state.StateMachine()
 
         # key_state
         logger.debug("Creating KeyState...")
@@ -55,10 +54,10 @@ class Engine:
         pyglet.clock.set_fps_limit(FPS)
         pyglet.clock.schedule(clock.tick)
 
-        # initialize state tree
-        logger.debug("init state tree...")
-        state_tree.init(
-            root.RootTree(), RootEnv(window, clock, state_tree, keys))
+        # initialize state machine
+        logger.debug("init state machine...")
+        statem.init(
+            root.RootTree(), RootEnv(window, clock, statem, keys))
 
         logger.info("Finished init.")
 

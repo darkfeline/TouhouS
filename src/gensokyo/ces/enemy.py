@@ -1,3 +1,6 @@
+from collections import namedtuple
+from functools import partial
+
 from gensokyo import ces
 from gensokyo import primitives
 from gensokyo.ces import collision
@@ -7,60 +10,32 @@ from gensokyo.ces import rails
 from gensokyo.ces import script
 from gensokyo import resources
 
+Enemy = namedtuple("Enemy", ['img', 'group', 'hitbox', 'life'])
+Enemy = partial(Enemy, group='enemy')
 
-# TODO move this and GrimReaper?
+
+def make_enemy(world, enemy, x, y):
+
+    e = world.make_entity()
+
+    hb = EnemyHitbox(enemy.hb.copy())
+    hb.setpos((x, y))
+    world.add_component(e, hb)
+
+    sprite = graphics.Sprite(enemy.group, enemy.img, x=x, y=y)
+    world.add_component(e, sprite)
+
+    l = Life(enemy.life)
+    world.add_component(e, l)
+
+
 class Life(ces.Component):
-
-    """
-    Can have multiple.  Entity dies when any of them hit 0.
-
-    """
 
     def __init__(self, life):
         self.life = life
 
-    def die(self, entity):
-        pass
 
-
-class Enemy(ces.Entity):
-
-    sprite_img = None
-    sprite_group = 'enemy'
-    hb = None
-    init_life = 1
-
-    def __init__(self, x, y):
-
-        """
-        Just add Rails (and Script)!
-
-        :param x: x coordinate
-        :type x: int
-        :param y: y coordinate
-        :type y: int
-
-        """
-
-        super().__init__()
-
-        hb = self.hb.copy()
-        hb.pos = x, y
-        hb = EnemyHitbox(hb)
-        self.add(hb)
-
-        s = EnemySprite(self.sprite_group, self.sprite_img, x=x, y=y)
-        self.add(s)
-
-        l = Life(self.init_life)
-        self.add(l)
-
-
-class EnemyHitbox(collision.Hitbox, rails.RailPosition):
-    pass
-
-
-class EnemySprite(graphics.Sprite, rails.RailPosition):
+class EnemyHitbox(collision.Hitbox):
     pass
 
 

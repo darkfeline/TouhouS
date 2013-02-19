@@ -31,8 +31,11 @@ class StateMachine:
         assert isinstance(event, str)
         new = self.state.event(event, *args, **kwargs)
         self.state.exit(self.rootenv)
-        new.enter(self.rootenv)
-        self.state = new
+        if new is None:
+            return
+        else:
+            new.enter(self.rootenv)
+            self.state = new
 
 
 class State(metaclass=abc.ABCMeta):

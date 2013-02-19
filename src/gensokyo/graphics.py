@@ -6,21 +6,20 @@ from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 from pyglet import text
 
-__all__ = ['Graphics']
+__all__ = ['Graphics', 'GraphicsLevel']
 logger = logging.getLogger(__name__)
 
 
-class GraphicsLevel(tuple):
+class GraphicsLevel:
 
     layers = tuple()
 
-    def __new__(cls):
-        t = super().__new__(
-            Batch(),
-            dict((cls.layers[i], OrderedGroup(i)) for i in
-                 range(len(cls.layers))),
-            dict((cls.layers[i], WeakSet()) for i in range(len(cls.layers))))
-        t.batch, t.groups, t.labels = t
+    def __init__(self):
+        self.batch = Batch()
+        self.groups = dict(
+            (self.layers[i], OrderedGroup(i)) for i in range(len(self.layers)))
+        self.labels = dict(
+            (self.layers[i], WeakSet()) for i in range(len(self.layers)))
 
 
 class Graphics:

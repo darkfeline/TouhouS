@@ -24,7 +24,6 @@ hard dependencies/events.
 """
 
 import abc
-from weakref import WeakValueDictionary
 import weakref
 import logging
 from collections import defaultdict
@@ -63,9 +62,8 @@ class World:
 
     def __init__(self):
         self.em = dict()
-        self.cm = defaultdict(WeakValueDictionary)
+        self.cm = defaultdict(dict)
         self.sm = set()
-        self.tm = WeakValueDictionary()
         self.clock = Clock()
 
     def make_entity(self):
@@ -78,6 +76,8 @@ class World:
         self.cm[type(component)][entity] = component
 
     def remove_entity(self, entity):
+        for component in self.em[entity]:
+            del self.cm[type(component)][entity]
         del self.em[entity]
 
     def add_system(self, system):
@@ -90,6 +90,8 @@ class Entity:
 
 
 def intersect(world, *args):
+    """Return all entities with given components."""
+    assert len(args) > 0
     entities = set(x for x in world.cm[args.pop()])
     while args:
         entities &= set(x for x in world.cm[args.pop()])

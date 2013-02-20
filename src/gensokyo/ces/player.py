@@ -5,86 +5,70 @@ from pyglet.window import key
 
 from gensokyo import ces
 from gensokyo import primitives
+from gensokyo.primitives import Vector
+from gensokyo.ces.pos import Position, SlavePosition
 from gensokyo.ces import script
 from gensokyo.ces import bullet
 from gensokyo.ces import graphics
 from gensokyo.ces import collision
 from gensokyo import resources
-from gensokyo import locator
 
+__all__ = ['InputMovement']
 logger = logging.getLogger(__name__)
 
 
-class BaseShifter(ces.Position):
-    pass
+class InputMovement(SlavePosition):
+
+    def __init__(self, speed_mult, focus_mult, rect):
+        self.speed_mult = speed_mult
+        self.focus_mult = focus_mult
+        self.rect = rect
+
+    def setpos(self, pos):
+        self.rect.center = pos
 
 
-class Shifter(BaseShifter):
-    pass
+class InputMovementSystem(ces.System):
 
-
-class MasterShifter(BaseShifter, metaclass=abc.ABCMeta):
-
-    """
-    .. attribute:: speed_mult
-    .. attribute:: focus_mult
-    .. attribute:: rect
-
-    """
-
-    pass
-
-
-class ShiftingSystem(ces.System):
-
-    req_components = (MasterShifter,)
-    opt_components = (Shifter,)
-
-    def __init__(self, env, bounds):
-        super().__init__(env)
-        env.clock.push_handlers(self)
+    def __init__(self, world, key_state, bounds):
+        super().__init__(world)
+        self.key_state = key_state
         self.bounds = bounds
 
     def on_update(self, dt):
-
-        logger.debug('Shift system update')
-        # Get current key state
-        v = [0, 0]
-        if locator.key_state[key.RIGHT]:
-            v[0] += 1
-        if locator.key_state[key.LEFT]:
-            v[0] -= 1
-        if locator.key_state[key.UP]:
-            v[1] += 1
-        if locator.key_state[key.DOWN]:
-            v[1] -= 1
-        v = primitives.Vector(*v).get_unit_vector()
-
-        for entity in self.env.em.get_with(self.req_components):
-            # Calculate movement
-            master = entity.get(self.req_components[0])[0]
-            start = master.pos
-            dpos = v * master.speed_mult
-            if master.is_focus():
-                dpos *= master.focus_mult
-            dpos = tuple(dpos)
-            # Move master
-            master.pos = tuple(start[i] + dpos[i] for i in [0, 1])
-            # Calculate bounds
-            if master.left < self.bounds.left:
-                master.left = self.bounds.left
-            elif master.right > self.bounds.right:
-                master.right = self.bounds.right
-            if master.bottom < self.bounds.bottom:
-                master.bottom = self.bounds.bottom
-            elif master.top > self.bounds.top:
-                master.top = self.bounds.top
-            logger.debug('Master moved to %s', master.pos)
-            end = master.pos
-            dpos = tuple(end[i] - start[i] for i in [0, 1])
-            # Do for slaves
-            for sh in entity.get(self.opt_components[0]):
-                sh.pos = tuple(sh.pos[i] + dpos[i] for i in [0, 1])
+        # get keys
+        vel = [0, 0]
+        if self.key_state[key.RIGHT]:
+            vel[0] += 1
+        if self.key_state[key.LEFT]:
+            vel[0] -= 1
+        if self.key_state[key.UP]:
+            vel[1] += 1
+        if self.key_state[key.DOWN]:
+            vel[1] -= 1
+        vel = Vector(*vel).get_unit_vector()
+        focus = True if self.key_state[key.LSHIFT] else False
+        # Calculate movement
+        player = self.word.tm['player']
+        pos = self.world.cm[Position][player]
+        im = self.world.cm[InputMovement][player]
+        dpos = vel * im.speed_mult
+        if focus:
+            dpos *= im.focus_mult
+        # Move
+        pos.pos = tuple(Vector(*pos.pos) + Vector(*dpos))
+        im.setpos(pos.pos)
+        # Calculate bounds/fix
+        if im.rect.left < self.bounds.left:
+            im.rect.left = self.bounds.left
+        elif im.rect.right > self.bounds.right:
+            im.rect.right = self.bounds.right
+        if im.rect.bottom < self.bounds.bottom:
+            im.rect.bottom = self.bounds.bottom
+        elif im.rect.top > self.bounds.top:
+            im.rect.top = self.bounds.top
+        pos.pos = im.rect.center
+        logger.debug('Master moved to %s', pos.pos)
 
 
 class Shield(ces.Component):

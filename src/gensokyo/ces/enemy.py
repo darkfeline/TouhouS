@@ -5,20 +5,29 @@ from gensokyo import ces
 from gensokyo import primitives
 from gensokyo.ces import collision
 from gensokyo.ces import graphics
-from gensokyo.ces import bullet
+from gensokyo.primitives import Vector
+from gensokyo.ces.bullet import make_bullet, RoundBullet
 from gensokyo.ces import rails
 from gensokyo.ces import script
+from gensokyo.ces.pos import Position
 from gensokyo import resources
 
+__all__ = ['Enemy', 'make_enemy', 'GenericEnemy', 'GrimReaper',
+           'LoopFireAtPlayer']
 Enemy = namedtuple("Enemy", ['img', 'group', 'hitbox', 'life'])
 Enemy = partial(Enemy, group='enemy')
 
+img = resources.enemy['generic']
+GenericEnemy = partial(
+    Enemy, img=img, hitbox=primitives.Rect(0, 0, img.width, img.height),
+    life=200)
 
-def make_enemy(world, enemy, x, y):
+
+def make_enemy(world, enemy, x, y, *, rails, script):
 
     e = world.make_entity()
 
-    hb = EnemyHitbox(enemy.hb.copy())
+    hb = collision.Hitbox(enemy.hb.copy())
     hb.setpos((x, y))
     world.add_component(e, hb)
 
@@ -28,6 +37,13 @@ def make_enemy(world, enemy, x, y):
     l = Life(enemy.life)
     world.add_component(e, l)
 
+    r = rails.Rails(rails, (x, y))
+    world.add_component(e, r)
+
+    world.add_component(e, script)
+
+    return e
+
 
 class Life(ces.Component):
 
@@ -35,53 +51,43 @@ class Life(ces.Component):
         self.life = life
 
 
-class EnemyHitbox(collision.Hitbox):
-    pass
-
-
 class GrimReaper(ces.System):
 
-    req_components = (Life,)
-
     def on_update(self, dt):
-        for entity in self.env.em.get_with(self.req_components):
-            life = entity.get(self.req_components[0])[0]
-            if life.life <= 0:
-                life.die(entity)
-                self.env.em.delete(entity)
+        entities = ces.intersect(self.world, Life)
+        l = self.world.cm[Life]
+        for e in entities:
+            if l[e].life <= 0:
+                self.world.remove_entity(e)
 
 
-# TODO move everything below
-class GenericEnemy(Enemy):
+#class GenericEnemy(Enemy):
+#
+#    sprite_img = resources.enemy['generic']
+#    hb = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
+#    init_life = 200
+#
+#    def __init__(self, x, y):
+#
+#        super().__init__(x, y)
+#
+#        s = LoopFireAtPlayer((x, y), 0.5)
+#        self.add(s)
 
-    sprite_img = resources.enemy['generic']
-    hb = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
-    init_life = 200
 
-    def __init__(self, x, y):
+class LoopFireAtPlayer(script.Script):
 
-        super().__init__(x, y)
-
-        s = LoopFireAtPlayer((x, y), 0.5)
-        self.add(s)
-
-
-class LoopFireAtPlayer(script.Script, rails.RailPosition):
-
-    def __init__(self, pos, rate):
-        self.pos = pos
+    def __init__(self, rate):
+        """rate is seconds per fire.  Smaller rate == faster"""
         self.state = 0
         self.rate = rate
 
-    def run(self, entity, env, dt):
+    def run(self, entity, world, dt):
         self.state += dt
         if self.state >= self.rate:
-            self.state -= self.rate
-            player = env.tm['player']
-            hb = player.get(collision.Hitbox)
-            dest = hb.pos
-            dest = primitives.Vector(dest[0], dest[1])
-            v = dest - primitives.Vector(*self.pos)
-            b = bullet.RoundBullet(*self.pos, vector=v)
-            env.em.add(b)
-            env.gm.add_to(b, 'enemy_bullet')
+            pos = world.cm[Position]
+            player = world.tm['player']
+            p = pos[entity].pos
+            v = Vector(*pos[player].pos) - Vector(*p)
+            b = make_bullet(RoundBullet(), p[0], p[1], v)
+            world.gm['enemy_bullet'].add(b)

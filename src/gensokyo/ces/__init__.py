@@ -19,8 +19,6 @@ hard dependencies/events.
 
 :class:`World`
     Provides a CES world
-
-
 """
 
 import abc
@@ -46,7 +44,6 @@ class System(metaclass=abc.ABCMeta):
 
     Provides a useful default :meth:`__init__` that you should probably call
     with ``super()``.
-
     """
 
     def __init__(self, world):

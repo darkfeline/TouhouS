@@ -40,6 +40,9 @@ class SpriteGroup:
                 sprite.batch = self.batch
             break
 
+    def on_update(self, dt):
+        self.draw()
+
 
 class Clearer:
 
@@ -48,6 +51,9 @@ class Clearer:
 
     def draw(self):
         self.window.clear()
+
+    def on_update(self, dt):
+        self.draw()
 
 
 def _set_label_group(label, group):

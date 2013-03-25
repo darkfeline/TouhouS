@@ -28,7 +28,7 @@ class StateMachine:
 
     def event(self, event, *args, **kwargs):
         assert isinstance(event, str)
-        new = self.state.event(event, *args, **kwargs)
+        new = self.state.get_state(event, *args, **kwargs)
         self.state.exit(self.rootenv)
         if new is None:
             return
@@ -49,8 +49,8 @@ class State(metaclass=abc.ABCMeta):
         abstract method
     exit
         abstract method
-    event
-        dispatch event
+    get_state
+        get next state based on event
 
     Attributes:
 
@@ -60,7 +60,7 @@ class State(metaclass=abc.ABCMeta):
 
     transitions = {}
 
-    def event(self, event, *args, **kwargs):
+    def get_state(self, event, *args, **kwargs):
         assert isinstance(event, str)
         try:
             s = self.transitions[event]

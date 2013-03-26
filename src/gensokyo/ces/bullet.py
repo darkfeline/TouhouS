@@ -6,6 +6,7 @@ from gensokyo.ces import collision
 from gensokyo.ces import physics
 from gensokyo.ces import sprite
 from gensokyo.ces import gc
+from gensokyo.ces import pos
 from gensokyo.ces.script import Script
 from gensokyo import resources
 
@@ -20,24 +21,26 @@ RoundBullet = partial(
 def make_bullet(world, bullet, x, y, v, *, script=None):
 
     e = world.make_entity()
+    add = partial(world.add_component, e)
 
-    hb = collision.Hitbox(bullet.hitbox.copy())
-    hb.setpos((x, y))
-    world.add_component(e, hb)
+    pos_ = pos.Position(x, y)
+    add(pos_)
 
-    sprite_ = sprite.Sprite(bullet.group, bullet.img, x=x, y=y)
-    world.add_component(e, sprite_)
+    hb = collision.Hitbox(pos_, bullet.hitbox.copy())
+    add(hb)
+
+    sprite_ = sprite.Sprite(pos_, bullet.group, bullet.img)
+    add(sprite_)
 
     vel = physics.Velocity(v)
-    world.add_component(e, vel)
+    add(vel)
 
     r = primitives.Rect(0, 0, bullet.img.width, bullet.img.height)
-    r.center = x, y
-    p = gc.Presence(r)
-    world.add_component(e, p)
+    p = gc.Presence(pos_, r)
+    add(p)
 
     if script:
         assert isinstance(script, Script)
-        world.add_component(e, script)
+        add(script)
 
     return e

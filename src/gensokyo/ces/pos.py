@@ -1,3 +1,18 @@
+"""
+pos.py
+======
+
+Contains position stuff.
+
+Entities often need to have a Position, but certain components need to be
+updated with regard to that Position.  SlavePositions are registered with an
+Entity's Position, and is updated by the Position's setter.  Components are
+supposed to contain only data, with logic encapsulated by Systems, but I
+implemented this inter-component observer/event relationship for simplicity's
+sake.
+
+"""
+
 import abc
 
 from gensokyo import ces
@@ -6,6 +21,22 @@ __all__ = ['Position', 'SlavePosition']
 
 
 class Position(ces.Component):
+
+    """
+    Attributes:
+    
+    pos
+        Self-explanatory
+
+    Methods:
+
+    add_slave
+        Add slave position
+    remove_slave
+        Remove slave position
+
+    These methods are documented, but usually don't need to be called.
+    """
 
     def __init__(self, pos):
         self.pos = pos

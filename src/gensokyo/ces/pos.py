@@ -24,7 +24,7 @@ class Position(ces.Component):
 
     """
     Attributes:
-    
+
     pos
         Self-explanatory
 

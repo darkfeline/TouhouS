@@ -18,8 +18,9 @@ class Presence(pos.SlavePosition):
 
     """Used for garbage collecting out-of-bounds entities"""
 
-    def __init__(self, rect):
+    def __init__(self, master, rect):
         self.rect = rect
+        super().__init__(master)
 
     def setpos(self, value):
         self.rect.center = value
@@ -33,21 +34,13 @@ class GarbageCollectSystem(ces.System):
 
     def _check_bounds(self, rect):
         """Check if out of bounds"""
-        assert len(rect) == 2
-        if (rect.bottom > self.area.top or
-                rect.top < self.area.bottom or
-                rect.left > self.area.right or
-                rect.right < self.area.left):
-            return True
-        return False
+        return not rect.collide(self.area)
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, pos.Position, Presence)
+        entities = ces.intersect(self.world, Presence)
         logger.debug('gc found %s', entities)
-        pos_ = self.world.cm[pos.Position]
         pres = self.world.cm[Presence]
         for e in entities:
-            pres[e].setpos(pos_[e].pos)
             if self._check_bounds(pres[e].rect):
                 logger.debug('deleting %s', e)
                 self.world.remove_entity(e)

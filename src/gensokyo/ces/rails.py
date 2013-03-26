@@ -59,17 +59,6 @@ from gensokyo.ces.pos import Position
 __all__ = ['Rails', 'RailSystem']
 
 
-def _shift(pos):
-    """Return a function decorator that shifts position"""
-    def wrapper(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            a = f(*args, **kwargs)
-            return tuple(pos[i] + a[i] for i in [0, 1])
-        return wrapper
-    return wrapper
-
-
 def convert_rails(rails, start):
     """Parametrize rail designations
 
@@ -93,25 +82,7 @@ def convert_rails(rails, start):
     for segment in rails:
         dt = segment[-1] - time
         assert dt > 0
-        if segment[0] == 'straight':
-            dpos = tuple(segment[1][i] / dt for i in [0, 1])
-            @_shift(pos)
-            def f(time):
-                return tuple(dpos[i] * time for i in [0, 1])
-            pos = segment[1]
-        elif segment[0] == 'pivot':
-            center, arc, time = segment[1:]
-            alpha = math.atan((pos[1] - center[1]) / (pos[0] - center[0]))
-            vel = arc / time
-            @_shift(pos)
-            def f(time):
-                beta = alpha + vel * time
-                return math.cos(beta), math.sin(beta)
-            pos = f(time)
-        elif segment[0] == 'custom':
-            param = segment[1]
-            f = _shift(param, pos)
-            pos = param(pos)
+        f, pos = _desig[segment[0]](segment, pos, dt)
         time = segment[-1]
         r.append((f, time))
     return r
@@ -147,3 +118,54 @@ class RailSystem(ces.System):
             else:
                 func, t = r[e].rails[r[e].step]
             p[e].pos = func(min(t, r[e].time))
+
+###############################################################################
+# Private
+
+_desig = {}
+
+
+def _shift(pos):
+    """Return a function decorator that shifts position"""
+    def wrapper(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            a = f(*args, **kwargs)
+            return tuple(pos[i] + a[i] for i in [0, 1])
+        return wrapper
+    return wrapper
+
+
+def _add_desig(func):
+    _desig[func.__name__] = func
+
+
+@_add_desig
+def straight(segment, pos, dt):
+    dpos = tuple(segment[1][i] / dt for i in [0, 1])
+    @_shift(pos)
+    def f(time):
+        return tuple(dpos[i] * time for i in [0, 1])
+    pos = segment[1]
+    return f, pos
+
+
+@_add_desig
+def pivot(segment, pos, dt):
+    center, arc, time = segment[1:]
+    alpha = math.atan((pos[1] - center[1]) / (pos[0] - center[0]))
+    vel = arc / time
+    @_shift(pos)
+    def f(time):
+        beta = alpha + vel * time
+        return math.cos(beta), math.sin(beta)
+    pos = f(time)
+    return f, pos
+
+
+@_add_desig
+def custom(segment, pos, dt):
+    param = segment[1]
+    f = _shift(param, pos)
+    pos = param(pos)
+    return f, pos

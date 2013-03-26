@@ -23,6 +23,8 @@ __all__ = ['Position', 'SlavePosition']
 class Position(ces.Component):
 
     """
+    Position is a final class.
+
     Attributes:
 
     pos
@@ -61,11 +63,20 @@ class Position(ces.Component):
 
 class SlavePosition(ces.Component, metaclass=abc.ABCMeta):
 
-    """Virtual class for components that need to update with Position"""
+    """
+    Virtual class for components that need to update with Position
 
-    def __init__(self, master):
+    SlavePosition is a transition class, i.e., its __init__ passes on its
+    parameters, minus its own, to the next class in the MRO.  (Next is
+    technically Component, but it is an empty virtual class).  It can also
+    serve as a final class, provided no extra parameters are given, in which
+    case the MRO ends with ['SlavePosition', 'Component']
+    """
+
+    def __init__(self, master, *args, **kwargs):
         master.add_slave(self)
         self.setpos(master.pos)
+        super().__init__(*args, **kwargs)
 
     @abc.abstractmethod
     def setpos(self, pos):

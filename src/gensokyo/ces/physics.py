@@ -1,6 +1,5 @@
 """
 Physics module
-
 """
 
 import logging
@@ -14,11 +13,10 @@ logger = logging.getLogger(__name__)
 class Velocity(ces.Component):
 
     """
-    Physics component
+    Attributes:
 
-    .. attribute:: vel
+    vel
         velocity
-
     """
 
     def __init__(self, vel):
@@ -32,4 +30,4 @@ class PhysicsSystem(ces.System):
         p = self.world.cm[pos.Position]
         v = self.world.cm[Velocity]
         for e in entities:
-            p[e].pos = tuple(p[e].pos[i] + v[e].vel[0][i] for i in (0, 1))
+            p[e].pos = tuple(p[e].pos[i] + v[e].vel[i] for i in (0, 1))

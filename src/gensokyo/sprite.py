@@ -6,11 +6,11 @@ from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 from pyglet import text
 
-__all__ = ['SpriteGroup', 'Clearer']
+__all__ = ['SpriteDrawer', 'Clearer']
 logger = logging.getLogger(__name__)
 
 
-class SpriteGroup:
+class SpriteDrawer:
 
     layers = tuple()
 

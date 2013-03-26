@@ -4,12 +4,12 @@ from functools import partial
 from gensokyo import ces
 from gensokyo import primitives
 from gensokyo.ces import collision
-from gensokyo.ces import graphics
+from gensokyo.ces import sprite
 from gensokyo.primitives import Vector
 from gensokyo.ces.bullet import make_bullet, RoundBullet
-from gensokyo.ces import rails
-from gensokyo.ces import script
-from gensokyo.ces.pos import Position
+from gensokyo.ces.rails import Rails
+from gensokyo.ces.script import Script
+from gensokyo.ces import pos
 from gensokyo import resources
 
 __all__ = ['Enemy', 'make_enemy', 'GenericEnemy', 'GrimReaper',
@@ -23,24 +23,28 @@ GenericEnemy = partial(
     life=200)
 
 
-def make_enemy(world, enemy, x, y, *, rails, script):
+def make_enemy(world, drawer, enemy, x, y, *, rails, script):
 
     e = world.make_entity()
+    add = partial(world.add_component, e)
 
-    hb = collision.Hitbox(enemy.hb.copy())
-    hb.setpos((x, y))
-    world.add_component(e, hb)
+    pos_ = pos.Position(x, y)
+    add(pos_)
 
-    sprite = graphics.Sprite(enemy.group, enemy.img, x=x, y=y)
-    world.add_component(e, sprite)
+    hb = collision.Hitbox(pos_, enemy.hb.copy())
+    add(hb)
+
+    sprite_ = sprite.Sprite(pos_, drawer, enemy.group, enemy.img)
+    add(sprite_)
 
     l = Life(enemy.life)
-    world.add_component(e, l)
+    add(l)
 
-    r = rails.Rails(rails, (x, y))
-    world.add_component(e, r)
+    r = Rails(rails, (x, y))
+    add(r)
 
-    world.add_component(e, script)
+    assert isinstance(script, Script)
+    add(script)
 
     return e
 
@@ -75,19 +79,20 @@ class GrimReaper(ces.System):
 #        self.add(s)
 
 
-class LoopFireAtPlayer(script.Script):
+class LoopFireAtPlayer(Script):
 
     def __init__(self, rate):
         """rate is seconds per fire.  Smaller rate == faster"""
         self.state = 0
         self.rate = rate
 
-    def run(self, entity, world, dt):
+    def run(self, entity, world, root, dt):
         self.state += dt
         if self.state >= self.rate:
-            pos = world.cm[Position]
             player = world.tm['player']
-            p = pos[entity].pos
-            v = Vector(*pos[player].pos) - Vector(*p)
+            pos_ = world.cm[pos.Position]
+            p = pos_[entity].pos
+            v = Vector(*pos_[player].pos) - Vector(*p)
             b = make_bullet(RoundBullet(), p[0], p[1], v)
             world.gm['enemy_bullet'].add(b)
+            self.state -= self.rate

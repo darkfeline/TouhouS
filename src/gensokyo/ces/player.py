@@ -1,5 +1,7 @@
 import abc
 import logging
+from collections import namedtuple
+from functools import partial
 
 from pyglet.window import key
 
@@ -7,22 +9,24 @@ from gensokyo import ces
 from gensokyo import primitives
 from gensokyo.primitives import Vector
 from gensokyo.ces.pos import Position, SlavePosition
-from gensokyo.ces import script
+from gensokyo.ces.script import Script
 from gensokyo.ces import bullet
 from gensokyo.ces import graphics
 from gensokyo.ces import collision
+from gensokyo.ces import sprite
 from gensokyo import resources
 
-__all__ = ['InputMovement']
+__all__ = ['InputMovement', 'InputMovementSystem']
 logger = logging.getLogger(__name__)
 
 
 class InputMovement(SlavePosition):
 
-    def __init__(self, speed_mult, focus_mult, rect):
+    def __init__(self, master, speed_mult, focus_mult, rect):
         self.speed_mult = speed_mult
         self.focus_mult = focus_mult
         self.rect = rect
+        super().__init__(master)
 
     def setpos(self, pos):
         self.rect.center = pos
@@ -73,8 +77,6 @@ class InputMovementSystem(ces.System):
 
 class Shield(ces.Component):
 
-    """Can have multiple"""
-
     def __init__(self, dur):
         self.dur = dur
         self.state = 0
@@ -99,29 +101,37 @@ class ShieldDecay(ces.System):
                     entity.delete(shield)
 
 
+Player = namedtuple("Player", [
+    'img', 'group', 'hb_img', 'hb_group', 'hitbox', 'shield_dur'])
+Player = partial(Player, group='player')
+Reimu = partial(
+    Player, img=resources.player['reimu']['player'],
+    hb_img=resources.player['reimu']['hitbox'],
+    hitbox=primitives.Circle(0, 0, 3)
+)
+
+
+def make_player(world, drawer, player, x, y, *, script):
+
+    e = world.make_entity()
+    add = partial(world.add_component, e)
+
+    pos_ = Position(x, y)
+    add(pos_)
+
+    hb = collision.Hitbox(pos_, player.hitbox.copy())
+    add(hb)
+
+    sprite_ = sprite.Sprite(pos_, drawer, player.group, player.img)
+    add(sprite_)
+
+    assert isinstance(script, Script)
+    add(script)
+
+    return e
+
+
 class Player(ces.Entity):
-
-    sprite_img = None
-    sprite_group = 'player'
-    hb_sprite_img = None
-    hb_sprite_group = 'player_hb'
-    hb = None
-    shield_dur = 3
-
-    def __init__(self, x, y):
-        """
-        Add firing script to complete
-
-        """
-        super().__init__()
-
-        hb = self.hb.copy()
-        hb = PlayerHitbox(hb)
-        hb.pos = x, y
-        self.add(hb)
-
-        s = PlayerSprite(self.sprite_group, self.sprite_img, x=x, y=y)
-        self.add(s)
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.LSHIFT:
@@ -174,74 +184,24 @@ class PlayerHitbox(MasterShifter, collision.Hitbox):
         self.rect = self.rect.copy()
         self.pos = pos
 
-    @property
-    def pos(self):
-        return self.rect.center
-
-    @pos.setter
-    def pos(self, value):
-        self.rect.center = value
-        super(self.__class__, self.__class__).pos.fset(self, value)
-
-    @property
-    def top(self):
-        return self.rect.top
-
-    @top.setter
-    def top(self, value):
-        self.rect.top = value
-        self.pos = self.rect.center
-
-    @property
-    def bottom(self):
-        return self.rect.bottom
-
-    @bottom.setter
-    def bottom(self, value):
-        self.rect.bottom = value
-        self.pos = self.rect.center
-
-    @property
-    def left(self):
-        return self.rect.left
-
-    @left.setter
-    def left(self, value):
-        self.rect.left = value
-        self.pos = self.rect.center
-
-    @property
-    def right(self):
-        return self.rect.right
-
-    @right.setter
-    def right(self, value):
-        self.rect.right = value
-        self.pos = self.rect.center
-
     @staticmethod
     def is_focus():
         return locator.key_state[key.LSHIFT]
 
 
-class PlayerSprite(Shifter, graphics.Sprite):
-    pass
+PlayerBullet = partial(bullet.Bullet, group='player_bullet')
+ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
+                    dmg=20)
 
 
-class PlayerBullet(bullet.Bullet, metaclass=abc.ABCMeta):
-
-    sprite_group = 'player_bullet'
+def make_straight_bullet(world, drawer, bullet, x, y, speed):
+    v = primitives.Vector(0, speed)
+    return bullet.make_bullet(world, drawer, bullet, x, y, v)
 
 
 class ReimuShot(PlayerBullet):
 
-    sprite_img = resources.player['reimu']['shot']
     speed = 50
-    dmg = 20
-    hitbox = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
-
-    def __init__(self, x, y):
-        super().__init__(x, y, primitives.Vector(0, self.speed))
 
 
 class Reimu(Player):

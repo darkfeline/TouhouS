@@ -18,7 +18,7 @@ RoundBullet = partial(
     hitbox=primitives.Circle(0, 0, 10))
 
 
-def make_bullet(world, bullet, x, y, v, *, script=None):
+def make_bullet(world, drawer, bullet, x, y, v, *, script=None):
 
     e = world.make_entity()
     add = partial(world.add_component, e)
@@ -29,7 +29,7 @@ def make_bullet(world, bullet, x, y, v, *, script=None):
     hb = collision.Hitbox(pos_, bullet.hitbox.copy())
     add(hb)
 
-    sprite_ = sprite.Sprite(pos_, bullet.group, bullet.img)
+    sprite_ = sprite.Sprite(pos_, drawer, bullet.group, bullet.img)
     add(sprite_)
 
     vel = physics.Velocity(v)

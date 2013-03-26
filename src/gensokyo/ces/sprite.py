@@ -9,11 +9,11 @@ logger = logging.getLogger(__name__)
 
 class BaseSprite(pos.SlavePosition):
 
-    def __init__(self, constructor, master, group, *args, **kwargs):
+    def __init__(self, constructor, master, drawer, group, *args, **kwargs):
         logger.debug('New BaseSprite: %s %s %s %s', constructor, group,
                      args, kwargs)
         self.sprite = constructor(*args, **kwargs)
-        self.group = group
+        drawer.add_sprite(self.sprite, group)
         super().__init__(master)
 
     @property

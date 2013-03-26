@@ -11,13 +11,13 @@ addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.
 
-:class:`System`
+System
     Performs logic by iterating over Entities
 
-:class:`Component`
+Component
     Holds data
 
-:class:`World`
+World
     Provides a CES world
 """
 
@@ -42,8 +42,8 @@ class System(metaclass=abc.ABCMeta):
     """
     Superclass for Systems
 
-    Provides a useful default :meth:`__init__` that you should probably call
-    with ``super()``.
+    Provides a useful default __init__() that you should probably call
+    with super().
     """
 
     def __init__(self, world):
@@ -57,6 +57,17 @@ class System(metaclass=abc.ABCMeta):
 
 
 class World:
+
+    """
+    Attributes:
+
+    tm
+        Tag manager. Use ``tm['tag'] = entity``
+    cm
+        Component manager.  ``cm[class][entity] = component``
+    gm
+        Group manager.  ``gm['group'].add(entity)``
+    """
 
     def __init__(self):
         self.em = dict()

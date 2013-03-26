@@ -4,10 +4,40 @@ from weakref import WeakSet
 from pyglet.graphics import OrderedGroup, Batch
 from pyglet.text.layout import TextLayoutGroup, TextLayoutForegroundGroup
 from pyglet.text.layout import TextLayoutForegroundDecorationGroup
+from pyglet import sprite
 from pyglet import text
 
-__all__ = ['SpriteDrawer', 'Clearer']
+__all__ = ['BaseSprite', 'Sprite', 'Label', 'SpriteDrawer', 'Clearer']
 logger = logging.getLogger(__name__)
+
+
+class BaseSprite:
+
+    def __init__(self, constructor, drawer, group, *args, **kwargs):
+        logger.debug('New BaseSprite: %s %s %s %s', constructor, group,
+                     args, kwargs)
+        self.sprite = constructor(*args, **kwargs)
+        drawer.add_sprite(self.sprite, group)
+
+    def __del__(self):
+        logger.debug("garbage collecting sprite %s", self)
+        self.sprite.delete()
+
+
+class Sprite(BaseSprite):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(sprite.Sprite, *args, **kwargs)
+
+
+class Label(BaseSprite):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(text.Label, *args, **kwargs)
+
+    @property
+    def label(self):
+        return self.sprite
 
 
 class SpriteDrawer:

@@ -24,9 +24,18 @@ from gensokyo import ces
 
 class Script(ces.Component, metaclass=abc.ABCMeta):
 
-    @abc.abstractmethod
+    def __init__(self):
+        self._subscripts = []
+
+    def add(self, script):
+        self._subscripts.append(script)
+
+    def remove(self, script):
+        self._subscripts.remove(script)
+
     def run(self, entity, world, root, dt):
-        raise NotImplementedError
+        for script in self._subscripts:
+            script.run(entity, world, root, dt)
 
 
 class ScriptSystem(ces.System):

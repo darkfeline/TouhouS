@@ -1,3 +1,4 @@
+# Imports {{{1
 import abc
 import logging
 from collections import namedtuple
@@ -20,6 +21,9 @@ __all__ = ['InputMovement', 'InputMovementSystem']
 logger = logging.getLogger(__name__)
 
 
+# Base {{{1
+
+# Input{{{2
 class InputMovement(SlavePosition):
 
     def __init__(self, master, speed_mult, focus_mult, rect):
@@ -75,6 +79,8 @@ class InputMovementSystem(ces.System):
         logger.debug('Master moved to %s', pos.pos)
 
 
+# Shield {{{2
+# TODO think this through
 class Shield(ces.Component):
 
     def __init__(self, dur):
@@ -101,17 +107,16 @@ class ShieldDecay(ces.System):
                     entity.delete(shield)
 
 
+# Player {{{2
 Player = namedtuple("Player", [
-    'img', 'group', 'hb_img', 'hb_group', 'hitbox', 'shield_dur'])
+    'img', 'group', 'hb_img', 'hb_group', 'hitbox', 'shield_dur', 'speed_mult',
+    'focus_mult', 'move_rect', 'script'
+])
 Player = partial(Player, group='player')
-Reimu = partial(
-    Player, img=resources.player['reimu']['player'],
-    hb_img=resources.player['reimu']['hitbox'],
-    hitbox=primitives.Circle(0, 0, 3)
-)
+PlayerBullet = partial(bullet.Bullet, group='player_bullet')
 
 
-def make_player(world, drawer, player, x, y, *, script):
+def make_player(world, drawer, player, x, y):
 
     e = world.make_entity()
     add = partial(world.add_component, e)
@@ -125,92 +130,73 @@ def make_player(world, drawer, player, x, y, *, script):
     sprite_ = sprite.Sprite(pos_, drawer, player.group, player.img)
     add(sprite_)
 
-    assert isinstance(script, Script)
-    add(script)
+    input = InputMovement(pos_, player.speed_mult, player.focus_mult,
+                          player.move_rect.copy())
+    add(input)
+
+    add(player.script())
 
     return e
 
 
-class Player(ces.Entity):
+# Reimu {{{1
+class ReimuScript(SlavePosition, Script):
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            hb = self.get(PlayerHitbox)[0]
-            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
-            self.add(hb_sprite)
-            self.hb_sprite = hb_sprite
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            self.delete(self.hb_sprite)
-            del self.hb_sprite
-
-
-class LimitedLoopFiring(script.Script, Shifter):
-
-    def __init__(self, pos, rate, bullet):
-        super().__init__()
-        self.pos = pos
+    def __init__(self, master):
+        super().__init__(master)
+        rate = 20
         self.state = 0
         self.limit = 1 / rate
-        self.bullet = bullet
 
-    def run(self, entity, env, dt):
-        if self.is_firing():
+    def run(self, entity, world, root, dt):
+        firing = root.key_state[key.Z]
+        if firing:
             self.state += dt
         if self.state >= self.limit:
             self.state -= self.limit
-            b = self.bullet(*self.pos)
-            env.em.add(b)
-            env.gm.add_to('player_bullet', b)
+            self.fire(entity, world, root)
 
-    @staticmethod
-    def is_firing():
-        return locator.key_state[key.Z]
-
-
-class PlayerHitbox(MasterShifter, collision.Hitbox):
-
-    speed_mult = 10
-    focus_mult = 0.5
-    rect = primitives.Rect(0, 0, 25, 35)
-
-    def __init__(self, hb):
-        if isinstance(hb, primitives.Circle):
-            pos = (hb.x, hb.y)
-        elif isinstance(hb, primitives.Rect):
-            pos = hb.center
-        super().__init__(pos)
-        self.rect = self.rect.copy()
-        self.pos = pos
-
-    @staticmethod
-    def is_focus():
-        return locator.key_state[key.LSHIFT]
+    def fire(self, entity, world, root):
+        speed = 50
+        b = make_straight_bullet(world, root.drawers, ReimuShot, x + 10, y,
+                                 speed)
+        world.gm['player_bullet'].append(b)
+        b = make_straight_bullet(world, root.drawers, ReimuShot, x - 10, y,
+                                 speed)
+        world.gm['player_bullet'].append(b)
 
 
-PlayerBullet = partial(bullet.Bullet, group='player_bullet')
+Reimu = partial(
+    Player, img=resources.player['reimu']['player'],
+    hb_img=resources.player['reimu']['hitbox'],
+    hitbox=primitives.Circle(0, 0, 3),
+    speed_mult=10,
+    focus_mult=0.5,
+    move_rect=primitives.Rect(0, 0, 25, 35),
+    script=ReimuScript
+)
 ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
                     dmg=20)
+
+
+# TODO add hitbox sprite
+#class Player(ces.Entity):
+#
+#    def on_key_press(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            hb = self.get(PlayerHitbox)[0]
+#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
+#            self.add(hb_sprite)
+#            self.hb_sprite = hb_sprite
+#
+#    def on_key_release(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            self.delete(self.hb_sprite)
+#            del self.hb_sprite
 
 
 def make_straight_bullet(world, drawer, bullet, x, y, speed):
     v = primitives.Vector(0, speed)
     return bullet.make_bullet(world, drawer, bullet, x, y, v)
 
-
-class ReimuShot(PlayerBullet):
-
-    speed = 50
-
-
-class Reimu(Player):
-
-    sprite_img = resources.player['reimu']['player']
-    hb_sprite_img = resources.player['reimu']['hitbox']
-    hb = primitives.Circle(0, 0, 3)
-
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.add(LimitedLoopFiring((x - 10, y), 20, ReimuShot))
-        self.add(LimitedLoopFiring((x + 10, y), 20, ReimuShot))
+# vim: set fdm=marker:

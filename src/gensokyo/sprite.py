@@ -69,9 +69,36 @@ class SpriteDrawer:
                 sprite.group = self.groups[group]
                 sprite.batch = self.batch
             break
+        else:
+            raise GroupError
 
     def on_update(self, dt):
         self.draw()
+
+
+class DrawerStack(SpriteDrawer):
+
+    def __init__(self):
+        self.drawers = []
+
+    def add(self, drawer):
+        self.drawers.append(drawer)
+
+    def remove(self, drawer):
+        self.drawers.remove(drawer)
+
+    def draw(self):
+        for x in self.drawers:
+            x.draw()
+
+    def add_sprite(self, sprite, group):
+        for x in reversed(self.drawers):
+            try:
+                x.add_sprite(sprite, group)
+            except GroupError:
+                pass
+            else:
+                break
 
 
 class Clearer:
@@ -84,6 +111,10 @@ class Clearer:
 
     def on_update(self, dt):
         self.draw()
+
+
+class GroupError(TypeError):
+    pass
 
 
 def _set_label_group(label, group):

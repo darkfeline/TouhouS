@@ -19,9 +19,9 @@ from gensokyo import resources
 
 logger = logging.getLogger(__name__)
 
-RootEnv = namedtuple(
-    "RootEnv",
-    ['window', 'clock', 'state', 'key_state', 'graphics'])
+RootEnv = namedtuple("RootEnv", [
+    'window', 'clock', 'state', 'key_state', 'drawers'
+])
 
 
 class Engine:

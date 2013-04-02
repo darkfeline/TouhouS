@@ -21,7 +21,7 @@ class StateMachine:
     Simple state machine.  Plug n Play.
     """
 
-    def __init__(self, rootenv, state):
+    def init(self, rootenv, state):
         self.rootenv = rootenv
         state.enter(rootenv)
         self.state = state

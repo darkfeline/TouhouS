@@ -68,7 +68,6 @@ class SpriteDrawer:
             else:
                 sprite.group = self.groups[group]
                 sprite.batch = self.batch
-            break
         else:
             raise GroupError
 

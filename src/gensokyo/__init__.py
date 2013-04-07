@@ -12,8 +12,9 @@ from pyglet import gl
 from pyglet.window.key import KeyStateHandler
 
 from gensokyo import state
+from gensokyo.sprite import DrawerStack
 from gensokyo.clock import Clock
-from gensokyo.scene import root
+from gensokyo.scene import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
 
@@ -54,10 +55,14 @@ class Engine:
         pyglet.clock.set_fps_limit(FPS)
         pyglet.clock.schedule(clock.tick)
 
+        # drawstack
+        logger.debug("Creating Drawstack...")
+        drawers = DrawerStack()
+
         # initialize state machine
         logger.debug("init state machine...")
-        statem.init(
-            root.RootTree(), RootEnv(window, clock, statem, keys))
+        init_state = main_menu.MenuScene()
+        statem.init(RootEnv(window, clock, statem, keys, drawers), init_state)
 
         logger.info("Finished init.")
 

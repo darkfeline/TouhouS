@@ -3,6 +3,7 @@ import logging
 from pyglet.window import key
 
 from gensokyo import state
+from gensokyo import sprite
 from gensokyo import gvars
 from gensokyo.scene import game
 from gensokyo.sprite import SpriteDrawer
@@ -21,7 +22,7 @@ class MenuScene(state.State):
         self.drawer = MenuDrawer()
 
         logger.debug("Making Label...")
-        self.title = graphics.Label(
+        self.title = sprite.Label(
             'text', x=20, y=gvars.HEIGHT - 30, text="Welcome to TouhouS",
             color=(255, 255, 255, 255))
 
@@ -29,13 +30,13 @@ class MenuScene(state.State):
         logger.info("Entering MenuScene...")
         self.input = MenuInput(rootenv.state)
         rootenv.window.push_handlers(self.input)
-        rootenv.graphics.add(self.drawer)
+        rootenv.drawers.add(self.drawer)
 
     def exit(self, rootenv):
         logger.info("Exiting MenuScene...")
         rootenv.window.remove_handlers(self.input)
         del self.input
-        rootenv.graphics.remove(self.drawer)
+        rootenv.drawers.remove(self.drawer)
 
 
 class MenuDrawer(SpriteDrawer):

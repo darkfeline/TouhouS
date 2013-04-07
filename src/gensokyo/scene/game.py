@@ -1,11 +1,10 @@
 import logging
 
-from gensokyo import scene
+from gensokyo import state
 from gensokyo import ces
-from gensokyo.ces import stage
-from gensokyo.ces import graphics
+from gensokyo import sprite
 from gensokyo.ces import player
-from gensokyo.ces import ui
+from gensokyo import ui
 from gensokyo.ces import script
 from gensokyo.ces import enemy
 from gensokyo.ces import rails
@@ -13,23 +12,22 @@ from gensokyo.ces import collision
 from gensokyo.ces import gc
 from gensokyo.ces import physics
 from gensokyo import resources
-from gensokyo import locator
 from gensokyo import globals
 
 logger = logging.getLogger(__name__)
 
 
-class GameScene(scene.Scene):
+class GameScene(state.State):
 
     player_class = player.Reimu
-    stage_class = stage.StageOne
+    stage_class = None
     ui_image = resources.ui_image
 
     def __init__(self):
 
         super().__init__()
 
-        self.graphics = GameGraphics()
+        self.graphics = GameDrawer()
 
         # Systems
         ui.FPSSystem(self)
@@ -101,7 +99,7 @@ class GameCollisionSystem(collision.CollisionSystem):
                     break
 
 
-class GameGraphics(graphics.GraphicsLevel):
+class GameDrawer(sprite.SpriteDrawer):
 
     map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
            'enemy_bullet', 'ui', 'ui_element')

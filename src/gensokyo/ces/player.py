@@ -12,7 +12,6 @@ from gensokyo.primitives import Vector
 from gensokyo.ces.pos import Position, SlavePosition
 from gensokyo.ces.script import Script
 from gensokyo.ces import bullet
-from gensokyo.ces import graphics
 from gensokyo.ces import collision
 from gensokyo.ces import sprite
 from gensokyo import resources
@@ -139,12 +138,16 @@ def make_player(world, drawer, player, x, y):
     return e
 
 
-# Reimu {{{1
-class ReimuScript(SlavePosition, Script):
+def make_straight_bullet(world, drawer, bullet, x, y, speed):
+    v = primitives.Vector(0, speed)
+    return bullet.make_bullet(world, drawer, bullet, x, y, v)
 
-    def __init__(self, master):
-        super().__init__(master)
-        rate = 20
+
+# Reimu {{{1
+class LoopFireScript(Script):
+
+    def __init__(self, rate):
+        super().__init__()
         self.state = 0
         self.limit = 1 / rate
 
@@ -156,8 +159,20 @@ class ReimuScript(SlavePosition, Script):
             self.state -= self.limit
             self.fire(entity, world, root)
 
+    @abc.abstractmethod
+    def fire(self, entity, world, root):
+        raise NotImplementedError
+
+
+class ReimuScript(LoopFireScript):
+
+    def __init__(self):
+        rate = 20
+        super().__init__(rate)
+
     def fire(self, entity, world, root):
         speed = 50
+        x, y = world.cm[Position][entity].pos
         b = make_straight_bullet(world, root.drawers, ReimuShot, x + 10, y,
                                  speed)
         world.gm['player_bullet'].append(b)
@@ -193,10 +208,5 @@ ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
 #        if symbol == key.LSHIFT:
 #            self.delete(self.hb_sprite)
 #            del self.hb_sprite
-
-
-def make_straight_bullet(world, drawer, bullet, x, y, speed):
-    v = primitives.Vector(0, speed)
-    return bullet.make_bullet(world, drawer, bullet, x, y, v)
 
 # vim: set fdm=marker:

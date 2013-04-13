@@ -1,3 +1,4 @@
+import abc
 import logging
 from weakref import WeakSet
 
@@ -26,21 +27,31 @@ class BaseSprite:
 
 class Sprite(BaseSprite):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(sprite.Sprite, *args, **kwargs)
+    def __init__(self, drawer, group, *args, **kwargs):
+        super().__init__(sprite.Sprite, drawer, group, *args, **kwargs)
 
 
 class Label(BaseSprite):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(text.Label, *args, **kwargs)
+    def __init__(self, drawer, group, *args, **kwargs):
+        super().__init__(text.Label, drawer, group, *args, **kwargs)
 
     @property
     def label(self):
         return self.sprite
 
 
-class SpriteDrawer:
+class BaseDrawer(metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def draw(self):
+        raise NotImplementedError
+
+    def on_update(self, dt):
+        self.draw()
+
+
+class SpriteDrawer(BaseDrawer):
 
     layers = tuple()
 
@@ -71,9 +82,6 @@ class SpriteDrawer:
         else:
             raise GroupError
 
-    def on_update(self, dt):
-        self.draw()
-
 
 class DrawerStack(SpriteDrawer):
 
@@ -94,13 +102,15 @@ class DrawerStack(SpriteDrawer):
         for x in reversed(self.drawers):
             try:
                 x.add_sprite(sprite, group)
-            except GroupError:
+            except GroupError:  # drawer doesn't have group
+                pass
+            except AttributeError:  # not a sprite drawer
                 pass
             else:
                 break
 
 
-class Clearer:
+class Clearer(BaseDrawer):
 
     def __init__(self, window):
         self.window = window

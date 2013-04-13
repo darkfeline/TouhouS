@@ -2,61 +2,50 @@
 UI module
 
 Contains various CES classes to use in UI
-
 """
 
 import abc
+import weakref
 
-from pyglet import clock
-from gensokyo import ces
-from gensokyo.ces import graphics
+from gensokyo import sprite
 from gensokyo import resources
 
 
 ###############################################################################
 # Labels
-###############################################################################
-class UILabel(ces.Entity):
+class UILabel(sprite.Label):
 
-    sprite_group = 'ui_element'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__()
-        self.add(graphics.Label(self.sprite_group, *args, **kwargs))
+    def __init__(self, drawer, *args, **kwargs):
+        group = 'ui_element'
+        super().__init__(drawer, group, *args, **kwargs)
 
 
 ###############################################################################
 # FPS
-###############################################################################
 class FPSDisplay(UILabel):
 
-    def __init__(self, x, y):
-        super().__init__(x=x, y=y, anchor_x='left', anchor_y='bottom',
+    def __init__(self, drawer, clock, x, y):
+        super().__init__(drawer, x=x, y=y, anchor_x='left', anchor_y='bottom',
                          font_size=10, color=(255, 255, 255, 255))
-
-
-class FPSSystem(ces.System):
-
-    def __init__(self, env):
-        super().__init__(env)
-        env.clock.push_handlers(self)
+        clock.push_handlers(self)
+        self.clock = weakref.ref(clock)
         self.count = 0
 
     def on_update(self, dt):
         self.count += dt
         if self.count > 1:
-            entity = self.env.tm['fps_display']
-            for l in entity.get(graphics.Label):
-                l.label.text = "{0:.1f}".format(clock.get_fps()) + ' fps'
+            self.label.text = "{0:.1f}".format(self.clock.get_fps()) + ' fps'
             self.count = 0
+
+    def delete(self):
+        self.clock.remove_handlers(self)
 
 
 ###############################################################################
 # Counters
-###############################################################################
-class Counter(ces.Entity, metaclass=abc.ABCMeta):
+class Counter(metaclass=abc.ABCMeta):
 
-    sprite_group = 'ui_element'
+    group = 'ui_element'
 
     @property
     @abc.abstractmethod
@@ -71,18 +60,16 @@ class Counter(ces.Entity, metaclass=abc.ABCMeta):
 
 class TextCounter(Counter):
 
-    def __init__(self, x, y, title, value=0, width=190):
+    def __init__(self, drawer, x, y, title, value=0, width=190):
 
-        super().__init__()
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self._title = graphics.Label(self.sprite_group, x=x, y=y,
-                                    anchor_x='left', **kwargs)
-        self.add(self._title)
-        self.number = graphics.Label(self.sprite_group, x=x + width, y=y,
-                                     anchor_x='right', **kwargs)
-        self.add(self.number)
+        self._title = sprite.Label(
+            drawer, self.group, x=x, y=y, anchor_x='left', **kwargs)
+        self.number = sprite.Label(
+            drawer, self.group, x=x + width, y=y, anchor_x='right', **kwargs)
+        self.drawer = weakref.ref(drawer)
 
         self.title = title
         self.value = value
@@ -109,15 +96,13 @@ class IconCounter(Counter):
     icon_img = resources.star
     display_max = 8
 
-    def __init__(self, x, y, title, value=0, width=190):
+    def __init__(self, drawer, x, y, title, value=0, width=190):
 
-        super().__init__()
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self._title = graphics.Label(
-            self.sprite_group, x=x, y=y, anchor_x='left', **kwargs)
-        self.add(self._title)
+        self._title = sprite.Label(
+            drawer, self.group, x=x, y=y, anchor_x='left', **kwargs)
 
         self.icons = []
         self.width = width

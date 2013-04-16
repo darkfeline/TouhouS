@@ -22,7 +22,7 @@ def _make_listing(dir):
 
 def pack_ext(extensions, cython):
     return [Extension(
-        x, [os.path.join('src', *x.split('.')) + '.pyx' if cython else '.c']
+        x, [os.path.join('src', *x.split('.')) + ('.pyx' if cython else '.c')]
     ) for x in extensions]
 
 extensions = ['gensokyo.primitives']

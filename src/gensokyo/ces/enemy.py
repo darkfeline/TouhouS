@@ -26,7 +26,6 @@ GenericEnemy = partial(
 def make_enemy(world, drawer, enemy, x, y, *, rails, script):
 
     e = world.make_entity()
-    world.gm['enemy'].add(e)
     add = partial(world.add_component, e)
 
     pos_ = pos.Position(x, y)

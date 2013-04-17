@@ -50,10 +50,11 @@ class LoopSpawnEnemy:
             self.state -= self.rate
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
             s = GenericScript()
-            enemy.make_enemy(
+            e = enemy.make_enemy(
                 stage.world, stage.root.drawers, enemy.GenericEnemy(),
                 self.pos, rails=r, script=s
             )
+            stage.world.gm['enemy'].add(e)
 
 
 # TODO generalize this too

@@ -49,7 +49,7 @@ class LoopSpawnEnemy:
         if self.state >= self.rate:
             self.state -= self.rate
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
-            s = TimedSuicide(6)
+            s = GenericScript()
             enemy.make_enemy(
                 stage.world, stage.root.drawers, enemy.GenericEnemy(),
                 self.pos, rails=r, script=s
@@ -57,6 +57,14 @@ class LoopSpawnEnemy:
 
 
 # TODO generalize this too
+class GenericScript(script.Script):
+
+    def __init__(self):
+        super().__init__()
+        self.add(TimedSuicide(6))
+        self.add(enemy.LoopFireAtPlayer(0.5))
+
+
 class TimedSuicide(script.Script):
 
     def __init__(self, time):

@@ -61,20 +61,6 @@ class GrimReaper(ces.System):
                 self.world.remove_entity(e)
 
 
-#class GenericEnemy(Enemy):
-#
-#    sprite_img = resources.enemy['generic']
-#    hb = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
-#    init_life = 200
-#
-#    def __init__(self, x, y):
-#
-#        super().__init__(x, y)
-#
-#        s = LoopFireAtPlayer((x, y), 0.5)
-#        self.add(s)
-
-
 class LoopFireAtPlayer(Script):
 
     def __init__(self, rate):

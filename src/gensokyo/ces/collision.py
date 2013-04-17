@@ -17,6 +17,9 @@ class Hitbox(pos.SlavePosition):
         elif isinstance(self.hb, primitives.Rect):
             self.hb.center = value
 
+    def collide(self, other):
+        return self.hb.collide(other.hb)
+
 
 class CollisionSystem(ces.System, metaclass=abc.ABCMeta):
 

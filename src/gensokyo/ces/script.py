@@ -17,12 +17,16 @@ ScriptSystem
 ScriptSystem instances iterate over Script objects every tick.
 """
 
-import abc
-
 from gensokyo import ces
 
 
-class Script(ces.Component, metaclass=abc.ABCMeta):
+class Script(ces.Component):
+
+    """
+    Script itself can have sub-Scripts added and removed.  Script.run() then
+    delegates its calls.  You can subclass Script and implement run() to do
+    whatever.  Remember to call super().run() if you want to delegate further.
+    """
 
     def __init__(self):
         self._subscripts = []

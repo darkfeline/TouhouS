@@ -51,10 +51,6 @@ class System(metaclass=abc.ABCMeta):
         self.world = weakref.ref(world)
         world.add_system(self)
 
-    @abc.abstractmethod
-    def on_update(self, dt):
-        raise NotImplementedError
-
 
 class World:
 

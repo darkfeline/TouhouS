@@ -26,23 +26,19 @@ GenericEnemy = partial(
 def make_enemy(world, drawer, enemy, x, y, *, rails, script):
 
     e = world.make_entity()
+    world.gm['enemy'].add(e)
     add = partial(world.add_component, e)
 
     pos_ = pos.Position(x, y)
     add(pos_)
-
     hb = collision.Hitbox(pos_, enemy.hb.copy())
     add(hb)
-
     sprite_ = sprite.Sprite(pos_, drawer, enemy.group, enemy.img)
     add(sprite_)
-
     l = Life(enemy.life)
     add(l)
-
     r = Rails(rails, (x, y))
     add(r)
-
     assert isinstance(script, Script)
     add(script)
 

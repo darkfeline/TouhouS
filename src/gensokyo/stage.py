@@ -1,49 +1,59 @@
-from gensokyo import ces
+import abc
+
 from gensokyo.ces import script
 from gensokyo.ces import rails
-from gensokyo.ces.enemy import GenericEnemy
+from gensokyo.ces import enemy
 from gensokyo.globals import GAME_AREA
 
 
-class Stage(ces.Entity):
+class Stage(metaclass=abc.ABCMeta):
 
-    def __init__(self, scripts_):
-        """
-        :param scripts_: scripts
-        :type scripts_: iterable
+    def __init__(self, root, world):
+        self.root = root
+        self.world = world
 
-        """
-        super().__init__()
-        for s in scripts_:
-            self.add(s)
+    @abc.abstractmethod
+    def on_update(self, dt):
+        raise NotImplementedError
 
 
 # TODO move everything below
 class StageOne(Stage):
 
-    def __init__(self):
-        super().__init__([LoopSpawnEnemy(GAME_AREA.right + 30, 400)])
+    def __init__(self, root, world):
+        super().__init__(root, world)
+        self.scripts = [LoopSpawnEnemy(GAME_AREA.right + 30, 400)]
+
+    def on_update(self, dt):
+        for x in self.scripts:
+            x.run(self, dt)
+
+
+class Script(metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def run(self, stage, dt):
+        raise NotImplementedError
 
 
 # TODO generalize looping
-class LoopSpawnEnemy(script.Script):
+class LoopSpawnEnemy:
 
     def __init__(self, pos, rate):
         self.pos = pos
         self.state = 0
         self.rate = rate
 
-    def run(self, entity, env, dt):
+    def run(self, stage, dt):
         self.state += dt
         if self.state >= self.rate:
             self.state -= self.rate
-            e = GenericEnemy(*self.pos)
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
-            e.add(r)
             s = TimedSuicide(6)
-            e.add(s)
-            env.em.add(e)
-            env.gm.add_to(e, 'enemy')
+            enemy.make_enemy(
+                stage.world, stage.root.drawers, enemy.GenericEnemy(),
+                self.pos, rails=r, script=s
+            )
 
 
 # TODO generalize this too

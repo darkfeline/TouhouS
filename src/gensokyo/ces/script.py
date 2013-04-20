@@ -37,18 +37,18 @@ class Script(ces.Component):
     def remove(self, script):
         self._subscripts.remove(script)
 
-    def run(self, entity, world, root, dt):
+    def run(self, entity, world, rootenv, dt):
         for script in self._subscripts:
-            script.run(entity, world, root, dt)
+            script.run(entity, world, rootenv, dt)
 
 
 class ScriptSystem(ces.System):
 
-    def __init__(self, world, root):
+    def __init__(self, world, rootenv):
         super().__init__(world)
-        self.root = root
+        self.rootenv = rootenv
 
     def on_update(self, dt):
         s = self.world.cm[Script]
         for e in ces.intersect(self.world, Script):
-            s[e].run(e, self.world, self.root, dt)
+            s[e].run(e, self.world, self.rootenv, dt)

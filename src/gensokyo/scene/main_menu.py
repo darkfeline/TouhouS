@@ -5,15 +5,12 @@ from pyglet.window import key
 from gensokyo import state
 from gensokyo import sprite
 from gensokyo import gvars
-from gensokyo.scene import game
 from gensokyo.sprite import SpriteDrawer
 
 logger = logging.getLogger(__name__)
 
 
 class MenuScene(state.State):
-
-    transitions = {'exit': None, 'game': game.GameScene}
 
     def __init__(self, rootenv):
 

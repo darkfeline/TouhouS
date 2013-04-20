@@ -8,8 +8,8 @@ from gensokyo.globals import GAME_AREA
 
 class Stage(metaclass=abc.ABCMeta):
 
-    def __init__(self, root, world):
-        self.root = root
+    def __init__(self, rootenv, world):
+        self.rootenv = rootenv
         self.world = world
 
     @abc.abstractmethod
@@ -20,8 +20,8 @@ class Stage(metaclass=abc.ABCMeta):
 # TODO move everything below
 class StageOne(Stage):
 
-    def __init__(self, root, world):
-        super().__init__(root, world)
+    def __init__(self, rootenv, world):
+        super().__init__(rootenv, world)
         self.scripts = [LoopSpawnEnemy(GAME_AREA.right + 30, 400)]
 
     def on_update(self, dt):
@@ -51,7 +51,7 @@ class LoopSpawnEnemy:
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
             s = GenericScript()
             e = enemy.make_enemy(
-                stage.world, stage.root.drawers, enemy.GenericEnemy(),
+                stage.world, stage.rootenv.drawers, enemy.GenericEnemy(),
                 self.pos, rails=r, script=s
             )
             stage.world.gm['enemy'].add(e)

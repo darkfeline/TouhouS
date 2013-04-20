@@ -28,12 +28,18 @@ class StateMachine:
 
     def event(self, event, *args, **kwargs):
         assert isinstance(event, str)
-        new = self.state.get_state(event, *args, **kwargs)
-        self.state.exit(self.rootenv)
+        try:
+            new = self.state.transitions[event]
+        except KeyError:
+            raise NotEventError('{} is not a valid event'.format(event))
+        self.state.exit()
+        if new is None:
+            return
+        new = new(self.rootenv, *args, **kwargs)
         if new is None:
             return
         else:
-            new.enter(self.rootenv)
+            new.enter()
             self.state = new
 
 
@@ -49,8 +55,6 @@ class State(metaclass=abc.ABCMeta):
         abstract method
     exit
         abstract method
-    get_state
-        get next state based on event
 
     Attributes:
 
@@ -60,21 +64,16 @@ class State(metaclass=abc.ABCMeta):
 
     transitions = {}
 
-    def get_state(self, event, *args, **kwargs):
-        assert isinstance(event, str)
-        try:
-            s = self.transitions[event]
-        except KeyError:
-            raise NotEventError
-        return s(*args, **kwargs)
+    def __init__(self, rootenv):
+        self.rootenv = rootenv
 
     @abc.abstractmethod
-    def enter(self, rootenv):
+    def enter(self):
         """This method is called when entering a state"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def exit(self, rootenv):
+    def exit(self):
         """This method is called when exiting a state"""
         raise NotImplementedError
 

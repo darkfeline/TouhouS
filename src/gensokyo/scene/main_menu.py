@@ -15,28 +15,27 @@ class MenuScene(state.State):
 
     transitions = {'exit': None, 'game': game.GameScene}
 
-    def __init__(self):
+    def __init__(self, rootenv):
 
         logger.info("Initializing MenuScene...")
-
+        super().__init__(rootenv)
         self.drawer = MenuDrawer()
+        self.input = MenuInput(self.rootenv.state)
 
         logger.debug("Making Label...")
         self.title = sprite.Label(
             'text', x=20, y=gvars.HEIGHT - 30, text="Welcome to TouhouS",
             color=(255, 255, 255, 255))
 
-    def enter(self, rootenv):
+    def enter(self):
         logger.info("Entering MenuScene...")
-        self.input = MenuInput(rootenv.state)
-        rootenv.window.push_handlers(self.input)
-        rootenv.drawers.add(self.drawer)
+        self.rootenv.window.push_handlers(self.input)
+        self.rootenv.drawers.add(self.drawer)
 
-    def exit(self, rootenv):
+    def exit(self):
         logger.info("Exiting MenuScene...")
-        rootenv.window.remove_handlers(self.input)
-        del self.input
-        rootenv.drawers.remove(self.drawer)
+        self.rootenv.window.remove_handlers(self.input)
+        self.rootenv.drawers.remove(self.drawer)
 
 
 class MenuDrawer(SpriteDrawer):

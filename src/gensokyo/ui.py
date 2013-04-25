@@ -132,10 +132,10 @@ class IconCounter(Counter):
         i = self.display_max - self.value
         # add icons
         while delta > 0:
-            sprite = graphics.Sprite(
+            sprite_ = sprite.Sprite(
                 self.sprite_group, self.icon_img, x=self.x + self.width - i *
                 self.icon_width, y=self.y)
-            self.icons.append(sprite)
+            self.icons.append(sprite_)
             self.x = self.x
             i -= 1
             delta -= 1

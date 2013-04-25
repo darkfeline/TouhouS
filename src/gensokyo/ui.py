@@ -24,11 +24,9 @@ class UILabel(sprite.Label):
 # FPS
 class FPSDisplay(UILabel):
 
-    def __init__(self, drawer, clock, x, y):
+    def __init__(self, drawer, x, y):
         super().__init__(drawer, x=x, y=y, anchor_x='left', anchor_y='bottom',
                          font_size=10, color=(255, 255, 255, 255))
-        clock.push_handlers(self)
-        self.clock = weakref.ref(clock)
         self.count = 0
 
     def on_update(self, dt):
@@ -36,9 +34,6 @@ class FPSDisplay(UILabel):
         if self.count > 1:
             self.label.text = "{0:.1f}".format(self.clock.get_fps()) + ' fps'
             self.count = 0
-
-    def delete(self):
-        self.clock.remove_handlers(self)
 
 
 ###############################################################################

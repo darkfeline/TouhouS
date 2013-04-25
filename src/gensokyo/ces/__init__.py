@@ -96,7 +96,6 @@ class World:
         self.tm = WeakValueDictionary()
         self.gm = defaultdict(WeakSet)
         self.sm = set()
-        self.clock = Clock()
 
     def make_entity(self):
         e = Entity()
@@ -111,7 +110,6 @@ class World:
         del self.em[entity]
 
     def add_system(self, system):
-        self.clock.push_handlers(system)
         self.sm.add(system)
 
 

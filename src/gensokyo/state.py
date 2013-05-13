@@ -21,10 +21,10 @@ class StateMachine:
     Simple state machine.  Plug n Play.
     """
 
-    def init(self, rootenv, state):
+    def init(self, rootenv, state, *args, **kwargs):
         self.rootenv = rootenv
-        state.enter(rootenv)
-        self.state = state
+        self.state = state(rootenv, *args, **kwargs)
+        self.state.enter()
 
     def event(self, event, *args, **kwargs):
         assert isinstance(event, str)

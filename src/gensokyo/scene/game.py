@@ -1,11 +1,13 @@
 import logging
+import weakref
 
-from gensokyo import scene
+from gensokyo import state
+from gensokyo.clock import Clock
 from gensokyo import ces
-from gensokyo.ces import stage
-from gensokyo.ces import graphics
+from gensokyo import sprite
+from gensokyo import stage
 from gensokyo.ces import player
-from gensokyo.ces import ui
+from gensokyo import ui
 from gensokyo.ces import script
 from gensokyo.ces import enemy
 from gensokyo.ces import rails
@@ -13,51 +15,32 @@ from gensokyo.ces import collision
 from gensokyo.ces import gc
 from gensokyo.ces import physics
 from gensokyo import resources
-from gensokyo import locator
 from gensokyo import globals
 
 logger = logging.getLogger(__name__)
 
 
-class GameScene(scene.Scene):
+class GameScene(state.State):
 
     player_class = player.Reimu
     stage_class = stage.StageOne
     ui_image = resources.ui_image
 
-    def __init__(self):
+    def __init__(self, rootenv):
 
-        super().__init__()
-
-        self.graphics = GameGraphics()
-
-        # Systems
-        ui.FPSSystem(self)
-        player.ShiftingSystem(self, globals.GAME_AREA)
-        player.ShieldDecay(self)
-        script.ScriptSystem(self)
-        enemy.GrimReaper(self)
-        rails.RailSystem(self)
-        physics.PhysicsSystem(self)
-        gc.GarbageCollectSystem(self, globals.GAME_AREA)
-
-        # Groups
-        self.gm.make_group('enemy_bullet')
-        self.gm.make_group('enemy')
-        self.gm.make_group('player_bullet')
+        super().__init__(rootenv)
+        self.drawer = GameDrawer()
+        self.clock = Clock()
+        self.world = ces.World()
+        self.stage = self.stage_class(rootenv, self.world)
+        self.clock.push_handlers(self.stage)
 
         #######################################################################
-        # Entities
-        #######################################################################
+        # UI
         # UI image
-        bg = ces.Entity()
-        bg.add(graphics.Sprite('ui', self.ui_image))
-        self.em.add(bg)
-        # FPS
-        fps = ui.FPSDisplay(570, 2)
-        self.em.add(fps)
-        self.tm.tag('fps_display', fps)
+        self.ui_img = sprite.Sprite(self.drawer, 'ui', self.ui_image)
         # Counters
+        self.counters = {}
         counters = {
             'high_score': (ui.TextCounter, 430, 415, 'High score'),
             'score': (ui.TextCounter, 430, 391, 'Score'),
@@ -65,56 +48,82 @@ class GameScene(scene.Scene):
             'bombs': (ui.IconCounter, 430, 339, 'Bombs')}
         for tag, a in counters.items():
             c, x, y, tit = a
-            counter = c(x, y, tit)
-            self.em.add(counter)
-            self.tm.tag(tag, counter)
-        # Stage
-        self.em.add(self.stage_class())
+            counter = c(self.drawer, x, y, tit)
+            self.counters[tag] = counter
+        # FPS
+        self.fps = ui.FPSDisplay(self.drawer, 570, 2)
+        self.clock.push_handlers(self.fps)
+
+        #######################################################################
+        # Systems
+        self.input = player.InputMovementSystem(
+            self.world, rootenv.key_state, globals.GAME_AREA)
+        self.clock.push_handlers(self.input)
+        self.script = script.ScriptSystem(self.world, rootenv)
+        self.clock.push_handlers(self.script)
+        a = GameCollisionSystem(self.world)
+        self.clock.push_handlers(a)
+        a = rails.RailSystem(self.world)
+        self.clock.push_handlers(a)
+        a = physics.PhysicsSystem(self.world)
+        self.clock.push_handlers(a)
+        a = enemy.GrimReaper(self.world)
+        self.clock.push_handlers(a)
+        a = gc.GarbageCollectSystem(self.world, globals.GAME_AREA)
+        self.clock.push_handlers(a)
+
+        #######################################################################
+        # Entities
         # Player
-        player_ = self.player_class(*globals.DEF_PLAYER_XY)
-        self.em.add(player_)
-        self.tm.tag('player', player_)
+        player_ = player.make_player(
+            self.world, self.drawer, self.player_class(),
+            *globals.DEF_PLAYER_XY
+        )
+        self.world.tm['player'] = player_
 
     def enter(self):
         logger.debug("Entering game")
-        locator.clock.push_handlers(on_update=self.clock.tick)
-        locator.graphics.push(self.graphics)
+        self.rootenv.clock.push_handlers(on_update=self.clock.tick)
+        self.rootenv.drawers.add(self.drawer)
 
     def exit(self):
         logger.debug("Exiting game")
-        locator.clock.remove_handlers(on_update=self.clock.tick)
-        locator.graphics.pop()
+        self.rootenv.clock.remove_handlers(on_update=self.clock.tick)
+        self.rootenv.drawers.remove(self.drawer)
+
+    # TODO
+    def kill_player(self):
+        l = self.counters['lives']
+        if l.value > 0:
+            l.value -= 1
+        else:
+            self.rootenv.state.event('quit')
 
 
 class GameCollisionSystem(collision.CollisionSystem):
 
+    def __init__(self, world, scene):
+        super().__init__(world)
+        self.scene = weakref.ref(scene)
+
     def on_update(self, dt):
-        player_hb = locator.tm['player'].get(collision.Hitbox)
-        for b in locator.gm['enemy_bullet']:
-            if collision.collide(player_hb, b):
-                kill_player()
-        for b in locator.gm['player_bullet']:
-            for e in locator.em.get_with(enemy.Life):
-                if collision.collide(b, e):
-                    hit_life(e, b.dmg)
-                    locator.em.delete(b)
+        pl = self.world.tm['player']
+        hbs = self.world.cm[collision.Hitbox]
+        pl_hb = hbs[pl]
+        for b in iter(self.world.gm['enemy_bullet']):
+            if pl_hb.collide(hbs[b]):
+                self.scene.kill_player()
+        life = self.world.cm[enemy.Life]
+        for b in iter(self.world.gm['player_bullet']):
+            b_hb = hbs[b]
+            for e in ces.intersect(self.world, enemy.Life):
+                if b_hb.collide(hbs[e]):
+                    life[e].life -= b.dmg
+                    self.world.remove_entity(b)
                     break
 
 
-class GameGraphics(graphics.GraphicsLevel):
+class GameDrawer(sprite.SpriteDrawer):
 
     map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
            'enemy_bullet', 'ui', 'ui_element')
-
-
-def kill_player():
-    l = locator.tm['lives']
-    if l.value > 0:
-        l.value -= 1
-    else:
-        locator.scene_stack.pop()
-
-
-def hit_life(entity, dmg):
-    for l in entity.get(enemy.Life):
-        l.life -= dmg

@@ -6,23 +6,23 @@ pyglet's :class:`EventDispatcher` for its event needs.
 
 from collections import namedtuple
 import logging
-import functools
 
 import pyglet
 from pyglet import gl
 from pyglet.window.key import KeyStateHandler
 
-from gensokyo import locator
 from gensokyo import state
-from gensokyo import clock
-from gensokyo.ces.graphics import Graphics
-from gensokyo.scene import root
+from gensokyo.sprite import DrawerStack
+from gensokyo.clock import Clock
+from gensokyo.scene import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
 
 logger = logging.getLogger(__name__)
 
-RootEnv = namedtuple("RootEnv", ['window', 'clock', 'state_tree', 'key_state'])
+RootEnv = namedtuple("RootEnv", [
+    'window', 'clock', 'state', 'key_state', 'drawers'
+])
 
 
 class Engine:
@@ -32,8 +32,6 @@ class Engine:
         # window
         logger.debug("Initializing window...")
         window = pyglet.window.Window(WIDTH, HEIGHT)
-        locator.window = window
-
         window.set_caption('TouhouS')
         window.set_icon(resources.icon16, resources.icon32)
 
@@ -42,34 +40,29 @@ class Engine:
         gl.glEnable(gl.GL_BLEND)
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-        # State tree
-        logger.debug("Creating state tree...")
-        state_tree = root.RootTree()
-        locator.state_tree = state_tree
+        # State machine
+        logger.debug("Creating state machine...")
+        statem = state.StateMachine()
 
         # key_state
         logger.debug("Creating KeyState...")
         keys = KeyStateHandler()
         window.push_handlers(keys)
-        locator.key_state = keys
-
-        # graphics
-        graphics = Graphics()
-        locator.graphics = graphics
-        window.push_handlers(on_draw=functools.partial(
-            graphics.dispatch_event, 'on_draw'))
 
         # clock
         logger.debug("Initializing clock...")
-        clock_ = clock.Clock()
-        locator.clock = clock_
+        clock = Clock()
         pyglet.clock.set_fps_limit(FPS)
-        pyglet.clock.schedule(clock_.tick)
+        pyglet.clock.schedule(clock.tick)
 
-        # initial state
-        logger.debug("Setting start state...")
-        state_tree.dispatch_event(
-            'on_transition', state.Transition('menu', False))
+        # drawstack
+        logger.debug("Creating Drawstack...")
+        drawers = DrawerStack()
+
+        # initialize state machine
+        logger.debug("init state machine...")
+        init_state = main_menu.MenuScene
+        statem.init(RootEnv(window, clock, statem, keys, drawers), init_state)
 
         logger.info("Finished init.")
 

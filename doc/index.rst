@@ -44,11 +44,3 @@ Generating documentation
 
 If for some reason you would like to generate this documentation yourself, make
 sure Sphinx is installed, `cd` into `doc`, and run `make html`.
-
-Reference
----------
-
-.. toctree::
-    :maxdepth: 4
-
-    api

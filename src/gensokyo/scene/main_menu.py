@@ -2,52 +2,53 @@ import logging
 
 from pyglet.window import key
 
-from gensokyo import locator
 from gensokyo import state
-from gensokyo import scene
-from gensokyo import globals
-from gensokyo.ces import graphics
+from gensokyo import sprite
+from gensokyo import gvars
+from gensokyo.sprite import SpriteDrawer
 
 logger = logging.getLogger(__name__)
 
 
-class MenuScene(scene.Scene):
+class MenuScene(state.State):
 
-    def __init__(self):
+    def __init__(self, rootenv):
 
         logger.info("Initializing MenuScene...")
-        super().__init__()
-
-        self.graphics = MenuGraphics()
-        self.input = MenuInput()
+        super().__init__(rootenv)
+        self.drawer = MenuDrawer()
+        self.input = MenuInput(self.rootenv.state)
 
         logger.debug("Making Label...")
-        self.title = graphics.Label(
-            'text', x=20, y=globals.HEIGHT - 30, text="Welcome to TouhouS",
+        self.title = sprite.Label(
+            'text', x=20, y=gvars.HEIGHT - 30, text="Welcome to TouhouS",
             color=(255, 255, 255, 255))
 
     def enter(self):
         logger.info("Entering MenuScene...")
-        locator.window.push_handlers(self.input)
-        locator.graphics.push(self.graphics)
+        self.rootenv.window.push_handlers(self.input)
+        self.rootenv.drawers.add(self.drawer)
 
     def exit(self):
         logger.info("Exiting MenuScene...")
-        locator.window.remove_handlers(self.input)
-        locator.graphics.pop()
+        self.rootenv.window.remove_handlers(self.input)
+        self.rootenv.drawers.remove(self.drawer)
 
 
-class MenuGraphics(graphics.GraphicsLevel):
+class MenuDrawer(SpriteDrawer):
 
-    map = ('bg', 'text')
+    layers = ('bg', 'text')
 
 
 class MenuInput:
 
+    def __init__(self, statem):
+        self.statem = statem
+
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
-            locator.state_tree.dispatch_event(
-                "on_transition", state.Transition('null', False))
-        else:
-            locator.state_tree.dispatch_event(
-                "on_transition", state.Transition('game', False))
+            logger.info('Exiting menu')
+            self.statem.event('exit')
+        elif symbol == key.SPACE:
+            logger.info('Entering game')
+            self.statem.event('game')

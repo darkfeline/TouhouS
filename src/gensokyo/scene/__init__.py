@@ -1,10 +1,5 @@
-from gensokyo import state
-from gensokyo import ces
+from gensokyo.scene import main_menu
+from gensokyo.scene import game
 
-
-class Scene(state.StateNode, ces.Environment):
-
-    def __init__(self):
-        super().__init__()
-        self.graphics = None
-        self.input = None
+main_menu.MenuScene.transitions = {'exit': None, 'game': game.GameScene}
+game.GameScene.transitions = {'quit': main_menu.MenuScene}

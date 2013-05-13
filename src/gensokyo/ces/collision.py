@@ -2,26 +2,23 @@ import abc
 
 from gensokyo import primitives
 from gensokyo import ces
+from gensokyo.ces import pos
 
 
-class Hitbox(ces.Position):
+class Hitbox(pos.SlavePosition):
 
-    def __init__(self, hb):
+    def __init__(self, master, hb):
         self.hb = hb
+        super().__init__(master)
 
-    @property
-    def pos(self):
-        if isinstance(self.hb, primitives.Circle):
-            return self.hb.x, self.hb.y
-        elif isinstance(self.hb, primitives.Rect):
-            return self.hb.center
-
-    @pos.setter
-    def pos(self, value):
+    def setpos(self, value):
         if isinstance(self.hb, primitives.Circle):
             self.hb.x, self.hb.y = value
         elif isinstance(self.hb, primitives.Rect):
             self.hb.center = value
+
+    def collide(self, other):
+        return self.hb.collide(other.hb)
 
 
 class CollisionSystem(ces.System, metaclass=abc.ABCMeta):
@@ -29,19 +26,3 @@ class CollisionSystem(ces.System, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def on_update(self, dt):
         raise NotImplementedError
-
-
-def collide(hb1, hb2):
-    """
-    :param hb1: hitboxes to compare
-    :param hb2: hitboxes to compare
-    :type hb1: tuple
-    :type hb2: tuple
-    :rtype: boolean
-
-    """
-    for i in range(len(hb1)):
-        for j in range(len(hb2)):
-            if hb1[i].collide(hb2[j]):
-                return True
-    return False

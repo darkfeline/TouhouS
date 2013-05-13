@@ -19,16 +19,21 @@ def _make_listing(dir):
     return (dir, [os.path.join(dir, x) for x in os.listdir(dir) if
             os.path.isfile(os.path.join(dir, x))])
 
+
+def pack_ext(extensions, cython):
+    return [Extension(
+        x, [os.path.join('src', *x.split('.')) + ('.pyx' if cython else '.c')]
+    ) for x in extensions]
+
+extensions = ['gensokyo.primitives']
 if sys.argv[1] == 'c':
     del sys.argv[1]
     from Cython.Distutils import build_ext
     cmdclass = {'build_ext': build_ext}
-    ext_modules = [Extension(
-        "gensokyo.primitives", ["src/gensokyo/primitives.pyx"])]
+    ext_modules = pack_ext(extensions, True)
 else:
     cmdclass = {}
-    ext_modules = [Extension(
-        "gensokyo.primitives", ["src/gensokyo/primitives.c"])]
+    ext_modules = pack_ext(extensions, False)
 
 setup(
     name='TouhouS',

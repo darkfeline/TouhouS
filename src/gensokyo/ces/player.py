@@ -1,95 +1,86 @@
+# Imports {{{1
 import abc
 import logging
+from collections import namedtuple
+from functools import partial
 
 from pyglet.window import key
 
 from gensokyo import ces
 from gensokyo import primitives
-from gensokyo.ces import script
+from gensokyo.primitives import Vector
+from gensokyo.ces.pos import Position, SlavePosition
+from gensokyo.ces.script import Script
 from gensokyo.ces import bullet
-from gensokyo.ces import graphics
 from gensokyo.ces import collision
+from gensokyo.ces import sprite
 from gensokyo import resources
-from gensokyo import locator
 
+__all__ = ['InputMovement', 'InputMovementSystem']
 logger = logging.getLogger(__name__)
 
 
-class BaseShifter(ces.Position):
-    pass
+# Base {{{1
+
+# Input{{{2
+class InputMovement(SlavePosition):
+
+    def __init__(self, master, speed_mult, focus_mult, rect):
+        self.speed_mult = speed_mult
+        self.focus_mult = focus_mult
+        self.rect = rect
+        super().__init__(master)
+
+    def setpos(self, pos):
+        self.rect.center = pos
 
 
-class Shifter(BaseShifter):
-    pass
+class InputMovementSystem(ces.System):
 
-
-class MasterShifter(BaseShifter, metaclass=abc.ABCMeta):
-
-    """
-    .. attribute:: speed_mult
-    .. attribute:: focus_mult
-    .. attribute:: rect
-
-    """
-
-    pass
-
-
-class ShiftingSystem(ces.System):
-
-    req_components = (MasterShifter,)
-    opt_components = (Shifter,)
-
-    def __init__(self, env, bounds):
-        super().__init__(env)
-        env.clock.push_handlers(self)
+    def __init__(self, world, key_state, bounds):
+        super().__init__(world)
+        self.key_state = key_state
         self.bounds = bounds
 
     def on_update(self, dt):
-
-        logger.debug('Shift system update')
-        # Get current key state
-        v = [0, 0]
-        if locator.key_state[key.RIGHT]:
-            v[0] += 1
-        if locator.key_state[key.LEFT]:
-            v[0] -= 1
-        if locator.key_state[key.UP]:
-            v[1] += 1
-        if locator.key_state[key.DOWN]:
-            v[1] -= 1
-        v = primitives.Vector(*v).get_unit_vector()
-
-        for entity in self.env.em.get_with(self.req_components):
-            # Calculate movement
-            master = entity.get(self.req_components[0])[0]
-            start = master.pos
-            dpos = v * master.speed_mult
-            if master.is_focus():
-                dpos *= master.focus_mult
-            dpos = tuple(dpos)
-            # Move master
-            master.pos = tuple(start[i] + dpos[i] for i in [0, 1])
-            # Calculate bounds
-            if master.left < self.bounds.left:
-                master.left = self.bounds.left
-            elif master.right > self.bounds.right:
-                master.right = self.bounds.right
-            if master.bottom < self.bounds.bottom:
-                master.bottom = self.bounds.bottom
-            elif master.top > self.bounds.top:
-                master.top = self.bounds.top
-            logger.debug('Master moved to %s', master.pos)
-            end = master.pos
-            dpos = tuple(end[i] - start[i] for i in [0, 1])
-            # Do for slaves
-            for sh in entity.get(self.opt_components[0]):
-                sh.pos = tuple(sh.pos[i] + dpos[i] for i in [0, 1])
+        # get keys
+        vel = [0, 0]
+        if self.key_state[key.RIGHT]:
+            vel[0] += 1
+        if self.key_state[key.LEFT]:
+            vel[0] -= 1
+        if self.key_state[key.UP]:
+            vel[1] += 1
+        if self.key_state[key.DOWN]:
+            vel[1] -= 1
+        vel = Vector(*vel).get_unit_vector()
+        focus = True if self.key_state[key.LSHIFT] else False
+        # Calculate movement
+        player = self.word.tm['player']
+        pos = self.world.cm[Position][player]
+        im = self.world.cm[InputMovement][player]
+        dpos = vel * im.speed_mult
+        if focus:
+            dpos *= im.focus_mult
+        # Move
+        pos.pos = tuple(Vector(*pos.pos) + Vector(*dpos))
+        im.setpos(pos.pos)
+        # Calculate bounds/fix
+        if im.rect.left < self.bounds.left:
+            im.rect.left = self.bounds.left
+        elif im.rect.right > self.bounds.right:
+            im.rect.right = self.bounds.right
+        if im.rect.bottom < self.bounds.bottom:
+            im.rect.bottom = self.bounds.bottom
+        elif im.rect.top > self.bounds.top:
+            im.rect.top = self.bounds.top
+        pos.pos = im.rect.center
+        logger.debug('Master moved to %s', pos.pos)
 
 
+# Shield {{{2
+# TODO think this through
 class Shield(ces.Component):
-
-    """Can have multiple"""
 
     def __init__(self, dur):
         self.dur = dur
@@ -115,158 +106,107 @@ class ShieldDecay(ces.System):
                     entity.delete(shield)
 
 
-class Player(ces.Entity):
+# Player {{{2
+Player = namedtuple("Player", [
+    'img', 'group', 'hb_img', 'hb_group', 'hitbox', 'shield_dur', 'speed_mult',
+    'focus_mult', 'move_rect', 'script'
+])
+Player = partial(Player, group='player')
+PlayerBullet = partial(bullet.Bullet, group='player_bullet')
 
-    sprite_img = None
-    sprite_group = 'player'
-    hb_sprite_img = None
-    hb_sprite_group = 'player_hb'
-    hb = None
-    shield_dur = 3
 
-    def __init__(self, x, y):
-        """
-        Add firing script to complete
+def make_player(world, drawer, player, x, y):
 
-        """
+    e = world.make_entity()
+    add = partial(world.add_component, e)
+
+    pos_ = Position(x, y)
+    add(pos_)
+
+    hb = collision.Hitbox(pos_, player.hitbox.copy())
+    add(hb)
+
+    sprite_ = sprite.Sprite(pos_, drawer, player.group, player.img)
+    add(sprite_)
+
+    input = InputMovement(pos_, player.speed_mult, player.focus_mult,
+                          player.move_rect.copy())
+    add(input)
+
+    add(player.script())
+
+    return e
+
+
+def make_straight_bullet(world, drawer, bullet, x, y, speed):
+    v = primitives.Vector(0, speed)
+    return bullet.make_bullet(world, drawer, bullet, x, y, v)
+
+
+# Reimu {{{1
+class LoopFireScript(Script):
+
+    def __init__(self, rate):
         super().__init__()
-
-        hb = self.hb.copy()
-        hb = PlayerHitbox(hb)
-        hb.pos = x, y
-        self.add(hb)
-
-        s = PlayerSprite(self.sprite_group, self.sprite_img, x=x, y=y)
-        self.add(s)
-
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            hb = self.get(PlayerHitbox)[0]
-            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
-            self.add(hb_sprite)
-            self.hb_sprite = hb_sprite
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == key.LSHIFT:
-            self.delete(self.hb_sprite)
-            del self.hb_sprite
-
-
-class LimitedLoopFiring(script.Script, Shifter):
-
-    def __init__(self, pos, rate, bullet):
-        super().__init__()
-        self.pos = pos
         self.state = 0
         self.limit = 1 / rate
-        self.bullet = bullet
 
-    def run(self, entity, env, dt):
-        if self.is_firing():
+    def run(self, entity, world, root, dt):
+        firing = root.key_state[key.Z]
+        if firing:
             self.state += dt
         if self.state >= self.limit:
             self.state -= self.limit
-            b = self.bullet(*self.pos)
-            env.em.add(b)
-            env.gm.add_to('player_bullet', b)
+            self.fire(entity, world, root)
 
-    @staticmethod
-    def is_firing():
-        return locator.key_state[key.Z]
+    @abc.abstractmethod
+    def fire(self, entity, world, root):
+        raise NotImplementedError
 
 
-class PlayerHitbox(MasterShifter, collision.Hitbox):
+class ReimuScript(LoopFireScript):
 
-    speed_mult = 10
-    focus_mult = 0.5
-    rect = primitives.Rect(0, 0, 25, 35)
+    def __init__(self):
+        rate = 20
+        super().__init__(rate)
 
-    def __init__(self, hb):
-        if isinstance(hb, primitives.Circle):
-            pos = (hb.x, hb.y)
-        elif isinstance(hb, primitives.Rect):
-            pos = hb.center
-        super().__init__(pos)
-        self.rect = self.rect.copy()
-        self.pos = pos
-
-    @property
-    def pos(self):
-        return self.rect.center
-
-    @pos.setter
-    def pos(self, value):
-        self.rect.center = value
-        super(self.__class__, self.__class__).pos.fset(self, value)
-
-    @property
-    def top(self):
-        return self.rect.top
-
-    @top.setter
-    def top(self, value):
-        self.rect.top = value
-        self.pos = self.rect.center
-
-    @property
-    def bottom(self):
-        return self.rect.bottom
-
-    @bottom.setter
-    def bottom(self, value):
-        self.rect.bottom = value
-        self.pos = self.rect.center
-
-    @property
-    def left(self):
-        return self.rect.left
-
-    @left.setter
-    def left(self, value):
-        self.rect.left = value
-        self.pos = self.rect.center
-
-    @property
-    def right(self):
-        return self.rect.right
-
-    @right.setter
-    def right(self, value):
-        self.rect.right = value
-        self.pos = self.rect.center
-
-    @staticmethod
-    def is_focus():
-        return locator.key_state[key.LSHIFT]
+    def fire(self, entity, world, root):
+        speed = 50
+        x, y = world.cm[Position][entity].pos
+        b = make_straight_bullet(world, root.drawers, ReimuShot, x + 10, y,
+                                 speed)
+        world.gm['player_bullet'].append(b)
+        b = make_straight_bullet(world, root.drawers, ReimuShot, x - 10, y,
+                                 speed)
+        world.gm['player_bullet'].append(b)
 
 
-class PlayerSprite(Shifter, graphics.Sprite):
-    pass
+Reimu = partial(
+    Player, img=resources.player['reimu']['player'],
+    hb_img=resources.player['reimu']['hitbox'],
+    hitbox=primitives.Circle(0, 0, 3),
+    speed_mult=10,
+    focus_mult=0.5,
+    move_rect=primitives.Rect(0, 0, 25, 35),
+    script=ReimuScript
+)
+ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
+                    dmg=20)
 
 
-class PlayerBullet(bullet.Bullet, metaclass=abc.ABCMeta):
+# TODO add hitbox sprite
+#class Player(ces.Entity):
+#
+#    def on_key_press(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            hb = self.get(PlayerHitbox)[0]
+#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
+#            self.add(hb_sprite)
+#            self.hb_sprite = hb_sprite
+#
+#    def on_key_release(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            self.delete(self.hb_sprite)
+#            del self.hb_sprite
 
-    sprite_group = 'player_bullet'
-
-
-class ReimuShot(PlayerBullet):
-
-    sprite_img = resources.player['reimu']['shot']
-    speed = 50
-    dmg = 20
-    hitbox = primitives.Rect(0, 0, sprite_img.width, sprite_img.height)
-
-    def __init__(self, x, y):
-        super().__init__(x, y, primitives.Vector(0, self.speed))
-
-
-class Reimu(Player):
-
-    sprite_img = resources.player['reimu']['player']
-    hb_sprite_img = resources.player['reimu']['hitbox']
-    hb = primitives.Circle(0, 0, 3)
-
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.add(LimitedLoopFiring((x - 10, y), 20, ReimuShot))
-        self.add(LimitedLoopFiring((x + 10, y), 20, ReimuShot))
+# vim: set fdm=marker:

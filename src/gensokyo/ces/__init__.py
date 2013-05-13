@@ -1,4 +1,7 @@
 """
+ces package
+===========
+
 This package contains the classes necessary for the Entity/Component/System
 design pattern.
 
@@ -11,129 +14,47 @@ addresses this problem.  However, different logic may need to access different
 components and data, so keeping logic separate in Systems removes the need for
 hard dependencies/events.
 
-You do not need to explicitly add a System to a SystemManager; its ``__init__``
-takes its environment as a parameter and will add itself.  Make sure to call
-``super().__init__()``.
+Entity
+------
 
-:mod:`System`
-    Performs logic by iterating over Entities
+An empy class that is instantiated and used as a key for interacting with
+stuff.  Conceptually, an entity is an object that has components that have
+data, but in implementation is just a key to reference component instances.
 
-:mod:`Entity`
-    Contains Components
+System
+------
 
-:mod:`Component`
-    Holds data
+Performs logic by iterating over Entities.  Usually has an on_update() method
+which gets registered with Clocks, but can also trigger on other events.
+Systems are added into a list in a World for simple bookkeeping.
 
-:mod:`Environment`
-    Provides a CES environment, i.e. the four managers
+Component
+---------
 
-:mod:`EntityManager`
-    Holds references to Entities
+Holds data.  Avoid temptation of cramming logic into them.  Each Entity can
+only hold one Component per Component class, but you can implement
+subcomponents into your Component/System if you wish.
 
-:mod:`GroupManager`
-    Holds references to groups of Entities
+World
+-----
 
-:mod:`TagManager`
-    Holds references to specific Entities
-
-:mod:`SystemManager`
-    Holds references to Systems
-
-
+Provides a CES world.  Keeps track of entities, systems, and components.
 """
 
 import abc
-from weakref import WeakValueDictionary
-from weakref import WeakSet
+import weakref
+from weakref import WeakKeyDictionary, WeakValueDictionary, WeakSet
 import logging
+from collections import defaultdict
 
 from gensokyo.clock import Clock
 
+__all__ = ['Component', 'System', 'World', 'intersect']
 logger = logging.getLogger(__name__)
 
 
-###############################################################################
-# Component, Entity, System
-###############################################################################
 class Component(metaclass=abc.ABCMeta):
-
-    """
-    Abstract Base Class for components
-
-    Please subclass to avoid confusion
-
-    """
-
     pass
-
-
-class Entity:
-
-    """
-    An entity represents a game object and contains components which
-    encapsulate certain data.
-
-    An entity can have any combination of components.  Generally speaking, you
-    will only have one of most components of in a given entity, but this not
-    enforced in any way.  Feel free to::
-
-        entity.get(Component)[0]
-
-    or::
-
-        for component in entity.get(Component)
-
-    but you should use asserts in the former just in case.
-
-    At times, "Interface" Component superclasses (e.g., Position) may be
-    useful.
-
-    """
-
-    def __init__(self):
-        self.components = set()
-
-    def __iter__(self):
-        return iter(self.components)
-
-    def add(self, component):
-        self.components.add(component)
-
-    def delete(self, component):
-        self.components.remove(component)
-
-    def get(self, types):
-        """
-        If types is a single type, return a tuple of components who are an
-        instance of type or a subclass of type.  If types is a list of types,
-        return a tuple of all components of the given types with the following
-        format::
-
-            (
-                (components where isinstance(component, types[0])),
-                (components where isinstance(component, types[1])),
-                .
-                .
-            )
-
-        Some tuples may be empty if the entity does not have those components.
-
-        When using the returned tuple, favor iterating over it with a `for`
-        loop instead of doing `entity.get(type)[0]`.  An entity may have more
-        than one of that component, in which case order is not guaranteed as
-        components are stored interally in sets.
-
-        :param types: component types to look for
-        :type types: tuple or type
-        :rtype: tuple
-
-        """
-        try:
-            return tuple(tuple(component for component in self if
-                         isinstance(component, type)) for type in types)
-        except TypeError:
-            return tuple(component for component in self if
-                         isinstance(component, types))
 
 
 class System(metaclass=abc.ABCMeta):
@@ -141,124 +62,65 @@ class System(metaclass=abc.ABCMeta):
     """
     Superclass for Systems
 
+    Provides a useful default __init__() that you should probably call
+    with super().
     """
 
-    def __init__(self, env):
-        self.env = env
-        env.sm.add(self)
+    def __init__(self, world):
+        """Create a weak reference to `world` and add self to `world"""
+        self.world = weakref.ref(world)
+        world.add_system(self)
 
 
-###############################################################################
-# Managers and Environment
-###############################################################################
-class EntityManager:
-
-    def __init__(self):
-        self.entities = set()
-
-    def add(self, entity):
-        logger.debug("Add entity %s", entity)
-        self.entities.add(entity)
-
-    def __iter__(self):
-        return iter(self.entities)
-
-    def delete(self, entity=None):
-        if entity:
-            self.entities.remove(entity)
-        else:
-            for entity in list(self.entities):
-                self.delete(entity)
-
-    def get_with(self, types):
-        """
-        Find all entities who have at least one component of each type and
-        return a set of entities
-
-        :param types: component types to look for
-        :type types: tuple
-        :rtype: set
-
-        """
-        good = set()
-        for entity in self.entities:
-            components = entity.get(types)
-            # Check if all slots in components are filled
-            if len([a for a in components if len(a) == 0]) == 0:
-                good.add(entity)
-        return good
-
-
-class GroupManager:
-
-    def __init__(self):
-        self.groups = {}
-
-    def __getitem__(self, key):
-        return self.groups[key]
-
-    def make_group(self, key):
-        if not key in self.groups.keys():
-            self.groups[key] = WeakSet()
-
-    def add_to(self, key, entity):
-        self.groups[key].add(entity)
-
-
-class TagManager:
-
-    def __init__(self):
-        self.items = WeakValueDictionary()
-
-    def __getitem__(self, key):
-        return self.items[key]
-
-    def tag(self, key, entity):
-        self.items[key] = entity
-
-
-class SystemManager:
-
-    def __init__(self):
-        self.systems = set()
-
-    def add(self, system):
-        logger.debug("Add system %s", system)
-        self.systems.add(system)
-
-    def __iter__(self):
-        return iter(self.systems)
-
-
-class Environment:
-
-    def __init__(self):
-        self.em = EntityManager()
-        self.sm = SystemManager()
-        self.gm = GroupManager()
-        self.tm = TagManager()
-        self.clock = Clock()
-
-    def delete(self):
-        self.em.delete()
-        self.sm.delete()
-
-
-###############################################################################
-# Others
-###############################################################################
-class Position(Component, metaclass=abc.ABCMeta):
+class World:
 
     """
-    Overwrite ``pos`` property if needed.  ``pos`` should be the position, a
-    tuple with the right dimensions.
+    You can use ``tm`` and ``gm`` directly, but use World's exposed methods for
+    making/removing entities, components and systems>
 
+    Attributes:
+
+    em
+        ``em[entity] = set([component])``
+    tm
+        Tag manager. Use ``tm['tag'] = entity``
+    cm
+        Component manager.  ``cm[class][entity] = component``
+    gm
+        Group manager.  ``gm['group'].add(entity)``
     """
 
-    @property
-    def pos(self):
-        return self._pos
+    def __init__(self):
+        self.em = dict()
+        self.cm = defaultdict(WeakKeyDictionary)
+        self.tm = WeakValueDictionary()
+        self.gm = defaultdict(WeakSet)
+        self.sm = set()
 
-    @pos.setter
-    def pos(self, value):
-        self._pos = value
+    def make_entity(self):
+        e = Entity()
+        self.em[e] = set()
+        return e
+
+    def add_component(self, entity, component):
+        self.em[entity].add(component)
+        self.cm[type(component)][entity] = component
+
+    def remove_entity(self, entity):
+        del self.em[entity]
+
+    def add_system(self, system):
+        self.sm.add(system)
+
+
+class Entity:
+    pass
+
+
+def intersect(world, *args):
+    """Return all entities with given components."""
+    assert len(args) > 0
+    entities = set(x for x in world.cm[args.pop()])
+    while args:
+        entities &= set(x for x in world.cm[args.pop()])
+    return entities

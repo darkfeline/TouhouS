@@ -58,6 +58,7 @@ class Engine:
         # drawstack
         logger.debug("Creating Drawstack...")
         drawers = DrawerStack()
+        window.push_handlers(drawers)
 
         # initialize state machine
         logger.debug("init state machine...")

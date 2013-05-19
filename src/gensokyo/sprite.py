@@ -47,7 +47,7 @@ class BaseDrawer(metaclass=abc.ABCMeta):
     def draw(self):
         raise NotImplementedError
 
-    def on_update(self, dt):
+    def on_draw(self):
         self.draw()
 
 
@@ -117,9 +117,6 @@ class Clearer(BaseDrawer):
 
     def draw(self):
         self.window.clear()
-
-    def on_update(self, dt):
-        self.draw()
 
 
 class GroupError(TypeError):

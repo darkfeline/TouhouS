@@ -21,8 +21,8 @@ class MenuScene(state.State):
 
         logger.debug("Making Label...")
         self.title = sprite.Label(
-            'text', x=20, y=gvars.HEIGHT - 30, text="Welcome to TouhouS",
-            color=(255, 255, 255, 255))
+            self.drawer, 'text', x=20, y=gvars.HEIGHT - 30,
+            text="Welcome to TouhouS", color=(255, 255, 255, 255))
 
     def enter(self):
         logger.info("Entering MenuScene...")

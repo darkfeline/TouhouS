@@ -76,7 +76,7 @@ class GameScene(state.State):
         # Entities
         # Player
         player_ = player.make_player(
-            self.world, self.drawer, self.player_class(),
+            self.world, self.drawer, self.player_class,
             *globals.DEF_PLAYER_XY
         )
         self.world.tm['player'] = player_

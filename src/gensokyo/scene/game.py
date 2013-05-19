@@ -53,6 +53,7 @@ class GameScene(state.State):
         # FPS
         self.fps = ui.FPSDisplay(self.drawer, 570, 2)
         self.clock.push_handlers(self.fps)
+        logger.info('UI setup done')
 
         #######################################################################
         # Systems
@@ -71,6 +72,7 @@ class GameScene(state.State):
         self.clock.push_handlers(a)
         a = gc.GarbageCollectSystem(self.world, globals.GAME_AREA)
         self.clock.push_handlers(a)
+        logger.info('Systems setup done')
 
         #######################################################################
         # Entities
@@ -80,6 +82,8 @@ class GameScene(state.State):
             *globals.DEF_PLAYER_XY
         )
         self.world.tm['player'] = player_
+        logger.info('Entities setup done')
+        logger.info('Game scene setup done')
 
     def enter(self):
         logger.debug("Entering game")

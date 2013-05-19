@@ -111,7 +111,7 @@ Player = namedtuple("Player", [
     'img', 'group', 'hb_img', 'hb_group', 'hitbox', 'shield_dur', 'speed_mult',
     'focus_mult', 'move_rect', 'script'
 ])
-Player = partial(Player, group='player')
+Player = partial(Player, group='player', hb_group='player_hb', shield_dur=3)
 PlayerBullet = partial(bullet.Bullet, group='player_bullet')
 
 

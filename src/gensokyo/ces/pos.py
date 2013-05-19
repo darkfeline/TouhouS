@@ -41,8 +41,8 @@ class Position(ces.Component):
     """
 
     def __init__(self, pos):
-        self.pos = pos
         self._slaves = []
+        self.pos = pos
 
     @property
     def pos(self):

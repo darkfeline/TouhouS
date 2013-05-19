@@ -61,7 +61,7 @@ class GameScene(state.State):
         self.clock.push_handlers(self.input)
         self.script = script.ScriptSystem(self.world, rootenv)
         self.clock.push_handlers(self.script)
-        a = GameCollisionSystem(self.world)
+        a = GameCollisionSystem(self.world, self)
         self.clock.push_handlers(a)
         a = rails.RailSystem(self.world)
         self.clock.push_handlers(a)

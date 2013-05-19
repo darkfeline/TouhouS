@@ -125,5 +125,6 @@ class GameCollisionSystem(collision.CollisionSystem):
 
 class GameDrawer(sprite.SpriteDrawer):
 
-    map = ('player', 'player_bullet', 'player_hb', 'enemy', 'item',
-           'enemy_bullet', 'ui', 'ui_element')
+    layers = (
+        'player', 'player_bullet', 'player_hb', 'enemy', 'item',
+        'enemy_bullet', 'ui', 'ui_element')

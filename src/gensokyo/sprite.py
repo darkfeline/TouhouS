@@ -80,7 +80,7 @@ class SpriteDrawer(BaseDrawer):
                 sprite.group = self.groups[group]
                 sprite.batch = self.batch
         else:
-            raise GroupError
+            raise GroupError(group)
 
 
 class DrawerStack(SpriteDrawer):
@@ -120,7 +120,12 @@ class Clearer(BaseDrawer):
 
 
 class GroupError(TypeError):
-    pass
+
+    def __init__(self, group):
+        self.group = group
+
+    def __str__(self):
+        return 'No group named {!s}'.format(self.group)
 
 
 def _set_label_group(label, group):

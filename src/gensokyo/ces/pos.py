@@ -75,8 +75,8 @@ class SlavePosition(ces.Component, metaclass=abc.ABCMeta):
 
     def __init__(self, master, *args, **kwargs):
         master.add_slave(self)
-        self.setpos(master.pos)
         super().__init__(*args, **kwargs)
+        self.setpos(master.pos)
 
     @abc.abstractmethod
     def setpos(self, pos):

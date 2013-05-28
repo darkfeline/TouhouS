@@ -85,6 +85,15 @@ class SpriteDrawer(BaseDrawer):
 
 class DrawerStack(SpriteDrawer):
 
+    """
+    Order:
+
+    add() to end
+    remove() first from front
+    draw() from front to end
+    add_sprite() from end to front
+    """
+
     def __init__(self):
         self.drawers = []
 

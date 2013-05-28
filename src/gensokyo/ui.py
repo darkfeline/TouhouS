@@ -5,7 +5,6 @@ Contains various CES classes to use in UI
 """
 
 import abc
-import weakref
 
 from gensokyo import sprite
 from gensokyo import resources
@@ -64,7 +63,6 @@ class TextCounter(Counter):
             drawer, self.group, x=x, y=y, anchor_x='left', **kwargs)
         self.number = sprite.Label(
             drawer, self.group, x=x + width, y=y, anchor_x='right', **kwargs)
-        self.drawer = weakref.ref(drawer)
 
         self.title = title
         self.value = value

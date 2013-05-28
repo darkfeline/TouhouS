@@ -66,8 +66,12 @@ class System(metaclass=abc.ABCMeta):
 
     def __init__(self, world):
         """Create a weak reference to `world` and add self to `world"""
-        self.world = weakref.ref(world)
+        self.get_world = weakref.ref(world)
         world.add_system(self)
+
+    @property
+    def world(self):
+        return self.get_world()
 
 
 class World:

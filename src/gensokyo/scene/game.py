@@ -108,7 +108,11 @@ class GameCollisionSystem(collision.CollisionSystem):
 
     def __init__(self, world, scene):
         super().__init__(world)
-        self.scene = weakref.ref(scene)
+        self.get_scene = weakref.ref(scene)
+
+    @property
+    def scene(self):
+        return self.get_scene()
 
     def on_update(self, dt):
         pl = self.world.tm['player']

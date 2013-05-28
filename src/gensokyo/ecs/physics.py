@@ -4,13 +4,13 @@ Physics module
 
 import logging
 
-from gensokyo import ces
-from gensokyo.ces import pos
+from gensokyo import ecs
+from gensokyo.ecs import pos
 
 logger = logging.getLogger(__name__)
 
 
-class Velocity(ces.Component):
+class Velocity(ecs.Component):
 
     """
     Attributes:
@@ -23,10 +23,10 @@ class Velocity(ces.Component):
         self.vel = vel
 
 
-class PhysicsSystem(ces.System):
+class PhysicsSystem(ecs.System):
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, pos.Position, Velocity)
+        entities = ecs.intersect(self.world, pos.Position, Velocity)
         p = self.world.cm[pos.Position]
         v = self.world.cm[Velocity]
         for e in entities:

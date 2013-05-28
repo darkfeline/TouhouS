@@ -45,7 +45,7 @@ setup(
     url='http://abagofapples.com/',
     package_dir={'': 'src'},
     packages=['gensokyo',
-              'gensokyo.ces',
+              'gensokyo.ecs',
               'gensokyo.scene',
               'gensokyo.test'],
     ext_modules=ext_modules,

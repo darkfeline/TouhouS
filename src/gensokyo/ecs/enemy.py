@@ -1,15 +1,15 @@
 from collections import namedtuple
 from functools import partial
 
-from gensokyo import ces
+from gensokyo import ecs
 from gensokyo import primitives
-from gensokyo.ces import collision
-from gensokyo.ces import sprite
+from gensokyo.ecs import collision
+from gensokyo.ecs import sprite
 from gensokyo.primitives import Vector
-from gensokyo.ces.bullet import make_bullet, RoundBullet
-from gensokyo.ces.rails import Rails
-from gensokyo.ces.script import Script
-from gensokyo.ces import pos
+from gensokyo.ecs.bullet import make_bullet, RoundBullet
+from gensokyo.ecs.rails import Rails
+from gensokyo.ecs.script import Script
+from gensokyo.ecs import pos
 from gensokyo import resources
 
 __all__ = ['Enemy', 'make_enemy', 'GenericEnemy', 'GrimReaper',
@@ -44,16 +44,16 @@ def make_enemy(world, drawer, enemy, x, y, *, rails, script):
     return e
 
 
-class Life(ces.Component):
+class Life(ecs.Component):
 
     def __init__(self, life):
         self.life = life
 
 
-class GrimReaper(ces.System):
+class GrimReaper(ecs.System):
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, Life)
+        entities = ecs.intersect(self.world, Life)
         l = self.world.cm[Life]
         for e in entities:
             if l[e].life <= 0:

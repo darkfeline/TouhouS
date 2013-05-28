@@ -6,14 +6,14 @@ from functools import partial
 
 from pyglet.window import key
 
-from gensokyo import ces
+from gensokyo import ecs
 from gensokyo import primitives
 from gensokyo.primitives import Vector
-from gensokyo.ces.pos import Position, SlavePosition
-from gensokyo.ces.script import Script
-from gensokyo.ces import bullet
-from gensokyo.ces import collision
-from gensokyo.ces import sprite
+from gensokyo.ecs.pos import Position, SlavePosition
+from gensokyo.ecs.script import Script
+from gensokyo.ecs import bullet
+from gensokyo.ecs import collision
+from gensokyo.ecs import sprite
 from gensokyo import resources
 
 __all__ = ['InputMovement', 'InputMovementSystem']
@@ -35,7 +35,7 @@ class InputMovement(SlavePosition):
         self.rect.center = pos
 
 
-class InputMovementSystem(ces.System):
+class InputMovementSystem(ecs.System):
 
     def __init__(self, world, key_state, bounds):
         super().__init__(world)
@@ -80,7 +80,7 @@ class InputMovementSystem(ces.System):
 
 # Shield {{{2
 # TODO think this through
-class Shield(ces.Component):
+class Shield(ecs.Component):
 
     def __init__(self, dur):
         self.dur = dur
@@ -93,7 +93,7 @@ class Shield(ces.Component):
             return False
 
 
-class ShieldDecay(ces.System):
+class ShieldDecay(ecs.System):
 
     req_components = (Shield,)
 
@@ -195,7 +195,7 @@ ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
 
 
 # TODO add hitbox sprite
-#class Player(ces.Entity):
+#class Player(ecs.Entity):
 #
 #    def on_key_press(self, symbol, modifiers):
 #        if symbol == key.LSHIFT:

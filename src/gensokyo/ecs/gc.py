@@ -8,8 +8,8 @@ bullets.  When these entities move out of bounds, they will be deleted.
 
 import logging
 
-from gensokyo import ces
-from gensokyo.ces import pos
+from gensokyo import ecs
+from gensokyo.ecs import pos
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class Presence(pos.SlavePosition):
         self.rect.center = value
 
 
-class GarbageCollectSystem(ces.System):
+class GarbageCollectSystem(ecs.System):
 
     def __init__(self, world, area):
         super().__init__(world)
@@ -37,7 +37,7 @@ class GarbageCollectSystem(ces.System):
         return not rect.collide(self.area)
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, Presence)
+        entities = ecs.intersect(self.world, Presence)
         logger.debug('gc found %s', entities)
         pres = self.world.cm[Presence]
         for e in entities:

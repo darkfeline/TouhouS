@@ -53,8 +53,8 @@ Designations
 from functools import wraps
 import math
 
-from gensokyo import ces
-from gensokyo.ces.pos import Position
+from gensokyo import ecs
+from gensokyo.ecs.pos import Position
 
 __all__ = ['Rails', 'RailSystem']
 
@@ -88,7 +88,7 @@ def convert_rails(rails, start):
     return r
 
 
-class Rails(ces.Component):
+class Rails(ecs.Component):
 
     """
     .. attribute:: rails
@@ -102,10 +102,10 @@ class Rails(ces.Component):
         self.step = 0
 
 
-class RailSystem(ces.System):
+class RailSystem(ecs.System):
 
     def on_update(self, dt):
-        entities = ces.intersect(self.world, Position, Rails)
+        entities = ecs.intersect(self.world, Position, Rails)
         p = self.world.cm[Position]
         r = self.world.cm[Rails]
         for e in entities:

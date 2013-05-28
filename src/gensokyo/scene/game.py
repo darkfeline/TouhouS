@@ -3,17 +3,17 @@ import weakref
 
 from gensokyo import state
 from gensokyo.clock import Clock
-from gensokyo import ces
+from gensokyo import ecs
 from gensokyo import sprite
 from gensokyo import stage
-from gensokyo.ces import player
+from gensokyo.ecs import player
 from gensokyo import ui
-from gensokyo.ces import script
-from gensokyo.ces import enemy
-from gensokyo.ces import rails
-from gensokyo.ces import collision
-from gensokyo.ces import gc
-from gensokyo.ces import physics
+from gensokyo.ecs import script
+from gensokyo.ecs import enemy
+from gensokyo.ecs import rails
+from gensokyo.ecs import collision
+from gensokyo.ecs import gc
+from gensokyo.ecs import physics
 from gensokyo import resources
 from gensokyo import globals
 
@@ -31,7 +31,7 @@ class GameScene(state.State):
         super().__init__(rootenv)
         self.drawer = GameDrawer()
         self.clock = Clock()
-        self.world = ces.World()
+        self.world = ecs.World()
         self.stage = self.stage_class(rootenv, self.world)
         self.clock.push_handlers(self.stage)
 
@@ -120,7 +120,7 @@ class GameCollisionSystem(collision.CollisionSystem):
         life = self.world.cm[enemy.Life]
         for b in iter(self.world.gm['player_bullet']):
             b_hb = hbs[b]
-            for e in ces.intersect(self.world, enemy.Life):
+            for e in ecs.intersect(self.world, enemy.Life):
                 if b_hb.collide(hbs[e]):
                     life[e].life -= b.dmg
                     self.world.remove_entity(b)

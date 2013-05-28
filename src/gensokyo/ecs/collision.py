@@ -1,8 +1,8 @@
 import abc
 
 from gensokyo import primitives
-from gensokyo import ces
-from gensokyo.ces import pos
+from gensokyo import ecs
+from gensokyo.ecs import pos
 
 
 class Hitbox(pos.SlavePosition):
@@ -21,7 +21,7 @@ class Hitbox(pos.SlavePosition):
         return self.hb.collide(other.hb)
 
 
-class CollisionSystem(ces.System, metaclass=abc.ABCMeta):
+class CollisionSystem(ecs.System, metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def on_update(self, dt):

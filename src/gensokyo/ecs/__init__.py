@@ -1,5 +1,5 @@
 """
-ces package
+ecs package
 ===========
 
 This package contains the classes necessary for the Entity/Component/System
@@ -38,7 +38,7 @@ subcomponents into your Component/System if you wish.
 World
 -----
 
-Provides a CES world.  Keeps track of entities, systems, and components.
+Provides a ECS world.  Keeps track of entities, systems, and components.
 """
 
 import abc

@@ -15,12 +15,12 @@ sake.
 
 import abc
 
-from gensokyo import ces
+from gensokyo import ecs
 
 __all__ = ['Position', 'SlavePosition']
 
 
-class Position(ces.Component):
+class Position(ecs.Component):
 
     """
     Position is a final class.
@@ -61,7 +61,7 @@ class Position(ces.Component):
         self._slaves.remove(slave)
 
 
-class SlavePosition(ces.Component, metaclass=abc.ABCMeta):
+class SlavePosition(ecs.Component, metaclass=abc.ABCMeta):
 
     """
     Virtual class for components that need to update with Position

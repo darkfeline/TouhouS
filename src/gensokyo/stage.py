@@ -1,8 +1,8 @@
 import abc
 
-from gensokyo.ces import script
-from gensokyo.ces import rails
-from gensokyo.ces import enemy
+from gensokyo.ecs import script
+from gensokyo.ecs import rails
+from gensokyo.ecs import enemy
 from gensokyo.globals import GAME_AREA
 
 

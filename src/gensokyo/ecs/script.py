@@ -17,10 +17,10 @@ ScriptSystem
 ScriptSystem instances iterate over Script objects every tick.
 """
 
-from gensokyo import ces
+from gensokyo import ecs
 
 
-class Script(ces.Component):
+class Script(ecs.Component):
 
     """
     Script itself can have sub-Scripts added and removed.  Script.run() then
@@ -42,7 +42,7 @@ class Script(ces.Component):
             script.run(entity, world, rootenv, dt)
 
 
-class ScriptSystem(ces.System):
+class ScriptSystem(ecs.System):
 
     def __init__(self, world, rootenv):
         super().__init__(world)
@@ -50,5 +50,5 @@ class ScriptSystem(ces.System):
 
     def on_update(self, dt):
         s = self.world.cm[Script]
-        for e in ces.intersect(self.world, Script):
+        for e in ecs.intersect(self.world, Script):
             s[e].run(e, self.world, self.rootenv, dt)

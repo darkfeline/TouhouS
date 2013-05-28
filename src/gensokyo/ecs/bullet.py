@@ -2,12 +2,12 @@ from collections import namedtuple
 from functools import partial
 
 from gensokyo import primitives
-from gensokyo.ces import collision
-from gensokyo.ces import physics
-from gensokyo.ces import sprite
-from gensokyo.ces import gc
-from gensokyo.ces import pos
-from gensokyo.ces.script import Script
+from gensokyo.ecs import collision
+from gensokyo.ecs import physics
+from gensokyo.ecs import sprite
+from gensokyo.ecs import gc
+from gensokyo.ecs import pos
+from gensokyo.ecs.script import Script
 from gensokyo import resources
 
 __all__ = ["Bullet", "EnemyBullet", "RoundBullet", "make_bullet"]

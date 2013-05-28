@@ -1,6 +1,6 @@
 import logging
 
-from gensokyo.ces import pos
+from gensokyo.ecs import pos
 from gensokyo import sprite
 
 logger = logging.getLogger(__name__)

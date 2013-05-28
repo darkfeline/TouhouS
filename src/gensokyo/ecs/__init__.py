@@ -120,6 +120,7 @@ class Entity:
 def intersect(world, *args):
     """Return all entities with given components."""
     assert len(args) > 0
+    assert isinstance(world, World)
     entities = set(x for x in world.cm[args.pop()])
     while args:
         entities &= set(x for x in world.cm[args.pop()])

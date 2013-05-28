@@ -56,7 +56,7 @@ class InputMovementSystem(ecs.System):
         vel = Vector(*vel).get_unit_vector()
         focus = True if self.key_state[key.LSHIFT] else False
         # Calculate movement
-        player = self.word.tm['player']
+        player = self.world.tm['player']
         pos = self.world.cm[Position][player]
         im = self.world.cm[InputMovement][player]
         dpos = vel * im.speed_mult

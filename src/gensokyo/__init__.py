@@ -12,7 +12,7 @@ from pyglet import gl
 from pyglet.window.key import KeyStateHandler
 
 from gensokyo import state
-from gensokyo.sprite import DrawerStack
+from gensokyo.sprite import DrawerStack, Clearer
 from gensokyo.clock import Clock
 from gensokyo.scene import main_menu
 from gensokyo.globals import WIDTH, HEIGHT, FPS
@@ -58,6 +58,7 @@ class Engine:
         # drawstack
         logger.debug("Creating Drawstack...")
         drawers = DrawerStack()
+        drawers.add(Clearer(window))
         window.push_handlers(drawers)
 
         # initialize state machine

@@ -6,9 +6,12 @@ Contains various CES classes to use in UI
 
 import abc
 import weakref
+import logging
 
 from gensokyo import sprite
 from gensokyo import resources
+
+logger = logging.getLogger(__name__)
 
 
 ###############################################################################
@@ -43,6 +46,7 @@ class FPSDisplay(UILabel):
     def on_update(self, dt):
         self.count += dt
         if self.count > 1:
+            logger.debug("Updating FPS display")
             self.label.text = "{0:.1f}".format(self.clock.get_fps()) + ' fps'
             self.count = 0
 

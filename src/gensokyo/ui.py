@@ -25,9 +25,9 @@ class UILabel(sprite.Label):
 class FPSDisplay(UILabel):
 
     """
-    Display FPS of clock.  You must also add the on_update() event handler
-    manually.  This allows you to track one clock's FPS while updating
-    FPSDisplay with another (good luck coming up with a practical use case).
+    Display FPS of clock.  clock in the __init__() constructor is a pyglet
+    clock.  You'll have to register on_update with a gensokyo Clock
+    (EventDispatcher).
     """
 
     def __init__(self, drawer, x, y, clock):

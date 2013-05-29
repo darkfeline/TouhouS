@@ -51,7 +51,7 @@ class GameScene(state.State):
             counter = c(self.drawer, x, y, tit)
             self.counters[tag] = counter
         # FPS
-        self.fps = ui.FPSDisplay(self.drawer, 570, 2, self.clock)
+        self.fps = ui.FPSDisplay(self.drawer, 570, 2, rootenv.clock)
         self.clock.push_handlers(self.fps)
         logger.info('UI setup done')
 
@@ -87,12 +87,12 @@ class GameScene(state.State):
 
     def enter(self):
         logger.debug("Entering game")
-        self.rootenv.clock.add_clock(self.clock)
+        self.rootenv.clock.schedule(self.clock.tick)
         self.rootenv.drawers.add(self.drawer)
 
     def exit(self):
         logger.debug("Exiting game")
-        self.rootenv.clock.remove_clock(self.clock)
+        self.rootenv.clock.unschedule(self.clock.tick)
         self.rootenv.drawers.remove(self.drawer)
 
     # TODO

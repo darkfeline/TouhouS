@@ -51,9 +51,8 @@ class Engine:
 
         # clock
         logger.debug("Initializing clock...")
-        clock = Clock()
-        pyglet.clock.set_fps_limit(FPS)
-        pyglet.clock.schedule(clock.tick)
+        clock = pyglet.clock.get_default()
+        clock.set_fps_limit(FPS)
 
         # drawstack
         logger.debug("Creating Drawstack...")

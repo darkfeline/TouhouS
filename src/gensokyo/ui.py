@@ -5,6 +5,7 @@ Contains various CES classes to use in UI
 """
 
 import abc
+import weakref
 
 from gensokyo import sprite
 from gensokyo import resources
@@ -23,10 +24,21 @@ class UILabel(sprite.Label):
 # FPS
 class FPSDisplay(UILabel):
 
-    def __init__(self, drawer, x, y):
+    """
+    Display FPS of clock.  You must also add the on_update() event handler
+    manually.  This allows you to track one clock's FPS while updating
+    FPSDisplay with another (good luck coming up with a practical use case).
+    """
+
+    def __init__(self, drawer, x, y, clock):
         super().__init__(drawer, x=x, y=y, anchor_x='left', anchor_y='bottom',
                          font_size=10, color=(255, 255, 255, 255))
         self.count = 0
+        self.get_clock = weakref.ref(clock)
+
+    @property
+    def clock(self):
+        return self.get_clock()
 
     def on_update(self, dt):
         self.count += dt

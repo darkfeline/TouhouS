@@ -10,6 +10,6 @@ class Clock(EventDispatcher):
         self.push_handlers(on_update=clock.tick)
 
     def remove_clock(self, clock):
-        self.remove_handlers(on_update=clock.tict)
+        self.remove_handlers(on_update=clock.tick)
 
 Clock.register_event_type('on_update')

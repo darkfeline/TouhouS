@@ -87,12 +87,12 @@ class GameScene(state.State):
 
     def enter(self):
         logger.debug("Entering game")
-        self.rootenv.clock.push_handlers(on_update=self.clock.tick)
+        self.rootenv.clock.add_clock(self.clock)
         self.rootenv.drawers.add(self.drawer)
 
     def exit(self):
         logger.debug("Exiting game")
-        self.rootenv.clock.remove_handlers(on_update=self.clock.tick)
+        self.rootenv.clock.remove_clock(self.clock)
         self.rootenv.drawers.remove(self.drawer)
 
     # TODO

@@ -72,6 +72,9 @@ class TextCounter(Counter):
 
     def __init__(self, drawer, x, y, title, value=0, width=190):
 
+        logger.debug(
+            'Initializing TextCounter(%r, %r, %r, %r, %r, %r)', drawer, x, y,
+            title, value, width)
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
@@ -107,6 +110,9 @@ class IconCounter(Counter):
 
     def __init__(self, drawer, x, y, title, value=0, width=190):
 
+        logger.debug(
+            'Initializing IconCounter(%r, %r, %r, %r, %r, %r)', drawer, x, y,
+            title, value, width)
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 

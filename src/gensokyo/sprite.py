@@ -21,7 +21,7 @@ class BaseSprite:
         drawer.add_sprite(self.sprite, group)
 
     def __del__(self):
-        logger.debug("garbage collecting sprite %s", self)
+        logger.debug("garbage collecting sprite %s", self.sprite)
         self.sprite.delete()
 
 

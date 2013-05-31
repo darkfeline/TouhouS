@@ -19,7 +19,7 @@ RoundBullet = partial(
 
 
 # TODO bullet dmg
-def make_bullet(world, drawer, bullet, x, y, v, *, script=None):
+def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):
 
     e = world.make_entity()
     add = partial(world.add_component, e)
@@ -36,8 +36,10 @@ def make_bullet(world, drawer, bullet, x, y, v, *, script=None):
     p = gc.Presence(pos_, r)
     add(p)
 
-    if script:
-        assert isinstance(script, Script)
-        add(script)
+    if scriptlets:
+        s = Script()
+        for x in scriptlets:
+            s.add(x())
+        add(s)
 
     return e

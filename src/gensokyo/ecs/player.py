@@ -16,7 +16,10 @@ from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 from gensokyo import resources
 
-__all__ = ['InputMovement', 'InputMovementSystem']
+__all__ = [
+    'InputMovement', 'InputMovementSystem', 'Player', 'PlayerBullet',
+    'make_player', 'Reimu'
+]
 logger = logging.getLogger(__name__)
 
 

@@ -42,13 +42,13 @@ class GameScene(state.State):
         # Counters
         self.counters = {}
         counters = {
-            'high_score': (ui.TextCounter, 430, 415, 'High score'),
-            'score': (ui.TextCounter, 430, 391, 'Score'),
-            'lives': (ui.IconCounter, 430, 361, 'Lives'),
-            'bombs': (ui.IconCounter, 430, 339, 'Bombs')}
+            'high_score': (ui.TextCounter, 430, 415, 'High score', 0),
+            'score': (ui.TextCounter, 430, 391, 'Score', 0),
+            'lives': (ui.IconCounter, 430, 361, 'Lives', 3),
+            'bombs': (ui.IconCounter, 430, 339, 'Bombs', 3)}
         for tag, a in counters.items():
-            c, x, y, tit = a
-            counter = c(self.drawer, x, y, tit)
+            c, x, y, tit, val = a
+            counter = c(self.drawer, x, y, tit, val)
             self.counters[tag] = counter
         # FPS
         self.fps = ui.FPSDisplay(self.drawer, 570, 2, rootenv.clock)

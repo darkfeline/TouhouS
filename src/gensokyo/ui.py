@@ -13,6 +13,7 @@ from gensokyo import resources
 
 __all__ = ['UILabel', 'FPSDisplay', 'Counter', 'TextCounter', 'IconCounter']
 logger = logging.getLogger(__name__)
+UI_GROUP = 'ui_element'
 
 
 ###############################################################################
@@ -20,7 +21,7 @@ logger = logging.getLogger(__name__)
 class UILabel(sprite.Label):
 
     def __init__(self, drawer, *args, **kwargs):
-        group = 'ui_element'
+        group = UI_GROUP
         super().__init__(drawer, group, *args, **kwargs)
 
 
@@ -56,8 +57,6 @@ class FPSDisplay(UILabel):
 # Counters
 class Counter(metaclass=abc.ABCMeta):
 
-    group = 'ui_element'
-
     @property
     @abc.abstractmethod
     def title(self):
@@ -76,10 +75,10 @@ class TextCounter(Counter):
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self._title = sprite.Label(
-            drawer, self.group, x=x, y=y, anchor_x='left', **kwargs)
-        self.number = sprite.Label(
-            drawer, self.group, x=x + width, y=y, anchor_x='right', **kwargs)
+        self._title = UILabel(
+            drawer, x=x, y=y, anchor_x='left', **kwargs)
+        self.number = UILabel(
+            drawer, x=x + width, y=y, anchor_x='right', **kwargs)
 
         self.title = title
         self.value = value
@@ -111,8 +110,8 @@ class IconCounter(Counter):
         kwargs = {'anchor_y': "bottom", 'font_size': 10,
                   'color': (0, 0, 0, 255)}
 
-        self._title = sprite.Label(
-            drawer, self.group, x=x, y=y, anchor_x='left', **kwargs)
+        self._title = UILabel(
+            drawer, x=x, y=y, anchor_x='left', **kwargs)
 
         self.icons = []
         self.width = width
@@ -143,7 +142,7 @@ class IconCounter(Counter):
         # add icons
         while delta > 0:
             sprite_ = sprite.Sprite(
-                self.sprite_group, self.icon_img, x=self.x + self.width - i *
+                UI_GROUP, self.icon_img, x=self.x + self.width - i *
                 self.icon_width, y=self.y)
             self.icons.append(sprite_)
             self.x = self.x

@@ -187,8 +187,8 @@ class ReimuScriptlet(LoopFireScriptlet):
         world.gm['player_bullet'].append(b)
 
 
-Reimu = partial(
-    Player, img=resources.player['reimu']['player'],
+Reimu = Player(
+    img=resources.player['reimu']['player'],
     hb_img=resources.player['reimu']['hitbox'],
     hitbox=primitives.Circle(0, 0, 3),
     speed_mult=10,
@@ -196,8 +196,7 @@ Reimu = partial(
     move_rect=primitives.Rect(0, 0, 25, 35),
     scriptlets=(ReimuScriptlet,)
 )
-ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
-                    dmg=20)
+ReimuShot = PlayerBullet(img=resources.player['reimu']['shot'], dmg=20)
 
 
 # TODO add hitbox sprite

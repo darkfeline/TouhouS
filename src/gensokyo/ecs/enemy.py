@@ -74,6 +74,6 @@ class LoopFireAtPlayer(Script):
             pos_ = world.cm[pos.Position]
             p = pos_[entity].pos
             v = Vector(*pos_[player].pos) - Vector(*p)
-            b = make_bullet(RoundBullet(), p[0], p[1], v)
+            b = make_bullet(RoundBullet, p[0], p[1], v)
             world.gm['enemy_bullet'].add(b)
             self.state -= self.rate

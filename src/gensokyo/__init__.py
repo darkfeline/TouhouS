@@ -62,8 +62,9 @@ class Engine:
 
         # initialize state machine
         logger.debug("init state machine...")
+        self.rootenv = RootEnv(window, clock, statem, keys, drawers)
         init_state = main_menu.MenuScene
-        statem.init(RootEnv(window, clock, statem, keys, drawers), init_state)
+        statem.init(self.rootenv, init_state)
 
         logger.info("Finished init.")
 

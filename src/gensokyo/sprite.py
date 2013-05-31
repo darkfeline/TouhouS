@@ -98,6 +98,7 @@ class DrawerStack(SpriteDrawer):
         self.drawers = []
 
     def add(self, drawer):
+        assert isinstance(drawer, BaseDrawer)
         self.drawers.append(drawer)
 
     def remove(self, drawer):

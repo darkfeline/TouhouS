@@ -88,19 +88,19 @@ class TextCounter(Counter):
 
     @property
     def title(self):
-        return self._title.text
+        return self._title.label.text
 
     @title.setter
     def title(self, value):
-        self._title.text = value
+        self._title.label.text = value
 
     @property
     def value(self):
-        return self.value.text
+        return self.number.label.text
 
     @value.setter
     def value(self, value):
-        self.number.text = value
+        self.number.label.text = str(value)
 
 
 class IconCounter(Counter):
@@ -129,11 +129,11 @@ class IconCounter(Counter):
 
     @property
     def title(self):
-        return self._title.text
+        return self._title.label.text
 
     @title.setter
     def title(self, value):
-        self._title.text = value
+        self._title.label.text = value
 
     @property
     def value(self):

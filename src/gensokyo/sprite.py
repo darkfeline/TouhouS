@@ -63,9 +63,11 @@ class SpriteDrawer(BaseDrawer):
             (self.layers[i], WeakSet()) for i in range(len(self.layers)))
 
     def draw(self):
+        logger.debug('%r drawing', self)
         self.batch.draw()
         for layer in self.labels:
             for l in self.labels[layer]:
+                logger.debug('drawing label %r', l)
                 l.draw()
 
     def add_sprite(self, sprite, group):

@@ -11,7 +11,7 @@ from gensokyo import primitives
 from gensokyo.primitives import Vector
 from gensokyo.ecs.pos import Position, SlavePosition
 from gensokyo.ecs.script import Script, Scriptlet
-from gensokyo.ecs.bulllet import make_bullet, Bullet
+from gensokyo.ecs.bullet import make_bullet, Bullet
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 from gensokyo import resources

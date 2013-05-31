@@ -196,7 +196,9 @@ Reimu = Player(
     move_rect=primitives.Rect(0, 0, 25, 35),
     scriptlets=(ReimuScriptlet,)
 )
-ReimuShot = PlayerBullet(img=resources.player['reimu']['shot'], dmg=20)
+ReimuShot = PlayerBullet(
+    img=resources.player['reimu']['shot'], dmg=20,
+    hitbox=primitives.Rect(0, 0, 10, 60))
 
 
 # TODO add hitbox sprite

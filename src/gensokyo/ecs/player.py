@@ -191,7 +191,7 @@ Reimu = partial(
     speed_mult=10,
     focus_mult=0.5,
     move_rect=primitives.Rect(0, 0, 25, 35),
-    script=ReimuScriptlet
+    scriptlets=(ReimuScriptlet,)
 )
 ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
                     dmg=20)

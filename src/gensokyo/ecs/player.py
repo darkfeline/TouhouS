@@ -181,10 +181,10 @@ class ReimuScriptlet(LoopFireScriptlet):
         x, y = world.cm[Position][entity].pos
         b = make_straight_bullet(world, root.drawers, ReimuShot, x + 10, y,
                                  speed)
-        world.gm['player_bullet'].append(b)
+        world.gm['player_bullet'].add(b)
         b = make_straight_bullet(world, root.drawers, ReimuShot, x - 10, y,
                                  speed)
-        world.gm['player_bullet'].append(b)
+        world.gm['player_bullet'].add(b)
 
 
 Reimu = Player(

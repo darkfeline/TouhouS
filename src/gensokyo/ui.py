@@ -122,6 +122,7 @@ class IconCounter(Counter):
         self.x = x
         self.y = y
         self.icons = []
+        self.drawer = drawer
         self.width = width
         self.title = title
         self.value = value
@@ -148,8 +149,8 @@ class IconCounter(Counter):
         # add icons
         while delta > 0:
             sprite_ = sprite.Sprite(
-                UI_GROUP, self.icon_img, x=self.x + self.width - i *
-                self.icon_width, y=self.y)
+                self.drawer, UI_GROUP, img=self.icon_img,
+                x=self.x + self.width - i * self.icon_width, y=self.y)
             self.icons.append(sprite_)
             self.x = self.x
             i -= 1

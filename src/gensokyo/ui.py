@@ -119,12 +119,12 @@ class IconCounter(Counter):
         self._title = UILabel(
             drawer, x=x, y=y, anchor_x='left', **kwargs)
 
+        self.x = x
+        self.y = y
         self.icons = []
         self.width = width
         self.title = title
         self.value = value
-        self.x = x
-        self.y = y
 
     @property
     def title(self):

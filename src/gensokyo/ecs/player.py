@@ -10,7 +10,7 @@ from gensokyo import ecs
 from gensokyo import primitives
 from gensokyo.primitives import Vector
 from gensokyo.ecs.pos import Position, SlavePosition
-from gensokyo.ecs.script import Script
+from gensokyo.ecs.script import Script, Scriptlet
 from gensokyo.ecs import bullet
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
@@ -109,7 +109,7 @@ class ShieldDecay(ecs.System):
 # Player {{{2
 Player = namedtuple("Player", [
     'img', 'group', 'hb_img', 'hb_group', 'hitbox', 'shield_dur', 'speed_mult',
-    'focus_mult', 'move_rect', 'script'
+    'focus_mult', 'move_rect', 'scriptlets'
 ])
 Player = partial(Player, group='player', hb_group='player_hb', shield_dur=3)
 PlayerBullet = partial(bullet.Bullet, group='player_bullet')
@@ -133,7 +133,10 @@ def make_player(world, drawer, player, x, y):
                           player.move_rect.copy())
     add(input)
 
-    add(player.script())
+    s = Script()
+    for x in player.scriptlets:
+        s.add(x())
+    add(s)
 
     return e
 
@@ -144,7 +147,7 @@ def make_straight_bullet(world, drawer, bullet, x, y, speed):
 
 
 # Reimu {{{1
-class LoopFireScript(Script):
+class LoopFireScriptlet(Scriptlet):
 
     def __init__(self, rate):
         super().__init__()
@@ -164,7 +167,7 @@ class LoopFireScript(Script):
         raise NotImplementedError
 
 
-class ReimuScript(LoopFireScript):
+class ReimuScriptlet(LoopFireScriptlet):
 
     def __init__(self):
         rate = 20
@@ -188,7 +191,7 @@ Reimu = partial(
     speed_mult=10,
     focus_mult=0.5,
     move_rect=primitives.Rect(0, 0, 25, 35),
-    script=ReimuScript
+    script=ReimuScriptlet
 )
 ReimuShot = partial(PlayerBullet, img=resources.player['reimu']['shot'],
                     dmg=20)

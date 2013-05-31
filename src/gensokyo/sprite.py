@@ -22,7 +22,10 @@ class BaseSprite:
 
     def __del__(self):
         logger.debug("garbage collecting sprite %s", self.sprite)
-        self.sprite.delete()
+        try:
+            self.sprite.delete()
+        except AttributeError:  # Failed __init__
+            pass
 
 
 class Sprite(BaseSprite):

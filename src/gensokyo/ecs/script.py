@@ -17,21 +17,23 @@ ScriptSystem
 ScriptSystem instances iterate over Script objects every tick.
 """
 
+import abc
+
 from gensokyo import ecs
 
 
 class Script(ecs.Component):
 
     """
-    Script itself can have sub-Scripts added and removed.  Script.run() then
-    delegates its calls.  You can subclass Script and implement run() to do
-    whatever.  Remember to call super().run() if you want to delegate further.
+    Due to how ECS is implemented, you need to add a Script to an Entity and
+    then add Scriptlets to it.  Allows Entities to run arbitrary code.
     """
 
     def __init__(self):
         self._subscripts = []
 
     def add(self, script):
+        assert isinstance(script, Scriptlet)
         self._subscripts.append(script)
 
     def remove(self, script):
@@ -40,6 +42,13 @@ class Script(ecs.Component):
     def run(self, entity, world, rootenv, dt):
         for script in self._subscripts:
             script.run(entity, world, rootenv, dt)
+
+
+class Scriptlet(metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def run(self, entity, world, rootenv, dt):
+        raise NotImplementedError
 
 
 class ScriptSystem(ecs.System):

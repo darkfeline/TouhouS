@@ -11,7 +11,7 @@ from gensokyo import primitives
 from gensokyo.primitives import Vector
 from gensokyo.ecs.pos import Position, SlavePosition
 from gensokyo.ecs.script import Script, Scriptlet
-from gensokyo.ecs import bullet
+from gensokyo.ecs.bulllet import make_bullet, Bullet
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 from gensokyo import resources
@@ -112,7 +112,7 @@ Player = namedtuple("Player", [
     'focus_mult', 'move_rect', 'scriptlets'
 ])
 Player = partial(Player, group='player', hb_group='player_hb', shield_dur=3)
-PlayerBullet = partial(bullet.Bullet, group='player_bullet')
+PlayerBullet = partial(Bullet, group='player_bullet')
 
 
 def make_player(world, drawer, player, x, y):
@@ -143,7 +143,7 @@ def make_player(world, drawer, player, x, y):
 
 def make_straight_bullet(world, drawer, bullet, x, y, speed):
     v = primitives.Vector(0, speed)
-    return bullet.make_bullet(world, drawer, bullet, x, y, v)
+    return make_bullet(world, drawer, bullet, x, y, v)
 
 
 # Reimu {{{1

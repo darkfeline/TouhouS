@@ -62,7 +62,7 @@ class LoopSpawnEnemy(Script):
             stage.world.gm['enemy'].add(e)
 
 
-class TimedSuicide(script.Script):
+class TimedSuicide(script.Scriptlet):
 
     def __init__(self, time):
         self.time = 0

@@ -113,17 +113,6 @@ class DrawerStack(SpriteDrawer):
         for x in self.drawers:
             x.draw()
 
-    def add_sprite(self, sprite, group):
-        for x in reversed(self.drawers):
-            try:
-                x.add_sprite(sprite, group)
-            except GroupError:  # drawer doesn't have group
-                pass
-            except AttributeError:  # not a sprite drawer
-                pass
-            else:
-                break
-
 
 class Clearer(BaseDrawer):
 

@@ -38,6 +38,9 @@ Designations
         Designates a constant-speed, straight-line parametrization, given an
         absolute destination.  Parametrizes by velocity and time
 
+    ('wait', time)
+        Waits.
+
     ('pivot', center, arc, time)
         Designates a circle pivot around a center, traveling the given arc
         distance by the given point in time.  Parametrizes by angular velocity
@@ -169,6 +172,15 @@ def pivot(segment, pos, dt):
         beta = alpha + vel * time
         return math.cos(beta), math.sin(beta)
     pos = f(time)
+    return f, pos
+
+
+@_add_desig
+def wait(segment, pos, dt):
+
+    @_shift(pos)
+    def f(time):
+        return (0, 0)
     return f, pos
 
 

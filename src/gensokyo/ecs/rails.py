@@ -114,7 +114,7 @@ class RailSystem(ecs.System):
                 while r[e].time >= r[e].rails[r[e].step][1]:
                     r[e].step += 1
             except IndexError:
-                func, t = r.rails[-1]
+                continue
             else:
                 func, t = r[e].rails[r[e].step]
             p[e].pos = func(min(t, r[e].time))

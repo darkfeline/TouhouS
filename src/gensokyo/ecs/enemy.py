@@ -40,7 +40,7 @@ def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):
 
     pos_ = pos.Position((x, y))
     add(pos_)
-    hb = collision.Hitbox(pos_, enemy.hb.copy())
+    hb = collision.Hitbox(pos_, enemy.hitbox.copy())
     add(hb)
     sprite_ = sprite.Sprite(pos_, drawer, enemy.group, enemy.img)
     add(sprite_)

@@ -68,8 +68,8 @@ class TimedSuicide(script.Scriptlet):
         self.state = 0
         self.limit = time
 
-    def run(self, entity, env, master, dt):
+    def run(self, entity, world, master, dt):
         self.state += dt
         if self.state > self.limit:
             logger.debug('TimedSuicide killed %r', entity)
-            env.em.delete(entity)
+            world.remove_entity(entity)

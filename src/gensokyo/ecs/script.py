@@ -3,16 +3,14 @@ Scripting module
 
 Provides stuff for generic scripting.
 
-Scripts
-*******
+Scripts and Scriplets
+---------------------
 
-The basic data structure is a ``Script``.
-
-Scripts have the ``run`` method, which is called on every tick.  See code for
-signature.
+Script components are added to entities and Scriptlets are added to the Script.
+Scriptlets can implement arbitrary run() methods, which are called every tick.
 
 ScriptSystem
-************
+------------
 
 ScriptSystem instances iterate over Script objects every tick.
 """

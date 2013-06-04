@@ -1,7 +1,7 @@
 import logging
 import weakref
 
-from gensokyo import state
+from gensokyo import master
 from gensokyo.clock import Clock
 from gensokyo import ecs
 from gensokyo import sprite
@@ -20,7 +20,7 @@ from gensokyo import globals
 logger = logging.getLogger(__name__)
 
 
-class GameScene(state.State):
+class GameScene(master.Scene):
 
     player_class = player.Reimu
     stage_class = stage.StageOne
@@ -28,8 +28,7 @@ class GameScene(state.State):
 
     def __init__(self, rootenv):
 
-        super().__init__(rootenv)
-        self.drawer = GameDrawer()
+        super().__init__(rootenv, GameDrawer())
         self.clock = Clock()
         self.world = ecs.World()
         self.stage = self.stage_class(rootenv, self.world)

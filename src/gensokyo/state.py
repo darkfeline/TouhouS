@@ -65,7 +65,11 @@ class State(metaclass=abc.ABCMeta):
     transitions = {}
 
     def __init__(self, rootenv):
-        self.rootenv = rootenv
+        self._rootenv = rootenv
+
+    @property
+    def rootenv(self):
+        return self._rootenv
 
     @abc.abstractmethod
     def enter(self):

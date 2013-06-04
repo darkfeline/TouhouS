@@ -114,19 +114,19 @@ class GameCollisionSystem(collision.CollisionSystem):
         return self.get_scene()
 
     def on_update(self, dt):
-        pl = self.world.tm['player']
-        hbs = self.world.cm[collision.Hitbox]
-        pl_hb = hbs[pl]
-        for b in iter(self.world.gm['enemy_bullet']):
-            if pl_hb.collide(hbs[b]):
+        player = self.world.tm['player']
+        hb = self.world.cm[collision.Hitbox]
+        player_hitbox = hb[player]
+        for bullet in iter(self.world.gm['enemy_bullet']):
+            if player_hitbox.collide(hb[bullet]):
                 self.scene.kill_player()
         life = self.world.cm[enemy.Life]
-        for b in iter(self.world.gm['player_bullet']):
-            b_hb = hbs[b]
+        for bullet in iter(self.world.gm['player_bullet']):
+            bullet_hitbox = hb[bullet]
             for e in ecs.intersect(self.world, enemy.Life):
-                if b_hb.collide(hbs[e]):
-                    life[e].life -= b.dmg
-                    self.world.remove_entity(b)
+                if bullet_hitbox.collide(hb[e]):
+                    life[e].life -= bullet.dmg
+                    self.world.remove_entity(bullet)
                     break
 
 

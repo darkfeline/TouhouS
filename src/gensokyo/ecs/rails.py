@@ -144,6 +144,7 @@ def _add_desig(func):
 @_add_desig
 def straight(segment, pos, dt):
     dpos = tuple(segment[1][i] / dt for i in [0, 1])
+
     @_shift(pos)
     def f(time):
         return tuple(dpos[i] * time for i in [0, 1])
@@ -156,6 +157,7 @@ def pivot(segment, pos, dt):
     center, arc, time = segment[1:]
     alpha = math.atan((pos[1] - center[1]) / (pos[0] - center[0]))
     vel = arc / time
+
     @_shift(pos)
     def f(time):
         beta = alpha + vel * time

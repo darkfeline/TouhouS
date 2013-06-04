@@ -109,9 +109,10 @@ class RailSystem(ecs.System):
         p = self.world.cm[Position]
         r = self.world.cm[Rails]
         for e in entities:
-            r[e].time += dt
+            rails = r[e]
+            rails.time += dt
             try:
-                while r[e].time >= r[e].rails[r[e].step][1]:
+                while rails.time >= rails.rails[rails.step][1]:
                     r[e].step += 1
             except IndexError:
                 continue

@@ -25,7 +25,7 @@ class StageOne(Stage):
 
     def __init__(self, world, master):
         super().__init__(world, master)
-        self.scripts = [LoopSpawnEnemy(GAME_AREA.right + 30, 400)]
+        self.scripts = [LoopSpawnEnemy((GAME_AREA.right + 30, 400), 3)]
 
     def on_update(self, dt):
         for x in self.scripts:

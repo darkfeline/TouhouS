@@ -52,11 +52,13 @@ Designations
 
 from functools import wraps
 import math
+import logging
 
 from gensokyo import ecs
 from gensokyo.ecs.pos import Position
 
 __all__ = ['Rails', 'RailSystem']
+logger = logging.getLogger(__name__)
 
 
 def convert_rails(rails, start):
@@ -97,7 +99,9 @@ class Rails(ecs.Component):
     """
 
     def __init__(self, rails, start):
+        logger.debug('Rails(%r, %r)', rails, start)
         self.rails = convert_rails(rails, start)
+        logger.debug('converted rails %r', self.rails)
         self.time = 0
         self.step = 0
 
@@ -118,7 +122,9 @@ class RailSystem(ecs.System):
                 continue
             else:
                 func, t = r[e].rails[r[e].step]
-            p[e].pos = func(min(t, r[e].time))
+            pos = func(min(t, r[e].time))
+            logger.debug('Moving %r to %r', e, pos)
+            p[e].pos = pos
 
 ###############################################################################
 # Private

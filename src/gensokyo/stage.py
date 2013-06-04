@@ -65,11 +65,11 @@ class LoopSpawnEnemy(Script):
 class TimedSuicide(script.Scriptlet):
 
     def __init__(self, time):
-        self.time = 0
+        self.state = 0
         self.limit = time
 
     def run(self, entity, env, master, dt):
         self.state += dt
-        if self.time > self.limit:
+        if self.state > self.limit:
             logger.debug('TimedSuicide killed %r', entity)
             env.em.delete(entity)

@@ -3,6 +3,7 @@ from functools import partial
 
 from gensokyo import ecs
 from gensokyo import primitives
+from gensokyo.sprite import SpriteDrawer
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 from gensokyo.primitives import Vector
@@ -25,6 +26,8 @@ GenericEnemy = Enemy(
 
 def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):
 
+    assert isinstance(world, ecs.World)
+    assert isinstance(drawer, SpriteDrawer)
     e = world.make_entity()
     add = partial(world.add_component, e)
 

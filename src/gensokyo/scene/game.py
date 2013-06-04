@@ -6,10 +6,11 @@ from gensokyo.clock import Clock
 from gensokyo import ecs
 from gensokyo import sprite
 from gensokyo import stage
-from gensokyo.ecs import player
 from gensokyo import ui
+from gensokyo.ecs import player
 from gensokyo.ecs import script
 from gensokyo.ecs import enemy
+from gensokyo.ecs import bullet
 from gensokyo.ecs import rails
 from gensokyo.ecs import collision
 from gensokyo.ecs import gc
@@ -117,16 +118,17 @@ class GameCollisionSystem(collision.CollisionSystem):
         player = self.world.tm['player']
         hb = self.world.cm[collision.Hitbox]
         player_hitbox = hb[player]
-        for bullet in iter(self.world.gm['enemy_bullet']):
-            if player_hitbox.collide(hb[bullet]):
+        for b in iter(self.world.gm['enemy_bullet']):
+            if player_hitbox.collide(hb[b]):
                 self.scene.kill_player()
         life = self.world.cm[enemy.Life]
-        for bullet in iter(self.world.gm['player_bullet']):
-            bullet_hitbox = hb[bullet]
+        dmg = self.world.cm[bullet.Damage]
+        for b in iter(self.world.gm['player_bullet']):
+            bullet_hitbox = hb[b]
             for e in ecs.intersect(self.world, enemy.Life):
                 if bullet_hitbox.collide(hb[e]):
-                    life[e].life -= bullet.dmg
-                    self.world.remove_entity(bullet)
+                    life[e].life -= dmg[b].dmg
+                    self.world.remove_entity(b)
                     break
 
 

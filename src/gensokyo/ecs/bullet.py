@@ -2,6 +2,7 @@ from collections import namedtuple
 from functools import partial
 
 from gensokyo import primitives
+from gensokyo import ecs
 from gensokyo.ecs import collision
 from gensokyo.ecs import physics
 from gensokyo.ecs import sprite
@@ -17,7 +18,6 @@ RoundBullet = EnemyBullet(
     img=resources.bullet['round'], hitbox=primitives.Circle(0, 0, 10))
 
 
-# TODO bullet dmg
 def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):
 
     e = world.make_entity()
@@ -30,6 +30,8 @@ def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):
     add(sprite_)
     vel = physics.Velocity(v)
     add(vel)
+    dmg = Damage(bullet.dmg)
+    add(dmg)
 
     r = primitives.Rect(0, 0, bullet.img.width, bullet.img.height)
     p = gc.Presence(pos_, r)
@@ -42,3 +44,9 @@ def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):
         add(s)
 
     return e
+
+
+class Damage(ecs.Component):
+
+    def __init__(self, dmg):
+        self.dmg = dmg

@@ -2,7 +2,6 @@ import abc
 import logging
 
 from gensokyo.ecs import script
-from gensokyo.ecs import rails
 from gensokyo.ecs import enemy
 from gensokyo.globals import GAME_AREA
 
@@ -53,7 +52,7 @@ class LoopSpawnEnemy(Script):
         if self.state >= self.rate:
             logger.debug('LoopSpawnEnemy: spawning')
             self.state -= self.rate
-            r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
+            r = (('straight', (GAME_AREA.left - 30, 300), 5),)
             e = enemy.make_enemy(
                 stage.world, stage.rootenv.drawers, enemy.GenericEnemy(),
                 self.pos, rails=r,

@@ -1,9 +1,12 @@
 import abc
+import logging
 
 from gensokyo.ecs import script
 from gensokyo.ecs import rails
 from gensokyo.ecs import enemy
 from gensokyo.globals import GAME_AREA
+
+logger = logging.getLogger(__name__)
 
 
 class Stage(metaclass=abc.ABCMeta):
@@ -40,6 +43,7 @@ class Script(metaclass=abc.ABCMeta):
 class LoopSpawnEnemy(Script):
 
     def __init__(self, pos, rate):
+        logger.debug('LoopSpawnEnemy(%r, %r)', pos, rate)
         self.pos = pos
         self.state = 0
         self.rate = rate
@@ -47,6 +51,7 @@ class LoopSpawnEnemy(Script):
     def run(self, stage, dt):
         self.state += dt
         if self.state >= self.rate:
+            logger.debug('LoopSpawnEnemy: spawning')
             self.state -= self.rate
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
             e = enemy.make_enemy(
@@ -54,6 +59,7 @@ class LoopSpawnEnemy(Script):
                 self.pos, rails=r,
                 scriptlets=[TimedSuicide(6), enemy.LoopFireAtPlayer(0.5)]
             )
+            logger.debug('spawned %r', e)
             stage.world.gm['enemy'].add(e)
 
 
@@ -66,4 +72,5 @@ class TimedSuicide(script.Script):
     def run(self, entity, env, master, dt):
         self.state += dt
         if self.time > self.limit:
+            logger.debug('TimedSuicide killed %r', entity)
             env.em.delete(entity)

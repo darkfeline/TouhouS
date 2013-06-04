@@ -8,9 +8,9 @@ from gensokyo.globals import GAME_AREA
 
 class Stage(metaclass=abc.ABCMeta):
 
-    def __init__(self, rootenv, world):
-        self.rootenv = rootenv
+    def __init__(self, world, master):
         self.world = world
+        self.master = master
 
     @abc.abstractmethod
     def on_update(self, dt):
@@ -20,8 +20,8 @@ class Stage(metaclass=abc.ABCMeta):
 # TODO move everything below
 class StageOne(Stage):
 
-    def __init__(self, rootenv, world):
-        super().__init__(rootenv, world)
+    def __init__(self, world, master):
+        super().__init__(world, master)
         self.scripts = [LoopSpawnEnemy(GAME_AREA.right + 30, 400)]
 
     def on_update(self, dt):
@@ -37,7 +37,7 @@ class Script(metaclass=abc.ABCMeta):
 
 
 # TODO generalize looping
-class LoopSpawnEnemy:
+class LoopSpawnEnemy(Script):
 
     def __init__(self, pos, rate):
         self.pos = pos
@@ -49,21 +49,12 @@ class LoopSpawnEnemy:
         if self.state >= self.rate:
             self.state -= self.rate
             r = rails.Rails((('straight', (GAME_AREA.left - 30, 300), 5),))
-            s = GenericScript()
             e = enemy.make_enemy(
                 stage.world, stage.rootenv.drawers, enemy.GenericEnemy(),
-                self.pos, rails=r, script=s
+                self.pos, rails=r,
+                scriptlets=[TimedSuicide(6), enemy.LoopFireAtPlayer(0.5)]
             )
             stage.world.gm['enemy'].add(e)
-
-
-# TODO generalize this too
-class GenericScript(script.Script):
-
-    def __init__(self):
-        super().__init__()
-        self.add(TimedSuicide(6))
-        self.add(enemy.LoopFireAtPlayer(0.5))
 
 
 class TimedSuicide(script.Script):
@@ -72,7 +63,7 @@ class TimedSuicide(script.Script):
         self.time = 0
         self.limit = time
 
-    def run(self, entity, env, dt):
+    def run(self, entity, env, master, dt):
         self.state += dt
         if self.time > self.limit:
             env.em.delete(entity)

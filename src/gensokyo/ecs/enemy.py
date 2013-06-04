@@ -38,7 +38,7 @@ def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):
     e = world.make_entity()
     add = partial(world.add_component, e)
 
-    pos_ = pos.Position(x, y)
+    pos_ = pos.Position((x, y))
     add(pos_)
     hb = collision.Hitbox(pos_, enemy.hb.copy())
     add(hb)

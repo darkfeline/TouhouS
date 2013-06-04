@@ -31,7 +31,7 @@ class GameScene(master.Scene):
         super().__init__(rootenv, GameDrawer())
         self.clock = Clock()
         self.world = ecs.World()
-        self.stage = self.stage_class(rootenv, self)
+        self.stage = self.stage_class(self.world, self)
         self.clock.push_handlers(self.stage)
 
         #######################################################################

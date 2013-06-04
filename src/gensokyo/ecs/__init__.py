@@ -28,6 +28,16 @@ Performs logic by iterating over Entities.  Usually has an on_update() method
 which gets registered with Clocks, but can also trigger on other events.
 Systems are added into a list in a World for simple bookkeeping.
 
+A typical on_update() loop looks like::
+
+    def on_update(self, dt):
+        entities = intersect(self.world, ComponentA, ComponentB)
+        a, b = self.world.cm[ComponentA], self.world.cm[ComponentB]
+        for e in entities:
+            component_a = a[e]
+            component_b = b[e]
+            # do stuff
+
 Component
 ---------
 

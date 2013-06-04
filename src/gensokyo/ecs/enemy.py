@@ -1,5 +1,6 @@
 from collections import namedtuple
 from functools import partial
+import logging
 
 from gensokyo import ecs
 from gensokyo import primitives
@@ -15,6 +16,8 @@ from gensokyo import resources
 
 __all__ = ['Enemy', 'make_enemy', 'GenericEnemy', 'GrimReaper',
            'LoopFireAtPlayer']
+logger = logging.getLogger(__name__)
+
 Enemy = namedtuple("Enemy", ['img', 'group', 'hitbox', 'life'])
 Enemy = partial(Enemy, group='enemy')
 
@@ -26,8 +29,12 @@ GenericEnemy = Enemy(
 
 def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):
 
+    logger.debug(
+        'make_enemy(%r, %r, %r, %r, %r, rails=%r, scriptlets=%r)', world,
+        drawer, enemy, x, y, rails, scriptlets)
     assert isinstance(world, ecs.World)
     assert isinstance(drawer, SpriteDrawer)
+
     e = world.make_entity()
     add = partial(world.add_component, e)
 

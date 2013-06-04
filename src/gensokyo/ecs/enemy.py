@@ -18,9 +18,9 @@ Enemy = namedtuple("Enemy", ['img', 'group', 'hitbox', 'life'])
 Enemy = partial(Enemy, group='enemy')
 
 img = resources.enemy['generic']
-GenericEnemy = partial(
-    Enemy, img=img, hitbox=primitives.Rect(0, 0, img.width, img.height),
-    life=200)
+GenericEnemy = Enemy(
+    img=img, hitbox=primitives.Rect(0, 0, img.width, img.height), life=200
+)
 
 
 def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):

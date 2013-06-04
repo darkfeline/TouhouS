@@ -38,7 +38,7 @@ def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):
     if scriptlets:
         s = Script()
         for x in scriptlets:
-            s.add(x())
+            s.add(x)
         add(s)
 
     return e

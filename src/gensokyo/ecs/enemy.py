@@ -52,7 +52,7 @@ def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):
     if scriptlets:
         s = Script()
         for x in scriptlets:
-            s.add(x())
+            s.add(x)
         add(s)
 
     return e

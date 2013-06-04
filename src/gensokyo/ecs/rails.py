@@ -149,7 +149,7 @@ def _add_desig(func):
 
 @_add_desig
 def straight(segment, pos, dt):
-    dpos = tuple(segment[1][i] / dt for i in [0, 1])
+    dpos = tuple((segment[1][i] - pos[i]) / dt for i in [0, 1])
 
     @_shift(pos)
     def f(time):

@@ -60,7 +60,7 @@ class GameScene(state.State):
         self.input = player.InputMovementSystem(
             self.world, rootenv.key_state, globals.GAME_AREA)
         self.clock.push_handlers(self.input)
-        self.script = script.ScriptSystem(self.world, rootenv)
+        self.script = script.ScriptSystem(self.world, self)
         self.clock.push_handlers(self.script)
         a = GameCollisionSystem(self.world, self)
         self.clock.push_handlers(a)

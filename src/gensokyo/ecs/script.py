@@ -37,25 +37,30 @@ class Script(ecs.Component):
     def remove(self, script):
         self._subscripts.remove(script)
 
-    def run(self, entity, world, rootenv, dt):
+    def run(self, entity, world, master, dt):
         for script in self._subscripts:
-            script.run(entity, world, rootenv, dt)
+            script.run(entity, world, master, dt)
 
 
 class Scriptlet(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def run(self, entity, world, rootenv, dt):
+    def run(self, entity, world, master, dt):
         raise NotImplementedError
 
 
 class ScriptSystem(ecs.System):
 
-    def __init__(self, world, rootenv):
+    def __init__(self, world, master):
+        """
+        `world` is an ECS World, self-explanatory.  `master` is the master
+        object, which owns the `world` and generally is running the show.  In
+        this case, it'd probably be a State (like GameScene).
+        """
         super().__init__(world)
-        self.rootenv = rootenv
+        self.master = master
 
     def on_update(self, dt):
         s = self.world.cm[Script]
         for e in ecs.intersect(self.world, Script):
-            s[e].run(e, self.world, self.rootenv, dt)
+            s[e].run(e, self.world, self.master, dt)

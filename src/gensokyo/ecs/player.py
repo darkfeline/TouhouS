@@ -157,16 +157,16 @@ class LoopFireScriptlet(Scriptlet):
         self.state = 0
         self.limit = 1 / rate
 
-    def run(self, entity, world, root, dt):
-        firing = root.key_state[key.Z]
+    def run(self, entity, world, master, dt):
+        firing = master.rootenv.key_state[key.Z]
         if firing:
             self.state += dt
         if self.state >= self.limit:
             self.state -= self.limit
-            self.fire(entity, world, root)
+            self.fire(entity, world, master)
 
     @abc.abstractmethod
-    def fire(self, entity, world, root):
+    def fire(self, entity, world, master):
         raise NotImplementedError
 
 
@@ -176,13 +176,13 @@ class ReimuScriptlet(LoopFireScriptlet):
         rate = 20
         super().__init__(rate)
 
-    def fire(self, entity, world, root):
+    def fire(self, entity, world, master):
         speed = 50
         x, y = world.cm[Position][entity].pos
-        b = make_straight_bullet(world, root.drawers, ReimuShot, x + 10, y,
+        b = make_straight_bullet(world, master.drawer, ReimuShot, x + 10, y,
                                  speed)
         world.gm['player_bullet'].add(b)
-        b = make_straight_bullet(world, root.drawers, ReimuShot, x - 10, y,
+        b = make_straight_bullet(world, master.drawer, ReimuShot, x - 10, y,
                                  speed)
         world.gm['player_bullet'].add(b)
 

@@ -5,8 +5,8 @@ from gensokyo import master
 from gensokyo.clock import Clock
 from gensokyo import ecs
 from gensokyo import sprite
-from gensokyo import stage
 from gensokyo import ui
+from gensokyo import data
 from gensokyo.ecs import player
 from gensokyo.ecs import script
 from gensokyo.ecs import enemy
@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 
 class GameScene(master.Scene):
 
-    player_class = player.Reimu
-    stage_class = stage.StageOne
+    player_class = data.players.reimu.Reimu
+    stage_class = data.stage.stage_one.StageOne
     ui_image = resources.ui_image
 
     def __init__(self, rootenv):

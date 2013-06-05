@@ -6,15 +6,17 @@ from gensokyo import ecs
 from gensokyo.sprite import SpriteDrawer
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
+from gensokyo.ecs.bullet import Bullet
 from gensokyo.ecs.rails import Rails
 from gensokyo.ecs.script import Script
 from gensokyo.ecs import pos
 
-__all__ = ['Enemy', 'make_enemy', 'Life', 'GrimReaper']
+__all__ = ['Enemy', 'EnemyBullet', 'make_enemy', 'Life', 'GrimReaper']
 logger = logging.getLogger(__name__)
 
 Enemy = namedtuple("Enemy", ['img', 'group', 'hitbox', 'life'])
 Enemy = partial(Enemy, group='enemy')
+EnemyBullet = partial(Bullet, group='enemy_bullet', dmg=1)
 
 
 def make_enemy(world, drawer, enemy, x, y, *, rails, scriptlets):

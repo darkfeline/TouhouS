@@ -90,7 +90,7 @@ Hitbox = namedtuple("Hitbox", ['img', 'group'])
 def make_hitbox(world, drawer, hitbox, player):
     e = world.make_entitiy()
     add = partial(world.add_component, e)
-    pos = Position()  # TODO
+    pos = Position(world.cm[Position][player].pos)
     add(pos)
     sprite_ = sprite.Sprite(pos, drawer, hitbox.group, hitbox.img)
     add(sprite_)

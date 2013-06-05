@@ -1,4 +1,5 @@
 # Imports {{{1
+import abc
 import logging
 from collections import namedtuple
 from functools import partial
@@ -8,8 +9,8 @@ from pyglet.window import key
 from gensokyo import ecs
 from gensokyo.primitives import Vector
 from gensokyo.ecs.pos import Position, SlavePosition
-from gensokyo.ecs.script import Script
-from gensokyo.ecs.bullet import Bullet
+from gensokyo.ecs.script import Script, Scriptlet
+from gensokyo.ecs.bullet import Bullet, make_bullet
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 
@@ -105,6 +106,34 @@ class ShieldDecay(ecs.System):
                 else:
                     entity.delete(shield)
 
+# Bullet {{{2
+PlayerBullet = partial(Bullet, group='player_bullet')
+
+
+def make_straight_bullet(world, drawer, bullet, x, y, speed):
+    v = Vector(0, speed)
+    return make_bullet(world, drawer, bullet, x, y, v)
+
+
+# Scriptlets {{{2
+class LoopFireScriptlet(Scriptlet):
+
+    def __init__(self, rate):
+        super().__init__()
+        self.state = 0
+        self.limit = 1 / rate
+
+    def run(self, entity, world, master, dt):
+        firing = master.rootenv.key_state[key.Z]
+        if firing:
+            self.state += dt
+        if self.state >= self.limit:
+            self.state -= self.limit
+            self.fire(entity, world, master)
+
+    @abc.abstractmethod
+    def fire(self, entity, world, master):
+        raise NotImplementedError
 
 # Player {{{2
 Player = namedtuple("Player", [
@@ -112,7 +141,6 @@ Player = namedtuple("Player", [
     'focus_mult', 'move_rect', 'scriptlets'
 ])
 Player = partial(Player, group='player', hb_group='player_hb', shield_dur=3)
-PlayerBullet = partial(Bullet, group='player_bullet')
 
 
 def make_player(world, drawer, player, x, y):
@@ -139,6 +167,22 @@ def make_player(world, drawer, player, x, y):
     add(s)
 
     return e
+
+
+# TODO add hitbox sprite
+#class Player(ecs.Entity):
+#
+#    def on_key_press(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            hb = self.get(PlayerHitbox)[0]
+#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
+#            self.add(hb_sprite)
+#            self.hb_sprite = hb_sprite
+#
+#    def on_key_release(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            self.delete(self.hb_sprite)
+#            del self.hb_sprite
 
 # }}}1
 

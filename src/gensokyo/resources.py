@@ -48,16 +48,19 @@ for player in os.listdir(a_full):
     b = os.path.join(a, player)
     b_full = os.path.join(a_full, player)
     for x in os.listdir(b_full):
-        players[os.path.basename(x)] = centered_image(os.path.join(b, x))
+        current[os.path.splitext(x)[0]] = centered_image(os.path.join(b, x))
+del player
 
 # Enemies
 enemies = {}
 for x in os.listdir(os.path.join(path, 'enemies')):
-    enemies[os.path.basename(x)] = centered_image(os.path.join('enemies', x))
+    enemies[os.path.splitext(x)[0]] = centered_image(
+        os.path.join('enemies', x))
 
 # Bullets
 bullets = {}
 for x in os.listdir(os.path.join(path, 'bullets')):
-    bullets[os.path.basename(x)] = centered_image(os.path.join('bullets', x))
+    bullets[os.path.splitext(x)[0]] = centered_image(
+        os.path.join('bullets', x))
 
 logger.info("Finished initializing resources.")

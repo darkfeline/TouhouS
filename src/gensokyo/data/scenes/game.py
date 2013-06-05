@@ -3,10 +3,9 @@ import weakref
 
 from gensokyo import master
 from gensokyo.clock import Clock
-from gensokyo import ecs
 from gensokyo import sprite
 from gensokyo import ui
-from gensokyo import data
+from gensokyo import ecs
 from gensokyo.ecs import player
 from gensokyo.ecs import script
 from gensokyo.ecs import enemy
@@ -15,6 +14,8 @@ from gensokyo.ecs import rails
 from gensokyo.ecs import collision
 from gensokyo.ecs import gc
 from gensokyo.ecs import physics
+from gensokyo.data.players.reimu import Reimu
+from gensokyo.data.stages.stage_one import StageOne
 from gensokyo import resources
 from gensokyo import globals
 
@@ -23,8 +24,8 @@ logger = logging.getLogger(__name__)
 
 class GameScene(master.Scene):
 
-    player_class = data.players.reimu.Reimu
-    stage_class = data.stage.stage_one.StageOne
+    player_class = Reimu
+    stage_class = StageOne
     ui_image = resources.ui_image
 
     def __init__(self, rootenv):

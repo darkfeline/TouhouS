@@ -23,8 +23,8 @@ class ReimuScriptlet(LoopFireScriptlet):
 
 
 Reimu = Player(
-    img=resources.player['reimu']['player'],
-    hb_img=resources.player['reimu']['hitbox'],
+    img=resources.players['reimu']['player'],
+    hb_img=resources.players['reimu']['hitbox'],
     hitbox=primitives.Circle(0, 0, 3),
     speed_mult=10,
     focus_mult=0.5,
@@ -32,7 +32,7 @@ Reimu = Player(
     scriptlets=(ReimuScriptlet,)
 )
 ReimuShot = PlayerBullet(
-    img=resources.player['reimu']['shot'], dmg=20,
+    img=resources.players['reimu']['shot'], dmg=20,
     hitbox=primitives.Rect(0, 0, 10, 60))
 
 # vim: set fdm=marker:

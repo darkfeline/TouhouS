@@ -38,7 +38,8 @@ star = resource.image('star.png')
 
 # Players
 players = {}
-a = os.path.join(resource.path, 'players')
+a = os.path.join(*resource.path)
+a = os.path.join(a, 'players')
 for player in os.listdir(a):
     current = {}
     players[player] = current

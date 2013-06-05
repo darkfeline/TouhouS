@@ -64,6 +64,8 @@ class GameScene(master.Scene):
         self.ps_system = player.PlayerStateSystem(self.world)
         self.script = script.ScriptSystem(self.world, self)
         self.clock.push_handlers(self.script)
+        a = player.HitboxSystem(self.world, self.drawer)
+        self.clock.push_handlers(a)
         a = GameCollisionSystem(self.world, self)
         self.clock.push_handlers(a)
         a = rails.RailSystem(self.world)

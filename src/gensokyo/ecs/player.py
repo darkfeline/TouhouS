@@ -19,7 +19,7 @@ __all__ = [
     'PlayerState', 'PlayerStateSystem',
     'InputMovement', 'InputMovementSystem',
     'Shield', 'ShieldDecay',
-    'Hitbox', 'make_hitbox',
+    'Hitbox', 'HitboxMarker', 'HitboxSystem', 'make_hitbox',
     'PlayerBullet', 'make_straight_bullet',
     'LoopFireScriptlet',
     'Player', 'make_player'
@@ -113,42 +113,72 @@ class InputMovementSystem(ecs.System):
 Hitbox = namedtuple("Hitbox", ['img', 'group'])
 
 
-def make_hitbox(world, drawer, hitbox, player):
-    e = world.make_entitiy()
+def make_hitbox(world, drawer, hitbox, pos):
+    e = world.make_entity()
     add = partial(world.add_component, e)
-    pos = Position(world.cm[Position][player].pos)
+    pos = Position(pos)
     add(pos)
     sprite_ = sprite.Sprite(pos, drawer, hitbox.group, hitbox.img)
     add(sprite_)
     return e
 
 
-class HitboxSystem(ecs.System):
+class HitboxMarker(SlavePosition):
 
-    def __init__(self, world, player, hitbox):
-        super().__init__(world)
-        self._player = weakref.ref(player)
+    def __init__(self, master, world, hitbox):
         self.hitbox = hitbox
+        self._hb_entity = None
+        self._world = weakref.ref(world)
+        super().__init__(master)
+
+    def setpos(self, pos):
+        self.pos = pos
+        if self.hb_entity is not None:
+            self.world.cm[Position][self.hb_entity].pos = pos
 
     @property
-    def player(self):
-        return self._player()
+    def world(self):
+        return self._world()
+
+    # Note the implementation of hb_entity.  It starts as None, hence the
+    # try/except in property getter, but after using once, _hb_entity will be a
+    # weakref, and return None naturally if entitiy is deleted.
+    @property
+    def hb_entity(self):
+        try:
+            return self._hb_entity()
+        except TypeError:
+            return None
+
+    @hb_entity.setter
+    def hb_entity(self, value):
+        self._hb_entity = weakref.ref(value)
 
 
-# TODO add hitbox sprite
-#class Player(ecs.Entity):
-#
-#    def on_key_press(self, symbol, modifiers):
-#        if symbol == key.LSHIFT:
-#            hb = self.get(PlayerHitbox)[0]
-#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
-#            self.add(hb_sprite)
-#            self.hb_sprite = hb_sprite
-#
-#    def on_key_release(self, symbol, modifiers):
-#        if symbol == key.LSHIFT:
-#            self.delete(self.hb_sprite)
-#            del self.hb_sprite
+class HitboxSystem(ecs.System):
+
+    def __init__(self, world, drawer):
+        super().__init__(world)
+        self._drawer = weakref.ref(drawer)
+
+    @property
+    def drawer(self):
+        return self._drawer()
+
+    def on_update(self, dt):
+        player = self.world.tm['player']
+        hbm = self.world.cm[HitboxMarker]
+        ps = self.world.cm[PlayerState]
+        player_marker = hbm[player]
+        if player_marker.hb_entity is not None:
+            if not ps[player].focus:
+                self.world.remove_entity(player_marker.hb_entity)
+        else:
+            if ps[player].focus:
+                player_marker.hb_entity = make_hitbox(
+                    self.world, self.drawer, player_marker.hitbox,
+                    player_marker.pos
+                )
 
 
 # Shield {{{2
@@ -234,6 +264,8 @@ def make_player(world, drawer, player, x, y):
     add(input)
 
     add(PlayerState())
+
+    add(HitboxMarker(pos, world, Hitbox(player.hb_img, player.hb_group)))
 
     s = Script()
     for x in player.scriptlets:

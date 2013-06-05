@@ -11,7 +11,7 @@ from gensokyo.ecs import pos
 from gensokyo.ecs.script import Script
 from gensokyo import resources
 
-__all__ = ["Bullet", "EnemyBullet", "RoundBullet", "make_bullet"]
+__all__ = ["Bullet", "EnemyBullet", "Damage", "RoundBullet", "make_bullet"]
 Bullet = namedtuple("Bullet", ['img', 'group', 'hitbox', 'dmg'])
 EnemyBullet = partial(Bullet, group='enemy_bullet', dmg=1)
 RoundBullet = EnemyBullet(

@@ -61,21 +61,31 @@ class GameScene(master.Scene):
         self.input = player.InputMovementSystem(
             self.world, rootenv.key_state, globals.GAME_AREA)
         self.clock.push_handlers(self.input)
+
         self.ps_system = player.PlayerStateSystem(self.world)
-        self.script = script.ScriptSystem(self.world, self)
-        self.clock.push_handlers(self.script)
+
+        a = script.ScriptSystem(self.world, self)
+        self.clock.push_handlers(a)
+
         a = player.HitboxSystem(self.world, self.drawer)
         self.clock.push_handlers(a)
+
         a = GameCollisionSystem(self.world, self)
         self.clock.push_handlers(a)
+
         a = rails.RailSystem(self.world)
         self.clock.push_handlers(a)
+
         a = physics.PhysicsSystem(self.world)
         self.clock.push_handlers(a)
+
         a = enemy.GrimReaper(self.world)
         self.clock.push_handlers(a)
+
         a = gc.GarbageCollectSystem(self.world, globals.GAME_AREA)
         self.clock.push_handlers(a)
+
+        del a
         logger.info('Systems setup done')
 
         #######################################################################

@@ -1,6 +1,7 @@
 # Imports {{{1
 import abc
 import logging
+import weakref
 from collections import namedtuple
 from functools import partial
 
@@ -15,6 +16,7 @@ from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 
 __all__ = [
+    'PlayerState', 'PlayerStateSystem',
     'InputMovement', 'InputMovementSystem',
     'Shield', 'ShieldDecay',
     'Hitbox', 'make_hitbox',
@@ -26,6 +28,30 @@ logger = logging.getLogger(__name__)
 
 
 # Base {{{1
+
+# State {{{2
+class PlayerState(ecs.Component):
+
+    def __init__(self):
+        self.focus = False
+
+
+class PlayerStateSystem(ecs.System):
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            player = self.world.tm['player']
+            ps = self.world.cm[PlayerState]
+            state = ps[player]
+            state.focus = True
+
+    def on_key_release(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            player = self.world.tm['player']
+            ps = self.world.cm[PlayerState]
+            state = ps[player]
+            state.focus = False
+
 
 # Input {{{2
 class InputMovement(SlavePosition):
@@ -95,6 +121,35 @@ def make_hitbox(world, drawer, hitbox, player):
     sprite_ = sprite.Sprite(pos, drawer, hitbox.group, hitbox.img)
     add(sprite_)
     return e
+
+
+class HitboxSystem(ecs.System):
+
+    def __init__(self, world, player, hitbox):
+        super().__init__(world)
+        self._player = weakref.ref(player)
+        self.hitbox = hitbox
+
+    @property
+    def player(self):
+        return self._player()
+
+
+# TODO add hitbox sprite
+#class Player(ecs.Entity):
+#
+#    def on_key_press(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            hb = self.get(PlayerHitbox)[0]
+#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
+#            self.add(hb_sprite)
+#            self.hb_sprite = hb_sprite
+#
+#    def on_key_release(self, symbol, modifiers):
+#        if symbol == key.LSHIFT:
+#            self.delete(self.hb_sprite)
+#            del self.hb_sprite
+
 
 # Shield {{{2
 # TODO think this through
@@ -184,22 +239,6 @@ def make_player(world, drawer, player, x, y):
     add(s)
 
     return e
-
-
-# TODO add hitbox sprite
-#class Player(ecs.Entity):
-#
-#    def on_key_press(self, symbol, modifiers):
-#        if symbol == key.LSHIFT:
-#            hb = self.get(PlayerHitbox)[0]
-#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
-#            self.add(hb_sprite)
-#            self.hb_sprite = hb_sprite
-#
-#    def on_key_release(self, symbol, modifiers):
-#        if symbol == key.LSHIFT:
-#            self.delete(self.hb_sprite)
-#            del self.hb_sprite
 
 # }}}1
 

@@ -79,6 +79,19 @@ class InputMovementSystem(ecs.System):
         logger.debug('Master moved to %s', pos.pos)
 
 
+# Hitbox {{1
+Hitbox = namedtuple("Hitbox", ['img', 'group'])
+
+
+def make_hitbox(world, drawer, hitbox, player):
+    e = world.make_entitiy()
+    add = partial(world.add_component, e)
+    pos = Position()  # TODO
+    add(pos)
+    sprite_ = sprite.Sprite(pos, drawer, hitbox.group, hitbox.img)
+    add(sprite_)
+    return e
+
 # Shield {{{2
 # TODO think this through
 class Shield(ecs.Component):

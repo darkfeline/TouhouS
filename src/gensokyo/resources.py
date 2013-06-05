@@ -5,9 +5,16 @@ import os.path
 
 from pyglet import resource
 
+__all__ = [
+    'ui_image', 'icon16', 'icon32', 'star',
+    'players', 'enemies', 'bullets'
+]
+logger = logging.getLogger(__name__)
+
 
 def centered_image(image):
     """Loads an image and centers it"""
+    logger.debug('centered_image(%r)', image)
     image = resource.image(image)
     _center(image)
     return image
@@ -18,15 +25,10 @@ def _center(image):
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
-__all__ = [
-    'ui_image', 'icon16', 'icon32', 'star',
-    'players', 'enemies', 'bullets'
-]
-logger = logging.getLogger(__name__)
-
 logger.info("Initializing resources...")
 logger.debug("Working directory is %s", os.getcwd())
-resource.path = [os.path.join(sys.prefix, 'resources')]
+path = os.path.join(sys.prefix, 'resources')
+resource.path = [path]
 logger.debug("Path is %s", resource.path)
 resource.reindex()
 
@@ -38,23 +40,24 @@ star = resource.image('star.png')
 
 # Players
 players = {}
-a = os.path.join(*resource.path)
-a = os.path.join(a, 'players')
-for player in os.listdir(a):
+a = 'players'
+a_full = os.path.join(path, 'players')
+for player in os.listdir(a_full):
     current = {}
     players[player] = current
     b = os.path.join(a, player)
-    for x in os.listdir(b):
+    b_full = os.path.join(a_full, player)
+    for x in os.listdir(b_full):
         players[os.path.basename(x)] = centered_image(os.path.join(b, x))
 
 # Enemies
 enemies = {}
-for x in os.listdir(os.path.join(resource.path, 'enemies')):
+for x in os.listdir(os.path.join(path, 'enemies')):
     enemies[os.path.basename(x)] = centered_image(os.path.join('enemies', x))
 
 # Bullets
 bullets = {}
-for x in os.listdir(os.path.join(resource.path, 'bullets')):
+for x in os.listdir(os.path.join(path, 'bullets')):
     bullets[os.path.basename(x)] = centered_image(os.path.join('bullets', x))
 
 logger.info("Finished initializing resources.")

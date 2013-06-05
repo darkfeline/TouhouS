@@ -15,8 +15,12 @@ from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 
 __all__ = [
-    'InputMovement', 'InputMovementSystem', 'Shield', 'ShieldDecay',
-    'Player', 'PlayerBullet', 'make_player'
+    'InputMovement', 'InputMovementSystem',
+    'Shield', 'ShieldDecay',
+    'Hitbox', 'make_hitbox',
+    'PlayerBullet', 'make_straight_bullet',
+    'LoopFireScriptlet',
+    'Player', 'make_player'
 ]
 logger = logging.getLogger(__name__)
 
@@ -79,7 +83,7 @@ class InputMovementSystem(ecs.System):
         logger.debug('Master moved to %s', pos.pos)
 
 
-# Hitbox {{1
+# Hitbox {{{2
 Hitbox = namedtuple("Hitbox", ['img', 'group'])
 
 
@@ -161,16 +165,16 @@ def make_player(world, drawer, player, x, y):
     e = world.make_entity()
     add = partial(world.add_component, e)
 
-    pos_ = Position((x, y))
-    add(pos_)
+    pos = Position((x, y))
+    add(pos)
 
-    hb = collision.Hitbox(pos_, player.hitbox.copy())
+    hb = collision.Hitbox(pos, player.hitbox.copy())
     add(hb)
 
-    sprite_ = sprite.Sprite(pos_, drawer, player.group, player.img)
+    sprite_ = sprite.Sprite(pos, drawer, player.group, player.img)
     add(sprite_)
 
-    input = InputMovement(pos_, player.speed_mult, player.focus_mult,
+    input = InputMovement(pos, player.speed_mult, player.focus_mult,
                           player.move_rect.copy())
     add(input)
 

@@ -7,25 +7,23 @@ from functools import partial
 from pyglet.window import key
 
 from gensokyo import ecs
-from gensokyo import primitives
 from gensokyo.primitives import Vector
 from gensokyo.ecs.pos import Position, SlavePosition
 from gensokyo.ecs.script import Script, Scriptlet
-from gensokyo.ecs.bullet import make_bullet, Bullet
+from gensokyo.ecs.bullet import Bullet, make_bullet
 from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
-from gensokyo import resources
 
 __all__ = [
-    'InputMovement', 'InputMovementSystem', 'Player', 'PlayerBullet',
-    'make_player', 'Reimu'
+    'InputMovement', 'InputMovementSystem', 'Shield', 'ShieldDecay',
+    'Player', 'PlayerBullet', 'make_player'
 ]
 logger = logging.getLogger(__name__)
 
 
 # Base {{{1
 
-# Input{{{2
+# Input {{{2
 class InputMovement(SlavePosition):
 
     def __init__(self, master, speed_mult, focus_mult, rect):
@@ -108,6 +106,34 @@ class ShieldDecay(ecs.System):
                 else:
                     entity.delete(shield)
 
+# Bullet {{{2
+PlayerBullet = partial(Bullet, group='player_bullet')
+
+
+def make_straight_bullet(world, drawer, bullet, x, y, speed):
+    v = Vector(0, speed)
+    return make_bullet(world, drawer, bullet, x, y, v)
+
+
+# Scriptlets {{{2
+class LoopFireScriptlet(Scriptlet):
+
+    def __init__(self, rate):
+        super().__init__()
+        self.state = 0
+        self.limit = 1 / rate
+
+    def run(self, entity, world, master, dt):
+        firing = master.rootenv.key_state[key.Z]
+        if firing:
+            self.state += dt
+        if self.state >= self.limit:
+            self.state -= self.limit
+            self.fire(entity, world, master)
+
+    @abc.abstractmethod
+    def fire(self, entity, world, master):
+        raise NotImplementedError
 
 # Player {{{2
 Player = namedtuple("Player", [
@@ -115,7 +141,6 @@ Player = namedtuple("Player", [
     'focus_mult', 'move_rect', 'scriptlets'
 ])
 Player = partial(Player, group='player', hb_group='player_hb', shield_dur=3)
-PlayerBullet = partial(Bullet, group='player_bullet')
 
 
 def make_player(world, drawer, player, x, y):
@@ -144,63 +169,6 @@ def make_player(world, drawer, player, x, y):
     return e
 
 
-def make_straight_bullet(world, drawer, bullet, x, y, speed):
-    v = primitives.Vector(0, speed)
-    return make_bullet(world, drawer, bullet, x, y, v)
-
-
-# Reimu {{{1
-class LoopFireScriptlet(Scriptlet):
-
-    def __init__(self, rate):
-        super().__init__()
-        self.state = 0
-        self.limit = 1 / rate
-
-    def run(self, entity, world, master, dt):
-        firing = master.rootenv.key_state[key.Z]
-        if firing:
-            self.state += dt
-        if self.state >= self.limit:
-            self.state -= self.limit
-            self.fire(entity, world, master)
-
-    @abc.abstractmethod
-    def fire(self, entity, world, master):
-        raise NotImplementedError
-
-
-class ReimuScriptlet(LoopFireScriptlet):
-
-    def __init__(self):
-        rate = 20
-        super().__init__(rate)
-
-    def fire(self, entity, world, master):
-        speed = 50
-        x, y = world.cm[Position][entity].pos
-        b = make_straight_bullet(world, master.drawer, ReimuShot, x + 10, y,
-                                 speed)
-        world.gm['player_bullet'].add(b)
-        b = make_straight_bullet(world, master.drawer, ReimuShot, x - 10, y,
-                                 speed)
-        world.gm['player_bullet'].add(b)
-
-
-Reimu = Player(
-    img=resources.player['reimu']['player'],
-    hb_img=resources.player['reimu']['hitbox'],
-    hitbox=primitives.Circle(0, 0, 3),
-    speed_mult=10,
-    focus_mult=0.5,
-    move_rect=primitives.Rect(0, 0, 25, 35),
-    scriptlets=(ReimuScriptlet,)
-)
-ReimuShot = PlayerBullet(
-    img=resources.player['reimu']['shot'], dmg=20,
-    hitbox=primitives.Rect(0, 0, 10, 60))
-
-
 # TODO add hitbox sprite
 #class Player(ecs.Entity):
 #
@@ -215,5 +183,7 @@ ReimuShot = PlayerBullet(
 #        if symbol == key.LSHIFT:
 #            self.delete(self.hb_sprite)
 #            del self.hb_sprite
+
+# }}}1
 
 # vim: set fdm=marker:

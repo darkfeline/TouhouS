@@ -9,13 +9,9 @@ from gensokyo.ecs import sprite
 from gensokyo.ecs import gc
 from gensokyo.ecs import pos
 from gensokyo.ecs.script import Script
-from gensokyo import resources
 
-__all__ = ["Bullet", "EnemyBullet", "RoundBullet", "make_bullet"]
+__all__ = ["Bullet", "Damage", "make_bullet"]
 Bullet = namedtuple("Bullet", ['img', 'group', 'hitbox', 'dmg'])
-EnemyBullet = partial(Bullet, group='enemy_bullet', dmg=1)
-RoundBullet = EnemyBullet(
-    img=resources.bullet['round'], hitbox=primitives.Circle(0, 0, 10))
 
 
 def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):

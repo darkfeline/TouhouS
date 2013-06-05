@@ -61,6 +61,7 @@ class GameScene(master.Scene):
         self.input = player.InputMovementSystem(
             self.world, rootenv.key_state, globals.GAME_AREA)
         self.clock.push_handlers(self.input)
+        self.ps_system = player.PlayerStateSystem(self.world)
         self.script = script.ScriptSystem(self.world, self)
         self.clock.push_handlers(self.script)
         a = GameCollisionSystem(self.world, self)
@@ -90,11 +91,13 @@ class GameScene(master.Scene):
         logger.debug("Entering game")
         self.rootenv.clock.schedule(self.clock.tick)
         self.rootenv.drawers.add(self.drawer)
+        self.rootenv.window.push_handlers(self.ps_system)
 
     def exit(self):
         logger.debug("Exiting game")
         self.rootenv.clock.unschedule(self.clock.tick)
         self.rootenv.drawers.remove(self.drawer)
+        self.rootenv.window.remove_handlers(self.ps_system)
 
     # TODO
     def kill_player(self):

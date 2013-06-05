@@ -85,13 +85,13 @@ class InputMovementSystem(ecs.System):
         if self.key_state[key.DOWN]:
             vel[1] -= 1
         vel = Vector(*vel).get_unit_vector()
-        focus = True if self.key_state[key.LSHIFT] else False
         # Calculate movement
         player = self.world.tm['player']
         pos = self.world.cm[Position][player]
         im = self.world.cm[InputMovement][player]
+        ps = self.world.cm[PlayerState]
         dpos = vel * im.speed_mult
-        if focus:
+        if ps[player].focus:
             dpos *= im.focus_mult
         # Move
         pos.pos = tuple(Vector(*pos.pos) + Vector(*dpos))
@@ -232,6 +232,8 @@ def make_player(world, drawer, player, x, y):
     input = InputMovement(pos, player.speed_mult, player.focus_mult,
                           player.move_rect.copy())
     add(input)
+
+    add(PlayerState())
 
     s = Script()
     for x in player.scriptlets:

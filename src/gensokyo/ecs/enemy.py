@@ -76,10 +76,14 @@ class GrimReaper(ecs.System):
 
 class LoopFireAtPlayer(Scriptlet):
 
-    def __init__(self, rate):
-        """rate is seconds per fire.  Smaller rate == faster"""
+    def __init__(self, rate, velocity):
+        """
+        `rate` is seconds per fire.  Smaller rate == faster
+        `velocity` is bullet speed, scalar
+        """
         self.state = 0
         self.rate = rate
+        self.velocity = velocity
 
     def run(self, entity, world, master, dt):
         self.state += dt
@@ -88,6 +92,7 @@ class LoopFireAtPlayer(Scriptlet):
             pos_ = world.cm[pos.Position]
             p = pos_[entity].pos
             v = Vector(*pos_[player].pos) - Vector(*p)
+            v = v.get_unit_vector() * self.velocity
             b = make_bullet(world, master.drawer, RoundBullet, p[0], p[1], v)
             world.gm['enemy_bullet'].add(b)
             self.state -= self.rate

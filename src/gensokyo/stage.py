@@ -56,7 +56,7 @@ class LoopSpawnEnemy(Script):
             e = enemy.make_enemy(
                 stage.world, stage.master.drawer, enemy.GenericEnemy,
                 self.pos[0], self.pos[1], rails=r,
-                scriptlets=[TimedSuicide(6), enemy.LoopFireAtPlayer(0.5)]
+                scriptlets=[TimedSuicide(6), enemy.LoopFireAtPlayer(0.3, 7)]
             )
             logger.debug('spawned %r', e)
             stage.world.gm['enemy'].add(e)

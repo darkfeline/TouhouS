@@ -3,6 +3,17 @@
 import os
 import sys
 from distutils.core import setup, Extension
+from pkgutil import walk_packages
+
+
+def find_packages(path, prefix=""):
+    yield prefix
+    prefix = prefix + "."
+    for _, name, ispkg in walk_packages([path]):
+        if ispkg:
+            for item in find_packages(
+                    os.path.join(path, name), prefix + name):
+                yield item
 
 
 def get_resources(dir, l=None):
@@ -44,9 +55,7 @@ setup(
     requires=['pyglet'],
     url='http://abagofapples.com/',
     package_dir={'': 'src'},
-    packages=['gensokyo',
-              'gensokyo.ecs',
-              'gensokyo.scene'],
+    packages=list(find_packages('src/gensokyo', 'gensokyo')),
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     scripts=['src/bin/touhouS'],

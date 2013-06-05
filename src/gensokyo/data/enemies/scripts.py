@@ -1,31 +1,21 @@
-import logging
-
-from gensokyo import primitives
-from gensokyo.primitives import Vector
-from gensokyo.ecs.enemy import Enemy
-from gensokyo.ecs.bullet import make_bullet, RoundBullet
 from gensokyo.ecs.script import Scriptlet
+from gensokyo.primitives import Vector
 from gensokyo.ecs import pos
-from gensokyo import resources
-
-logger = logging.getLogger(__name__)
-
-img = resources.enemy['generic']
-GenericEnemy = Enemy(
-    img=img, hitbox=primitives.Rect(0, 0, img.width, img.height), life=200
-)
+from gensokyo.ecs.bullet import make_bullet
 
 
 class LoopFireAtPlayer(Scriptlet):
 
-    def __init__(self, rate, velocity):
+    def __init__(self, rate, velocity, bullet):
         """
         `rate` is seconds per fire.  Smaller rate == faster
         `velocity` is bullet speed, scalar
+        `bullet` is bullet seed
         """
         self.state = 0
         self.rate = rate
         self.velocity = velocity
+        self.bullet = bullet
 
     def run(self, entity, world, master, dt):
         self.state += dt
@@ -35,6 +25,6 @@ class LoopFireAtPlayer(Scriptlet):
             p = pos_[entity].pos
             v = Vector(*pos_[player].pos) - Vector(*p)
             v = v.get_unit_vector() * self.velocity
-            b = make_bullet(world, master.drawer, RoundBullet, p[0], p[1], v)
+            b = make_bullet(world, master.drawer, self.bullet, p[0], p[1], v)
             world.gm['enemy_bullet'].add(b)
             self.state -= self.rate

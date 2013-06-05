@@ -1,6 +1,7 @@
 # Imports {{{1
 import abc
 import logging
+import weakref
 from collections import namedtuple
 from functools import partial
 
@@ -15,13 +16,42 @@ from gensokyo.ecs import collision
 from gensokyo.ecs import sprite
 
 __all__ = [
-    'InputMovement', 'InputMovementSystem', 'Shield', 'ShieldDecay',
-    'Player', 'PlayerBullet', 'make_player'
+    'PlayerState', 'PlayerStateSystem',
+    'InputMovement', 'InputMovementSystem',
+    'Shield', 'ShieldDecay',
+    'Hitbox', 'HitboxMarker', 'HitboxSystem', 'make_hitbox',
+    'PlayerBullet', 'make_straight_bullet',
+    'LoopFireScriptlet',
+    'Player', 'make_player'
 ]
 logger = logging.getLogger(__name__)
 
 
 # Base {{{1
+
+# State {{{2
+class PlayerState(ecs.Component):
+
+    def __init__(self):
+        self.focus = False
+
+
+class PlayerStateSystem(ecs.System):
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            player = self.world.tm['player']
+            ps = self.world.cm[PlayerState]
+            state = ps[player]
+            state.focus = True
+
+    def on_key_release(self, symbol, modifiers):
+        if symbol == key.LSHIFT:
+            player = self.world.tm['player']
+            ps = self.world.cm[PlayerState]
+            state = ps[player]
+            state.focus = False
+
 
 # Input {{{2
 class InputMovement(SlavePosition):
@@ -55,13 +85,13 @@ class InputMovementSystem(ecs.System):
         if self.key_state[key.DOWN]:
             vel[1] -= 1
         vel = Vector(*vel).get_unit_vector()
-        focus = True if self.key_state[key.LSHIFT] else False
         # Calculate movement
         player = self.world.tm['player']
         pos = self.world.cm[Position][player]
         im = self.world.cm[InputMovement][player]
+        ps = self.world.cm[PlayerState]
         dpos = vel * im.speed_mult
-        if focus:
+        if ps[player].focus:
             dpos *= im.focus_mult
         # Move
         pos.pos = tuple(Vector(*pos.pos) + Vector(*dpos))
@@ -77,6 +107,78 @@ class InputMovementSystem(ecs.System):
             im.rect.top = self.bounds.top
         pos.pos = im.rect.center
         logger.debug('Master moved to %s', pos.pos)
+
+
+# Hitbox {{{2
+Hitbox = namedtuple("Hitbox", ['img', 'group'])
+
+
+def make_hitbox(world, drawer, hitbox, pos):
+    e = world.make_entity()
+    add = partial(world.add_component, e)
+    pos = Position(pos)
+    add(pos)
+    sprite_ = sprite.Sprite(pos, drawer, hitbox.group, hitbox.img)
+    add(sprite_)
+    return e
+
+
+class HitboxMarker(SlavePosition):
+
+    def __init__(self, master, world, hitbox):
+        self.hitbox = hitbox
+        self._hb_entity = None
+        self._world = weakref.ref(world)
+        super().__init__(master)
+
+    def setpos(self, pos):
+        self.pos = pos
+        if self.hb_entity is not None:
+            self.world.cm[Position][self.hb_entity].pos = pos
+
+    @property
+    def world(self):
+        return self._world()
+
+    # Note the implementation of hb_entity.  It starts as None, hence the
+    # try/except in property getter, but after using once, _hb_entity will be a
+    # weakref, and return None naturally if entitiy is deleted.
+    @property
+    def hb_entity(self):
+        try:
+            return self._hb_entity()
+        except TypeError:
+            return None
+
+    @hb_entity.setter
+    def hb_entity(self, value):
+        self._hb_entity = weakref.ref(value)
+
+
+class HitboxSystem(ecs.System):
+
+    def __init__(self, world, drawer):
+        super().__init__(world)
+        self._drawer = weakref.ref(drawer)
+
+    @property
+    def drawer(self):
+        return self._drawer()
+
+    def on_update(self, dt):
+        player = self.world.tm['player']
+        hbm = self.world.cm[HitboxMarker]
+        ps = self.world.cm[PlayerState]
+        player_marker = hbm[player]
+        if player_marker.hb_entity is not None:
+            if not ps[player].focus:
+                self.world.remove_entity(player_marker.hb_entity)
+        else:
+            if ps[player].focus:
+                player_marker.hb_entity = make_hitbox(
+                    self.world, self.drawer, player_marker.hitbox,
+                    player_marker.pos
+                )
 
 
 # Shield {{{2
@@ -148,18 +250,22 @@ def make_player(world, drawer, player, x, y):
     e = world.make_entity()
     add = partial(world.add_component, e)
 
-    pos_ = Position((x, y))
-    add(pos_)
+    pos = Position((x, y))
+    add(pos)
 
-    hb = collision.Hitbox(pos_, player.hitbox.copy())
+    hb = collision.Hitbox(pos, player.hitbox.copy())
     add(hb)
 
-    sprite_ = sprite.Sprite(pos_, drawer, player.group, player.img)
+    sprite_ = sprite.Sprite(pos, drawer, player.group, player.img)
     add(sprite_)
 
-    input = InputMovement(pos_, player.speed_mult, player.focus_mult,
+    input = InputMovement(pos, player.speed_mult, player.focus_mult,
                           player.move_rect.copy())
     add(input)
+
+    add(PlayerState())
+
+    add(HitboxMarker(pos, world, Hitbox(player.hb_img, player.hb_group)))
 
     s = Script()
     for x in player.scriptlets:
@@ -167,22 +273,6 @@ def make_player(world, drawer, player, x, y):
     add(s)
 
     return e
-
-
-# TODO add hitbox sprite
-#class Player(ecs.Entity):
-#
-#    def on_key_press(self, symbol, modifiers):
-#        if symbol == key.LSHIFT:
-#            hb = self.get(PlayerHitbox)[0]
-#            hb_sprite = graphics.Sprite(self.hb_sprite_img, hb.x, hb.y)
-#            self.add(hb_sprite)
-#            self.hb_sprite = hb_sprite
-#
-#    def on_key_release(self, symbol, modifiers):
-#        if symbol == key.LSHIFT:
-#            self.delete(self.hb_sprite)
-#            del self.hb_sprite
 
 # }}}1
 

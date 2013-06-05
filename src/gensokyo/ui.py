@@ -1,7 +1,10 @@
 """
-UI module
+ui
+==
 
-Contains various CES classes to use in UI
+Various UI related things.  These are not part of ECS, are generally
+instantiated and managed by top-level, e.g. master/scene/state, which also
+manages the ECS world.
 """
 
 import abc

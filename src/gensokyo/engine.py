@@ -13,8 +13,7 @@ from pyglet.window.key import KeyStateHandler
 
 from gensokyo import state
 from gensokyo.sprite import DrawerStack, Clearer
-from gensokyo.clock import Clock
-from gensokyo.scene import main_menu
+from gensokyo.data import scenes
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
 
@@ -63,8 +62,7 @@ class Engine:
         # initialize state machine
         logger.debug("init state machine...")
         self.rootenv = RootEnv(window, clock, statem, keys, drawers)
-        init_state = main_menu.MenuScene
-        statem.init(self.rootenv, init_state)
+        statem.init(self.rootenv, scenes.start)
 
         logger.info("Finished init.")
 

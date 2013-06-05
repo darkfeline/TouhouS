@@ -10,9 +10,8 @@ from gensokyo.ecs import gc
 from gensokyo.ecs import pos
 from gensokyo.ecs.script import Script
 
-__all__ = ["Bullet", "EnemyBullet", "Damage", "make_bullet"]
+__all__ = ["Bullet", "Damage", "make_bullet"]
 Bullet = namedtuple("Bullet", ['img', 'group', 'hitbox', 'dmg'])
-EnemyBullet = partial(Bullet, group='enemy_bullet', dmg=1)
 
 
 def make_bullet(world, drawer, bullet, x, y, v, *, scriptlets=None):

@@ -33,10 +33,10 @@ logger.debug("Path is %s", resource.path)
 resource.reindex()
 
 # UI
-ui_image = resource.image('ui.png')
-icon16 = resource.image('icon16.png')
-icon32 = resource.image('icon32.png')
-star = resource.image('star.png')
+ui_image = resource.image(os.path.join('interface', 'ui.png'))
+icon16 = resource.image(os.path.join('interface', 'icon16.png'))
+icon32 = resource.image(os.path.join('interface', 'icon32.png'))
+star = resource.image(os.path.join('interface', 'star.png'))
 
 # Players
 players = {}

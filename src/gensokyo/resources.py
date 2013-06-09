@@ -34,6 +34,7 @@ resource.reindex()
 
 # UI
 ui_image = resource.image(os.path.join('interface', 'ui.png'))
+selector = resource.image(os.path.join('interface', 'selector.png'))
 icon16 = resource.image(os.path.join('interface', 'icon16.png'))
 icon32 = resource.image(os.path.join('interface', 'icon32.png'))
 star = resource.image(os.path.join('interface', 'star.png'))

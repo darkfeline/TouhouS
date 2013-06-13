@@ -4,20 +4,13 @@ from gensokyo.state import State
 
 
 class Master(metaclass=abc.ABCMeta):
+    pass
 
-    @property
-    def rootenv(self):
-        try:
-            return self._rootenv
-        except AttributeError:
-            raise NotImplementedError
-
-    @property
-    def drawer(self):
-        try:
-            return self._drawer
-        except AttributeError:
-            raise NotImplementedError
+for x in ('rootenv', 'drawer'):
+    y = '_' + x
+    def getter(self):
+        return getattr(self, y, None)
+    setattr(Master, x, property(getter))
 
 
 class Scene(Master, State):

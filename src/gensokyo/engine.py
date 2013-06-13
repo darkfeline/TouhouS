@@ -21,7 +21,7 @@ from gensokyo.clock import Clock
 
 logger = logging.getLogger(__name__)
 
-RootEnv = namedtuple("RootEnv", ['window', 'key_state'])
+RootEnv = namedtuple("RootEnv", ['window', 'key_state', 'clock'])
 
 
 class Engine(Master):
@@ -44,18 +44,20 @@ class Engine(Master):
         logger.debug("Creating KeyState...")
         keys = KeyStateHandler()
         window.push_handlers(keys)
+        # clock
+        logger.debug("Initializing pyglet clock...")
+        clock = pyglet.clock.get_default()
+        clock.set_fps_limit(FPS)
 
         # set rootenv
-        Master._rootenv = RootEnv(window, keys)
+        Master._rootenv = RootEnv(window, keys, clock)
 
         # state machine
         logger.debug("Initializing state machine...")
         self._statem = state.StateMachine(self)
 
         # clock
-        logger.debug("Initializing clock...")
-        clock = pyglet.clock.get_default()
-        clock.set_fps_limit(FPS)
+        logger.debug("Initializing our clock...")
         self._clock = Clock()
         clock.schedule(self.clock.tick)
 

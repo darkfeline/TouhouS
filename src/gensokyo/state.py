@@ -24,9 +24,11 @@ class StateMachine:
     Simple state machine.  Plug n Play.
     """
 
-    def __init__(self, master, state, *args, **kwargs):
+    def __init__(self, master):
         self._master = weakref.ref(master)
-        self.state = state(master, *args, **kwargs)
+
+    def init(self, state, *args, **kwargs):
+        self.state = state(self.master, *args, **kwargs)
         self.state.enter()
 
     @property

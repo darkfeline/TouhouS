@@ -102,13 +102,13 @@ class GameScene(state.Scene):
 
     def enter(self):
         logger.debug("Entering game")
-        self.master.clock.add_clock(self.clock.tick)
+        self.master.clock.add_clock(self.clock)
         self.master.drawer.add(self.drawer)
         self.rootenv.window.push_handlers(self.ps_system)
 
     def exit(self):
         logger.debug("Exiting game")
-        self.master.clock.remove_clock(self.clock.tick)
+        self.master.clock.remove_clock(self.clock)
         self.master.drawer.remove(self.drawer)
         self.rootenv.window.remove_handlers(self.ps_system)
 

@@ -16,18 +16,19 @@ from gensokyo.sprite import DrawerStack, Clearer
 from gensokyo.data import scenes
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
+from gensokyo.master import Master
+from gensokyo.clock import Clock
 
 logger = logging.getLogger(__name__)
 
-RootEnv = namedtuple("RootEnv", [
-    'window', 'clock', 'state', 'key_state', 'drawers'
-])
+RootEnv = namedtuple("RootEnv", ['window', 'key_state'])
 
 
-class Engine:
+class Engine(Master):
 
     def __init__(self):
 
+        # RootEnv
         # window
         logger.debug("Initializing window...")
         window = pyglet.window.Window(WIDTH, HEIGHT)
@@ -39,30 +40,31 @@ class Engine:
         gl.glEnable(gl.GL_BLEND)
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
-        # State machine
-        logger.debug("Creating state machine...")
-        statem = state.StateMachine()
-
         # key_state
         logger.debug("Creating KeyState...")
         keys = KeyStateHandler()
         window.push_handlers(keys)
 
+        # set rootenv
+        self._rootenv = RootEnv(window, keys)
+
+        # state machine
+        logger.debug("Initializing state machine...")
+        self._statem = state.StateMachine(self.rootenv, scenes.start)
+
         # clock
         logger.debug("Initializing clock...")
         clock = pyglet.clock.get_default()
         clock.set_fps_limit(FPS)
+        self._clock = Clock()
+        clock.schedule(self.clock.tick)
 
         # drawstack
         logger.debug("Creating Drawstack...")
-        drawers = DrawerStack()
-        drawers.add(Clearer(window))
-        window.push_handlers(drawers)
-
-        # initialize state machine
-        logger.debug("init state machine...")
-        self.rootenv = RootEnv(window, clock, statem, keys, drawers)
-        statem.init(self.rootenv, scenes.start)
+        drawer = DrawerStack()
+        drawer.add(Clearer(window))
+        window.push_handlers(drawer)
+        self._drawer = drawer
 
         logger.info("Finished init.")
 

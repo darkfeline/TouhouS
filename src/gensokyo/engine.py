@@ -48,10 +48,6 @@ class Engine(Master):
         # set rootenv
         Master._rootenv = RootEnv(window, keys)
 
-        # state machine
-        logger.debug("Initializing state machine...")
-        self._statem = state.StateMachine(self.rootenv, scenes.start)
-
         # clock
         logger.debug("Initializing clock...")
         clock = pyglet.clock.get_default()
@@ -65,6 +61,10 @@ class Engine(Master):
         drawer.add(Clearer(window))
         window.push_handlers(drawer)
         self._drawer = drawer
+
+        # state machine
+        logger.debug("Initializing state machine...")
+        self._statem = state.StateMachine(self, scenes.start)
 
         logger.info("Finished init.")
 

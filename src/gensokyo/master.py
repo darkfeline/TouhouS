@@ -15,6 +15,5 @@ for x in ('rootenv', 'statem', 'drawer', 'clock'):
 
 class Scene(Master, State):
 
-    def __init__(self, rootenv, drawer):
-        super().__init__(rootenv)
-        self._drawer = drawer
+    def __init__(self, master):
+        super().__init__(master)

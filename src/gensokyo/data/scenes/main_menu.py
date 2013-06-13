@@ -2,7 +2,7 @@ import logging
 
 from pyglet.window import key
 
-from gensokyo import master
+from gensokyo import state
 from gensokyo import sprite
 from gensokyo import gvars
 from gensokyo.sprite import SpriteDrawer
@@ -10,13 +10,14 @@ from gensokyo.sprite import SpriteDrawer
 logger = logging.getLogger(__name__)
 
 
-class MenuScene(master.Scene):
+class MenuScene(state.Scene):
 
-    def __init__(self, rootenv):
+    def __init__(self, master):
 
         logger.info("Initializing MenuScene...")
-        super().__init__(rootenv, MenuDrawer())
-        self.input = MenuInput(self.rootenv.state)
+        super().__init__(master)
+        self._drawer = MenuDrawer()
+        self.input = MenuInput(master.statem)
 
         logger.debug("Making Label...")
         self.title = sprite.Label(
@@ -26,12 +27,12 @@ class MenuScene(master.Scene):
     def enter(self):
         logger.info("Entering MenuScene...")
         self.rootenv.window.push_handlers(self.input)
-        self.rootenv.drawers.add(self.drawer)
+        self.master.drawer.add(self.drawer)
 
     def exit(self):
         logger.info("Exiting MenuScene...")
         self.rootenv.window.remove_handlers(self.input)
-        self.rootenv.drawers.remove(self.drawer)
+        self.master.drawer.remove(self.drawer)
 
 
 class MenuDrawer(SpriteDrawer):

@@ -1,27 +1,17 @@
 import abc
 
-from gensokyo.state import State
+__all__ = ['Master']
+
+
+def _make_getter(name):
+    def getter(self):
+        return getattr(self, name, None)
+    return getter
 
 
 class Master(metaclass=abc.ABCMeta):
+    pass
 
-    @property
-    def rootenv(self):
-        try:
-            return self._rootenv
-        except AttributeError:
-            raise NotImplementedError
-
-    @property
-    def drawer(self):
-        try:
-            return self._drawer
-        except AttributeError:
-            raise NotImplementedError
-
-
-class Scene(Master, State):
-
-    def __init__(self, rootenv, drawer):
-        super().__init__(rootenv)
-        self._drawer = drawer
+for x in ('rootenv', 'statem', 'drawer', 'clock'):
+    getter = _make_getter('_' + x)
+    setattr(Master, x, property(getter))

@@ -9,7 +9,10 @@ attached.
 """
 
 import abc
+import weakref
 import logging
+
+from gensokyo.master import Master
 
 __all__ = ['StateMachine', 'State', 'NotEventError']
 logger = logging.getLogger(__name__)
@@ -21,10 +24,16 @@ class StateMachine:
     Simple state machine.  Plug n Play.
     """
 
-    def init(self, rootenv, state, *args, **kwargs):
-        self.rootenv = rootenv
-        self.state = state(rootenv, *args, **kwargs)
+    def __init__(self, master):
+        self._master = weakref.ref(master)
+
+    def init(self, state, *args, **kwargs):
+        self.state = state(self.master, *args, **kwargs)
         self.state.enter()
+
+    @property
+    def master(self):
+        return self._master()
 
     def event(self, event, *args, **kwargs):
         assert isinstance(event, str)
@@ -35,12 +44,9 @@ class StateMachine:
         self.state.exit()
         if new is None:
             return
-        new = new(self.rootenv, *args, **kwargs)
-        if new is None:
-            return
-        else:
-            new.enter()
-            self.state = new
+        new = new(self.master, *args, **kwargs)
+        new.enter()
+        self.state = new
 
 
 class State(metaclass=abc.ABCMeta):
@@ -64,12 +70,12 @@ class State(metaclass=abc.ABCMeta):
 
     transitions = {}
 
-    def __init__(self, rootenv):
-        self._rootenv = rootenv
+    def __init__(self, master):
+        self._master = weakref.ref(master)
 
     @property
-    def rootenv(self):
-        return self._rootenv
+    def master(self):
+        return self._master()
 
     @abc.abstractmethod
     def enter(self):
@@ -80,6 +86,12 @@ class State(metaclass=abc.ABCMeta):
     def exit(self):
         """This method is called when exiting a state"""
         raise NotImplementedError
+
+
+class Scene(Master, State):
+
+    def __init__(self, master):
+        super().__init__(master)
 
 
 class NotEventError(Exception):

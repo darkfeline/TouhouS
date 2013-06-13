@@ -1,7 +1,7 @@
 import logging
 import weakref
 
-from gensokyo import master
+from gensokyo import state
 from gensokyo.clock import Clock
 from gensokyo import sprite
 from gensokyo import ui
@@ -22,16 +22,17 @@ from gensokyo import globals
 logger = logging.getLogger(__name__)
 
 
-class GameScene(master.Scene):
+class GameScene(state.Scene):
 
     player_class = Reimu
     stage_class = StageOne
     ui_image = resources.ui_image
 
-    def __init__(self, rootenv):
+    def __init__(self, master):
 
-        super().__init__(rootenv, GameDrawer())
-        self.clock = Clock()
+        super().__init__(master)
+        self._drawer = GameDrawer()
+        self._clock = Clock()
         self.world = ecs.World()
         self.stage = self.stage_class(self.world, self)
         self.clock.push_handlers(self.stage)
@@ -52,15 +53,15 @@ class GameScene(master.Scene):
             counter = c(self.drawer, x, y, tit, val)
             self.counters[tag] = counter
         # FPS
-        self.fps = ui.FPSDisplay(self.drawer, 570, 2, rootenv.clock)
+        self.fps = ui.FPSDisplay(self.drawer, 570, 2, self.rootenv.clock)
         self.clock.push_handlers(self.fps)
         logger.info('UI setup done')
 
         #######################################################################
         # Systems
-        self.input = player.InputMovementSystem(
-            self.world, rootenv.key_state, globals.GAME_AREA)
-        self.clock.push_handlers(self.input)
+        a = player.InputMovementSystem(
+            self.world, self.rootenv.key_state, globals.GAME_AREA)
+        self.clock.push_handlers(a)
 
         self.ps_system = player.PlayerStateSystem(self.world)
 
@@ -101,34 +102,33 @@ class GameScene(master.Scene):
 
     def enter(self):
         logger.debug("Entering game")
-        self.rootenv.clock.schedule(self.clock.tick)
-        self.rootenv.drawers.add(self.drawer)
+        self.master.clock.add_clock(self.clock)
+        self.master.drawer.add(self.drawer)
         self.rootenv.window.push_handlers(self.ps_system)
 
     def exit(self):
         logger.debug("Exiting game")
-        self.rootenv.clock.unschedule(self.clock.tick)
-        self.rootenv.drawers.remove(self.drawer)
+        self.master.clock.remove_clock(self.clock)
+        self.master.drawer.remove(self.drawer)
         self.rootenv.window.remove_handlers(self.ps_system)
 
-    # TODO
     def kill_player(self):
         l = self.counters['lives']
         if l.value > 0:
             l.value -= 1
         else:
-            self.rootenv.state.event('quit')
+            self.master.state.event('quit')
 
 
 class GameCollisionSystem(collision.CollisionSystem):
 
     def __init__(self, world, scene):
         super().__init__(world)
-        self.get_scene = weakref.ref(scene)
+        self._scene = weakref.ref(scene)
 
     @property
     def scene(self):
-        return self.get_scene()
+        return self._scene()
 
     def on_update(self, dt):
         player = self.world.tm['player']

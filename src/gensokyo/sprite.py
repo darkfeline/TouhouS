@@ -95,11 +95,12 @@ class DrawerStack(SpriteDrawer):
 
     add() to end
     remove() first from front
-    draw() from front to end
-    add_sprite() from end to front
+    draw() self then from front to end
+    add_sprite() from end to front then self
     """
 
     def __init__(self):
+        super().__init__()
         self.drawers = []
 
     def add(self, drawer):
@@ -110,6 +111,7 @@ class DrawerStack(SpriteDrawer):
         self.drawers.remove(drawer)
 
     def draw(self):
+        super().draw()
         for x in self.drawers:
             x.draw()
 

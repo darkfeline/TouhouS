@@ -44,12 +44,9 @@ class StateMachine:
         self.state.exit()
         if new is None:
             return
-        new = new(self, self.master, *args, **kwargs)
-        if new is None:
-            return
-        else:
-            new.enter()
-            self.state = new
+        new = new(self.master, *args, **kwargs)
+        new.enter()
+        self.state = new
 
 
 class State(metaclass=abc.ABCMeta):

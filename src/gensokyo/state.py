@@ -9,6 +9,7 @@ attached.
 """
 
 import abc
+import weakref
 import logging
 
 __all__ = ['StateMachine', 'State', 'NotEventError']
@@ -21,10 +22,14 @@ class StateMachine:
     Simple state machine.  Plug n Play.
     """
 
-    def init(self, rootenv, state, *args, **kwargs):
-        self.rootenv = rootenv
-        self.state = state(rootenv, *args, **kwargs)
+    def __init__(self, master, state, *args, **kwargs):
+        self._master = weakref.ref(master)
+        self.state = state(master, *args, **kwargs)
         self.state.enter()
+
+    @property
+    def master(self):
+        return self._master()
 
     def event(self, event, *args, **kwargs):
         assert isinstance(event, str)
@@ -35,7 +40,7 @@ class StateMachine:
         self.state.exit()
         if new is None:
             return
-        new = new(self.rootenv, *args, **kwargs)
+        new = new(self, self.master, *args, **kwargs)
         if new is None:
             return
         else:
@@ -64,12 +69,12 @@ class State(metaclass=abc.ABCMeta):
 
     transitions = {}
 
-    def __init__(self, rootenv):
-        self._rootenv = rootenv
+    def __init__(self, master):
+        self._master = weakref.ref(master)
 
     @property
-    def rootenv(self):
-        return self._rootenv
+    def master(self):
+        return self._master()
 
     @abc.abstractmethod
     def enter(self):

@@ -46,7 +46,7 @@ class Engine(Master):
         window.push_handlers(keys)
 
         # set rootenv
-        self._rootenv = RootEnv(window, keys)
+        Master._rootenv = RootEnv(window, keys)
 
         # state machine
         logger.debug("Initializing state machine...")

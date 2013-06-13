@@ -16,7 +16,6 @@ class MenuScene(state.Scene):
 
         logger.info("Initializing MenuScene...")
         super().__init__(master)
-        self._rootenv = master.rootenv
         self._drawer = MenuDrawer()
         self.input = MenuInput(master.statem)
 

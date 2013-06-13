@@ -6,7 +6,7 @@ from gensokyo.state import State
 class Master(metaclass=abc.ABCMeta):
     pass
 
-for x in ('rootenv', 'drawer'):
+for x in ('rootenv', 'statem', 'drawer', 'clock'):
     y = '_' + x
     def getter(self):
         return getattr(self, y, None)

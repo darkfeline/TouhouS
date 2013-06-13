@@ -53,7 +53,7 @@ class GameScene(state.Scene):
             counter = c(self.drawer, x, y, tit, val)
             self.counters[tag] = counter
         # FPS
-        self.fps = ui.FPSDisplay(self.drawer, 570, 2, rootenv.clock)
+        self.fps = ui.FPSDisplay(self.drawer, 570, 2, self.rootenv.clock)
         self.clock.push_handlers(self.fps)
         logger.info('UI setup done')
 

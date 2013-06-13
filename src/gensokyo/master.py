@@ -1,6 +1,6 @@
 import abc
 
-from gensokyo.state import State
+__all__ = ['Master']
 
 
 class Master(metaclass=abc.ABCMeta):
@@ -11,9 +11,4 @@ for x in ('rootenv', 'statem', 'drawer', 'clock'):
     def getter(self):
         return getattr(self, y, None)
     setattr(Master, x, property(getter))
-
-
-class Scene(Master, State):
-
-    def __init__(self, master):
-        super().__init__(master)
+del x, y, getter

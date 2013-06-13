@@ -12,6 +12,8 @@ import abc
 import weakref
 import logging
 
+from gensokyo.master import Master
+
 __all__ = ['StateMachine', 'State', 'NotEventError']
 logger = logging.getLogger(__name__)
 
@@ -85,6 +87,12 @@ class State(metaclass=abc.ABCMeta):
     def exit(self):
         """This method is called when exiting a state"""
         raise NotImplementedError
+
+
+class Scene(Master, State):
+
+    def __init__(self, master):
+        super().__init__(master)
 
 
 class NotEventError(Exception):

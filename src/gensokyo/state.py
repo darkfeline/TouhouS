@@ -6,6 +6,10 @@ Provides a simple state machine framework.  Everything is event-driven; thus
 there is no main loop.  A clock somewhere controls "tick" events, and that
 controls the execution.  What defines a state is which event handlers are
 attached.
+
+master in this module refers generally to any object with event dispatcher
+attributes that would then be used in State's enter() and exit(); instances of
+Master from master.py are one possibility.
 """
 
 import abc

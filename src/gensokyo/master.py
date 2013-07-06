@@ -1,3 +1,11 @@
+"""
+master.py
+=========
+
+Provides an abstract base class Master for classes that implement a defined set
+of event dispatchers/other "global" level objects.
+"""
+
 import abc
 
 __all__ = ['Master']

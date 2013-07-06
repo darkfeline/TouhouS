@@ -117,7 +117,7 @@ class GameScene(state.Scene):
         if l.value > 0:
             l.value -= 1
         else:
-            self.master.state.event('quit')
+            self.master.statem.event('quit')
 
 
 class GameCollisionSystem(collision.CollisionSystem):

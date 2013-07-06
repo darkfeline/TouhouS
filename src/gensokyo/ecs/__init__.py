@@ -126,7 +126,7 @@ class World:
 
 
 class Entity:
-    pass
+    __slots__ = ['__weakref__']
 
 
 def intersect(world, *args):

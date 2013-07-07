@@ -74,7 +74,7 @@ class SpriteDrawer(BaseDrawer):
                 l.draw()
 
     def add_sprite(self, sprite, group):
-        logger.debug("Adding sprite %s %s", sprite, group)
+        logger.debug("Adding sprite %r to %r", sprite, group)
         if group in self.layers:
             if isinstance(sprite, text.Label):
                 self.labels[group].add(sprite)

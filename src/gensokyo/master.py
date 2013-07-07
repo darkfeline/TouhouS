@@ -21,7 +21,10 @@ def _make_getter(name):
 
 
 class Master(metaclass=abc.ABCMeta):
-    pass
+    """
+    Master implements a set of properties like a service dispatcher.  It can be
+    placed anywhere in the MRO.
+    """
 
 for x in ('rootenv', 'statem', 'drawer', 'clock'):
     getter = _make_getter('_' + x)

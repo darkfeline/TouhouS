@@ -1,8 +1,9 @@
 """
 Garbage collecting module
 
-This handles deletion of entities which are bounded by the play area, such as
-bullets.  When these entities move out of bounds, they will be deleted.
+This handles deletion of entities which are bounded by the play area,
+such as bullets.  When these entities move out of bounds, they will be
+deleted.
 
 """
 

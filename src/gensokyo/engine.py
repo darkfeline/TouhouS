@@ -1,6 +1,6 @@
 """
-The :mod:`gensokyo` engine is heavily event/observer driven.  It currently uses
-pyglet's :class:`EventDispatcher` for its event needs.
+The :mod:`gensokyo` engine is heavily event/observer driven.  It
+currently uses pyglet's :class:`EventDispatcher` for its event needs.
 
 RootEnv
 =======

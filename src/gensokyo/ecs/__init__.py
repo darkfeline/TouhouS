@@ -2,31 +2,34 @@
 ecs package
 ===========
 
-This package contains the classes necessary for the Entity/Component/System
-design pattern.
+This package contains the classes necessary for the
+Entity/Component/System design pattern.
 
-In a component/system design, components hold only data.  Systems operate on
-entites which own components, and thus all logic are in systems.
+In a component/system design, components hold only data.  Systems
+operate on entites which own components, and thus all logic are in
+systems.
 
-The rationale is to properly separate functionality that may be shared in
-different ways between different entities.  An entity/component pattern
-addresses this problem.  However, different logic may need to access different
-components and data, so keeping logic separate in Systems removes the need for
-hard dependencies/events.
+The rationale is to properly separate functionality that may be shared
+in different ways between different entities.  An entity/component
+pattern addresses this problem.  However, different logic may need to
+access different components and data, so keeping logic separate in
+Systems removes the need for hard dependencies/events.
 
 Entity
 ------
 
-An empy class that is instantiated and used as a key for interacting with
-stuff.  Conceptually, an entity is an object that has components that have
-data, but in implementation is just a key to reference component instances.
+An empy class that is instantiated and used as a key for interacting
+with stuff.  Conceptually, an entity is an object that has components
+that have data, but in implementation is just a key to reference
+component instances.
 
 System
 ------
 
-Performs logic by iterating over Entities.  Usually has an on_update() method
-which gets registered with Clocks, but can also trigger on other events.
-Systems are added into a list in a World for simple bookkeeping.
+Performs logic by iterating over Entities.  Usually has an on_update()
+method which gets registered with Clocks, but can also trigger on other
+events.  Systems are added into a list in a World for simple
+bookkeeping.
 
 A typical on_update() loop looks like::
 
@@ -41,8 +44,8 @@ A typical on_update() loop looks like::
 Component
 ---------
 
-Holds data.  Avoid temptation of cramming logic into them.  Each Entity can
-only hold one Component per Component class, but you can implement
+Holds data.  Avoid temptation of cramming logic into them.  Each Entity
+can only hold one Component per Component class, but you can implement
 subcomponents into your Component/System if you wish.
 
 World
@@ -87,8 +90,8 @@ class System(metaclass=abc.ABCMeta):
 class World:
 
     """
-    You can use ``tm`` and ``gm`` directly, but use World's exposed methods for
-    making/removing entities, components and systems>
+    You can use ``tm`` and ``gm`` directly, but use World's exposed
+    methods for making/removing entities, components and systems>
 
     Attributes:
 

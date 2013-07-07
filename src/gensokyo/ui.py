@@ -3,8 +3,8 @@ ui
 ==
 
 Various UI related things.  These are not part of ECS, are generally
-instantiated and managed by top-level, e.g. master/scene/state, which also
-manages the ECS world.
+instantiated and managed by top-level, e.g. master/scene/state, which
+also manages the ECS world.
 """
 
 import abc
@@ -33,9 +33,9 @@ class UILabel(sprite.Label):
 class FPSDisplay(UILabel):
 
     """
-    Display FPS of clock.  clock in the __init__() constructor is a pyglet
-    clock.  You'll have to register on_update with a gensokyo Clock
-    (EventDispatcher).
+    Display FPS of clock.  clock in the __init__() constructor is a
+    pyglet clock.  You'll have to register on_update with a gensokyo
+    Clock (EventDispatcher).
     """
 
     def __init__(self, drawer, x, y, clock):

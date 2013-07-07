@@ -140,9 +140,10 @@ class HitboxMarker(SlavePosition):
     def world(self):
         return self._world()
 
-    # Note the implementation of hb_entity.  It starts as None, hence the
-    # try/except in property getter, but after using once, _hb_entity will be a
-    # weakref, and return None naturally if entitiy is deleted.
+    # Note the implementation of hb_entity.  It starts as None, hence
+    # the try/except in property getter, but after using once,
+    # _hb_entity will be a weakref, and return None naturally if entitiy
+    # is deleted.
     @property
     def hb_entity(self):
         try:

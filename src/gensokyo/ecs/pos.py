@@ -4,12 +4,12 @@ pos.py
 
 Contains position stuff.
 
-Entities often need to have a Position, but certain components need to be
-updated with regard to that Position.  SlavePositions are registered with an
-Entity's Position, and is updated by the Position's setter.  Components are
-supposed to contain only data, with logic encapsulated by Systems, but I
-implemented this inter-component observer/event relationship for simplicity's
-sake.
+Entities often need to have a Position, but certain components need to
+be updated with regard to that Position.  SlavePositions are registered
+with an Entity's Position, and is updated by the Position's setter.
+Components are supposed to contain only data, with logic encapsulated by
+Systems, but I implemented this inter-component observer/event
+relationship for simplicity's sake.
 
 """
 
@@ -66,11 +66,11 @@ class SlavePosition(ecs.Component, metaclass=abc.ABCMeta):
     """
     Virtual class for components that need to update with Position
 
-    SlavePosition is a transition class, i.e., its __init__ passes on its
-    parameters, minus its own, to the next class in the MRO.  (Next is
-    technically Component, but it is an empty virtual class).  It can also
-    serve as a final class, provided no extra parameters are given, in which
-    case the MRO ends with ['SlavePosition', 'Component']
+    SlavePosition is a transition class, i.e., its __init__ passes on
+    its parameters, minus its own, to the next class in the MRO.  (Next
+    is technically Component, but it is an empty virtual class).  It can
+    also serve as a final class, provided no extra parameters are given,
+    in which case the MRO ends with ['SlavePosition', 'Component']
     """
 
     def __init__(self, master, *args, **kwargs):

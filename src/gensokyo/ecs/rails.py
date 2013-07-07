@@ -6,9 +6,9 @@ PhysicsPosition at the same time!
 Rails
 *****
 
-Rails is a wrapper component for the main representation of the *rails tuple*.
-The rails tuple is essentially a piece-wise parametrization of a continuous
-path::
+Rails is a wrapper component for the main representation of the *rails
+tuple*.  The rails tuple is essentially a piece-wise parametrization of
+a continuous path::
 
     (
         (f, t),
@@ -16,18 +16,18 @@ path::
     )
 
 The parametrization starts at ``t = 0``, and finds the current location
-``f(t)``.  Each segment ``(f, t)`` gives the position with function ``f(t)``
-for all ``t`` up to the given ``t`` exclusively (i.e., up to but not
-including).
+``f(t)``.  Each segment ``(f, t)`` gives the position with function
+``f(t)`` for all ``t`` up to the given ``t`` exclusively (i.e., up to
+but not including).
 
-However, writing such parametrizations can be tedious, so ``rails`` provides a
-convenience function ``convert_rails()``, which takes a *lazy rails tuple*.
-The first item is the starting position, and the following items are
-*parametrization designations*.  For convenience, ``Rails``'s constructor takes
-a lazy tuple.
+However, writing such parametrizations can be tedious, so ``rails``
+provides a convenience function ``convert_rails()``, which takes a *lazy
+rails tuple*.  The first item is the starting position, and the
+following items are *parametrization designations*.  For convenience,
+``Rails``'s constructor takes a lazy tuple.
 
-The first item in a parametrization designation is the designation type, and
-the last is the ending time.
+The first item in a parametrization designation is the designation type,
+and the last is the ending time.
 
 Rails instances also keep an internal ``time`` attribute.
 
@@ -35,21 +35,22 @@ Designations
 ============
 
     ('straight', dest, time)
-        Designates a constant-speed, straight-line parametrization, given an
-        absolute destination.  Parametrizes by velocity and time
+        Designates a constant-speed, straight-line parametrization,
+        given an absolute destination.  Parametrizes by velocity and
+        time.
 
     ('wait', time)
         Waits.
 
     ('pivot', center, arc, time)
-        Designates a circle pivot around a center, traveling the given arc
-        distance by the given point in time.  Parametrizes by angular velocity
-        and time.
+        Designates a circle pivot around a center, traveling the given
+        arc distance by the given point in time.  Parametrizes by
+        angular velocity and time.
 
     ('custom', param, time)
-        Designates a custom parametrization.  Given a parametrization relative
-        to the origin,  the parametrization is shifted so its starting point is
-        the ending position of the previous step.
+        Designates a custom parametrization.  Given a parametrization
+        relative to the origin,  the parametrization is shifted so its
+        starting point is the ending position of the previous step.
 
 """
 

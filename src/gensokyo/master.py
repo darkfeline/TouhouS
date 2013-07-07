@@ -2,8 +2,8 @@
 master.py
 =========
 
-Provides an abstract base class Master for classes that implement a defined set
-of event dispatchers/other "global" level objects.
+Provides an abstract base class Master for classes that implement a
+defined set of event dispatchers/other "global" level objects.
 """
 
 import abc
@@ -22,8 +22,8 @@ def _make_getter(name):
 
 class Master(metaclass=abc.ABCMeta):
     """
-    Master implements a set of properties like a service dispatcher.  It can be
-    placed anywhere in the MRO.
+    Master implements a set of properties like a service dispatcher.  It
+    can be placed anywhere in the MRO.
     """
 
 for x in ('rootenv', 'statem', 'drawer', 'clock'):

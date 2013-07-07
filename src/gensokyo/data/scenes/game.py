@@ -137,6 +137,7 @@ class GameCollisionSystem(collision.CollisionSystem):
         for b in iter(self.world.gm['enemy_bullet']):
             if player_hitbox.collide(hb[b]):
                 self.scene.kill_player()
+                self.world.remove_entity(b)
         life = self.world.cm[enemy.Life]
         dmg = self.world.cm[bullet.Damage]
         for b in iter(self.world.gm['player_bullet']):

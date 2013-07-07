@@ -13,7 +13,10 @@ __all__ = ['Master']
 
 def _make_getter(name):
     def getter(self):
-        return getattr(self, name, None)
+        try:
+            return getattr(self, name)
+        except AttributeError:
+            raise NotImplementedError
     return getter
 
 

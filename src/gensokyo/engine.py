@@ -2,6 +2,20 @@
 The :mod:`gensokyo` engine is heavily event/observer driven.  It currently uses
 pyglet's :class:`EventDispatcher` for its event needs.
 
+RootEnv
+=======
+
+Simple namedtuple.
+
+Attributes:
+
+window
+    pyglet window
+key_state
+    Key state registered with pyglet window
+clock
+    pyglet clock
+
 """
 
 from collections import namedtuple

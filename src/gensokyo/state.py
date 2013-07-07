@@ -25,7 +25,10 @@ logger = logging.getLogger(__name__)
 class StateMachine:
 
     """
-    Simple state machine.  Plug n Play.
+    Simple state machine.
+
+    StateMachine also implements special event hooks.  Events beginning
+    with 'hook_' are redirected to the method with the same name.
     """
 
     def __init__(self, master):
@@ -40,6 +43,12 @@ class StateMachine:
         return self._master()
 
     def event(self, event, *args, **kwargs):
+        if event.startswith('hook_'):
+            getattr(self, event)(*args, **kwargs)
+        else:
+            self._state_change(event, *args, **kwargs)
+
+    def _state_change(self, event, *args, **kwargs):
         assert isinstance(event, str)
         try:
             new = self.state.transitions[event]

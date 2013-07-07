@@ -93,9 +93,7 @@ class State(metaclass=abc.ABCMeta):
 
 
 class Scene(Master, State):
-
-    def __init__(self, master):
-        super().__init__(master)
+    pass
 
 
 class NotEventError(Exception):

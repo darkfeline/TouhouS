@@ -68,7 +68,7 @@ class Engine(Master):
 
         # state machine
         logger.debug("Initializing state machine...")
-        self._statem = state.StateMachine(self)
+        self._statem = EngineStateMachine(self)
 
         # clock
         logger.debug("Initializing our clock...")
@@ -89,3 +89,9 @@ class Engine(Master):
     def run():
         logger.info("Running...")
         pyglet.app.run()
+
+
+class EngineStateMachine(state.StateMachine):
+
+    def hook_exit(self):
+        pyglet.app.exit()

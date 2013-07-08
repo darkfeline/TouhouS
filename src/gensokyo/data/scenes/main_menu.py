@@ -34,6 +34,7 @@ class MenuScene(menu.MenuMaster, state.Scene):
 
     def event_exit(self):
         self.master.statem.event('exit')
+        self.master.statem.event('hook_exit')
 
 
 class MainMenu(menu.Menu):

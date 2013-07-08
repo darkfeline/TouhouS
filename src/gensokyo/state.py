@@ -56,6 +56,7 @@ class StateMachine:
             raise NotEventError('{} is not a valid event'.format(event))
         self.state.exit()
         if new is None:
+            self.state = None
             return
         new = new(self.master, *args, **kwargs)
         new.enter()

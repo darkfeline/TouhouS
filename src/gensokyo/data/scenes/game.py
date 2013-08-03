@@ -15,7 +15,6 @@ from gensokyo.ecs import collision
 from gensokyo.ecs import gc
 from gensokyo.ecs import physics
 from gensokyo.data.players.reimu import Reimu
-from gensokyo.data.stages.stage_one import StageOne
 from gensokyo import resources
 from gensokyo import globals
 
@@ -25,16 +24,15 @@ logger = logging.getLogger(__name__)
 class GameScene(state.Scene):
 
     player_class = Reimu
-    stage_class = StageOne
     ui_image = resources.ui_image
 
-    def __init__(self, master):
+    def __init__(self, master, stage_class):
 
         super().__init__(master)
         self._drawer = GameDrawer()
         self._clock = Clock()
         self.world = ecs.World()
-        self.stage = self.stage_class(self.world, self)
+        self.stage = stage_class(self.world, self)
         self.clock.push_handlers(self.stage)
 
         #######################################################################

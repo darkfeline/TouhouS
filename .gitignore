@@ -2,6 +2,7 @@
 *.sw[po]
 __pycache__
 *.py[co]
+tags
 
 /build/
 /dist/

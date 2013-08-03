@@ -1,17 +1,3 @@
-"""
-state.py
-========
-
-Provides a simple state machine framework.  Everything is event-driven;
-thus there is no main loop.  A clock somewhere controls "tick" events,
-and that controls the execution.  What defines a state is which event
-handlers are attached.
-
-master in this module refers generally to any object with event
-dispatcher attributes that would then be used in State's enter() and
-exit(); instances of Master from master.py are one possibility.
-"""
-
 import abc
 import weakref
 import logging
@@ -28,7 +14,8 @@ class StateMachine:
     Simple state machine.
 
     StateMachine also implements special event hooks.  Events beginning
-    with 'hook_' are redirected to the method with the same name.
+    with ``hook_`` are redirected to the method with the same name.
+
     """
 
     def __init__(self, master):
@@ -69,17 +56,13 @@ class State(metaclass=abc.ABCMeta):
     Defines two methods for entering and exiting the State, as well as
     an attribute which maps events (strings) to resultant States.
 
-    Methods:
-
-    enter
-        abstract method
-    exit
-        abstract method
-
     Attributes:
+        transitions: class attribute, dict mapping events to states
 
-    transitions
-        class attribute, dict mapping events to states
+    Methods:
+        enter: method
+        exit: abstract method
+
     """
 
     transitions = {}
@@ -102,9 +85,5 @@ class State(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 
-class Scene(Master, State):
-    pass
-
-
-class NotEventError(Exception):
-    pass
+class Scene(Master, State): pass
+class NotEventError(Exception): pass

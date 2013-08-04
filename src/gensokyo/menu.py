@@ -11,17 +11,10 @@ from pyglet.event import EVENT_HANDLED
 logger = logging.getLogger(__name__)
 
 
-class MenuMaster(state.Master):
+class Menu(state.Master):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, x, y):
         self._drawer = MenuDrawer()
-
-
-class Menu(state.StateMachine):
-
-    def __init__(self, master, x, y):
-        super().__init__(master)
         self.x, self.y = x, y
 
     def init(self, state, *args, **kwargs):
@@ -34,7 +27,7 @@ class Menu(state.StateMachine):
             super().event(event, self.x, self.y, *args, **kwargs)
 
 
-class BaseMenuPane(state.Scene, metaclass=abc.ABCMeta):
+class BaseMenuPane(state.State, metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def __init__(self, master, x, y, *args, **kwargs):
@@ -42,7 +35,7 @@ class BaseMenuPane(state.Scene, metaclass=abc.ABCMeta):
 
 
 @BaseMenuPane.register
-class MenuPane(state.Scene):
+class MenuPane(state.State, state.BaseMaster):
 
     """
     keys
@@ -99,9 +92,9 @@ class MenuPane(state.Scene):
     def select(self):
         x = self.map[self.keys[self.selection]]
         if isinstance(x, str):
-            self.master.statem.event(x)
+            self.master.event(x)
         else:
-            self.master.statem.event(*x)
+            self.master.event(*x)
 
     _input = {
         key.UP: up,

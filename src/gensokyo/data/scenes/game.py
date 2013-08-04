@@ -21,7 +21,7 @@ from gensokyo import globals
 logger = logging.getLogger(__name__)
 
 
-class GameScene(state.Scene):
+class GameScene(state.State, state.BaseMaster):
 
     player_class = Reimu
     ui_image = resources.ui_image
@@ -115,7 +115,7 @@ class GameScene(state.Scene):
         if l.value > 0:
             l.value -= 1
         else:
-            self.master.statem.event('quit')
+            self.master.event('quit')
 
 
 class GameCollisionSystem(collision.CollisionSystem):

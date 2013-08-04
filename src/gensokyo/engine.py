@@ -30,7 +30,6 @@ from gensokyo.sprite import DrawerStack, Clearer
 from gensokyo.data import scenes
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
-from gensokyo.state import Master
 from gensokyo.clock import Clock
 
 logger = logging.getLogger(__name__)
@@ -38,11 +37,11 @@ logger = logging.getLogger(__name__)
 RootEnv = namedtuple("RootEnv", ['window', 'key_state', 'clock'])
 
 
-class Engine(Master):
+class Engine(state.Master):
 
     def __init__(self):
 
-        # RootEnv
+        # RootEnv #############################################################
         # window
         logger.debug("Initializing window...")
         window = pyglet.window.Window(WIDTH, HEIGHT)
@@ -64,12 +63,9 @@ class Engine(Master):
         clock.set_fps_limit(FPS)
 
         # set rootenv
-        Master._rootenv = RootEnv(window, keys, clock)
+        state.BaseMaster._rootenv = RootEnv(window, keys, clock)
 
-        # state machine
-        logger.debug("Initializing state machine...")
-        self._statem = EngineStateMachine(self)
-
+        # State stuff #########################################################
         # clock
         logger.debug("Initializing our clock...")
         self._clock = Clock()
@@ -82,16 +78,13 @@ class Engine(Master):
         window.push_handlers(drawer)
         self._drawer = drawer
 
-        self.statem.init(scenes.start)
+        self.init(scenes.start)
         logger.info("Finished init.")
+
+    def hook_exit(self):
+        pyglet.app.exit()
 
     @staticmethod
     def run():
         logger.info("Running...")
         pyglet.app.run()
-
-
-class EngineStateMachine(state.StateMachine):
-
-    def hook_exit(self):
-        pyglet.app.exit()

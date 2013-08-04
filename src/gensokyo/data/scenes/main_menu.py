@@ -9,17 +9,16 @@ from gensokyo.data import stages
 logger = logging.getLogger(__name__)
 
 
-class MenuScene(menu.MenuMaster, state.Scene):
+class MenuScene(state.State, menu.Menu):
 
     def __init__(self, master):
         logger.info("Initializing MenuScene...")
-        super().__init__(master)
+        super().__init__(master, 50, gvars.HEIGHT-100)
         logger.debug("Making Label...")
         self.title = sprite.Label(
             self.drawer, 'menu', x=20, y=gvars.HEIGHT-30,
             text="Welcome to TouhouS", color=(255, 255, 255, 255))
-        self._statem = MainMenu(self, 50, gvars.HEIGHT-100)
-        self.statem.init(MainPane)
+        self.init(MainPane)
 
     def enter(self):
         logger.info("Entering MenuScene...")
@@ -29,23 +28,14 @@ class MenuScene(menu.MenuMaster, state.Scene):
         logger.info("Exiting MenuScene...")
         self.master.drawer.remove(self.drawer)
 
-    def event_start(self, *args, **kwargs):
-        self.master.statem.event('game', *args, **kwargs)
-
-    def event_exit(self):
-        self.master.statem.event('exit')
-        self.master.statem.event('hook_exit')
-
-
-class MainMenu(menu.Menu):
+    def hook_exit(self):
+        self.event('exit')
+        self.master.event('exit')
+        self.master.event('hook_exit')
 
     def hook_start(self, *args):
         self.event('exit')
-        self.master.event_start(*args)
-
-    def hook_exit(self):
-        self.event('exit')
-        self.master.event_exit()
+        self.master.event('game', *args)
 
 
 class MainPane(menu.MenuPane):

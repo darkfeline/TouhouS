@@ -13,7 +13,16 @@ class MenuScene(state.State, menu.Menu):
 
     def __init__(self, master):
         logger.info("Initializing MenuScene...")
-        super().__init__(master, 50, gvars.HEIGHT-100)
+        super().__init__(master, {
+            MainPane: {
+                'exit': None,
+                'stage_select': StageSelectPane,
+            },
+            StageSelectPane: {
+                'back': MainPane,
+                'exit': None,
+            }
+        }, 50, gvars.HEIGHT-100)
         logger.debug("Making Label...")
         self.title = sprite.Label(
             self.drawer, 'menu', x=20, y=gvars.HEIGHT-30,
@@ -54,13 +63,3 @@ class StageSelectPane(menu.MenuPane):
         'Stage One': ('hook_start', stages.stage_one.StageOne),
         'Back': 'back'
     }
-
-MainPane.transitions = {
-    'exit': None,
-    'stage_select': StageSelectPane
-}
-
-StageSelectPane.transitions = {
-    'back': MainPane,
-    'exit': None
-}

@@ -67,6 +67,7 @@ class Engine(Master, state.StateMachine):
         Master._rootenv = RootEnv(window, keys, clock)
 
         # State stuff #########################################################
+        super().__init__(scenes.graph)
         # clock
         logger.debug("Initializing our clock...")
         self._clock = Clock()

@@ -1,6 +1,7 @@
 import abc
 import weakref
 import logging
+from collections import namedtuple
 
 __all__ = []
 logger = logging.getLogger(__name__)
@@ -9,6 +10,10 @@ logger = logging.getLogger(__name__)
 def _public(f):
     __all__.append(f.__name__)
     return f
+
+
+StateGraph = namedtuple('StateGraph', ['states', 'transitions'])
+_public(StateGraph)
 
 
 @_public
@@ -25,9 +30,16 @@ class StateMachine:
 
     """
 
+    def __init__(self, graph):
+        self._graph = graph
+
     def init(self, state, *args, **kwargs):
         self._state = state(self, *args, **kwargs)
         self._state.enter()
+
+    @property
+    def graph(self):
+        return self._graph
 
     @property
     def state(self):
@@ -42,21 +54,21 @@ class StateMachine:
     def _state_change(self, event, *args, **kwargs):
         assert isinstance(event, str)
         try:
-            new = self._state.transitions[event]
-        except KeyError as e:
-            raise NotEventError('{} is not a valid event'.format(event)) from e
-        try:
-            s = self._state
+            old_state = self._state
         except AttributeError as e:
             raise ClosedStateError('StateMachine already closed') from e
-        else:
-            s.exit()
+        try:
+            new = self._graph[old_state.__class__][event]
+        except KeyError as e:
+            raise NotEventError('{} is not a valid event for state {}'.format(
+                event, old_state)) from e
+        old_state.exit()
         if new is None:
             self._state = None
-            return
-        new = new(self, *args, **kwargs)
-        new.enter()
-        self._state = new
+        else:
+            new = new(self, *args, **kwargs)
+            new.enter()
+            self._state = new
 
 
 @_public
@@ -75,8 +87,6 @@ class State(metaclass=abc.ABCMeta):
         exit: abstract method
 
     """
-
-    transitions = {}
 
     def __init__(self, master, *args, **kwargs):
         self._master = weakref.ref(master)

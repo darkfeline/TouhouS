@@ -1,8 +1,15 @@
-from gensokyo.data.scenes import main_menu
-from gensokyo.data.scenes import game
+from gensokyo.data.scenes.main_menu import MenuScene
+from gensokyo.data.scenes.game import GameScene
 
-__all__ = ['start', 'main_menu', 'game']
+__all__ = ['start', 'graph']
 
-start = main_menu.MenuScene
-main_menu.MenuScene.transitions = {'exit': None, 'game': game.GameScene}
-game.GameScene.transitions = {'quit': main_menu.MenuScene}
+start = MenuScene
+graph = {
+    MenuScene: {
+        'exit': None,
+        'game': GameScene,
+    },
+    GameScene: {
+        'quit': MenuScene,
+    },
+}

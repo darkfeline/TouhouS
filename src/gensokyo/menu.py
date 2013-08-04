@@ -14,7 +14,8 @@ logger = logging.getLogger(__name__)
 
 class Menu(Master, state.StateMachine):
 
-    def __init__(self, x, y):
+    def __init__(self, graph, x, y):
+        super().__init__(graph)
         self._drawer = MenuDrawer()
         self.x, self.y = x, y
 

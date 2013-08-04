@@ -99,3 +99,15 @@ Drawing
 
       Remove the first instance of `drawer` from the stack, starting
       from the top.
+
+.. class:: Clearer
+
+   Simple subclass of :class:`BaseDrawer`.  It simply wipes the screen
+   when :meth:`draw` is called.
+
+Errors
+------
+
+.. class:: GroupError
+
+   Subclass of TypeError.  An invalid group name was given.

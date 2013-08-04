@@ -26,7 +26,9 @@ Example usage::
          """Do stuff."""
          self.i += dt
          if self.i > 50:
-         self.master.event('next')
+            self.master.event('next')
+         else:
+            self.master.event('hook_print')
 
       def enter(self):
          self.master.clock.push_handlers(self)
@@ -43,7 +45,9 @@ Example usage::
          """Do stuff."""
          self.i += dt
          if self.i > 40:
-         self.master.event('exit')
+            self.master.event('exit')
+         else:
+            self.master.event('hook_print')
 
       def enter(self):
          self.master.clock.push_handlers(self)
@@ -51,7 +55,10 @@ Example usage::
       def exit(self):
          self.master.clock.remove_handlers(self)
 
-   class CustomMachine(Master, StateMachine): pass
+   class CustomMachine(Master, StateMachine):
+
+      def hook_print(self):
+         print('tick')
 
    statem = CustomMachine({
       StateA: {
@@ -82,9 +89,12 @@ StateMachine objects
 
       {
          (state, {
-            event: transition_state,
+            event: final_state,
          })
       }
+
+   StateMachine also supports hook events.  Any events beginning with
+   ``hook_`` instead call the method with the same name.
 
    :mod:`gensokyo.master` provides a class that defines a standard set
    of event dispatchers.  Most likely, you will subclass both
@@ -143,3 +153,17 @@ Setting Up States
    .. attribute:: master
 
       The State instance's owning StateMachine instance.
+
+Errors
+------
+
+.. class:: NotEventError
+
+   Raised when an invalid event is passed as an argument.
+
+.. class::
+   ClosedStateError
+   OpenStateError
+
+   The :class:`StateMachine` is either closed or open, and its current
+   state cannot perform the method call made.

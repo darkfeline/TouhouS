@@ -2,6 +2,7 @@ import logging
 import weakref
 
 from gensokyo import state
+from gensokyo.master import Master
 from gensokyo.clock import Clock
 from gensokyo import sprite
 from gensokyo import ui
@@ -21,7 +22,7 @@ from gensokyo import globals
 logger = logging.getLogger(__name__)
 
 
-class GameScene(state.State, state.BaseMaster):
+class GameScene(state.State, Master):
 
     player_class = Reimu
     ui_image = resources.ui_image

@@ -107,24 +107,6 @@ def _make_getter(name):
 
 
 @_public
-class BaseMaster:
-    """
-    Implements a set of properties like a service dispatcher.  It can be placed
-    anywhere in the MRO.
-
-    """
-
-for x in ('rootenv', 'drawer', 'clock'):
-    getter = _make_getter('_' + x)
-    setattr(BaseMaster, x, property(getter))
-
-
-@_public
-class Master(BaseMaster, StateMachine):
-    pass
-
-
-@_public
 class NotEventError(Exception):
     pass
 

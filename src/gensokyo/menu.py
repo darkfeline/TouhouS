@@ -2,6 +2,7 @@ import logging
 import abc
 
 from gensokyo import state
+from gensokyo.master import Master
 from gensokyo import sprite
 from gensokyo import resources
 
@@ -11,7 +12,7 @@ from pyglet.event import EVENT_HANDLED
 logger = logging.getLogger(__name__)
 
 
-class Menu(state.Master):
+class Menu(Master, state.StateMachine):
 
     def __init__(self, x, y):
         self._drawer = MenuDrawer()
@@ -35,7 +36,7 @@ class BaseMenuPane(state.State, metaclass=abc.ABCMeta):
 
 
 @BaseMenuPane.register
-class MenuPane(state.State, state.BaseMaster):
+class MenuPane(state.State, Master):
 
     """
     keys

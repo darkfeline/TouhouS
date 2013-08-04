@@ -26,6 +26,7 @@ from pyglet import gl
 from pyglet.window.key import KeyStateHandler
 
 from gensokyo import state
+from gensokyo.master import Master
 from gensokyo.sprite import DrawerStack, Clearer
 from gensokyo.data import scenes
 from gensokyo.globals import WIDTH, HEIGHT, FPS
@@ -37,7 +38,7 @@ logger = logging.getLogger(__name__)
 RootEnv = namedtuple("RootEnv", ['window', 'key_state', 'clock'])
 
 
-class Engine(state.Master):
+class Engine(Master, state.StateMachine):
 
     def __init__(self):
 
@@ -63,7 +64,7 @@ class Engine(state.Master):
         clock.set_fps_limit(FPS)
 
         # set rootenv
-        state.BaseMaster._rootenv = RootEnv(window, keys, clock)
+        Master._rootenv = RootEnv(window, keys, clock)
 
         # State stuff #########################################################
         # clock

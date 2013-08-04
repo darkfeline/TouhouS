@@ -2,12 +2,16 @@ import abc
 import weakref
 import logging
 
-from gensokyo.master import Master
-
-__all__ = ['StateMachine', 'State', 'NotEventError']
+__all__ = []
 logger = logging.getLogger(__name__)
 
 
+def _public(f):
+    __all__.append(f.__name__)
+    return f
+
+
+@_public
 class StateMachine:
 
     """
@@ -54,6 +58,7 @@ class StateMachine:
         self._state = new
 
 
+@_public
 class State(metaclass=abc.ABCMeta):
 
     """
@@ -89,5 +94,32 @@ class State(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 
-class Scene(Master, State): pass
-class NotEventError(Exception): pass
+def _make_getter(name):
+    def getter(self):
+        try:
+            return getattr(self, name)
+        except AttributeError:
+            raise NotImplementedError
+    return getter
+
+
+@_public
+class Master(metaclass=abc.ABCMeta):
+    """
+    Master implements a set of properties like a service dispatcher.  It
+    can be placed anywhere in the MRO.
+    """
+
+for x in ('rootenv', 'statem', 'drawer', 'clock'):
+    getter = _make_getter('_' + x)
+    setattr(Master, x, property(getter))
+
+
+@_public
+class Scene(Master, State):
+    pass
+
+
+@_public
+class NotEventError(Exception):
+    pass

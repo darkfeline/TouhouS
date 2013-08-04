@@ -30,7 +30,7 @@ from gensokyo.sprite import DrawerStack, Clearer
 from gensokyo.data import scenes
 from gensokyo.globals import WIDTH, HEIGHT, FPS
 from gensokyo import resources
-from gensokyo.master import Master
+from gensokyo.state import Master
 from gensokyo.clock import Clock
 
 logger = logging.getLogger(__name__)

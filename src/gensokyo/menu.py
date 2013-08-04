@@ -4,7 +4,6 @@ import abc
 from gensokyo import state
 from gensokyo import sprite
 from gensokyo import resources
-from gensokyo import master
 
 from pyglet.window import key
 from pyglet.event import EVENT_HANDLED
@@ -12,7 +11,7 @@ from pyglet.event import EVENT_HANDLED
 logger = logging.getLogger(__name__)
 
 
-class MenuMaster(master.Master):
+class MenuMaster(state.Master):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

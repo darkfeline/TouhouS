@@ -32,8 +32,11 @@ class StateMachine:
 
     def __init__(self, graph):
         self._graph = graph
+        self._state = None
 
     def init(self, state, *args, **kwargs):
+        if self._state is not None:
+            raise OpenStateError('Cannot init an open StateMachine.')
         self._state = state(self, *args, **kwargs)
         self._state.enter()
 
@@ -53,10 +56,9 @@ class StateMachine:
 
     def _state_change(self, event, *args, **kwargs):
         assert isinstance(event, str)
-        try:
-            old_state = self._state
-        except AttributeError as e:
-            raise ClosedStateError('StateMachine already closed') from e
+        old_state = self._state
+        if old_state is None:
+            raise ClosedStateError('StateMachine already closed.')
         try:
             new = self._graph[old_state.__class__][event]
         except KeyError as e:
@@ -123,4 +125,9 @@ class NotEventError(Exception):
 
 @_public
 class ClosedStateError(Exception):
+    pass
+
+
+@_public
+class OpenStateError(Exception):
     pass

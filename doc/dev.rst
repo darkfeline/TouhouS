@@ -9,3 +9,6 @@ Developer Guide
    /dev/sprite
    /dev/clock
    /dev/master
+   /dev/stage
+   /dev/ui
+   /dev/menu

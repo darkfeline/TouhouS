@@ -58,6 +58,9 @@ Drawing
    added sprites are drawn.  Layers are drawn in order, meaning layers
    further back in the tuple will appear on top of earlier ones.
 
+   SpriteDrawer can be replaced in place with :class:`DrawerStack`
+   (Hooray for OOP!).
+
    .. note::
 
       Due to an implementation detail, Labels are drawn after all
@@ -79,6 +82,9 @@ Drawing
    Subclasses :class:`SpriteDrawer`.  :class:`DrawerStack` is a stack of
    :class:`SpriteDrawer` instances, and is also a :class:`SpriteDrawer`
    itself.
+
+   A drop-in replacement for :class:`SpriteDrawer`, you can safely use
+   this instead in all cases.
 
    .. method::
       on_draw()

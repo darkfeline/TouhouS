@@ -14,7 +14,9 @@ import logging
 from gensokyo import sprite
 from gensokyo import resources
 
-__all__ = ['UILabel', 'FPSDisplay', 'Counter', 'TextCounter', 'IconCounter']
+__all__ = [
+    'UI_GROUP', 'UILabel', 'FPSDisplay', 'Counter', 'TextCounter',
+    'IconCounter']
 logger = logging.getLogger(__name__)
 UI_GROUP = 'ui_element'
 

@@ -11,6 +11,8 @@ from pyglet.event import EVENT_HANDLED
 
 logger = logging.getLogger(__name__)
 
+MENU_GROUP = 'menu'
+
 
 class Menu(Master, state.StateMachine):
 
@@ -58,12 +60,12 @@ class MenuPane(state.State, Master):
         self.labels = []
         x += self._x_offset
         for key in self.keys:
-            label = sprite.Label(self.drawer, 'menu', text=key, x=x, y=y)
+            label = sprite.Label(self.drawer, MENU_GROUP, text=key, x=x, y=y)
             self.labels.append(label)
             y -= self._y_offset
         self.selection = 0
         self.selector = sprite.Sprite(
-            self.drawer, 'menu', x=self.x, img=self._selector_image)
+            self.drawer, MENU_GROUP, x=self.x, img=self._selector_image)
         self._reset_selector()
 
     def enter(self):
@@ -113,4 +115,4 @@ class MenuPane(state.State, Master):
 class MenuDrawer(sprite.DrawerStack):
 
     def __init__(self):
-        super().__init__(('menu',))
+        super().__init__((MENU_GROUP,))

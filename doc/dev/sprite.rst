@@ -77,7 +77,8 @@ Drawing
 .. class:: DrawerStack(layers=tuple())
 
    Subclasses :class:`SpriteDrawer`.  :class:`DrawerStack` is a stack of
-   :class:`SpriteDrawer`\ s, and is also a :class:`SpriteDrawer` itself.
+   :class:`SpriteDrawer` instances, and is also a :class:`SpriteDrawer`
+   itself.
 
    .. method::
       on_draw()

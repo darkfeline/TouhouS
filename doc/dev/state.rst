@@ -12,6 +12,60 @@ event handlers on state transitions.
 Example
 -------
 
+Example usage::
+
+   from gensokyo.master import Master
+   from gensokyo.clock import Clock
+
+   class StateA(State):
+
+      def __init__(self, master, *args, **kwargs):
+         self.i = 0
+
+      def on_update(self, dt):
+         """Do stuff."""
+         self.i += dt
+         if self.i > 50:
+         self.master.event('next')
+
+      def enter(self):
+         self.master.clock.push_handlers(self)
+
+      def exit(self):
+         self.master.clock.remove_handlers(self)
+
+   class StateB(State):
+
+      def __init__(self, master, *args, **kwargs):
+         self.i = 0
+
+      def on_update(self, dt):
+         """Do stuff."""
+         self.i += dt
+         if self.i > 40:
+         self.master.event('exit')
+
+      def enter(self):
+         self.master.clock.push_handlers(self)
+
+      def exit(self):
+         self.master.clock.remove_handlers(self)
+
+   class CustomMachine(Master, StateMachine): pass
+
+   statem = CustomMachine({
+      StateA: {
+         'next': StateB,
+      },
+      StateB: {
+         'exit': None,
+      },
+   })
+   statem._clock = Clock()
+   statem.init(StateA)
+   while True:
+      statem.clock.tick()
+
 StateMachine objects
 --------------------
 
@@ -37,11 +91,16 @@ StateMachine objects
    :class:`gensokyo.master.Master` and StateMachine, in which case
    Master can go anywhere in the MRO.
 
+   Make sure you properly close the StateMachine when exiting by
+   transitioning to a :const:`None` state.
+
+   StateMachine must be last in the MRO.
+
     .. method:: init(state, *args, **kwargs)
 
       Set the initial state.  `state` is a :class:`State` class or
       subclass.  `args` and `kwargs` are passed to the state's
-      constructor.
+      constructor.  Reopens the StateMachine if closed.
 
     .. method:: event(event, *args, **kwargs)
 

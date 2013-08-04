@@ -22,8 +22,12 @@ class StateMachine:
         self._master = weakref.ref(master)
 
     def init(self, state, *args, **kwargs):
-        self.state = state(self.master, *args, **kwargs)
-        self.state.enter()
+        self._state = state(self.master, *args, **kwargs)
+        self._state.enter()
+
+    @property
+    def state(self):
+        return self._state
 
     @property
     def master(self):
@@ -38,16 +42,16 @@ class StateMachine:
     def _state_change(self, event, *args, **kwargs):
         assert isinstance(event, str)
         try:
-            new = self.state.transitions[event]
+            new = self._state.transitions[event]
         except KeyError:
             raise NotEventError('{} is not a valid event'.format(event))
-        self.state.exit()
+        self._state.exit()
         if new is None:
-            self.state = None
+            self._state = None
             return
         new = new(self.master, *args, **kwargs)
         new.enter()
-        self.state = new
+        self._state = new
 
 
 class State(metaclass=abc.ABCMeta):

@@ -150,6 +150,7 @@ class GameCollisionSystem(collision.CollisionSystem):
 
 class GameDrawer(sprite.SpriteDrawer):
 
-    layers = (
-        'player', 'player_bullet', 'player_hb', 'enemy', 'item',
-        'enemy_bullet', 'ui', 'ui_element')
+    def __init__(self):
+        super().__init__((
+            'player', 'player_bullet', 'player_hb', 'enemy', 'item',
+            'enemy_bullet', 'ui', 'ui_element'))

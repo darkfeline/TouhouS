@@ -56,14 +56,13 @@ class BaseDrawer(metaclass=abc.ABCMeta):
 
 class SpriteDrawer(BaseDrawer):
 
-    layers = tuple()
-
-    def __init__(self):
+    def __init__(self, layers):
         self.batch = Batch()
         self.groups = dict(
-            (self.layers[i], OrderedGroup(i)) for i in range(len(self.layers)))
+            (layers[i], OrderedGroup(i)) for i in range(len(layers)))
         self.labels = dict(
-            (self.layers[i], WeakSet()) for i in range(len(self.layers)))
+            (layers[i], WeakSet()) for i in range(len(layers)))
+        self.layers = layers
 
     def draw(self):
         logger.debug('%r drawing', self)
@@ -99,8 +98,8 @@ class DrawerStack(SpriteDrawer):
     add_sprite() from end to front then self
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, layers=tuple()):
+        super().__init__(layers)
         self.drawers = []
 
     def add(self, drawer):

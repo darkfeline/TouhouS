@@ -112,4 +112,5 @@ class MenuPane(state.State, Master):
 
 class MenuDrawer(sprite.DrawerStack):
 
-    layers = ('menu',)
+    def __init__(self):
+        super().__init__(('menu',))

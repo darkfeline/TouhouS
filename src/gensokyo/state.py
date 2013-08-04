@@ -71,7 +71,7 @@ class State(metaclass=abc.ABCMeta):
         transitions: class attribute, dict mapping events to states
 
     Methods:
-        enter: method
+        enter: abstract method
         exit: abstract method
 
     """

@@ -1,4 +1,5 @@
 import abc
+import weakref
 import logging
 
 logger = logging.getLogger(__name__)
@@ -7,8 +8,16 @@ logger = logging.getLogger(__name__)
 class Stage(metaclass=abc.ABCMeta):
 
     def __init__(self, world, master):
-        self.world = world
-        self.master = master
+        self._world = weakref.ref(world)
+        self._master = weakref.ref(master)
+
+    @property
+    def world(self):
+        return self._world()
+
+    @property
+    def master(self):
+        return self._master()
 
     @abc.abstractmethod
     def on_update(self, dt):

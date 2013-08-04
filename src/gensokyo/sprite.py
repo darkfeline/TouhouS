@@ -8,10 +8,15 @@ from pyglet.text.layout import TextLayoutForegroundDecorationGroup
 from pyglet import sprite
 from pyglet import text
 
-__all__ = ['BaseSprite', 'Sprite', 'Label', 'SpriteDrawer', 'Clearer']
+__all__ = []
 logger = logging.getLogger(__name__)
 
+def _public(f):
+    __all__.append(f.__name__)
+    return f
 
+
+@_public
 class BaseSprite:
 
     def __init__(self, constructor, drawer, group, *args, **kwargs):
@@ -28,12 +33,14 @@ class BaseSprite:
             pass
 
 
+@_public
 class Sprite(BaseSprite):
 
     def __init__(self, drawer, group, *args, **kwargs):
         super().__init__(sprite.Sprite, drawer, group, *args, **kwargs)
 
 
+@_public
 class Label(BaseSprite):
 
     def __init__(self, drawer, group, *args, **kwargs):
@@ -44,6 +51,7 @@ class Label(BaseSprite):
         return self.sprite
 
 
+@_public
 class BaseDrawer(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
@@ -54,6 +62,7 @@ class BaseDrawer(metaclass=abc.ABCMeta):
         self.draw()
 
 
+@_public
 class SpriteDrawer(BaseDrawer):
 
     def __init__(self, layers):
@@ -87,6 +96,7 @@ class SpriteDrawer(BaseDrawer):
             raise GroupError(group)
 
 
+@_public
 class DrawerStack(SpriteDrawer):
 
     """
@@ -115,6 +125,7 @@ class DrawerStack(SpriteDrawer):
             x.draw()
 
 
+@_public
 class Clearer(BaseDrawer):
 
     def __init__(self, window):
@@ -124,6 +135,7 @@ class Clearer(BaseDrawer):
         self.window.clear()
 
 
+@_public
 class GroupError(TypeError):
 
     def __init__(self, group):

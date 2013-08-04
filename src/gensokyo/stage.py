@@ -28,7 +28,11 @@ class ScriptedStage(Stage):
 
     def __init__(self, world, master):
         super().__init__(world, master)
-        self.scripts = []
+        self._scripts = []
+
+    @property
+    def scripts(self):
+        return self._scripts
 
     def add(self, script):
         assert isinstance(script, Script)

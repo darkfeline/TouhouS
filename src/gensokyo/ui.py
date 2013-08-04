@@ -44,11 +44,11 @@ class FPSDisplay(UILabel):
         super().__init__(drawer, x=x, y=y, anchor_x='left', anchor_y='bottom',
                          font_size=10, color=(255, 255, 255, 255))
         self.count = 0
-        self.get_clock = weakref.ref(clock)
+        self._clock = weakref.ref(clock)
 
     @property
     def clock(self):
-        return self.get_clock()
+        return self._clock()
 
     def on_update(self, dt):
         self.count += dt

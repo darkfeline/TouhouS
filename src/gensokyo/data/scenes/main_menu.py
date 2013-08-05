@@ -13,16 +13,7 @@ class MenuScene(state.State, menu.Menu):
 
     def __init__(self, master):
         logger.info("Initializing MenuScene...")
-        super().__init__(master, {
-            MainPane: {
-                'exit': None,
-                'stage_select': StageSelectPane,
-            },
-            StageSelectPane: {
-                'back': MainPane,
-                'exit': None,
-            }
-        }, 50, gvars.HEIGHT-100)
+        super().__init__(master, self._graph, 50, gvars.HEIGHT-100)
         logger.debug("Making Label...")
         self.title = sprite.Label(
             self.drawer, 'menu', x=20, y=gvars.HEIGHT-30,
@@ -46,20 +37,35 @@ class MenuScene(state.State, menu.Menu):
         self.event('exit')
         self.master.event('game', *args)
 
+    def hook_pass(self):
+        pass
+
 
 class MainPane(menu.MenuPane):
 
     keys = ('Start', 'Exit')
     map = {
         'Start': 'stage_select',
-        'Exit': 'hook_exit'
+        'Exit': 'hook_exit',
+        menu.MENU_BACK: 'hook_pass',
     }
 
 
 class StageSelectPane(menu.MenuPane):
 
-    keys = ('Stage One', 'Back')
+    keys = ('Stage One',)
     map = {
         'Stage One': ('hook_start', stages.stage_one.StageOne),
-        'Back': 'back'
+        menu.MENU_BACK: 'back',
     }
+
+MenuScene._graph = {
+    MainPane: {
+        'exit': None,
+        'stage_select': StageSelectPane,
+    },
+    StageSelectPane: {
+        'back': MainPane,
+        'exit': None,
+    }
+}

@@ -12,6 +12,7 @@ from pyglet.event import EVENT_HANDLED
 logger = logging.getLogger(__name__)
 
 MENU_GROUP = 'menu'
+MENU_BACK = 'back'
 
 
 class Menu(Master, state.StateMachine):
@@ -100,11 +101,15 @@ class MenuPane(state.State, Master):
         else:
             self.master.event(*x)
 
+    def back(self):
+        self.master.event(self.map[MENU_BACK])
+
     _input = {
         key.UP: up,
         key.DOWN: down,
         key.ENTER: select,
         key.Z: select,
+        key.X: back,
     }
 
     def on_key_press(self, symbol, modifiers):

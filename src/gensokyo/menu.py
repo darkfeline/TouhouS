@@ -103,7 +103,8 @@ class MenuPane(state.State, Master):
     _input = {
         key.UP: up,
         key.DOWN: down,
-        key.ENTER: select
+        key.ENTER: select,
+        key.Z: select,
     }
 
     def on_key_press(self, symbol, modifiers):

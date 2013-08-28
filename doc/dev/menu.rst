@@ -42,6 +42,19 @@ subclasses and a menu graph (a state graph).
    Subclasses :class:`gensokyo.state.State` and
    :class:`gensokyo.master.Master`.  Like State, you do not need to
    instantiate these normally.
+
+   .. method::
+      enter
+      exit
+
+      Standard State methods.
+
+   Event Handlers:
+
+   .. method:: on_key_press(symbol, modifiers)
+
+      This is attached to the Pyglet root window, which dispatches key
+      press events.
    
 
 .. class:: MenuDrawer

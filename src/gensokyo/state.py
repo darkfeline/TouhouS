@@ -1,7 +1,6 @@
 import abc
 import weakref
 import logging
-from collections import namedtuple
 
 __all__ = []
 logger = logging.getLogger(__name__)
@@ -10,10 +9,6 @@ logger = logging.getLogger(__name__)
 def _public(f):
     __all__.append(f.__name__)
     return f
-
-
-StateGraph = namedtuple('StateGraph', ['states', 'transitions'])
-_public(StateGraph)
 
 
 @_public
